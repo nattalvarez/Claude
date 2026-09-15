@@ -5,6 +5,7 @@ export const COLORS = {
   blue: "#3365A2",
   turquoise: "#2ABBCE",
   lightBlue: "#DDE7F4",
+  glow: "rgba(42, 187, 206, 0.4)",
 } as const;
 
 export const FPS = 30;
@@ -27,6 +28,16 @@ export const EASE = {
   standard: [0.22, 1, 0.36, 1] as [number, number, number, number],
   enter: [0.16, 1, 0.3, 1] as [number, number, number, number],
   soft: [0.33, 1, 0.68, 1] as [number, number, number, number],
+  // named to match the motion-graphics skill's convention — out === enter
+  out: [0.16, 1, 0.3, 1] as [number, number, number, number],
+  inOut: [0.83, 0, 0.17, 1] as [number, number, number, number],
+  in: [0.7, 0, 0.84, 0] as [number, number, number, number], // exits only
 };
+
+export const SPRING = {
+  snappy: { damping: 14, stiffness: 160, mass: 0.6 }, // UI pops, words
+  smooth: { damping: 20, stiffness: 90, mass: 1 }, // big elements
+  bouncy: { damping: 11, stiffness: 170, mass: 0.7 }, // playful accents
+} as const;
 
 export const FONT_FAMILY = "Roboto";

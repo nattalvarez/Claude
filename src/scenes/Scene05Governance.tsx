@@ -1,10 +1,11 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Easing } from "remotion";
-import { COLORS, WIDTH, HEIGHT, FONT_FAMILY } from "../styles/theme";
+import { COLORS, WIDTH, HEIGHT, FONT_FAMILY, SCENES } from "../styles/theme";
 import { KineticText } from "../components/KineticText";
 import { ConnectionLine } from "../components/ConnectionLine";
 import { ModuleCard } from "../components/ModuleCard";
 import { RotatingHalo } from "../components/RotatingHalo";
+import { SceneExit } from "../components/SceneExit";
 
 const HUB = { x: WIDTH / 2, y: HEIGHT / 2 + 50 };
 const CARD_W = 250;
@@ -36,8 +37,17 @@ export const Scene05Governance: React.FC = () => {
   const settle = spring({ frame: frame - 92, fps, config: { damping: 20, mass: 1, stiffness: 90 } });
   const settleScale = interpolate(settle, [0, 1], [1.015, 1]);
 
+  const diamondOpacity = interpolate(frame, [96, 116], [0, 0.28], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const DIAMOND = [
+    [CONCEPTS[0], CONCEPTS[1]],
+    [CONCEPTS[0], CONCEPTS[2]],
+    [CONCEPTS[3], CONCEPTS[1]],
+    [CONCEPTS[3], CONCEPTS[2]],
+  ];
+
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.white }}>
+    <AbsoluteFill>
+      <SceneExit duration={SCENES.s05.duration}>
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 96 }}>
         <KineticText
           parts={[{ text: "Autonomía " }, { text: "con control.", color: COLORS.turquoise }]}
@@ -61,6 +71,26 @@ export const Scene05Governance: React.FC = () => {
           {CONCEPTS.map((c) => (
             <ConnectionLine key={c.label} x1={HUB.x} y1={HUB.y} x2={c.x} y2={c.y} from={c.from} duration={20} color={COLORS.turquoise} strokeWidth={1.6} opacity={0.5} />
           ))}
+
+          {/* diamond mesh — the four concepts also check against each other, not just the hub */}
+          <g opacity={diamondOpacity}>
+            {DIAMOND.map(([a, b], i) => (
+              <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={COLORS.blue} strokeWidth={1} strokeDasharray="1 7" strokeLinecap="round" />
+            ))}
+          </g>
+
+          {/* permission-check pulses travelling the spokes on a continuous loop */}
+          {CONCEPTS.map((c, i) => {
+            const loopStart = c.from + 26;
+            if (frame < loopStart) return null;
+            const t = ((frame - loopStart) / 58 + i * 0.16) % 1;
+            const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+            const px = HUB.x + (c.x - HUB.x) * ease;
+            const py = HUB.y + (c.y - HUB.y) * ease;
+            const pulseFade = Math.sin(t * Math.PI);
+            return <circle key={c.label} cx={px} cy={py} r={3} fill={COLORS.turquoise} opacity={pulseFade * 0.8} />;
+          })}
+
           <RotatingHalo cx={HUB.x} cy={HUB.y} radius={108} from={40} speed={0.16} />
           <circle cx={HUB.x} cy={HUB.y} r={collapseRingRadius} fill="none" stroke={COLORS.turquoise} strokeWidth={1.6} opacity={collapseRingOpacity} />
           <g transform={`translate(${HUB.x} ${HUB.y})`} opacity={hubOpacity}>
@@ -75,6 +105,7 @@ export const Scene05Governance: React.FC = () => {
           <ModuleCard key={c.label} x={c.x} y={c.y - 32} label={c.label} from={c.from + 10} width={CARD_W} accent={COLORS.turquoise} />
         ))}
       </div>
+      </SceneExit>
     </AbsoluteFill>
   );
 };

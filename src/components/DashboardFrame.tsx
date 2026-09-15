@@ -1,7 +1,9 @@
 import React, { useMemo } from "react";
 import { Img, useCurrentFrame, interpolate, Easing } from "remotion";
-import { COLORS } from "../styles/theme";
+import { COLORS, FONT_FAMILY } from "../styles/theme";
 import { seededRange } from "../lib/random";
+import { Sparkline } from "./Sparkline";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 type Props = {
   src: string | null;
@@ -25,7 +27,7 @@ const ConstellationPanel: React.FC<{ width: number; height: number; from: number
 
   const nodes = useMemo(
     () =>
-      Array.from({ length: 15 }).map((_, i) => ({
+      Array.from({ length: 26 }).map((_, i) => ({
         id: i,
         x: seededRange(`cst-x-${i}`, width * 0.1, width * 0.9),
         y: seededRange(`cst-y-${i}`, height * 0.12, height * 0.88),
@@ -38,7 +40,7 @@ const ConstellationPanel: React.FC<{ width: number; height: number; from: number
 
   const edges = useMemo(
     () =>
-      Array.from({ length: 7 }).map((_, i) => {
+      Array.from({ length: 15 }).map((_, i) => {
         const a = Math.floor(seededRange(`cst-ea-${i}`, 0, nodes.length));
         // bias toward nearby indices so lines stay short and the constellation reads
         // as a coherent structure rather than a tangle of long diagonals
@@ -90,7 +92,35 @@ const ConstellationPanel: React.FC<{ width: number; height: number; from: number
         const breathe = 1 + Math.sin((local - n.delay) / n.breathe) * 0.25;
         return <circle key={n.id} cx={n.x} cy={n.y} r={n.r * appear * breathe} fill={COLORS.navy} opacity={0.55 * appear} />;
       })}
+
+      <Sparkline x={width * 0.08} y={height * 0.72} width={width * 0.4} height={height * 0.16} from={from + 36} seed="dash-spark" color={COLORS.turquoise} />
     </svg>
+  );
+};
+
+const CounterOverlay: React.FC<{ width: number; from: number }> = ({ width, from }) => {
+  const frame = useCurrentFrame();
+  const opacity = interpolate(frame - from, [0, 18], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: width * 0.05,
+        left: width * 0.07,
+        opacity,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+        <AnimatedCounter target={1284} from={from} fontSize={30} fontWeight={700} color={COLORS.navy} />
+        <span style={{ fontFamily: FONT_FAMILY, fontSize: 15, fontWeight: 700, color: COLORS.turquoise }}>▲</span>
+      </div>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+        <AnimatedCounter target={38} from={from + 6} decimals={0} suffix="%" fontSize={15} fontWeight={500} color={COLORS.blue} />
+      </div>
+    </div>
   );
 };
 
@@ -126,7 +156,10 @@ export const DashboardFrame: React.FC<Props> = ({ src, x, y, width, height, from
       {src ? (
         <Img src={src} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
       ) : (
-        <ConstellationPanel width={width} height={height} from={from} />
+        <>
+          <ConstellationPanel width={width} height={height} from={from} />
+          <CounterOverlay width={width} from={from + 46} />
+        </>
       )}
     </div>
   );

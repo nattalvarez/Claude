@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS, WIDTH, HEIGHT } from "../styles/theme";
-import { BrandLockup } from "../components/BrandLockup";
 import { KineticText } from "../components/KineticText";
 import { PillButton } from "../components/PillButton";
 import { GeometricNode } from "../components/GeometricNode";
@@ -34,7 +33,7 @@ export const Scene07Outro: React.FC = () => {
   const residualOpacity = interpolate(frame, [0, 6, 20], [0, 0.5, 0]);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.white, alignItems: "center", justifyContent: "center" }}>
+    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
       <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
         <PulseRings cx={WIDTH / 2} cy={HEIGHT / 2} from={36} interval={40} count={3} startRadius={140} maxRadius={520} maxOpacity={0.12} strokeWidth={1} />
         <g opacity={residualOpacity}>
@@ -53,10 +52,12 @@ export const Scene07Outro: React.FC = () => {
       </svg>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
-        <BrandLockup from={0} speed={2.4} iconSize={108} wordmarkSize={116} />
+        {/* Logo slot — intentionally left blank; drop the real SIREC logo file in
+            public/ and render it here (e.g. <Img src={staticFile("logo.png")} />). */}
+        <div style={{ height: 130 }} />
         <KineticText
           parts={[{ text: "La plataforma agéntica para la gestión del riesgo de crédito." }]}
-          from={32}
+          from={10}
           wordStagger={1}
           fontSize={32}
           fontWeight={400}
@@ -65,7 +66,7 @@ export const Scene07Outro: React.FC = () => {
           maxWidth={980}
         />
         <div style={{ marginTop: 18 }}>
-          <PillButton label="Conoce la plataforma" from={58} />
+          <PillButton label="Conoce la plataforma" from={34} />
         </div>
       </div>
     </AbsoluteFill>

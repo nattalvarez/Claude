@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, Sequence } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Roboto";
-import { COLORS, SCENES } from "./styles/theme";
+import { SCENES } from "./styles/theme";
+import { BgMesh, Grade, Grain, Vignette } from "./components/CinematicLayers";
 import { Scene01Complexity } from "./scenes/Scene01Complexity";
 import { Scene02Sirec } from "./scenes/Scene02Sirec";
 import { Scene03Autonomy } from "./scenes/Scene03Autonomy";
@@ -18,7 +19,9 @@ loadFont("normal", {
 
 export const SirecMotion: React.FC = () => {
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.white }}>
+    <AbsoluteFill>
+      <BgMesh />
+
       <Sequence from={SCENES.s01.from} durationInFrames={SCENES.s01.duration} name="01 — Complejidad">
         <Scene01Complexity />
       </Sequence>
@@ -40,6 +43,10 @@ export const SirecMotion: React.FC = () => {
       <Sequence from={SCENES.s07.from} durationInFrames={SCENES.s07.duration} name="07 — Cierre">
         <Scene07Outro />
       </Sequence>
+
+      <Grade />
+      <Grain />
+      <Vignette />
     </AbsoluteFill>
   );
 };

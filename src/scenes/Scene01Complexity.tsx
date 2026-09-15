@@ -1,10 +1,11 @@
 import React, { useMemo } from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
+import { Trail } from "@remotion/motion-blur";
 import { COLORS, WIDTH, HEIGHT, EASE } from "../styles/theme";
 import { seededRange } from "../lib/random";
 import { KineticText } from "../components/KineticText";
 
-const NODE_COUNT_PER_BAND = 9;
+const NODE_COUNT_PER_BAND = 13;
 const ORGANIZE_START = 18;
 const ORGANIZE_END = 92;
 
@@ -110,7 +111,7 @@ export const Scene01Complexity: React.FC = () => {
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.white }}>
+    <AbsoluteFill>
       <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
         <g opacity={fieldFadeOut}>
           {(["upper", "lower"] as const).flatMap((band) =>
@@ -170,19 +171,23 @@ export const Scene01Complexity: React.FC = () => {
         </div>
       </AbsoluteFill>
 
-      {/* the transition line — one connection outgrows the field and sweeps to fill the frame */}
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: 0,
-          width: "100%",
-          height: 3,
-          transform: `translateY(-1.5px) scaleX(${transitionProgress})`,
-          transformOrigin: "50% 50%",
-          background: `linear-gradient(90deg, ${COLORS.blue}, ${COLORS.turquoise})`,
-        }}
-      />
+      {/* the transition line — one connection outgrows the field and sweeps to fill the frame.
+          It moves at ~1900px over 24 frames, well past the 30px/frame motion-blur threshold,
+          so it gets a real trail instead of just moving crisp. */}
+      <Trail layers={5} lagInFrames={0.7} trailOpacity={0.4}>
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            width: "100%",
+            height: 3,
+            transform: `translateY(-1.5px) scaleX(${transitionProgress})`,
+            transformOrigin: "50% 50%",
+            background: `linear-gradient(90deg, ${COLORS.blue}, ${COLORS.turquoise})`,
+          }}
+        />
+      </Trail>
     </AbsoluteFill>
   );
 };

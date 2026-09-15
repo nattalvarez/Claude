@@ -1,12 +1,12 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
-import { COLORS, WIDTH, HEIGHT } from "../styles/theme";
+import { COLORS, WIDTH, HEIGHT, SCENES } from "../styles/theme";
 import { DashboardFrame } from "../components/DashboardFrame";
 import { KineticText } from "../components/KineticText";
-import { BrandLockup } from "../components/BrandLockup";
 import { GeometricNode } from "../components/GeometricNode";
 import { ConnectionLine } from "../components/ConnectionLine";
 import { PulseRings } from "../components/PulseRings";
+import { SceneExit } from "../components/SceneExit";
 import { SCREENSHOTS } from "../assets/manifest";
 
 const DASH = { x: 1030, y: 210, w: 760, h: 520 };
@@ -31,7 +31,8 @@ export const Scene02Sirec: React.FC = () => {
   const centre = { x: DASH.x + DASH.w / 2, y: DASH.y + DASH.h / 2 };
 
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.white }}>
+    <AbsoluteFill>
+      <SceneExit duration={SCENES.s02.duration}>
       {/* curtain split — visual handoff from Scene01's growing line */}
       <div
         style={{
@@ -40,7 +41,7 @@ export const Scene02Sirec: React.FC = () => {
           left: 0,
           width: "100%",
           height: "50%",
-          background: COLORS.white,
+          background: COLORS.offWhite,
           transform: `translateY(${-curtainProgress * 12}px)`,
           borderBottom: `2px solid rgba(51,101,162,${1 - curtainProgress})`,
           zIndex: 2,
@@ -62,7 +63,9 @@ export const Scene02Sirec: React.FC = () => {
       <DashboardFrame src={SCREENSHOTS.dashboard} x={DASH.x} y={DASH.y} width={DASH.w} height={DASH.h} from={6} duration={30} />
 
       <AbsoluteFill style={{ justifyContent: "center", paddingLeft: 150, paddingRight: 900 }}>
-        <BrandLockup from={22} direction="inline" iconSize={92} wordmarkSize={100} />
+        {/* Logo slot — intentionally left blank; drop the real SIREC logo file in
+            public/ and render it here (e.g. <Img src={staticFile("logo.png")} />). */}
+        <div style={{ height: 96 }} />
         <div style={{ marginTop: 28 }}>
           <KineticText
             parts={[
@@ -70,7 +73,7 @@ export const Scene02Sirec: React.FC = () => {
               { text: "agéntica ", color: COLORS.turquoise },
               { text: "para la gestión del riesgo de crédito." },
             ]}
-            from={70}
+            from={34}
             fontSize={38}
             fontWeight={400}
             color={COLORS.navy}
@@ -80,6 +83,7 @@ export const Scene02Sirec: React.FC = () => {
           />
         </div>
       </AbsoluteFill>
+      </SceneExit>
     </AbsoluteFill>
   );
 };

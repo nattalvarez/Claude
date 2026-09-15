@@ -5,6 +5,7 @@ import { KineticText } from "../components/KineticText";
 import { ConnectionLine } from "../components/ConnectionLine";
 import { ModuleCard } from "../components/ModuleCard";
 import { FlowStream } from "../components/FlowStream";
+import { AnimatedCounter } from "../components/AnimatedCounter";
 
 const Y = HEIGHT / 2 + 40;
 const XS = [280, 660, 1040, 1420, 1720 - 20];
@@ -36,7 +37,7 @@ export const Scene06Specialization: React.FC = () => {
   const pointAppear = spring({ frame: frame - CONVERGE_START - CONVERGE_DURATION + 6, fps, config: { damping: 14, mass: 0.6, stiffness: 140 } });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.white }}>
+    <AbsoluteFill>
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 96 }}>
         <KineticText
           parts={[{ text: "Especializado en " }, { text: "riesgo de crédito.", color: COLORS.turquoise }]}
@@ -50,7 +51,8 @@ export const Scene06Specialization: React.FC = () => {
 
       <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
         <g opacity={1 - convergeProgress}>
-          <FlowStream x1={XS[0] - 40} x2={XS[4] + 40} y={Y + 84} from={14} />
+          <FlowStream x1={XS[0] - 40} x2={XS[4] + 40} y={Y + 84} from={14} count={18} />
+          <FlowStream x1={XS[0] - 40} x2={XS[4] + 40} y={Y - 96} from={20} count={12} color={COLORS.blue} />
         </g>
         {MODULES.slice(0, -1).map((m, i) => {
           const x1 = interpolate(convergeProgress, [0, 1], [XS[i], CENTRE.x]);
@@ -116,6 +118,35 @@ export const Scene06Specialization: React.FC = () => {
           }}
         >
           SIREC
+        </div>
+      )}
+
+      {pointAppear > 0.5 && (
+        <div
+          style={{
+            position: "absolute",
+            left: CENTRE.x - 120,
+            top: Y - 96,
+            width: 240,
+            textAlign: "center",
+            opacity: interpolate(pointAppear, [0.5, 1], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <AnimatedCounter
+            target={5}
+            from={CONVERGE_START + CONVERGE_DURATION - 10}
+            fontSize={30}
+            fontWeight={700}
+            color={COLORS.navy}
+            springConfig={{ damping: 16, stiffness: 200 }}
+          />
+          <span style={{ fontFamily: FONT_FAMILY, fontSize: 13, fontWeight: 500, letterSpacing: 1.6, color: COLORS.blue }}>
+            MÓDULOS INTEGRADOS
+          </span>
         </div>
       )}
     </AbsoluteFill>

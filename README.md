@@ -1,6 +1,8 @@
 # SIREC — Motion Graphics (30s)
 
-Vídeo de 30 segundos construido con [Remotion](https://www.remotion.dev) (React + TypeScript).
+Vídeo de 30 segundos construido con [Remotion](https://www.remotion.dev) (React + TypeScript),
+siguiendo el playbook de la skill `remotion-motion-graphics` (pila de 5 capas, spring en vez de
+easing lineal, entradas de 2-3 propiedades, salidas más rápidas que las entradas, etc.).
 16:9, 1920×1080, 30fps, exportable a MP4/H.264.
 
 ## Estructura
@@ -8,16 +10,19 @@ Vídeo de 30 segundos construido con [Remotion](https://www.remotion.dev) (React
 ```
 src/
   Root.tsx              composición raíz (SirecMotion, 900 frames @ 30fps)
-  SirecMotion.tsx        timeline: monta las 7 escenas en su Sequence
-  styles/theme.ts         paleta, tipografía, timing de escenas
+  SirecMotion.tsx        timeline: pila de 5 capas + las 7 escenas en su Sequence
+  styles/theme.ts         paleta, tipografía, timing de escenas, easings y springs con nombre
   lib/random.ts           utilidades deterministas para posiciones/redes
   assets/manifest.ts       registro de assets reales (screenshots) — ver más abajo
   components/
-    ConnectionLine, GeometricNode                        lenguaje geométrico base
-    KineticText, Wordmark, AxolotlMark, BrandLockup, PillButton   tipografía y marca
-    AgentNode, ModuleCard, LevelLadder, DashboardFrame   piezas específicas de escena
-    PulseRings, ScanGrid, OrbitField, RotatingHalo, FlowStream    fondos animados,
+    CinematicLayers.tsx      BgMesh / Grade / Grain / Vignette — la pila de 5 capas
+    ConnectionLine, GeometricNode                          lenguaje geométrico base
+    KineticText, Wordmark, PillButton                       tipografía y marca
+    AnimatedCounter, Sparkline                               "datos" — contadores y tendencias
+    AgentNode, ModuleCard, LevelLadder, DashboardFrame       piezas específicas de escena
+    PulseRings, ScanGrid, OrbitField, RotatingHalo, FlowStream   fondos animados,
       uno distinto por escena (radar / scan-line / órbita / halo giratorio / flujo)
+    SceneExit.tsx            salida animada compartida (fade + rise, más rápida que la entrada)
   scenes/
     Scene01Complexity      0:00–0:04  complejidad → orden
     Scene02Sirec            0:04–0:08  presentación SIREC
@@ -45,11 +50,25 @@ scripts ya incluyen `--ignore-certificate-errors` y `remotion.config.ts` apunta 
 headless preinstalado del entorno. Si renderizas en otra máquina con salida a internet normal,
 ambos ajustes son innecesarios (pero no estorban).
 
+## Logo — dejado en blanco a propósito
+
+No hay ningún logo ni marca en el vídeo. Scene02 y Scene07 reservan el hueco (un `<div>` vacío
+con la altura del logo) marcado con un comentario en el código:
+
+```tsx
+{/* Logo slot — intentionally left blank; drop the real SIREC logo file in
+    public/ and render it here (e.g. <Img src={staticFile("logo.png")} />). */}
+<div style={{ height: 96 }} />
+```
+
+Para añadir el logo real: guarda el archivo en `public/`, sustituye ese `<div>` por
+`<Img src={staticFile("logo.svg")} style={{ height: 96 }} />` en ambas escenas.
+
 ## Integrar la captura real del dashboard (Escena 02)
 
-Por defecto, Scene02 usa un placeholder geométrico abstracto en vez de una captura real,
-porque las capturas que se compartieron en el chat no quedaron accesibles como archivo en este
-entorno. Para activar la real:
+Por defecto, Scene02 usa un panel de constelación de nodos animado (con contador y sparkline)
+en vez de una captura real, porque las capturas que se compartieron en el chat no quedaron
+accesibles como archivo en este entorno. Para activar la real:
 
 1. Guarda la captura como `public/screenshots/dashboard.png`.
 2. En `src/assets/manifest.ts`, cambia `dashboard: null` por
@@ -57,17 +76,16 @@ entorno. Para activar la real:
 
 No hace falta tocar nada más — `DashboardFrame` usará la imagen real automáticamente.
 
-## El logo (`AxolotlMark`)
-
-El archivo del logo tampoco quedó accesible como archivo en este entorno (solo se vio como
-imagen en el chat), así que `src/components/AxolotlMark.tsx` es una reconstrucción vectorial
-fiel del isotipo (cápsula, dos ojos, tres branquias por lado) que se autodibuja trazo a trazo.
-Si en algún momento se dispone del SVG/AI original del logo, puede sustituirse ese componente
-por un `<Img>`/`staticFile` sin tocar `BrandLockup` (que combina el icono con el wordmark
-"sirec" y es lo que usan Scene02 y Scene07).
-
 ## Reglas de marca respetadas
 
 - Paleta: `#3365A2` / `#233456` / `#2ABBCE` / `#DDE7F4`, tipografía Roboto.
-- Lenguaje visual mayoritariamente geométrico (nodos, líneas, módulos) — nada de
-  cyberpunk/neón/glitch — con el isotipo de la marca (ajolote) en la intro y el cierre.
+- Lenguaje visual 100% geométrico (nodos, líneas, módulos, contadores, sparklines) — nada de
+  cyberpunk/neón/glitch — sin ningún logo ni personaje.
+
+## Sonido
+
+El vídeo se entrega sin audio. La skill de motion graphics recomienda no entregar nunca un
+vídeo mudo, pero como no se pidió banda sonora y esto es una pieza corporativa que probablemente
+lleve su propia locución/música más adelante, no se ha sintetizado un kit de SFX — decilo si lo
+quieres y se añade (whooshes en las transiciones, un tick suave en los contadores, música de
+fondo a bajo volumen).
