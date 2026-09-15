@@ -3,9 +3,10 @@ import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS, WIDTH, HEIGHT } from "../styles/theme";
 import { DashboardFrame } from "../components/DashboardFrame";
 import { KineticText } from "../components/KineticText";
-import { Wordmark } from "../components/Wordmark";
+import { BrandLockup } from "../components/BrandLockup";
 import { GeometricNode } from "../components/GeometricNode";
 import { ConnectionLine } from "../components/ConnectionLine";
+import { PulseRings } from "../components/PulseRings";
 import { SCREENSHOTS } from "../assets/manifest";
 
 const DASH = { x: 1030, y: 210, w: 760, h: 520 };
@@ -49,6 +50,7 @@ export const Scene02Sirec: React.FC = () => {
       />
 
       <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
+        <PulseRings cx={centre.x} cy={centre.y} from={42} interval={44} count={4} startRadius={DASH.w / 2} maxRadius={380} maxOpacity={0.16} />
         {anchorPoints.map((p, i) => (
           <ConnectionLine key={i} x1={p.x} y1={p.y} x2={centre.x} y2={centre.y} from={30 + i * 6} duration={26} color={COLORS.turquoise} strokeWidth={1.2} opacity={0.35} />
         ))}
@@ -60,7 +62,7 @@ export const Scene02Sirec: React.FC = () => {
       <DashboardFrame src={SCREENSHOTS.dashboard} x={DASH.x} y={DASH.y} width={DASH.w} height={DASH.h} from={6} duration={30} />
 
       <AbsoluteFill style={{ justifyContent: "center", paddingLeft: 150, paddingRight: 900 }}>
-        <Wordmark from={26} fontSize={104} />
+        <BrandLockup from={22} direction="inline" iconSize={92} wordmarkSize={100} />
         <div style={{ marginTop: 28 }}>
           <KineticText
             parts={[
@@ -68,7 +70,7 @@ export const Scene02Sirec: React.FC = () => {
               { text: "agéntica ", color: COLORS.turquoise },
               { text: "para la gestión del riesgo de crédito." },
             ]}
-            from={50}
+            from={70}
             fontSize={38}
             fontWeight={400}
             color={COLORS.navy}

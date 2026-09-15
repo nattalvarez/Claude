@@ -16,6 +16,8 @@ type Props = {
   lineHeight?: number;
   maxWidth?: number;
   style?: React.CSSProperties;
+  /** frames between each word's entrance; lower = tighter/faster reveal */
+  wordStagger?: number;
 };
 
 /** Word-level staggered text reveal: fade + rise + soft blur in, matching the brief's
@@ -32,6 +34,7 @@ export const KineticText: React.FC<Props> = ({
   lineHeight = 1.15,
   maxWidth,
   style,
+  wordStagger = 2,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -67,7 +70,7 @@ export const KineticText: React.FC<Props> = ({
     >
       {words.map((w, i) => {
         const enter = spring({
-          frame: frame - from - i * 2,
+          frame: frame - from - i * wordStagger,
           fps,
           config: { damping: 18, mass: 0.7, stiffness: 140 },
         });

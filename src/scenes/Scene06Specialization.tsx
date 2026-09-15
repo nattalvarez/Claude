@@ -4,6 +4,7 @@ import { COLORS, WIDTH, HEIGHT, FONT_FAMILY } from "../styles/theme";
 import { KineticText } from "../components/KineticText";
 import { ConnectionLine } from "../components/ConnectionLine";
 import { ModuleCard } from "../components/ModuleCard";
+import { FlowStream } from "../components/FlowStream";
 
 const Y = HEIGHT / 2 + 40;
 const XS = [280, 660, 1040, 1420, 1720 - 20];
@@ -48,6 +49,9 @@ export const Scene06Specialization: React.FC = () => {
       </AbsoluteFill>
 
       <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
+        <g opacity={1 - convergeProgress}>
+          <FlowStream x1={XS[0] - 40} x2={XS[4] + 40} y={Y + 84} from={14} />
+        </g>
         {MODULES.slice(0, -1).map((m, i) => {
           const x1 = interpolate(convergeProgress, [0, 1], [XS[i], CENTRE.x]);
           const x2 = interpolate(convergeProgress, [0, 1], [XS[i + 1], CENTRE.x]);

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Img, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS } from "../styles/theme";
+import { seededRange } from "../lib/random";
 
 type Props = {
   src: string | null;
@@ -12,32 +13,83 @@ type Props = {
   duration?: number;
 };
 
-/** Abstract skeleton stand-in for a real product screenshot — used only until the actual
- * asset is supplied. Deliberately non-representational: no invented labels, numbers, or UI
- * chrome, just the brand's geometric language holding the frame's shape. */
-const AbstractPlaceholder: React.FC<{ width: number; height: number }> = ({ width, height }) => {
-  const rows = [0.16, 0.3, 0.44, 0.58, 0.74];
+/**
+ * Stand-in for a real product screenshot, used only until the actual asset is supplied.
+ * Rather than faking UI chrome, this leans fully into the brand's own geometric language:
+ * a dense node constellation with a slowly orbiting focal ring — read as "the engine",
+ * not a mockup of a screen. No invented labels, numbers, or interface elements.
+ */
+const ConstellationPanel: React.FC<{ width: number; height: number; from: number }> = ({ width, height, from }) => {
+  const frame = useCurrentFrame();
+  const local = frame - from;
+
+  const nodes = useMemo(
+    () =>
+      Array.from({ length: 15 }).map((_, i) => ({
+        id: i,
+        x: seededRange(`cst-x-${i}`, width * 0.1, width * 0.9),
+        y: seededRange(`cst-y-${i}`, height * 0.12, height * 0.88),
+        r: seededRange(`cst-r-${i}`, 2.4, 6),
+        delay: Math.floor(seededRange(`cst-d-${i}`, 0, 30)),
+        breathe: seededRange(`cst-b-${i}`, 60, 140),
+      })),
+    [width, height]
+  );
+
+  const edges = useMemo(
+    () =>
+      Array.from({ length: 7 }).map((_, i) => {
+        const a = Math.floor(seededRange(`cst-ea-${i}`, 0, nodes.length));
+        // bias toward nearby indices so lines stay short and the constellation reads
+        // as a coherent structure rather than a tangle of long diagonals
+        const step = 1 + Math.floor(seededRange(`cst-eb-${i}`, 0, 3));
+        const b = (a + step) % nodes.length;
+        return { a, b, delay: Math.floor(seededRange(`cst-ed-${i}`, 10, 46)) };
+      }),
+    [nodes.length]
+  );
+
+  const cx = width * 0.52;
+  const cy = height * 0.5;
+  const ringR = Math.min(width, height) * 0.22;
+  const ringRotation = local * 0.55;
+  const orbitAngle = (ringRotation * Math.PI) / 180;
+
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
-      <rect x={0} y={0} width={width} height={height} rx={18} fill={COLORS.white} stroke={COLORS.lightBlue} strokeWidth={1.5} />
-      <rect x={0} y={0} width={width * 0.22} height={height} rx={18} fill={COLORS.navy} opacity={0.94} />
-      {[0.14, 0.28, 0.42, 0.56, 0.7].map((f, i) => (
-        <rect key={i} x={width * 0.06} y={height * f} width={width * 0.1} height={6} rx={3} fill={COLORS.turquoise} opacity={i === 0 ? 0.9 : 0.35} />
-      ))}
-      {rows.map((f, i) => (
-        <rect
-          key={i}
-          x={width * 0.3}
-          y={height * f}
-          width={width * (0.55 - (i % 2) * 0.12)}
-          height={10}
-          rx={5}
-          fill={COLORS.lightBlue}
-        />
-      ))}
-      <rect x={width * 0.3} y={height * 0.06} width={width * 0.16} height={height * 0.16} rx={10} fill={COLORS.lightBlue} />
-      <rect x={width * 0.49} y={height * 0.06} width={width * 0.16} height={height * 0.16} rx={10} fill={COLORS.lightBlue} />
-      <rect x={width * 0.68} y={height * 0.06} width={width * 0.16} height={height * 0.16} rx={10} fill={COLORS.turquoise} opacity={0.25} />
+      <rect x={0} y={0} width={width} height={height} rx={20} fill={COLORS.white} stroke={COLORS.lightBlue} strokeWidth={1.5} />
+
+      {edges.map((e, i) => {
+        const a = nodes[e.a];
+        const b = nodes[e.b];
+        const p = interpolate(local, [e.delay, e.delay + 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+        if (p <= 0) return null;
+        return (
+          <line
+            key={i}
+            x1={a.x}
+            y1={a.y}
+            x2={a.x + (b.x - a.x) * p}
+            y2={a.y + (b.y - a.y) * p}
+            stroke={COLORS.blue}
+            strokeWidth={1}
+            opacity={0.3}
+          />
+        );
+      })}
+
+      <g transform={`rotate(${ringRotation} ${cx} ${cy})`} opacity={interpolate(local, [20, 44], [0, 0.55], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}>
+        <circle cx={cx} cy={cy} r={ringR} fill="none" stroke={COLORS.turquoise} strokeWidth={1.4} strokeDasharray="2 10" strokeLinecap="round" />
+      </g>
+      <circle cx={cx + Math.cos(orbitAngle) * ringR} cy={cy + Math.sin(orbitAngle) * ringR} r={4.5} fill={COLORS.turquoise} opacity={interpolate(local, [20, 44], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
+      <circle cx={cx} cy={cy} r={6} fill={COLORS.navy} opacity={interpolate(local, [8, 26], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
+
+      {nodes.map((n) => {
+        const appear = interpolate(local, [n.delay, n.delay + 16], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+        if (appear <= 0) return null;
+        const breathe = 1 + Math.sin((local - n.delay) / n.breathe) * 0.25;
+        return <circle key={n.id} cx={n.x} cy={n.y} r={n.r * appear * breathe} fill={COLORS.navy} opacity={0.55 * appear} />;
+      })}
     </svg>
   );
 };
@@ -74,7 +126,7 @@ export const DashboardFrame: React.FC<Props> = ({ src, x, y, width, height, from
       {src ? (
         <Img src={src} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
       ) : (
-        <AbstractPlaceholder width={width} height={height} />
+        <ConstellationPanel width={width} height={height} from={from} />
       )}
     </div>
   );

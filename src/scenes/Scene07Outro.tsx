@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS, WIDTH, HEIGHT } from "../styles/theme";
-import { Wordmark } from "../components/Wordmark";
+import { BrandLockup } from "../components/BrandLockup";
 import { KineticText } from "../components/KineticText";
 import { PillButton } from "../components/PillButton";
 import { GeometricNode } from "../components/GeometricNode";
 import { ConnectionLine } from "../components/ConnectionLine";
+import { PulseRings } from "../components/PulseRings";
 import { seededRange } from "../lib/random";
 
 const CENTRE = { x: WIDTH / 2, y: HEIGHT / 2 - 80 };
@@ -35,6 +36,7 @@ export const Scene07Outro: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.white, alignItems: "center", justifyContent: "center" }}>
       <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
+        <PulseRings cx={WIDTH / 2} cy={HEIGHT / 2} from={36} interval={40} count={3} startRadius={140} maxRadius={520} maxOpacity={0.12} strokeWidth={1} />
         <g opacity={residualOpacity}>
           {residual.map((n) => {
             const dist = n.dist * (1 - collapse);
@@ -51,10 +53,11 @@ export const Scene07Outro: React.FC = () => {
       </svg>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
-        <Wordmark from={8} fontSize={128} />
+        <BrandLockup from={0} speed={2.4} iconSize={108} wordmarkSize={116} />
         <KineticText
           parts={[{ text: "La plataforma agéntica para la gestión del riesgo de crédito." }]}
-          from={18}
+          from={32}
+          wordStagger={1}
           fontSize={32}
           fontWeight={400}
           color={COLORS.blue}
@@ -62,7 +65,7 @@ export const Scene07Outro: React.FC = () => {
           maxWidth={980}
         />
         <div style={{ marginTop: 18 }}>
-          <PillButton label="Conoce la plataforma" from={30} />
+          <PillButton label="Conoce la plataforma" from={58} />
         </div>
       </div>
     </AbsoluteFill>

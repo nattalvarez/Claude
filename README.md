@@ -13,9 +13,11 @@ src/
   lib/random.ts           utilidades deterministas para posiciones/redes
   assets/manifest.ts       registro de assets reales (screenshots) — ver más abajo
   components/
-    ConnectionLine, GeometricNode, NetworkBackground   lenguaje geométrico base
-    KineticText, Wordmark, PillButton                   tipografía y marca
+    ConnectionLine, GeometricNode                        lenguaje geométrico base
+    KineticText, Wordmark, AxolotlMark, BrandLockup, PillButton   tipografía y marca
     AgentNode, ModuleCard, LevelLadder, DashboardFrame   piezas específicas de escena
+    PulseRings, ScanGrid, OrbitField, RotatingHalo, FlowStream    fondos animados,
+      uno distinto por escena (radar / scan-line / órbita / halo giratorio / flujo)
   scenes/
     Scene01Complexity      0:00–0:04  complejidad → orden
     Scene02Sirec            0:04–0:08  presentación SIREC
@@ -55,8 +57,17 @@ entorno. Para activar la real:
 
 No hace falta tocar nada más — `DashboardFrame` usará la imagen real automáticamente.
 
+## El logo (`AxolotlMark`)
+
+El archivo del logo tampoco quedó accesible como archivo en este entorno (solo se vio como
+imagen en el chat), así que `src/components/AxolotlMark.tsx` es una reconstrucción vectorial
+fiel del isotipo (cápsula, dos ojos, tres branquias por lado) que se autodibuja trazo a trazo.
+Si en algún momento se dispone del SVG/AI original del logo, puede sustituirse ese componente
+por un `<Img>`/`staticFile` sin tocar `BrandLockup` (que combina el icono con el wordmark
+"sirec" y es lo que usan Scene02 y Scene07).
+
 ## Reglas de marca respetadas
 
-- Sin ajolote, sin personajes, en ningún fotograma.
 - Paleta: `#3365A2` / `#233456` / `#2ABBCE` / `#DDE7F4`, tipografía Roboto.
-- Lenguaje visual 100% geométrico (nodos, líneas, módulos) — nada de cyberpunk/neón/glitch.
+- Lenguaje visual mayoritariamente geométrico (nodos, líneas, módulos) — nada de
+  cyberpunk/neón/glitch — con el isotipo de la marca (ajolote) en la intro y el cierre.

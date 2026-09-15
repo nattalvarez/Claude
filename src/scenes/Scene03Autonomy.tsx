@@ -3,7 +3,7 @@ import { AbsoluteFill } from "remotion";
 import { COLORS } from "../styles/theme";
 import { KineticText } from "../components/KineticText";
 import { LevelLadder } from "../components/LevelLadder";
-import { NetworkBackground } from "../components/NetworkBackground";
+import { ScanGrid } from "../components/ScanGrid";
 
 const LEVELS = [
   { n: "01", label: "Automatización de tareas" },
@@ -20,7 +20,7 @@ const LADDER_WIDTH = 1500;
 export const Scene03Autonomy: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.white }}>
-      <NetworkBackground seed="s03" nodeCount={10} edgeCount={6} opacity={0.1} sceneFrom={0} />
+      <ScanGrid from={0} />
 
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 150 }}>
         <KineticText

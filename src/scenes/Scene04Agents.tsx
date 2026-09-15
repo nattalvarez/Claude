@@ -4,6 +4,7 @@ import { COLORS, WIDTH, HEIGHT, FONT_FAMILY } from "../styles/theme";
 import { KineticText } from "../components/KineticText";
 import { ConnectionLine } from "../components/ConnectionLine";
 import { AgentNode, AgentGlyph } from "../components/AgentNode";
+import { OrbitField } from "../components/OrbitField";
 import { spring, useVideoConfig, interpolate } from "remotion";
 
 const AGENTS: { label: string; glyph: AgentGlyph }[] = [
@@ -42,6 +43,7 @@ export const Scene04Agents: React.FC = () => {
       </AbsoluteFill>
 
       <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
+        <OrbitField cx={CENTRE.x} cy={CENTRE.y} from={0} />
         {AGENTS.map((a, i) => {
           const angle = (Math.PI / 180) * (i * 60 - 90);
           const x = CENTRE.x + Math.cos(angle) * RADIUS;

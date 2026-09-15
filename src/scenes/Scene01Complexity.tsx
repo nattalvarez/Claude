@@ -47,13 +47,28 @@ const buildField = (): FieldNode[] => {
   return nodes;
 };
 
+const SPARK_COUNT = 7;
+const buildSparks = () =>
+  Array.from({ length: SPARK_COUNT }).map((_, i) => ({
+    id: `spark-${i}`,
+    baseX: seededRange(`spark-x-${i}`, 90, WIDTH - 90),
+    baseY: i % 2 === 0 ? seededRange(`spark-y-${i}`, 340, 410) : seededRange(`spark-y-${i}`, 670, 740),
+    ampX: seededRange(`spark-ax-${i}`, 18, 46),
+    ampY: seededRange(`spark-ay-${i}`, 10, 30),
+    speed: seededRange(`spark-sp-${i}`, 0.012, 0.026),
+    phase: seededRange(`spark-ph-${i}`, 0, Math.PI * 2),
+    r: seededRange(`spark-r-${i}`, 1.2, 2.4),
+  }));
+
 /** 0:00–0:04 — Complejidad → orden. A scattered field of points settles into two calm,
  * curved rows that frame the message instead of covering it; a handful of connectors
  * snap into place once the field has organized, and the last one grows to carry us
- * into Scene02. */
+ * into Scene02. A few free-floating sparks drift independently the whole time, well clear
+ * of the text, so the frame never goes fully still before the transition. */
 export const Scene01Complexity: React.FC = () => {
   const frame = useCurrentFrame();
   const fields = useMemo(buildField, []);
+  const sparks = useMemo(buildSparks, []);
 
   const position = (n: FieldNode): Point => {
     const progress = interpolate(frame, [ORGANIZE_START + n.stagger, ORGANIZE_END + n.stagger], [0, 1], {
@@ -117,7 +132,17 @@ export const Scene01Complexity: React.FC = () => {
           )}
           {fields.map((n) => {
             const p = position(n);
-            return <circle key={n.id} cx={p.x} cy={p.y} r={n.r} fill={COLORS.navy} opacity={appearOpacity} />;
+            const settleAt = ORGANIZE_END + n.stagger;
+            const breathe = frame > settleAt ? 1 + Math.sin((frame - settleAt) / 34) * 0.12 : 1;
+            return <circle key={n.id} cx={p.x} cy={p.y} r={n.r * breathe} fill={COLORS.navy} opacity={appearOpacity} />;
+          })}
+        </g>
+        <g opacity={fieldFadeOut}>
+          {sparks.map((s) => {
+            const t = frame * s.speed + s.phase;
+            const x = s.baseX + Math.cos(t) * s.ampX;
+            const y = s.baseY + Math.sin(t * 1.3) * s.ampY;
+            return <circle key={s.id} cx={x} cy={y} r={s.r} fill={COLORS.turquoise} opacity={0.5} />;
           })}
         </g>
       </svg>
