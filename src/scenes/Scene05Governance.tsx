@@ -1,111 +1,145 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Easing } from "remotion";
-import { COLORS, WIDTH, HEIGHT, FONT_FAMILY, SCENES } from "../styles/theme";
-import { KineticText } from "../components/KineticText";
-import { ConnectionLine } from "../components/ConnectionLine";
-import { ModuleCard } from "../components/ModuleCard";
-import { RotatingHalo } from "../components/RotatingHalo";
-import { SceneExit } from "../components/SceneExit";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { ThreeCanvas } from "@remotion/three";
+import { SceneFrame } from "../components/SceneFrame";
+import { WordReveal, AnchoredLabel } from "../components/Typography";
+import { CameraRig } from "../three/CameraRig";
+import { LightingDark } from "../three/Lighting";
+import { CamKeyframe, sampleCamera, projectToScreen } from "../three/camera";
+import { Node, Ring, Prism } from "../three/Primitives";
+import { COLORS, EASE, WIDTH, HEIGHT } from "../styles/theme";
 
-const HUB = { x: WIDTH / 2, y: HEIGHT / 2 + 50 };
-const CARD_W = 250;
-
-const CONCEPTS = [
-  { label: "Identidad", x: HUB.x, y: HUB.y - 260, from: 30 },
-  { label: "Permisos", x: HUB.x - 520, y: HUB.y, from: 46 },
-  { label: "Trazabilidad", x: HUB.x + 520, y: HUB.y, from: 62 },
-  { label: "Supervisión", x: HUB.x, y: HUB.y + 260, from: 78 },
+const CAM: CamKeyframe[] = [
+  { frame: 0, position: [0, 1.15, 5.2], lookAt: [0, 0.62, 0], fov: 32 },
+  { frame: 50, position: [2.6, 1.55, 6.6], lookAt: [0, 0.65, 0], fov: 29.5 },
+  { frame: 100, position: [-2.1, 1.95, 7.9], lookAt: [0, 0.7, 0], fov: 27 },
+  { frame: 150, position: [0.5, 2.25, 9], lookAt: [0, 0.75, 0], fov: 25, easing: EASE.inOut },
+  { frame: 166, position: [0.3, 2.3, 9.2], lookAt: [0, 0.78, 0], fov: 24.5 },
 ];
 
-/** 0:18–0:23 — Autonomía gobernada. Four governance concepts anchor themselves around the
- * hub; once all four connect, the whole system settles — the scene's differentiator beat. */
-export const Scene05Governance: React.FC = () => {
+const CORE_AGENTS = Array.from({ length: 6 }).map((_, i) => {
+  const a = (i * 60 - 90) * (Math.PI / 180);
+  return [Math.cos(a) * 1.05, 0.65 + Math.sin(i) * 0.08, Math.sin(a) * 1.05] as [number, number, number];
+});
+
+const PILLARS = [
+  { key: "identidad", name: "IDENTIDAD", sub: "Cada agente, verificado", pos: [3.1, 1.15, 0.4] as [number, number, number], appear: 20 },
+  { key: "permisos", name: "PERMISOS", sub: "Límites definidos por acción", pos: [-1.1, 0.35, 3.2] as [number, number, number], appear: 44 },
+  { key: "trazabilidad", name: "TRAZABILIDAD", sub: "Cada decisión, registrada", pos: [-2.9, 1.3, -1.5] as [number, number, number], appear: 68 },
+  { key: "supervision", name: "SUPERVISIÓN", sub: "Una persona, siempre al mando", pos: [1.4, 0.5, -3.0] as [number, number, number], appear: 92 },
+];
+
+const Core: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const p = spring({ frame, fps, config: { damping: 16, stiffness: 100, mass: 0.8 } });
+  return (
+    <group scale={p}>
+      <Node position={[0, 0.65, 0]} radius={0.34} color={COLORS.navy} roughness={0.4} metalness={0.18} clearcoat={0.3} />
+      {CORE_AGENTS.map((pos, i) => (
+        <Node key={i} position={pos} radius={0.1} color={i % 2 === 0 ? COLORS.turquoise : COLORS.lightBlue} roughness={0.35} metalness={0.15} />
+      ))}
+      <Ring position={[0, 0.65, 0]} radius={1.3} tube={0.012} color={COLORS.blue} rotation={[Math.PI / 2, frame / 180, 0]} opacity={0.4} />
+    </group>
+  );
+};
 
-  // the hub resolves rather than pops: an outer ring contracts down onto it while it fades in
-  const resolve = interpolate(frame, [0, 34], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.bezier(0.32, 0, 0.2, 1),
-  });
-  const collapseRingRadius = interpolate(resolve, [0, 1], [190, 64]);
-  const collapseRingOpacity = interpolate(resolve, [0, 0.85, 1], [0.55, 0.3, 0]);
-  const hubOpacity = interpolate(frame, [16, 34], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+const PillarShape: React.FC<{ shapeKey: string; frame: number }> = ({ shapeKey, frame }) => {
+  const spin = frame / 130;
+  if (shapeKey === "identidad") {
+    return <Ring position={[0, 0, 0]} radius={0.6} tube={0.05} color={COLORS.turquoise} rotation={[Math.PI / 2.1, spin, 0]} />;
+  }
+  if (shapeKey === "permisos") {
+    return <Prism position={[0, 0, 0]} radius={0.46} height={0.14} sides={6} color={COLORS.blue} rotation={[0, spin, 0]} roughness={0.4} metalness={0.15} clearcoat={0.2} />;
+  }
+  if (shapeKey === "trazabilidad") {
+    return (
+      <group rotation={[0, spin * 0.6, 0]}>
+        {[0, 1, 2].map((i) => (
+          <Ring key={i} position={[(i - 1) * 0.42, 0, 0]} radius={0.24} tube={0.03} color={COLORS.lightBlue} rotation={[Math.PI / 2, i * 0.3, 0]} opacity={0.85} />
+        ))}
+      </group>
+    );
+  }
+  return <Ring position={[0, 0, 0]} radius={1.05} tube={0.03} color={COLORS.turquoise} rotation={[Math.PI / 2.4, -spin * 0.5, Math.PI / 6]} opacity={0.7} />;
+};
 
-  // the "stabilize" settle — a very subtle collective scale breathing to rest
-  const settle = spring({ frame: frame - 92, fps, config: { damping: 20, mass: 1, stiffness: 90 } });
-  const settleScale = interpolate(settle, [0, 1], [1.015, 1]);
+const Pillar: React.FC<{ p: (typeof PILLARS)[number] }> = ({ p }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const spr = spring({ frame: frame - p.appear, fps, config: { damping: 15, stiffness: 100, mass: 0.8 } });
+  const float = Math.sin(frame / 50 + p.pos[0]) * 0.08;
+  return (
+    <group position={[p.pos[0], p.pos[1] + float, p.pos[2]]} scale={spr}>
+      <PillarShape shapeKey={p.key} frame={frame} />
+    </group>
+  );
+};
 
-  const diamondOpacity = interpolate(frame, [96, 116], [0, 0.28], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const DIAMOND = [
-    [CONCEPTS[0], CONCEPTS[1]],
-    [CONCEPTS[0], CONCEPTS[2]],
-    [CONCEPTS[3], CONCEPTS[1]],
-    [CONCEPTS[3], CONCEPTS[2]],
-  ];
+const Scene3D: React.FC = () => (
+  <>
+    <color attach="background" args={[COLORS.navy]} />
+    <fog attach="fog" args={[COLORS.navy, 8, 18]} />
+    <LightingDark />
+    <CameraRig keyframes={CAM} />
+    <Core />
+    {PILLARS.map((p) => (
+      <Pillar key={p.key} p={p} />
+    ))}
+  </>
+);
+
+/** 0:18–0:23 — Autonomía con control. The agent network pulls back inside a
+ * larger governance system: identity, permissions, traceability, oversight. */
+export const Scene05Governance: React.FC<{
+  from: number;
+  duration: number;
+  nominalDuration: number;
+  hasIncoming: boolean;
+  hasOutgoing: boolean;
+}> = ({ nominalDuration, hasIncoming, hasOutgoing }) => {
+  const frame = useCurrentFrame();
+  const camSample = sampleCamera(frame, CAM);
+  const headlineP = interpolate(frame, [104, 124], [0, 1], { easing: EASE.out, extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
-    <AbsoluteFill>
-      <SceneExit duration={SCENES.s05.duration}>
-      <AbsoluteFill style={{ alignItems: "center", paddingTop: 96 }}>
-        <KineticText
-          parts={[{ text: "Autonomía " }, { text: "con control.", color: COLORS.turquoise }]}
-          from={6}
-          fontSize={50}
-          fontWeight={500}
-          color={COLORS.navy}
-          align="center"
-        />
+    <SceneFrame variant="dark" nominalDuration={nominalDuration} hasIncoming={hasIncoming} hasOutgoing={hasOutgoing}>
+      <AbsoluteFill>
+        <ThreeCanvas width={WIDTH} height={HEIGHT} linear gl={{ antialias: true }}>
+          <Scene3D />
+        </ThreeCanvas>
       </AbsoluteFill>
 
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          transform: `scale(${settleScale})`,
-          transformOrigin: `${HUB.x}px ${HUB.y}px`,
-        }}
-      >
-        <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
-          {CONCEPTS.map((c) => (
-            <ConnectionLine key={c.label} x1={HUB.x} y1={HUB.y} x2={c.x} y2={c.y} from={c.from} duration={20} color={COLORS.turquoise} strokeWidth={1.6} opacity={0.5} />
-          ))}
+      {PILLARS.map((p) => {
+        const proj = projectToScreen([p.pos[0], p.pos[1] + 0.75, p.pos[2]], camSample, WIDTH, HEIGHT);
+        return (
+          <AnchoredLabel
+            key={p.key}
+            x={proj.x}
+            y={proj.y}
+            scale={proj.scale}
+            behind={proj.behind}
+            from={p.appear + 6}
+            text={p.name}
+            sub={p.sub}
+            color={COLORS.white}
+          />
+        );
+      })}
 
-          {/* diamond mesh — the four concepts also check against each other, not just the hub */}
-          <g opacity={diamondOpacity}>
-            {DIAMOND.map(([a, b], i) => (
-              <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={COLORS.blue} strokeWidth={1} strokeDasharray="1 7" strokeLinecap="round" />
-            ))}
-          </g>
-
-          {/* permission-check pulses travelling the spokes on a continuous loop */}
-          {CONCEPTS.map((c, i) => {
-            const loopStart = c.from + 26;
-            if (frame < loopStart) return null;
-            const t = ((frame - loopStart) / 58 + i * 0.16) % 1;
-            const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-            const px = HUB.x + (c.x - HUB.x) * ease;
-            const py = HUB.y + (c.y - HUB.y) * ease;
-            const pulseFade = Math.sin(t * Math.PI);
-            return <circle key={c.label} cx={px} cy={py} r={3} fill={COLORS.turquoise} opacity={pulseFade * 0.8} />;
-          })}
-
-          <RotatingHalo cx={HUB.x} cy={HUB.y} radius={108} from={40} speed={0.16} />
-          <circle cx={HUB.x} cy={HUB.y} r={collapseRingRadius} fill="none" stroke={COLORS.turquoise} strokeWidth={1.6} opacity={collapseRingOpacity} />
-          <g transform={`translate(${HUB.x} ${HUB.y})`} opacity={hubOpacity}>
-            <circle r={64} fill={COLORS.navy} />
-            <text y={6} textAnchor="middle" fill={COLORS.white} fontFamily={FONT_FAMILY} fontWeight={700} fontSize={21} letterSpacing={0.5}>
-              SIREC
-            </text>
-          </g>
-        </svg>
-
-        {CONCEPTS.map((c) => (
-          <ModuleCard key={c.label} x={c.x} y={c.y - 32} label={c.label} from={c.from + 10} width={CARD_W} accent={COLORS.turquoise} />
-        ))}
-      </div>
-      </SceneExit>
-    </AbsoluteFill>
+      <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-start", paddingTop: 96 }}>
+        <div style={{ opacity: headlineP, transform: `translateY(${interpolate(headlineP, [0, 1], [-14, 0])}px)`, width: 620 }}>
+          <WordReveal
+            parts={[{ text: "Autonomía con " }, { text: "control.", color: COLORS.turquoise }]}
+            from={106}
+            fontSize={44}
+            weight={500}
+            color={COLORS.white}
+            align="center"
+            maxWidth={620}
+          />
+        </div>
+      </AbsoluteFill>
+    </SceneFrame>
   );
 };

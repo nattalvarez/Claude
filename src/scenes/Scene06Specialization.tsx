@@ -1,154 +1,163 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, interpolate, Easing, spring, useVideoConfig } from "remotion";
-import { COLORS, WIDTH, HEIGHT, FONT_FAMILY } from "../styles/theme";
-import { KineticText } from "../components/KineticText";
-import { ConnectionLine } from "../components/ConnectionLine";
-import { ModuleCard } from "../components/ModuleCard";
-import { FlowStream } from "../components/FlowStream";
-import { AnimatedCounter } from "../components/AnimatedCounter";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { ThreeCanvas } from "@remotion/three";
+import { SceneFrame } from "../components/SceneFrame";
+import { WordReveal, AnchoredLabel } from "../components/Typography";
+import { CameraRig } from "../three/CameraRig";
+import { LightingLight } from "../three/Lighting";
+import { CamKeyframe, sampleCamera, projectToScreen } from "../three/camera";
+import { Node, Ring, Prism, Plate, Line3D } from "../three/Primitives";
+import { COLORS, EASE, WIDTH, HEIGHT } from "../styles/theme";
 
-const Y = HEIGHT / 2 + 40;
-const XS = [280, 660, 1040, 1420, 1720 - 20];
-const CENTRE = { x: WIDTH / 2, y: Y };
-
-const MODULES = [
-  { label: "Anticipación y Seguimiento", from: 22 },
-  { label: "Alerta Temprana", from: 34 },
-  { label: "Recobro Amistoso", from: 46 },
-  { label: "Vía Judicial", from: 58 },
-  { label: "Reporting y Cumplimiento", from: 70 },
+const CAM: CamKeyframe[] = [
+  { frame: 0, position: [-7.2, 1.55, 4.2], lookAt: [-5.5, 0.6, 1.5], fov: 34 },
+  { frame: 32, position: [-4.1, 1.65, 2.3], lookAt: [-2.7, 0.8, 0.2], fov: 33 },
+  { frame: 60, position: [-1, 1.45, 0.9], lookAt: [0, 0.5, -1.2], fov: 32 },
+  { frame: 88, position: [1.9, 1.6, -0.5], lookAt: [2.7, 0.7, -2.6], fov: 31 },
+  { frame: 112, position: [4.6, 1.55, -2.1], lookAt: [5.4, 0.6, -4], fov: 30 },
+  { frame: 136, position: [3.6, 2.1, -1.6], lookAt: [1, 1.1, -2.3], fov: 27, easing: EASE.inOut },
 ];
 
-const CONVERGE_START = 82;
-const CONVERGE_DURATION = 28;
+const HUB: [number, number, number] = [1, 1.35, -2.1];
 
-/** 0:23–0:27 — Especialización en riesgo de crédito. Five specialised modules chain
- * together left to right, then converge into a single point — SIREC itself. */
-export const Scene06Specialization: React.FC = () => {
+const MODULES = [
+  { key: "anticipacion", name: "ANTICIPACIÓN Y SEGUIMIENTO", pos: [-5.5, 0.55, 1.5] as [number, number, number], appear: 0, color: COLORS.blue },
+  { key: "alerta", name: "ALERTA TEMPRANA", pos: [-2.7, 0.85, 0.2] as [number, number, number], appear: 24, color: COLORS.turquoise },
+  { key: "recobro", name: "RECOBRO AMISTOSO", pos: [0, 0.5, -1.2] as [number, number, number], appear: 46, color: COLORS.lightBlue },
+  { key: "judicial", name: "VÍA JUDICIAL", pos: [2.7, 0.8, -2.6] as [number, number, number], appear: 68, color: COLORS.blue },
+  { key: "reporting", name: "REPORTING Y CUMPLIMIENTO", pos: [5.4, 0.55, -4] as [number, number, number], appear: 90, color: COLORS.blue },
+];
+
+const ModuleShape: React.FC<{ shapeKey: string; color: string; frame: number }> = ({ shapeKey, color, frame }) => {
+  const spin = frame / 120;
+  if (shapeKey === "anticipacion") {
+    return (
+      <group rotation={[Math.PI / 2.3, spin, 0]}>
+        {[0.3, 0.42, 0.54].map((r, i) => (
+          <Ring key={i} position={[0, 0, 0]} radius={r} tube={0.014} color={color} opacity={0.9 - i * 0.18} />
+        ))}
+      </group>
+    );
+  }
+  if (shapeKey === "alerta") {
+    return (
+      <group rotation={[spin * 0.6, spin, 0]}>
+        <Node position={[0, 0, 0]} radius={0.34} faceted detail={0} color={color} roughness={0.35} metalness={0.15} clearcoat={0.3} />
+      </group>
+    );
+  }
+  if (shapeKey === "recobro") {
+    return (
+      <group rotation={[0, spin * 0.5, 0]}>
+        <Node position={[0, 0, 0]} radius={0.3} color={color} roughness={0.55} metalness={0.08} />
+        <Ring position={[0, 0, 0]} radius={0.48} tube={0.018} color={COLORS.turquoise} rotation={[Math.PI / 2.4, 0, 0]} opacity={0.6} />
+      </group>
+    );
+  }
+  if (shapeKey === "judicial") {
+    return <Prism position={[0, 0, 0]} radius={0.32} height={0.66} sides={6} color={color} rotation={[0, spin * 0.4, 0]} roughness={0.4} metalness={0.18} clearcoat={0.25} />;
+  }
+  return (
+    <group rotation={[0, spin * 0.3, 0]}>
+      {[0.18, 0.34, 0.5, 0.62].map((h, i) => (
+        <Plate key={i} position={[i * 0.26 - 0.4, h / 2, 0]} size={[0.18, h, 0.18]} color={i % 2 === 0 ? color : COLORS.turquoise} roughness={0.5} metalness={0.1} />
+      ))}
+    </group>
+  );
+};
+
+const Module: React.FC<{ m: (typeof MODULES)[number] }> = ({ m }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const p = spring({ frame: frame - m.appear, fps, config: { damping: 15, stiffness: 105, mass: 0.75 } });
+  const float = Math.sin(frame / 48 + m.pos[0]) * 0.07;
+  const convergeOpacity = interpolate(frame, [100, 130], [0, 0.5], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <>
+      <group position={[m.pos[0], m.pos[1] + float, m.pos[2]]} scale={p}>
+        <ModuleShape shapeKey={m.key} color={m.color} frame={frame} />
+      </group>
+      {convergeOpacity > 0.01 && <Line3D from={m.pos} to={HUB} color={COLORS.turquoise} radius={0.008} opacity={convergeOpacity} />}
+    </>
+  );
+};
 
-  const convergeProgress = interpolate(frame, [CONVERGE_START, CONVERGE_START + CONVERGE_DURATION], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.bezier(0.4, 0, 0.2, 1),
-  });
+const ConvergeHub: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = spring({ frame: frame - 104, fps, config: { damping: 16, stiffness: 110, mass: 0.7 } });
+  if (p <= 0.01) return null;
+  return (
+    <group position={HUB} scale={p}>
+      <Node position={[0, 0, 0]} radius={0.22} color={COLORS.navy} roughness={0.4} metalness={0.2} clearcoat={0.35} />
+      <Ring position={[0, 0, 0]} radius={0.36} tube={0.012} color={COLORS.turquoise} rotation={[Math.PI / 2, frame / 90, 0]} />
+    </group>
+  );
+};
 
-  const pointAppear = spring({ frame: frame - CONVERGE_START - CONVERGE_DURATION + 6, fps, config: { damping: 14, mass: 0.6, stiffness: 140 } });
+const Scene3D: React.FC = () => (
+  <>
+    <color attach="background" args={[COLORS.offWhite]} />
+    <fog attach="fog" args={[COLORS.offWhite, 8, 20]} />
+    <LightingLight keyIntensity={1.5} />
+    <CameraRig keyframes={CAM} />
+    {MODULES.map((m) => (
+      <Module key={m.key} m={m} />
+    ))}
+    <ConvergeHub />
+  </>
+);
+
+/** 0:23–0:27 — Especializado en riesgo de crédito. Five specialized modules
+ * pass by on a diagonal travel and converge into one system at the close. */
+export const Scene06Specialization: React.FC<{
+  from: number;
+  duration: number;
+  nominalDuration: number;
+  hasIncoming: boolean;
+  hasOutgoing: boolean;
+}> = ({ nominalDuration, hasIncoming, hasOutgoing }) => {
+  const frame = useCurrentFrame();
+  const camSample = sampleCamera(frame, CAM);
+  const headlineP = interpolate(frame, [104, 122], [0, 1], { easing: EASE.out, extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
-    <AbsoluteFill>
-      <AbsoluteFill style={{ alignItems: "center", paddingTop: 96 }}>
-        <KineticText
-          parts={[{ text: "Especializado en " }, { text: "riesgo de crédito.", color: COLORS.turquoise }]}
-          from={6}
-          fontSize={50}
-          fontWeight={500}
-          color={COLORS.navy}
-          align="center"
-        />
+    <SceneFrame variant="light" nominalDuration={nominalDuration} hasIncoming={hasIncoming} hasOutgoing={hasOutgoing}>
+      <AbsoluteFill>
+        <ThreeCanvas width={WIDTH} height={HEIGHT} linear gl={{ antialias: true }}>
+          <Scene3D />
+        </ThreeCanvas>
       </AbsoluteFill>
 
-      <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
-        <g opacity={1 - convergeProgress}>
-          <FlowStream x1={XS[0] - 40} x2={XS[4] + 40} y={Y + 84} from={14} count={18} />
-          <FlowStream x1={XS[0] - 40} x2={XS[4] + 40} y={Y - 96} from={20} count={12} color={COLORS.blue} />
-        </g>
-        {MODULES.slice(0, -1).map((m, i) => {
-          const x1 = interpolate(convergeProgress, [0, 1], [XS[i], CENTRE.x]);
-          const x2 = interpolate(convergeProgress, [0, 1], [XS[i + 1], CENTRE.x]);
-          const lineOpacity = 0.4 * (1 - convergeProgress * 0.7);
-          return (
-            <ConnectionLine
-              key={m.label}
-              x1={x1}
-              y1={Y}
-              x2={x2}
-              y2={Y}
-              from={MODULES[i + 1].from - 8}
-              duration={16}
-              color={COLORS.blue}
-              strokeWidth={1.4}
-              opacity={lineOpacity}
-            />
-          );
-        })}
-
-        {pointAppear > 0.01 && (
-          <g opacity={interpolate(pointAppear, [0, 1], [0, 1])}>
-            <circle cx={CENTRE.x} cy={CENTRE.y} r={10 * pointAppear} fill={COLORS.navy} />
-            <circle cx={CENTRE.x} cy={CENTRE.y} r={30 * pointAppear} fill="none" stroke={COLORS.turquoise} strokeWidth={1.4} opacity={0.6} />
-          </g>
-        )}
-      </svg>
-
-      {MODULES.map((m, i) => {
-        const x = interpolate(convergeProgress, [0, 1], [XS[i], CENTRE.x]);
-        const extraScale = interpolate(convergeProgress, [0, 1], [1, 0.3]);
-        const extraOpacity = interpolate(convergeProgress, [0, 1], [1, 0]);
+      {MODULES.map((m) => {
+        const proj = projectToScreen([m.pos[0], m.pos[1] + 0.55, m.pos[2]], camSample, WIDTH, HEIGHT);
         return (
-          <ModuleCard
-            key={m.label}
-            x={x}
-            y={Y - 32}
-            label={m.label}
-            from={m.from}
-            width={300}
-            accent={COLORS.blue}
-            extraScale={extraScale}
-            extraOpacity={extraOpacity}
+          <AnchoredLabel
+            key={m.key}
+            x={proj.x}
+            y={proj.y}
+            scale={proj.scale}
+            behind={proj.behind}
+            from={m.appear + 6}
+            text={m.name}
+            color={COLORS.navy}
           />
         );
       })}
 
-      {pointAppear > 0.4 && (
-        <div
-          style={{
-            position: "absolute",
-            left: CENTRE.x - 100,
-            top: Y + 34,
-            width: 200,
-            textAlign: "center",
-            opacity: interpolate(pointAppear, [0.4, 1], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
-            fontFamily: FONT_FAMILY,
-            fontWeight: 700,
-            fontSize: 22,
-            letterSpacing: 1,
-            color: COLORS.navy,
-          }}
-        >
-          SIREC
-        </div>
-      )}
-
-      {pointAppear > 0.5 && (
-        <div
-          style={{
-            position: "absolute",
-            left: CENTRE.x - 120,
-            top: Y - 96,
-            width: 240,
-            textAlign: "center",
-            opacity: interpolate(pointAppear, [0.5, 1], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <AnimatedCounter
-            target={5}
-            from={CONVERGE_START + CONVERGE_DURATION - 10}
-            fontSize={30}
-            fontWeight={700}
+      <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 104 }}>
+        <div style={{ opacity: headlineP, transform: `translateY(${interpolate(headlineP, [0, 1], [16, 0])}px)`, width: 640 }}>
+          <WordReveal
+            parts={[{ text: "Especializado en " }, { text: "riesgo de crédito.", color: COLORS.turquoise }]}
+            from={106}
+            fontSize={38}
+            weight={500}
             color={COLORS.navy}
-            springConfig={{ damping: 16, stiffness: 200 }}
+            align="center"
+            maxWidth={640}
           />
-          <span style={{ fontFamily: FONT_FAMILY, fontSize: 13, fontWeight: 500, letterSpacing: 1.6, color: COLORS.blue }}>
-            MÓDULOS INTEGRADOS
-          </span>
         </div>
-      )}
-    </AbsoluteFill>
+      </AbsoluteFill>
+    </SceneFrame>
   );
 };
