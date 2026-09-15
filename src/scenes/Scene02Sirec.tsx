@@ -54,7 +54,7 @@ const Scene3D: React.FC = () => {
       <fog attach="fog" args={[COLORS.offWhite, 6, 20]} />
       <LightingLight keyIntensity={1.5} />
       <CameraRig keyframes={CAM} />
-      <group position={[0, -0.9, 0]}>
+      <group position={[0, -0.25, 0]}>
         {MODULES.map((m, i) => {
           const p = spring({ frame: frame - m.delay, fps, config: SPRING.smooth });
           const x = m.pos[0] + m.fromDir[0] * (1 - p);
@@ -118,6 +118,12 @@ export const Scene02Sirec: React.FC<{
       </AbsoluteFill>
 
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 92 }}>
+        <AbsoluteFill
+          style={{
+            opacity: wordmarkP,
+            background: `linear-gradient(180deg, transparent, ${COLORS.offWhite}00 42%, ${COLORS.offWhite}f2 58%, ${COLORS.offWhite} 100%)`,
+          }}
+        />
         <div style={{ opacity: wordmarkP, transform: `translateY(${interpolate(wordmarkP, [0, 1], [22, 0])}px)` }}>
           <Wordmark from={80} fontSize={104} color={COLORS.navy} ruleColor={COLORS.turquoise} />
         </div>
