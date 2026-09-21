@@ -9,7 +9,7 @@ import { WIDTH, HEIGHT } from "../styles/theme";
  */
 
 export const FPS = 30;
-export const DURATION_IN_FRAMES = 1140; // 38s @ 30fps — final wide shot holds 10s longer
+export const DURATION_IN_FRAMES = 1380; // 46s @ 30fps — every card now holds noticeably longer once built
 
 // ---- World-space vertical column (y decreases as we go "up" the stack) ----
 // Kept tight on purpose — less air between layers means a bigger camera
@@ -34,22 +34,22 @@ const CAM: CamKey[] = [
   [0, 0, Y_TITLE, 0.95, 0], // intro — floating title
   [55, 0, Y_TITLE - 20, 1.0, 0], // slow forward creep
   [100, -25, Y_SIREC + 20, 1.15, 0.6], // arrive SIREC
-  [170, -35, Y_SIREC, 1.18, 0.6], // SIREC hold end
-  [220, 15, Y_FABRIC + 20, 1.22, -0.5], // arrive Fabric
-  [280, 20, Y_FABRIC, 1.25, -0.5], // Fabric hold end
-  [315, 35, Y_MCP, 1.26, 0.4], // arrive MCP
-  [343, 35, Y_MCP, 1.27, 0.4], // MCP beat end
-  [388, -5, Y_AGENTS + 20, 1.3, 0], // arrive Agents
-  [463, -5, Y_AGENTS, 1.32, 0], // Agents hold end
-  [501, 0, Y_MCP, 0.85, 0], // pull back — ecosystem reveal
-  [536, 0, Y_MCP, 0.85, 0], // ecosystem hold end
-  [558, 0, Y_AGENTS, 0.85, 0], // settle wide — POTENCIA zone
-  [613, 0, Y_AGENTS, 0.85, 0], // POTENCIA hold end
-  [641, 0, Y_FABRIC, 0.85, 0], // pan — INTEGRA zone
-  [696, 0, Y_FABRIC, 0.85, 0], // INTEGRA hold end
-  [724, 0, Y_SIREC, 0.85, 0], // pan — ORQUESTA zone
-  [764, 0, Y_SIREC, 0.85, 0], // ORQUESTA hold — read the last line
-  [804, 0, -40, 0.75, 0], // pull back — the whole architecture, big, in one frame
+  [210, -35, Y_SIREC, 1.18, 0.6], // SIREC hold end — longer dwell to read the card
+  [260, 15, Y_FABRIC + 20, 1.22, -0.5], // arrive Fabric
+  [355, 20, Y_FABRIC, 1.25, -0.5], // Fabric hold end
+  [390, 35, Y_MCP, 1.26, 0.4], // arrive MCP
+  [443, 35, Y_MCP, 1.27, 0.4], // MCP beat end
+  [488, -5, Y_AGENTS + 20, 1.3, 0], // arrive Agents
+  [603, -5, Y_AGENTS, 1.32, 0], // Agents hold end
+  [641, 0, Y_MCP, 0.85, 0], // pull back — ecosystem reveal
+  [696, 0, Y_MCP, 0.85, 0], // ecosystem hold end
+  [718, 0, Y_AGENTS, 0.85, 0], // settle wide — POTENCIA zone
+  [798, 0, Y_AGENTS, 0.85, 0], // POTENCIA hold end
+  [826, 0, Y_FABRIC, 0.85, 0], // pan — INTEGRA zone
+  [906, 0, Y_FABRIC, 0.85, 0], // INTEGRA hold end
+  [934, 0, Y_SIREC, 0.85, 0], // pan — ORQUESTA zone
+  [1004, 0, Y_SIREC, 0.85, 0], // ORQUESTA hold — read the last line
+  [1044, 0, -40, 0.75, 0], // pull back — the whole architecture, big, in one frame
   [DURATION_IN_FRAMES, 0, -40, 0.75, 0], // final hold — the closing shot
 ];
 
@@ -85,36 +85,36 @@ export const T = {
   titleFrom: 6,
   titleExit: 58,
 
-  connSirecFabric: { from: 195, duration: 32 },
+  connSirecFabric: { from: 235, duration: 32 },
   sirec: { container: 118, icon: 128, title: 138, subtitle: 152, tag: 166 },
 
-  connFabricMcp: { from: 292, duration: 24 },
-  fabric: { container: 226, icon: 238, title: 250, subtitle: 266, tag: 282 },
+  connFabricMcp: { from: 367, duration: 24 },
+  fabric: { container: 266, icon: 278, title: 290, subtitle: 306, tag: 322 },
 
-  connMcpAgents: { from: 363, duration: 30 }, // finishes exactly as the Agents card starts — never a bare line
-  mcp: { badge: 300, label: 312 },
+  connMcpAgents: { from: 463, duration: 30 }, // finishes exactly as the Agents card starts — never a bare line
+  mcp: { badge: 375, label: 387 },
 
-  agents: { container: 393, icon: 405, title: 417, subtitle: 432 },
+  agents: { container: 493, icon: 505, title: 517, subtitle: 532 },
   pills: [
-    { from: 452, dx: -220, dy: -60 },
-    { from: 462, dx: 0, dy: -110 },
-    { from: 472, dx: 220, dy: -60 },
+    { from: 552, dx: -220, dy: -60 },
+    { from: 562, dx: 0, dy: -110 },
+    { from: 572, dx: 220, dy: -60 },
   ],
   // starts a beat after each pill so the connector catches up to an already-settling chip
-  pillConnectors: [460, 470, 480],
+  pillConnectors: [560, 570, 580],
 
   ecosystem: {
-    aiConnFrom: 496,
-    aiNodeFrom: 512,
-    gc1ConnFrom: 512,
-    gc1NodeFrom: 528,
-    gc2ConnFrom: 528,
-    gc2NodeFrom: 544,
+    aiConnFrom: 636,
+    aiNodeFrom: 652,
+    gc1ConnFrom: 652,
+    gc1NodeFrom: 668,
+    gc2ConnFrom: 668,
+    gc2NodeFrom: 684,
   },
 
   concepts: {
-    potencia: 546,
-    integra: 645,
-    orquesta: 728,
+    potencia: 706,
+    integra: 830,
+    orquesta: 938,
   },
 } as const;
