@@ -12,11 +12,13 @@ export const FPS = 30;
 export const DURATION_IN_FRAMES = 840; // 28s @ 30fps
 
 // ---- World-space vertical column (y decreases as we go "up" the stack) ----
+// Kept tight on purpose — less air between layers means a bigger camera
+// zoom fits the same frame, which is what makes everything read larger.
 export const Y_TITLE = 1350;
-export const Y_SIREC = 700;
-export const Y_FABRIC = -50;
-export const Y_MCP = -450;
-export const Y_AGENTS = -900;
+export const Y_SIREC = 480;
+export const Y_FABRIC = -20;
+export const Y_MCP = -280;
+export const Y_AGENTS = -560;
 
 export const X_CENTER = 0;
 export const X_LEFT = -560; // concept panels
@@ -29,26 +31,26 @@ export const WORLD_SVG_SIZE = 4400;
 type CamKey = [number, number, number, number, number];
 
 const CAM: CamKey[] = [
-  [0, 0, Y_TITLE, 0.85, 0], // intro — floating title
-  [55, 0, Y_TITLE - 20, 0.89, 0], // slow forward creep
-  [100, -25, Y_SIREC + 20, 1.04, 0.6], // arrive SIREC
-  [170, -35, Y_SIREC, 1.08, 0.6], // SIREC hold end
-  [220, 15, Y_FABRIC + 20, 1.12, -0.5], // arrive Fabric
-  [280, 20, Y_FABRIC, 1.15, -0.5], // Fabric hold end
-  [315, 35, Y_MCP, 1.16, 0.4], // arrive MCP
-  [343, 35, Y_MCP, 1.17, 0.4], // MCP beat end
-  [388, -5, Y_AGENTS + 20, 1.22, 0], // arrive Agents
-  [463, -5, Y_AGENTS, 1.25, 0], // Agents hold end
-  [501, 0, Y_MCP, 0.6, 0], // pull back — ecosystem reveal
-  [536, 0, Y_MCP, 0.6, 0], // ecosystem hold end
-  [558, 0, Y_AGENTS, 0.58, 0], // settle wide — POTENCIA zone
-  [613, 0, Y_AGENTS, 0.58, 0], // POTENCIA hold end
-  [641, 0, Y_FABRIC, 0.58, 0], // pan — INTEGRA zone
-  [696, 0, Y_FABRIC, 0.58, 0], // INTEGRA hold end
-  [724, 0, Y_SIREC, 0.58, 0], // pan — ORQUESTA zone
-  [764, 0, Y_SIREC, 0.58, 0], // ORQUESTA hold — read the last line
-  [804, 0, -120, 0.52, 0], // pull back — the whole architecture, big, in one frame
-  [DURATION_IN_FRAMES, 0, -120, 0.52, 0], // final hold — the closing shot
+  [0, 0, Y_TITLE, 0.95, 0], // intro — floating title
+  [55, 0, Y_TITLE - 20, 1.0, 0], // slow forward creep
+  [100, -25, Y_SIREC + 20, 1.15, 0.6], // arrive SIREC
+  [170, -35, Y_SIREC, 1.18, 0.6], // SIREC hold end
+  [220, 15, Y_FABRIC + 20, 1.22, -0.5], // arrive Fabric
+  [280, 20, Y_FABRIC, 1.25, -0.5], // Fabric hold end
+  [315, 35, Y_MCP, 1.26, 0.4], // arrive MCP
+  [343, 35, Y_MCP, 1.27, 0.4], // MCP beat end
+  [388, -5, Y_AGENTS + 20, 1.3, 0], // arrive Agents
+  [463, -5, Y_AGENTS, 1.32, 0], // Agents hold end
+  [501, 0, Y_MCP, 0.85, 0], // pull back — ecosystem reveal
+  [536, 0, Y_MCP, 0.85, 0], // ecosystem hold end
+  [558, 0, Y_AGENTS, 0.85, 0], // settle wide — POTENCIA zone
+  [613, 0, Y_AGENTS, 0.85, 0], // POTENCIA hold end
+  [641, 0, Y_FABRIC, 0.85, 0], // pan — INTEGRA zone
+  [696, 0, Y_FABRIC, 0.85, 0], // INTEGRA hold end
+  [724, 0, Y_SIREC, 0.85, 0], // pan — ORQUESTA zone
+  [764, 0, Y_SIREC, 0.85, 0], // ORQUESTA hold — read the last line
+  [804, 0, -40, 0.75, 0], // pull back — the whole architecture, big, in one frame
+  [DURATION_IN_FRAMES, 0, -40, 0.75, 0], // final hold — the closing shot
 ];
 
 const frames = CAM.map((k) => k[0]);

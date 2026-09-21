@@ -90,9 +90,9 @@ export const World: React.FC = () => {
   const cam = cameraAt(frame);
 
   const pills = [
-    { x: X_CENTER - 270, y: Y_AGENTS - 115, label: "OpenAI", icon: <OpenAIMark size={19} color={COLORS.navy} /> },
-    { x: X_CENTER, y: Y_AGENTS - 160, label: "Anthropic", icon: <AnthropicMark size={19} color={COLORS.navy} /> },
-    { x: X_CENTER + 270, y: Y_AGENTS - 115, label: "Gemini", icon: <GeminiMark size={19} color={COLORS.navy} /> },
+    { x: X_CENTER - 270, y: Y_AGENTS - 80, label: "OpenAI", icon: <OpenAIMark size={19} color={COLORS.navy} /> },
+    { x: X_CENTER, y: Y_AGENTS - 115, label: "Anthropic", icon: <AnthropicMark size={19} color={COLORS.navy} /> },
+    { x: X_CENTER + 270, y: Y_AGENTS - 80, label: "Gemini", icon: <GeminiMark size={19} color={COLORS.navy} /> },
   ];
 
   return (
