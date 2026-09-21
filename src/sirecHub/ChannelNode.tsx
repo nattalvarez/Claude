@@ -1,6 +1,7 @@
 import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
 import { COLORS, FONT_FAMILY } from "../styles/theme";
+import { channelFade } from "./timeline";
 
 type Variant = "pop" | "unfold" | "satellite" | "flow";
 
@@ -17,6 +18,11 @@ type Props = {
   satellites?: readonly number[];
   /** label placement relative to the node, so it reads toward SIREC or away from it */
   labelSide?: "right" | "left" | "top" | "bottom";
+  /** frame at which this node starts receding as the camera pushes toward
+   * the next channel — keeps it from lingering into a hold framed for its
+   * neighbour and getting clipped at the edge. It returns for the final
+   * gathered view. */
+  awayStart?: number;
 };
 
 /** One management channel, arriving at the end of its own connection. Four
@@ -35,9 +41,11 @@ export const ChannelNode: React.FC<Props> = ({
   variant = "pop",
   satellites = [],
   labelSide = "right",
+  awayStart,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const fadeMult = awayStart !== undefined ? channelFade(frame, awayStart) : 1;
 
   const nodeSpring =
     variant === "flow"
@@ -46,7 +54,7 @@ export const ChannelNode: React.FC<Props> = ({
 
   const labelSpring = spring({ frame: frame - labelFrom, fps, config: { damping: 16, mass: 0.7, stiffness: 130 } });
 
-  if (nodeSpring <= 0.001) return null;
+  if (nodeSpring <= 0.001 || fadeMult <= 0.001) return null;
 
   const breathe = 1 + Math.sin((frame - nodeFrom) / 34) * 0.025 * Math.min(1, nodeSpring);
   const rotateIn = variant === "pop" ? interpolate(nodeSpring, [0, 1], [-16, 0]) : 0;
@@ -65,14 +73,15 @@ export const ChannelNode: React.FC<Props> = ({
         display: "flex",
         flexDirection,
         alignItems: "center",
-        gap: isVertical ? 14 : 18,
+        gap: isVertical ? 16 : 20,
+        opacity: fadeMult,
       }}
     >
       <div
         style={{
           position: "relative",
-          width: 74,
-          height: 74,
+          width: 86,
+          height: 86,
           borderRadius: "50%",
           display: "flex",
           alignItems: "center",
@@ -92,7 +101,7 @@ export const ChannelNode: React.FC<Props> = ({
           satellites.map((satFrom, i) => {
             const satP = spring({ frame: frame - satFrom, fps, config: { damping: 14, mass: 0.5, stiffness: 150 } });
             const angle = -90 + i * 100;
-            const r = 58;
+            const r = 66;
             return (
               <div
                 key={i}
@@ -100,8 +109,8 @@ export const ChannelNode: React.FC<Props> = ({
                   position: "absolute",
                   left: "50%",
                   top: "50%",
-                  width: 20,
-                  height: 20,
+                  width: 23,
+                  height: 23,
                   borderRadius: "50%",
                   background: COLORS.navyDeep,
                   border: `1px solid ${accent}88`,
@@ -120,7 +129,7 @@ export const ChannelNode: React.FC<Props> = ({
           display: "flex",
           alignItems: "center",
           overflow: variant === "unfold" ? "hidden" : "visible",
-          maxWidth: variant === "unfold" ? interpolate(labelSpring, [0, 1], [0, 260]) : undefined,
+          maxWidth: variant === "unfold" ? interpolate(labelSpring, [0, 1], [0, 320]) : undefined,
           opacity: variant === "unfold" ? 1 : interpolate(labelSpring, [0, 1], [0, 1]),
           transform:
             variant === "unfold"
@@ -134,7 +143,7 @@ export const ChannelNode: React.FC<Props> = ({
           style={{
             fontFamily: FONT_FAMILY,
             fontWeight: 700,
-            fontSize: 25,
+            fontSize: 30,
             color: COLORS.white,
             whiteSpace: "nowrap",
             textAlign: labelSide === "left" ? "right" : labelSide === "top" || labelSide === "bottom" ? "center" : "left",

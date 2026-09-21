@@ -1,7 +1,6 @@
 import React from "react";
-import { useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
+import { useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
 import { COLORS, FONT_FAMILY } from "../styles/theme";
-import { SirecMark } from "./marks";
 import { CENTER, T } from "./timeline";
 
 /** SIREC's own presence: a glowing layered node with real depth, not a card.
@@ -38,11 +37,11 @@ export const SirecCore: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          width: 460,
-          height: 460,
+          width: 520,
+          height: 520,
           borderRadius: "50%",
           left: "50%",
-          top: 44,
+          top: 50,
           transform: "translate(-50%, -50%)",
           background: `radial-gradient(circle, ${COLORS.turquoise}33, ${COLORS.magenta}14 55%, transparent 72%)`,
           filter: "blur(30px)",
@@ -53,20 +52,20 @@ export const SirecCore: React.FC = () => {
       <div
         style={{
           position: "relative",
-          width: 168,
-          height: 168,
+          width: 200,
+          height: 200,
           borderRadius: "50%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           background: `radial-gradient(circle at 35% 30%, ${COLORS.blue}, ${COLORS.navyDeep} 72%)`,
           border: `1.5px solid rgba(255,255,255,0.22)`,
-          boxShadow: `0 0 90px -10px ${COLORS.glow}, inset 0 0 40px rgba(255,255,255,0.06)`,
+          boxShadow: `0 0 100px -10px ${COLORS.glow}, inset 0 0 44px rgba(255,255,255,0.06)`,
           transform: `scale(${interpolate(ring, [0, 1], [0.6, 1])}) rotate(${interpolate(ring, [0, 1], [-30, 0])}deg)`,
           opacity: interpolate(ring, [0, 1], [0, 1]),
         }}
       >
-        <SirecMark size={78} color={COLORS.white} />
+        <Img src={staticFile("sirecHub/sirec-icon.webp")} style={{ width: 128, height: "auto" }} />
       </div>
 
       <div
@@ -83,7 +82,7 @@ export const SirecCore: React.FC = () => {
           style={{
             fontFamily: FONT_FAMILY,
             fontWeight: 900,
-            fontSize: 46,
+            fontSize: 52,
             letterSpacing: -0.5,
             color: COLORS.white,
           }}
@@ -94,7 +93,7 @@ export const SirecCore: React.FC = () => {
           style={{
             fontFamily: FONT_FAMILY,
             fontWeight: 500,
-            fontSize: 18,
+            fontSize: 20,
             color: COLORS.lightBlue,
             opacity: 0.85,
             whiteSpace: "nowrap",

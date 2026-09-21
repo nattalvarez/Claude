@@ -36,8 +36,8 @@ export const AgentFabricLayer: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          width: 380,
-          height: 380,
+          width: 440,
+          height: 440,
           borderRadius: "50%",
           left: "50%",
           top: 40,
@@ -50,9 +50,9 @@ export const AgentFabricLayer: React.FC = () => {
       <div
         style={{
           position: "relative",
-          width: 128,
-          height: 128,
-          borderRadius: 32,
+          width: 148,
+          height: 148,
+          borderRadius: 36,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -61,7 +61,7 @@ export const AgentFabricLayer: React.FC = () => {
           boxShadow: `0 0 70px -14px ${COLORS.magentaGlow}`,
         }}
       >
-        <AgentFabricMark size={54} color={COLORS.white} />
+        <AgentFabricMark size={62} color={COLORS.white} />
       </div>
 
       <div
@@ -74,7 +74,7 @@ export const AgentFabricLayer: React.FC = () => {
           transform: `translateY(${interpolate(title, [0, 1], [12, 0])}px)`,
         }}
       >
-        <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 30, color: COLORS.white, whiteSpace: "nowrap" }}>
+        <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 35, color: COLORS.white, whiteSpace: "nowrap" }}>
           SIREC Agent Fabric
         </span>
       </div>
@@ -83,7 +83,7 @@ export const AgentFabricLayer: React.FC = () => {
         style={{
           fontFamily: FONT_FAMILY,
           fontWeight: 500,
-          fontSize: 17,
+          fontSize: 19,
           color: COLORS.magenta,
           whiteSpace: "nowrap",
           opacity: interpolate(subtitle, [0, 1], [0, 1]),

@@ -59,7 +59,7 @@ export const TitleScene: React.FC = () => {
           position: "relative",
           fontFamily: FONT_FAMILY,
           fontWeight: 900,
-          fontSize: 108,
+          fontSize: 118,
           letterSpacing: -1.5,
           color: COLORS.white,
           opacity: interpolate(name, [0, 1], [0, 1]),
@@ -73,17 +73,17 @@ export const TitleScene: React.FC = () => {
       <KineticText
         parts={[{ text: "Plataforma de orquestación del ciclo de riesgo de crédito", color: COLORS.lightBlue }]}
         from={T.title.line2}
-        fontSize={32}
+        fontSize={36}
         fontWeight={500}
         align="center"
-        maxWidth={980}
+        maxWidth={1100}
         wordStagger={2}
       />
 
       <KineticText
         parts={[{ text: "Todos los datos en una única plataforma.", color: COLORS.turquoise }]}
         from={T.title.line3}
-        fontSize={26}
+        fontSize={30}
         fontWeight={700}
         align="center"
         wordStagger={2.4}

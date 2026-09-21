@@ -19,8 +19,8 @@ export const AgentNode: React.FC<Props> = ({ x, y, from }) => {
         position: "absolute",
         left: x,
         top: y,
-        width: 58,
-        height: 58,
+        width: 68,
+        height: 68,
         borderRadius: "50%",
         transform: `translate(-50%, -50%) scale(${p * breathe})`,
         opacity: interpolate(p, [0, 1], [0, 1]),
@@ -32,7 +32,7 @@ export const AgentNode: React.FC<Props> = ({ x, y, from }) => {
         boxShadow: `0 0 30px -8px ${COLORS.glow}`,
       }}
     >
-      <AgentMark size={22} color={COLORS.turquoise} />
+      <AgentMark size={26} color={COLORS.turquoise} />
     </div>
   );
 };

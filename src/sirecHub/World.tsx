@@ -14,6 +14,8 @@ import {
   AGENT_NODES,
   TITLE_POS,
   T,
+  CHANNEL_AWAY,
+  channelFade,
 } from "./timeline";
 import { TitleScene } from "./TitleScene";
 import { SirecCore } from "./SirecCore";
@@ -70,6 +72,13 @@ export const World: React.FC = () => {
   const frame = useCurrentFrame();
   const cam = cameraAt(frame);
 
+  const fadeAmistosa = channelFade(frame, CHANNEL_AWAY.amistosa);
+  const fadeLitigiosa = channelFade(frame, CHANNEL_AWAY.litigiosa);
+  const fadeCobranza = channelFade(frame, CHANNEL_AWAY.cobranza);
+  const fadeDespachos = channelFade(frame, CHANNEL_AWAY.despachos);
+  const fadePresencial = channelFade(frame, CHANNEL_AWAY.presencial);
+  const fadeSelfService = channelFade(frame, CHANNEL_AWAY.selfService);
+
   return (
     <>
       {/* BACKGROUND — farthest layer, moves the least */}
@@ -87,12 +96,12 @@ export const World: React.FC = () => {
           style={{ position: "absolute", left: -O, top: -O }}
           viewBox={`0 0 ${WORLD_SVG_SIZE} ${WORLD_SVG_SIZE}`}
         >
-          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.amistosa.x + O} y2={SPOKES.amistosa.y + O} from={T.amistosa.line} duration={T.amistosa.lineDuration} color={COLORS.turquoise} strokeWidth={1.8} opacity={0.55} />
-          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.litigiosa.x + O} y2={SPOKES.litigiosa.y + O} from={T.litigiosa.line} duration={T.litigiosa.lineDuration} color={COLORS.blue} strokeWidth={1.8} opacity={0.55} />
-          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.cobranza.x + O} y2={SPOKES.cobranza.y + O} from={T.cobranza.line} duration={T.cobranza.lineDuration} color={COLORS.turquoise} strokeWidth={1.8} opacity={0.55} />
-          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.despachos.x + O} y2={SPOKES.despachos.y + O} from={T.despachos.line} duration={T.despachos.lineDuration} color={COLORS.magenta} strokeWidth={1.8} opacity={0.5} flowSpeed={60} />
-          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.presencial.x + O} y2={SPOKES.presencial.y + O} from={T.presencial.line} duration={T.presencial.lineDuration} color={COLORS.blue} strokeWidth={1.8} opacity={0.55} />
-          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.selfService.x + O} y2={SPOKES.selfService.y + O} from={T.selfService.line} duration={T.selfService.lineDuration} color={COLORS.turquoise} strokeWidth={1.8} opacity={0.55} />
+          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.amistosa.x + O} y2={SPOKES.amistosa.y + O} from={T.amistosa.line} duration={T.amistosa.lineDuration} color={COLORS.turquoise} strokeWidth={1.8} opacity={0.55 * fadeAmistosa} />
+          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.litigiosa.x + O} y2={SPOKES.litigiosa.y + O} from={T.litigiosa.line} duration={T.litigiosa.lineDuration} color={COLORS.blue} strokeWidth={1.8} opacity={0.55 * fadeLitigiosa} />
+          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.cobranza.x + O} y2={SPOKES.cobranza.y + O} from={T.cobranza.line} duration={T.cobranza.lineDuration} color={COLORS.turquoise} strokeWidth={1.8} opacity={0.55 * fadeCobranza} />
+          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.despachos.x + O} y2={SPOKES.despachos.y + O} from={T.despachos.line} duration={T.despachos.lineDuration} color={COLORS.magenta} strokeWidth={1.8} opacity={0.5 * fadeDespachos} flowSpeed={60} />
+          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.presencial.x + O} y2={SPOKES.presencial.y + O} from={T.presencial.line} duration={T.presencial.lineDuration} color={COLORS.blue} strokeWidth={1.8} opacity={0.55 * fadePresencial} />
+          <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={SPOKES.selfService.x + O} y2={SPOKES.selfService.y + O} from={T.selfService.line} duration={T.selfService.lineDuration} color={COLORS.turquoise} strokeWidth={1.8} opacity={0.55 * fadeSelfService} />
 
           <FlowLine x1={CENTER.x + O} y1={CENTER.y + O} x2={AGENT_FABRIC_POS.x + O} y2={AGENT_FABRIC_POS.y + O} from={T.agentFabric.line} duration={T.agentFabric.lineDuration} color={COLORS.magenta} strokeWidth={2.2} opacity={0.6} flowSpeed={65} />
 
@@ -120,10 +129,11 @@ export const World: React.FC = () => {
           nodeFrom={T.amistosa.node}
           labelFrom={T.amistosa.label}
           label="Gestión interna amistosa"
-          icon={<AmistosaMark size={30} color={COLORS.white} />}
+          icon={<AmistosaMark size={36} color={COLORS.white} />}
           accent={COLORS.turquoise}
           variant="pop"
           labelSide="right"
+          awayStart={CHANNEL_AWAY.amistosa}
         />
 
         <ChannelNode
@@ -132,10 +142,11 @@ export const World: React.FC = () => {
           nodeFrom={T.litigiosa.node}
           labelFrom={T.litigiosa.label}
           label="Gestión interna litigiosa"
-          icon={<LitigiosaMark size={28} color={COLORS.white} />}
+          icon={<LitigiosaMark size={34} color={COLORS.white} />}
           accent={COLORS.blue}
           variant="unfold"
           labelSide="left"
+          awayStart={CHANNEL_AWAY.litigiosa}
         />
 
         <ChannelNode
@@ -144,11 +155,12 @@ export const World: React.FC = () => {
           nodeFrom={T.cobranza.node}
           labelFrom={T.cobranza.label}
           label="Agencias de cobranza"
-          icon={<CobranzaMark size={28} color={COLORS.white} />}
+          icon={<CobranzaMark size={34} color={COLORS.white} />}
           accent={COLORS.turquoise}
           variant="satellite"
           satellites={T.cobranza.satellites}
           labelSide="top"
+          awayStart={CHANNEL_AWAY.cobranza}
         />
 
         <ChannelNode
@@ -157,10 +169,11 @@ export const World: React.FC = () => {
           nodeFrom={T.despachos.node}
           labelFrom={T.despachos.label}
           label="Despachos de abogados"
-          icon={<DespachosMark size={28} color={COLORS.white} />}
+          icon={<DespachosMark size={34} color={COLORS.white} />}
           accent={COLORS.magenta}
           variant="flow"
           labelSide="left"
+          awayStart={CHANNEL_AWAY.despachos}
         />
 
         <ChannelNode
@@ -169,10 +182,11 @@ export const World: React.FC = () => {
           nodeFrom={T.presencial.node}
           labelFrom={T.presencial.label}
           label="Gestión presencial"
-          icon={<PresencialMark size={28} color={COLORS.white} />}
+          icon={<PresencialMark size={34} color={COLORS.white} />}
           accent={COLORS.blue}
           variant="pop"
           labelSide="bottom"
+          awayStart={CHANNEL_AWAY.presencial}
         />
 
         <ChannelNode
@@ -181,10 +195,11 @@ export const World: React.FC = () => {
           nodeFrom={T.selfService.node}
           labelFrom={T.selfService.label}
           label="Gestión self-service"
-          icon={<SelfServiceMark size={30} color={COLORS.white} />}
+          icon={<SelfServiceMark size={36} color={COLORS.white} />}
           accent={COLORS.turquoise}
           variant="unfold"
           labelSide="left"
+          awayStart={CHANNEL_AWAY.selfService}
         />
 
         <AgentFabricLayer />
@@ -217,19 +232,19 @@ const AgentsLabel: React.FC = () => {
       style={{
         position: "absolute",
         left: AGENT_NODES[1].x,
-        top: AGENT_NODES[1].y - 90,
+        top: AGENT_NODES[1].y - 100,
         transform: `translate(-50%, -50%) translateY(${interpolate(p, [0, 1], [12, 0])}px)`,
         opacity: p,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 2,
+        gap: 3,
       }}
     >
-      <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 32, color: COLORS.white, whiteSpace: "nowrap" }}>
+      <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 38, color: COLORS.white, whiteSpace: "nowrap" }}>
         Agentes IA
       </span>
-      <span style={{ fontFamily: FONT_FAMILY, fontWeight: 500, fontSize: 15, color: COLORS.turquoise, whiteSpace: "nowrap" }}>
+      <span style={{ fontFamily: FONT_FAMILY, fontWeight: 500, fontSize: 18, color: COLORS.turquoise, whiteSpace: "nowrap" }}>
         SIREC Agent Fabric
       </span>
     </div>
@@ -241,7 +256,7 @@ const FinalTagline: React.FC = () => (
     <KineticText
       parts={[{ text: "Todos los datos en una única plataforma.", color: COLORS.turquoise }]}
       from={T.finalTagline}
-      fontSize={30}
+      fontSize={36}
       fontWeight={700}
       align="center"
       wordStagger={2.4}
