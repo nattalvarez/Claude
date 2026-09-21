@@ -9,7 +9,7 @@ import { WIDTH, HEIGHT } from "../styles/theme";
  */
 
 export const FPS = 30;
-export const DURATION_IN_FRAMES = 840; // 28s @ 30fps
+export const DURATION_IN_FRAMES = 1140; // 38s @ 30fps — final wide shot holds 10s longer
 
 // ---- World-space vertical column (y decreases as we go "up" the stack) ----
 // Kept tight on purpose — less air between layers means a bigger camera
