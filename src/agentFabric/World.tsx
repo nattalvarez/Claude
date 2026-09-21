@@ -150,6 +150,11 @@ export const World: React.FC = () => {
           <FlowLine x1={pills[1].x + O} y1={pills[1].y + O} x2={X_CENTER + O} y2={Y_FABRIC + O} from={T.ecosystem.aiConnFrom} duration={34} color={COLORS.navy} strokeWidth={1.4} opacity={0.3} flowSpeed={70} />
           <FlowLine x1={X_RIGHT + O} y1={Y_FABRIC + O} x2={X_CENTER + O} y2={Y_FABRIC + O} from={T.ecosystem.gc1ConnFrom} duration={22} color={COLORS.blue} strokeWidth={1.4} opacity={0.4} />
           <FlowLine x1={X_RIGHT + O} y1={Y_SIREC + O} x2={X_CENTER + O} y2={Y_SIREC + O} from={T.ecosystem.gc2ConnFrom} duration={22} color={COLORS.blue} strokeWidth={1.4} opacity={0.4} />
+
+          {/* each closing concept reaches out from its own box, so the tie is explicit */}
+          <FlowLine x1={-390 + O} y1={Y_AGENTS + O} x2={X_LEFT + O} y2={Y_AGENTS + O} from={T.concepts.potencia - 22} duration={22} color={COLORS.blue} strokeWidth={1.6} opacity={0.4} flowSpeed={80} />
+          <FlowLine x1={-370 + O} y1={Y_FABRIC + O} x2={X_LEFT + O} y2={Y_FABRIC + O} from={T.concepts.integra - 22} duration={22} color={COLORS.turquoise} strokeWidth={1.6} opacity={0.4} flowSpeed={80} />
+          <FlowLine x1={-350 + O} y1={Y_SIREC + O} x2={X_LEFT + O} y2={Y_SIREC + O} from={T.concepts.orquesta - 22} duration={22} color={COLORS.navy} strokeWidth={1.6} opacity={0.4} flowSpeed={80} />
         </svg>
 
         <ArchBlock
