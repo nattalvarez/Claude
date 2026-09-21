@@ -1,7 +1,7 @@
 import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig, Easing } from "remotion";
 import { COLORS, FONT_FAMILY } from "../styles/theme";
-import { Y_TITLE, T } from "./timeline";
+import { X_CENTER, Y_TITLE, T } from "./timeline";
 
 /** The opening beat: SIREC Agent Fabric, floating alone in the depth before the
  * camera finds the architecture. A glow disc breathes in first, then the
@@ -22,16 +22,17 @@ export const TitleScene: React.FC = () => {
   const words = ["SIREC", "Agent", "Fabric"];
 
   return (
+    // Anchored at world X_CENTER, like every other element — the camera
+    // transform scales around the world origin, not the screen center, so
+    // anything centered via layout tricks (width:100% + flex) instead of an
+    // explicit world-x anchor drifts off-frame as the camera zooms.
     <div
       style={{
         position: "absolute",
-        left: 0,
+        left: X_CENTER,
         top: Y_TITLE,
-        width: "100%",
-        transform: `translateY(-50%) translateY(${exit * -30}px) scale(${1 - exit * 0.04})`,
+        transform: `translate(-50%, -50%) translateY(${exit * -30}px) scale(${1 - exit * 0.04})`,
         opacity: 1 - exit,
-        display: "flex",
-        justifyContent: "center",
       }}
     >
       <div
@@ -44,7 +45,7 @@ export const TitleScene: React.FC = () => {
           left: "50%",
           transform: `translate(-50%, -50%) scale(${interpolate(glow, [0, 1], [0.6, 1])})`,
           opacity: interpolate(glow, [0, 1], [0, 0.55]),
-          background: `radial-gradient(circle, ${COLORS.magenta}22, ${COLORS.turquoise}0D 55%, transparent 72%)`,
+          background: `radial-gradient(circle, ${COLORS.blue}22, ${COLORS.turquoise}0D 55%, transparent 72%)`,
           filter: "blur(10px)",
         }}
       />

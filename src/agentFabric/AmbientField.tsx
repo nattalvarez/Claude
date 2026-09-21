@@ -20,7 +20,7 @@ export const AmbientField: React.FC = () => {
         size: seededRange(`af-sz-${i}`, 3, 7),
         speed: seededRange(`af-sp-${i}`, 0.15, 0.4),
         phase: seededRange(`af-ph-${i}`, 0, Math.PI * 2),
-        color: i % 3 === 0 ? COLORS.turquoise : i % 3 === 1 ? COLORS.magenta : COLORS.blue,
+        color: i % 3 === 0 ? COLORS.turquoise : i % 3 === 1 ? COLORS.navy : COLORS.blue,
       })),
     []
   );
@@ -55,7 +55,7 @@ export const AmbientField: React.FC = () => {
           width: 1100,
           height: 1100,
           borderRadius: "50%",
-          background: `radial-gradient(circle, ${COLORS.magenta}14, transparent 65%)`,
+          background: `radial-gradient(circle, ${COLORS.blue}14, transparent 65%)`,
           filter: "blur(60px)",
           opacity: interpolate(frame, [380, 480], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
         }}

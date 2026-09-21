@@ -66,7 +66,7 @@ export const ArchBlock: React.FC<Props> = ({
           borderRadius: 28,
           padding: "38px 46px",
           boxShadow: dark
-            ? `0 50px 100px -30px rgba(35,52,86,0.55), 0 0 90px -20px ${COLORS.magentaGlow}`
+            ? `0 50px 100px -30px rgba(35,52,86,0.55), 0 0 90px -20px ${COLORS.glow}`
             : "0 40px 90px -30px rgba(35,52,86,0.22)",
           display: "flex",
           flexDirection: "column",

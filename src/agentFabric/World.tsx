@@ -90,9 +90,9 @@ export const World: React.FC = () => {
   const cam = cameraAt(frame);
 
   const pills = [
-    { x: X_CENTER - 270, y: Y_AGENTS - 130, label: "OpenAI", icon: <OpenAIMark size={19} color={COLORS.navy} /> },
-    { x: X_CENTER, y: Y_AGENTS - 180, label: "Anthropic", icon: <AnthropicMark size={19} color={COLORS.navy} /> },
-    { x: X_CENTER + 270, y: Y_AGENTS - 130, label: "Gemini", icon: <GeminiMark size={19} color={COLORS.navy} /> },
+    { x: X_CENTER - 270, y: Y_AGENTS - 115, label: "OpenAI", icon: <OpenAIMark size={19} color={COLORS.navy} /> },
+    { x: X_CENTER, y: Y_AGENTS - 160, label: "Anthropic", icon: <AnthropicMark size={19} color={COLORS.navy} /> },
+    { x: X_CENTER + 270, y: Y_AGENTS - 115, label: "Gemini", icon: <GeminiMark size={19} color={COLORS.navy} /> },
   ];
 
   return (
@@ -135,7 +135,7 @@ export const World: React.FC = () => {
           ))}
 
           {/* ecosystem — the wider world SIREC Agent Fabric plugs into */}
-          <FlowLine x1={pills[1].x + O} y1={pills[1].y + O} x2={X_CENTER + O} y2={Y_FABRIC + O} from={T.ecosystem.aiConnFrom} duration={34} color={COLORS.magenta} strokeWidth={1.4} opacity={0.32} flowSpeed={70} />
+          <FlowLine x1={pills[1].x + O} y1={pills[1].y + O} x2={X_CENTER + O} y2={Y_FABRIC + O} from={T.ecosystem.aiConnFrom} duration={34} color={COLORS.navy} strokeWidth={1.4} opacity={0.3} flowSpeed={70} />
           <FlowLine x1={X_RIGHT + O} y1={Y_FABRIC + O} x2={X_CENTER + O} y2={Y_FABRIC + O} from={T.ecosystem.gc1ConnFrom} duration={22} color={COLORS.blue} strokeWidth={1.4} opacity={0.4} />
           <FlowLine x1={X_RIGHT + O} y1={Y_SIREC + O} x2={X_CENTER + O} y2={Y_SIREC + O} from={T.ecosystem.gc2ConnFrom} duration={22} color={COLORS.blue} strokeWidth={1.4} opacity={0.4} />
         </svg>
@@ -192,7 +192,7 @@ export const World: React.FC = () => {
           from={T.concepts.potencia}
           heading="POTENCIA"
           body="el negocio con agentes IA propios, de SIREC o de terceros."
-          accent={COLORS.magenta}
+          accent={COLORS.blue}
         />
         <ConceptPanel
           x={X_LEFT}
@@ -208,7 +208,7 @@ export const World: React.FC = () => {
           from={T.concepts.orquesta}
           heading="ORQUESTA"
           body="el proceso alineando cada decisión con los objetivos de negocio."
-          accent={COLORS.blue}
+          accent={COLORS.navy}
         />
       </div>
 
@@ -238,7 +238,7 @@ const ForegroundFloaters: React.FC = () => {
             width: s.size,
             height: s.size,
             borderRadius: "50%",
-            background: i === 0 ? COLORS.turquoise : COLORS.magenta,
+            background: i === 0 ? COLORS.turquoise : COLORS.blue,
             opacity: 0.3,
             filter: "blur(1px)",
           }}
