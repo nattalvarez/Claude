@@ -9,7 +9,7 @@ import { WIDTH, HEIGHT } from "../styles/theme";
  */
 
 export const FPS = 30;
-export const DURATION_IN_FRAMES = 780; // 26s @ 30fps
+export const DURATION_IN_FRAMES = 840; // 28s @ 30fps
 
 // ---- World-space vertical column (y decreases as we go "up" the stack) ----
 export const Y_TITLE = 1350;
@@ -29,24 +29,26 @@ export const WORLD_SVG_SIZE = 4400;
 type CamKey = [number, number, number, number, number];
 
 const CAM: CamKey[] = [
-  [0, 0, Y_TITLE, 0.6, 0], // intro — floating title
-  [55, 0, Y_TITLE - 20, 0.63, 0], // slow forward creep
-  [105, -25, Y_SIREC + 20, 0.76, 0.6], // arrive SIREC
-  [170, -35, Y_SIREC, 0.79, 0.6], // SIREC hold end
-  [220, 15, Y_FABRIC + 20, 0.83, -0.5], // arrive Fabric
-  [280, 20, Y_FABRIC, 0.86, -0.5], // Fabric hold end
-  [315, 35, Y_MCP, 0.88, 0.4], // arrive MCP
-  [343, 35, Y_MCP, 0.89, 0.4], // MCP beat end
-  [388, -5, Y_AGENTS + 20, 0.94, 0], // arrive Agents
-  [463, -5, Y_AGENTS, 0.97, 0], // Agents hold end
-  [501, 0, Y_MCP, 0.55, 0], // pull back — ecosystem reveal
-  [536, 0, Y_MCP, 0.55, 0], // ecosystem hold end
-  [558, 0, Y_AGENTS, 0.44, 0], // settle wide — POTENCIA zone
-  [613, 0, Y_AGENTS, 0.44, 0], // POTENCIA hold end
-  [641, 0, Y_FABRIC, 0.44, 0], // pan — INTEGRA zone
-  [696, 0, Y_FABRIC, 0.44, 0], // INTEGRA hold end
-  [724, 0, Y_SIREC, 0.44, 0], // pan — ORQUESTA zone
-  [DURATION_IN_FRAMES, 0, Y_SIREC, 0.44, 0], // ORQUESTA hold / final frame
+  [0, 0, Y_TITLE, 0.78, 0], // intro — floating title
+  [55, 0, Y_TITLE - 20, 0.82, 0], // slow forward creep
+  [100, -25, Y_SIREC + 20, 0.95, 0.6], // arrive SIREC
+  [170, -35, Y_SIREC, 0.98, 0.6], // SIREC hold end
+  [220, 15, Y_FABRIC + 20, 1.02, -0.5], // arrive Fabric
+  [280, 20, Y_FABRIC, 1.05, -0.5], // Fabric hold end
+  [315, 35, Y_MCP, 1.06, 0.4], // arrive MCP
+  [343, 35, Y_MCP, 1.07, 0.4], // MCP beat end
+  [388, -5, Y_AGENTS + 20, 1.12, 0], // arrive Agents
+  [463, -5, Y_AGENTS, 1.15, 0], // Agents hold end
+  [501, 0, Y_MCP, 0.58, 0], // pull back — ecosystem reveal
+  [536, 0, Y_MCP, 0.58, 0], // ecosystem hold end
+  [558, 0, Y_AGENTS, 0.55, 0], // settle wide — POTENCIA zone
+  [613, 0, Y_AGENTS, 0.55, 0], // POTENCIA hold end
+  [641, 0, Y_FABRIC, 0.55, 0], // pan — INTEGRA zone
+  [696, 0, Y_FABRIC, 0.55, 0], // INTEGRA hold end
+  [724, 0, Y_SIREC, 0.55, 0], // pan — ORQUESTA zone
+  [764, 0, Y_SIREC, 0.55, 0], // ORQUESTA hold — read the last line
+  [804, 0, -100, 0.5, 0], // pull back — the whole architecture, big, in one frame
+  [DURATION_IN_FRAMES, 0, -100, 0.5, 0], // final hold — the closing shot
 ];
 
 const frames = CAM.map((k) => k[0]);

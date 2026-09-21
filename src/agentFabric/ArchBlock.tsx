@@ -63,8 +63,8 @@ export const ArchBlock: React.FC<Props> = ({
         style={{
           background: bg,
           border,
-          borderRadius: 26,
-          padding: "34px 42px",
+          borderRadius: 28,
+          padding: "38px 46px",
           boxShadow: dark
             ? `0 50px 100px -30px rgba(35,52,86,0.55), 0 0 90px -20px ${COLORS.magentaGlow}`
             : "0 40px 90px -30px rgba(35,52,86,0.22)",
@@ -84,9 +84,9 @@ export const ArchBlock: React.FC<Props> = ({
         >
           <div
             style={{
-              width: 56,
-              height: 56,
-              borderRadius: 16,
+              width: 62,
+              height: 62,
+              borderRadius: 17,
               background: dark ? "rgba(255,255,255,0.12)" : COLORS.lightBlue,
               display: "flex",
               alignItems: "center",
@@ -100,7 +100,7 @@ export const ArchBlock: React.FC<Props> = ({
             style={{
               fontFamily: FONT_FAMILY,
               fontWeight: 700,
-              fontSize: 42,
+              fontSize: 47,
               letterSpacing: -0.8,
               color: titleColor,
             }}
@@ -112,7 +112,7 @@ export const ArchBlock: React.FC<Props> = ({
         <KineticText
           parts={[{ text: subtitle, color: subColor }]}
           from={from.subtitle}
-          fontSize={22}
+          fontSize={24}
           fontWeight={500}
           align="left"
           wordStagger={1.5}
@@ -141,8 +141,8 @@ const TagLine: React.FC<{ from: number; text: string; color: string }> = ({ from
         transform: `translateX(${interpolate(p, [0, 1], [-14, 0])}px)`,
       }}
     >
-      <div style={{ width: 8, height: 8, borderRadius: 2, background: color, transform: "rotate(45deg)" }} />
-      <span style={{ fontFamily: FONT_FAMILY, fontWeight: 700, fontSize: 20, color, letterSpacing: 0.2 }}>{text}</span>
+      <div style={{ width: 9, height: 9, borderRadius: 2, background: color, transform: "rotate(45deg)" }} />
+      <span style={{ fontFamily: FONT_FAMILY, fontWeight: 700, fontSize: 22, color, letterSpacing: 0.2 }}>{text}</span>
     </div>
   );
 };

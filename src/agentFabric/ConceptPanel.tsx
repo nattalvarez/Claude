@@ -16,7 +16,7 @@ type Props = {
 /** One of the three closing statements — POTENCIA / INTEGRA / ORQUESTA — a
  * heading with a soft glow plus a short kinetic line, arriving as the camera
  * settles on its zone of the architecture. */
-export const ConceptPanel: React.FC<Props> = ({ x, y, from, heading, body, accent = COLORS.magenta, width = 460 }) => {
+export const ConceptPanel: React.FC<Props> = ({ x, y, from, heading, body, accent = COLORS.magenta, width = 500 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const barP = spring({ frame: frame - from, fps, config: { damping: 15, mass: 0.6, stiffness: 140 } });
@@ -54,7 +54,7 @@ export const ConceptPanel: React.FC<Props> = ({ x, y, from, heading, body, accen
           style={{
             fontFamily: FONT_FAMILY,
             fontWeight: 900,
-            fontSize: 46,
+            fontSize: 52,
             letterSpacing: -0.5,
             color: accent,
             opacity: interpolate(headP, [0, 1], [0, 1]),
@@ -66,7 +66,7 @@ export const ConceptPanel: React.FC<Props> = ({ x, y, from, heading, body, accen
         <KineticText
           parts={[{ text: body, color: COLORS.navy }]}
           from={from + 10}
-          fontSize={24}
+          fontSize={26}
           fontWeight={500}
           align="left"
           maxWidth={width}

@@ -90,9 +90,9 @@ export const World: React.FC = () => {
   const cam = cameraAt(frame);
 
   const pills = [
-    { x: X_CENTER - 260, y: Y_AGENTS - 140, label: "OpenAI", icon: <OpenAIMark size={18} color={COLORS.navy} /> },
-    { x: X_CENTER, y: Y_AGENTS - 210, label: "Anthropic", icon: <AnthropicMark size={18} color={COLORS.navy} /> },
-    { x: X_CENTER + 260, y: Y_AGENTS - 140, label: "Gemini", icon: <GeminiMark size={18} color={COLORS.navy} /> },
+    { x: X_CENTER - 270, y: Y_AGENTS - 130, label: "OpenAI", icon: <OpenAIMark size={19} color={COLORS.navy} /> },
+    { x: X_CENTER, y: Y_AGENTS - 180, label: "Anthropic", icon: <AnthropicMark size={19} color={COLORS.navy} /> },
+    { x: X_CENTER + 270, y: Y_AGENTS - 130, label: "Gemini", icon: <GeminiMark size={19} color={COLORS.navy} /> },
   ];
 
   return (
@@ -143,7 +143,7 @@ export const World: React.FC = () => {
         <ArchBlock
           x={X_CENTER}
           y={Y_SIREC}
-          width={640}
+          width={700}
           from={T.sirec}
           icon={<StackMark size={26} color={COLORS.navy} />}
           title="SIREC"
@@ -156,7 +156,7 @@ export const World: React.FC = () => {
         <ArchBlock
           x={X_CENTER}
           y={Y_FABRIC}
-          width={680}
+          width={740}
           from={T.fabric}
           icon={<OrbitMark size={26} color={COLORS.white} />}
           title="SIREC Agent Fabric"
@@ -171,7 +171,7 @@ export const World: React.FC = () => {
         <ArchBlock
           x={X_CENTER}
           y={Y_AGENTS}
-          width={720}
+          width={780}
           from={T.agents}
           icon={<CpuMark size={26} color={COLORS.navy} />}
           title="Agentes IA"
