@@ -43,7 +43,7 @@ export const SirecCore: React.FC = () => {
           left: "50%",
           top: 50,
           transform: "translate(-50%, -50%)",
-          background: `radial-gradient(circle, ${COLORS.turquoise}33, ${COLORS.magenta}14 55%, transparent 72%)`,
+          background: `radial-gradient(circle, ${COLORS.turquoise}3D, ${COLORS.blue}16 55%, transparent 72%)`,
           filter: "blur(30px)",
           opacity: interpolate(core, [0, 1], [0, 1]),
         }}
@@ -58,9 +58,9 @@ export const SirecCore: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: `radial-gradient(circle at 35% 30%, ${COLORS.blue}, ${COLORS.navyDeep} 72%)`,
+          background: `radial-gradient(circle at 35% 30%, ${COLORS.blue}, ${COLORS.navy} 72%)`,
           border: `1.5px solid rgba(255,255,255,0.22)`,
-          boxShadow: `0 0 100px -10px ${COLORS.glow}, inset 0 0 44px rgba(255,255,255,0.06)`,
+          boxShadow: `0 24px 60px -14px ${COLORS.navyShadow}, 0 0 90px -18px ${COLORS.glow}, inset 0 0 44px rgba(255,255,255,0.08)`,
           transform: `scale(${interpolate(ring, [0, 1], [0.6, 1])}) rotate(${interpolate(ring, [0, 1], [-30, 0])}deg)`,
           opacity: interpolate(ring, [0, 1], [0, 1]),
         }}
@@ -84,7 +84,7 @@ export const SirecCore: React.FC = () => {
             fontWeight: 900,
             fontSize: 52,
             letterSpacing: -0.5,
-            color: COLORS.white,
+            color: COLORS.navy,
           }}
         >
           SIREC
@@ -94,8 +94,8 @@ export const SirecCore: React.FC = () => {
             fontFamily: FONT_FAMILY,
             fontWeight: 500,
             fontSize: 20,
-            color: COLORS.lightBlue,
-            opacity: 0.85,
+            color: COLORS.blue,
+            opacity: 0.9,
             whiteSpace: "nowrap",
           }}
         >

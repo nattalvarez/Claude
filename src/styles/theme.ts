@@ -2,13 +2,11 @@ export const COLORS = {
   white: "#FFFFFF",
   offWhite: "#FAFBFD",
   navy: "#233456",
-  navyDeep: "#182644",
   blue: "#3365A2",
   turquoise: "#2ABBCE",
   lightBlue: "#DDE7F4",
-  magenta: "#B15CE0",
   glow: "rgba(42, 187, 206, 0.4)",
-  magentaGlow: "rgba(177, 92, 224, 0.4)",
+  navyShadow: "rgba(35, 52, 86, 0.28)",
 } as const;
 
 export const FPS = 30;

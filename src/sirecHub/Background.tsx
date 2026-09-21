@@ -2,9 +2,9 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { COLORS, WIDTH, HEIGHT } from "../styles/theme";
 
-/** A dark, corporate-technological atmosphere: a deep navy wash, a faint
- * drifting dot-grid, soft turquoise/magenta color pools, and two large slow
- * orbit rings — never black, never sci-fi, never busy. */
+/** A bright, corporate-technological atmosphere: a white base, soft
+ * turquoise color pools, a faint drifting dot-grid, and two large slow
+ * orbit rings — clean and airy, never busy, never sci-fi. */
 export const Background: React.FC = () => {
   const frame = useCurrentFrame();
 
@@ -14,10 +14,10 @@ export const Background: React.FC = () => {
   const ringRotate = frame * 0.015;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.navy }}>
+    <AbsoluteFill style={{ backgroundColor: COLORS.white }}>
       <AbsoluteFill
         style={{
-          background: `linear-gradient(160deg, ${COLORS.navyDeep} 0%, ${COLORS.navy} 45%, ${COLORS.navy} 60%, ${COLORS.navyDeep} 100%)`,
+          background: `linear-gradient(160deg, ${COLORS.lightBlue} 0%, ${COLORS.white} 45%, ${COLORS.white} 60%, ${COLORS.lightBlue} 100%)`,
         }}
       />
 
@@ -30,7 +30,7 @@ export const Background: React.FC = () => {
           top: -650,
           left: -450 + driftA,
           filter: "blur(150px)",
-          background: `radial-gradient(circle, ${COLORS.turquoise}1C, transparent 62%)`,
+          background: `radial-gradient(circle, ${COLORS.turquoise}26, transparent 62%)`,
         }}
       />
       <div
@@ -42,7 +42,7 @@ export const Background: React.FC = () => {
           bottom: -560,
           right: -380 - driftB,
           filter: "blur(160px)",
-          background: `radial-gradient(circle, ${COLORS.magenta}16, transparent 65%)`,
+          background: `radial-gradient(circle, ${COLORS.blue}1A, transparent 65%)`,
         }}
       />
       <div
@@ -55,7 +55,7 @@ export const Background: React.FC = () => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           filter: "blur(170px)",
-          background: `radial-gradient(circle, ${COLORS.blue}14, transparent 70%)`,
+          background: `radial-gradient(circle, ${COLORS.turquoise}18, transparent 70%)`,
         }}
       />
 
@@ -64,24 +64,24 @@ export const Background: React.FC = () => {
         style={{
           position: "absolute",
           inset: -64,
-          backgroundImage: `radial-gradient(rgba(255,255,255,0.5) 1.2px, transparent 1.2px)`,
+          backgroundImage: `radial-gradient(${COLORS.navy} 1.2px, transparent 1.2px)`,
           backgroundSize: "64px 64px",
           backgroundPosition: `${gridDrift}px ${gridDrift * 0.6}px`,
-          opacity: 0.05,
+          opacity: 0.06,
           maskImage: "radial-gradient(ellipse 72% 62% at 50% 46%, black 22%, transparent 78%)",
           WebkitMaskImage: "radial-gradient(ellipse 72% 62% at 50% 46%, black 22%, transparent 78%)",
         }}
       />
 
-      <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0, opacity: 0.14 }}>
+      <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0, opacity: 0.16 }}>
         <g transform={`translate(${WIDTH * 0.84} ${HEIGHT * 0.18}) rotate(${ringRotate})`}>
           <ellipse rx={560} ry={250} stroke={COLORS.turquoise} strokeWidth={1.2} fill="none" />
-          <ellipse rx={560} ry={250} stroke={COLORS.magenta} strokeWidth={1.2} fill="none" transform="rotate(64)" />
+          <ellipse rx={560} ry={250} stroke={COLORS.blue} strokeWidth={1.2} fill="none" transform="rotate(64)" />
           <circle cx={560} cy={0} r={4} fill={COLORS.turquoise} />
         </g>
         <g transform={`translate(${WIDTH * 0.12} ${HEIGHT * 0.88}) rotate(${-ringRotate * 0.7})`}>
           <ellipse rx={420} ry={190} stroke={COLORS.blue} strokeWidth={1} fill="none" />
-          <circle cx={0} cy={-190} r={3.2} fill={COLORS.magenta} />
+          <circle cx={0} cy={-190} r={3.2} fill={COLORS.turquoise} />
         </g>
       </svg>
     </AbsoluteFill>

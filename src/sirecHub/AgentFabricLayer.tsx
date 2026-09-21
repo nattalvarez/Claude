@@ -5,8 +5,8 @@ import { AgentFabricMark } from "./marks";
 import { AGENT_FABRIC_POS, T } from "./timeline";
 
 /** The layer that emerges from SIREC rather than sitting beside it — built
- * container-first like the core, but narrower and cooler-toned (magenta
- * instead of turquoise) so it reads as a distinct stratum above SIREC. */
+ * container-first like the core, but narrower and toned in blue instead of
+ * turquoise so it reads as a distinct stratum above SIREC. */
 export const AgentFabricLayer: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -42,7 +42,7 @@ export const AgentFabricLayer: React.FC = () => {
           left: "50%",
           top: 40,
           transform: "translate(-50%, -50%)",
-          background: `radial-gradient(circle, ${COLORS.magenta}30, transparent 68%)`,
+          background: `radial-gradient(circle, ${COLORS.blue}2E, transparent 68%)`,
           filter: "blur(24px)",
         }}
       />
@@ -56,9 +56,9 @@ export const AgentFabricLayer: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: `linear-gradient(155deg, ${COLORS.navy}, ${COLORS.navyDeep})`,
-          border: `1.5px solid ${COLORS.magenta}55`,
-          boxShadow: `0 0 70px -14px ${COLORS.magentaGlow}`,
+          background: `linear-gradient(155deg, ${COLORS.blue}, ${COLORS.navy})`,
+          border: `1.5px solid ${COLORS.blue}55`,
+          boxShadow: `0 24px 60px -14px ${COLORS.navyShadow}, 0 0 60px -16px ${COLORS.blue}66`,
         }}
       >
         <AgentFabricMark size={62} color={COLORS.white} />
@@ -74,23 +74,23 @@ export const AgentFabricLayer: React.FC = () => {
           transform: `translateY(${interpolate(title, [0, 1], [12, 0])}px)`,
         }}
       >
-        <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 35, color: COLORS.white, whiteSpace: "nowrap" }}>
-          SIREC Agent Fabric
+        <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 38, color: COLORS.navy, whiteSpace: "nowrap" }}>
+          Agentes IA
         </span>
       </div>
 
       <span
         style={{
           fontFamily: FONT_FAMILY,
-          fontWeight: 500,
-          fontSize: 19,
-          color: COLORS.magenta,
+          fontWeight: 600,
+          fontSize: 20,
+          color: COLORS.blue,
           whiteSpace: "nowrap",
           opacity: interpolate(subtitle, [0, 1], [0, 1]),
           transform: `translateY(${interpolate(subtitle, [0, 1], [8, 0])}px)`,
         }}
       >
-        El primer servicio MCP de Collection
+        SIREC Agent Fabric
       </span>
     </div>
   );

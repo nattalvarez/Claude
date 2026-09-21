@@ -16,7 +16,7 @@ const Grade: React.FC = () => (
   <AbsoluteFill
     style={{
       pointerEvents: "none",
-      background: "linear-gradient(180deg, rgba(0,0,0,0.18), transparent 26%, transparent 76%, rgba(0,0,0,0.28))",
+      background: `linear-gradient(180deg, ${COLORS.navy}14, transparent 26%, transparent 76%, ${COLORS.navy}1F)`,
     }}
   />
 );
@@ -43,15 +43,16 @@ const Vignette: React.FC = () => (
   <AbsoluteFill
     style={{
       pointerEvents: "none",
-      background: `radial-gradient(ellipse at center, transparent 55%, ${COLORS.navyDeep}CC 100%)`,
+      background: `radial-gradient(ellipse at center, transparent 60%, ${COLORS.navy}22 100%)`,
     }}
   />
 );
 
-/** SIREC — orchestration hub. 30s, one continuous camera move: title →
- * SIREC core → six management channels built one at a time → SIREC Agent
- * Fabric emerging above → Agentes IA → the whole ecosystem pulled back into
- * view. Dark, corporate-technological, never sci-fi. */
+/** SIREC — orchestration hub. One continuous camera move: title → SIREC
+ * core → six management channels visited one at a time (push in, read,
+ * return to SIREC) → SIREC Agent Fabric emerging above → the whole
+ * ecosystem pulled back into view. Bright, corporate-technological, never
+ * sci-fi. */
 export const SirecHubMotion: React.FC = () => {
   return (
     <AbsoluteFill>

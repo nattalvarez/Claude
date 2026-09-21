@@ -3,22 +3,22 @@ import { WIDTH, HEIGHT } from "../styles/theme";
 
 /**
  * SIREC — orchestration hub. SIREC sits at the world origin; six management
- * channels radiate from it like spokes, and SIREC Agent Fabric + Agentes IA
- * rise on a separate vertical axis above it. One continuous camera visits
- * each spoke in turn — a push toward it, then a hold once the wheel opens
- * back up — before climbing to the Agent Fabric layer and finally gathering
- * everything into one large, held final shot.
+ * channels radiate from it like spokes, and SIREC Agent Fabric rises on a
+ * separate vertical axis above it. The camera visits each spoke in turn —
+ * push toward it, hold long enough for its name to form and be read, then
+ * return to SIREC before pushing out again — before climbing to the Agent
+ * Fabric layer and finally gathering everything into one large, held final
+ * shot.
  */
 
 export const FPS = 30;
-export const DURATION_IN_FRAMES = 1320; // 44s @ 30fps — every beat now holds long enough to read
 
-// ---- World-space layout ----------------------------------------------------
-// Kept tighter than a first pass would suggest — less distance between
-// layers means the camera can sit at a bigger zoom and still fit everything,
-// which is what actually makes each beat (and the final reveal) read large.
 export const CENTER = { x: 0, y: 0 };
 export const TITLE_POS = { x: 0, y: -150 };
+// a quiet gap on the vertical spine between SIREC's subtitle and the
+// presencial spoke — the one place in the gathered schema with room for a
+// closing line without colliding with anything else.
+export const FINAL_TAGLINE_POS = { x: 0, y: 210 };
 
 export const SPOKES = {
   amistosa: { x: 420, y: -420 }, // upper-right
@@ -30,70 +30,106 @@ export const SPOKES = {
 } as const;
 
 export const AGENT_FABRIC_POS = { x: 0, y: -780 };
-export const AGENT_NODES = [
-  { x: -180, y: -1080 },
-  { x: 0, y: -1150 },
-  { x: 180, y: -1080 },
-] as const;
-
-// where the final gathered shot centers the whole ecosystem
-export const FINAL_VIEW = { x: 0, y: -240, zoom: 0.56 };
 
 export const WORLD_OFFSET = 2400; // keeps every SVG coordinate positive
 export const WORLD_SVG_SIZE = 4800;
 
 // ---- Camera keyframes: frame, x, y, zoom, tilt(deg) ------------------------
 type CamKey = [number, number, number, number, number];
+type CamState = { x: number; y: number; zoom: number; tilt: number };
+
+const CENTER_STATE: CamState = { x: 0, y: 0, zoom: 1.1, tilt: 0 };
+
+const CHANNEL_ORDER = ["amistosa", "litigiosa", "cobranza", "despachos", "presencial", "selfService"] as const;
+export type ChannelKey = (typeof CHANNEL_ORDER)[number];
+
+// The camera target while each channel is the one being read — reused as-is
+// from a version already verified frame-by-frame to frame that channel's own
+// label without clipping.
+const CHANNEL_TARGET: Record<ChannelKey, CamState> = {
+  amistosa: { x: 30, y: -30, zoom: 1.4, tilt: -1 },
+  litigiosa: { x: 40, y: -14, zoom: 1.35, tilt: 1 },
+  cobranza: { x: 180, y: -500, zoom: 1.3, tilt: 0 },
+  despachos: { x: -30, y: -14, zoom: 1.25, tilt: 1 },
+  presencial: { x: 0, y: 300, zoom: 1.15, tilt: 0 },
+  selfService: { x: 180, y: 190, zoom: 1.2, tilt: -1 },
+};
+
+const CHANNEL_LINE_DURATION: Record<ChannelKey, number> = {
+  amistosa: 26,
+  litigiosa: 24,
+  cobranza: 26,
+  despachos: 30,
+  presencial: 24,
+  selfService: 24,
+};
+
+// One push-out/hold/return-to-SIREC cycle per channel — this is the beat
+// the camera repeats six times: arrive, let the name form and be read, then
+// travel back to SIREC before pulling out toward the next one.
+const PUSH_DUR = 55;
+const HOLD_DUR = 65;
+const RETURN_DUR = 45;
+const PAUSE_DUR = 15;
+const CHANNEL_CYCLE = PUSH_DUR + HOLD_DUR + RETURN_DUR + PAUSE_DUR;
+
+type ChannelPhase = {
+  index: number;
+  pushStart: number;
+  arrive: number;
+  holdEnd: number;
+  returnEnd: number;
+  pauseEnd: number;
+};
 
 const CAM: CamKey[] = [
   [0, 0, -150, 1.1, 0], // intro — title floating just above SIREC's spot
   [70, 0, -150, 1.15, 0], // slow forward creep, long enough to read all 3 lines
-  [100, 0, 0, 1.5, 0], // arrive SIREC core
-  [175, 0, 0, 1.55, 0.5], // hold — read "SIREC" before the first connection
-
-  // 1 — Gestión interna amistosa (upper-right)
-  [190, 210, -210, 1.45, 2],
-  [240, 30, -30, 1.4, -1],
-  // hold until 290
-
-  // 2 — Gestión interna litigiosa (right)
-  [290, 320, -16, 1.35, 0],
-  [340, 40, -14, 1.35, 1],
-  // hold until 390
-
-  // 3 — Agencias de cobranza (up)
-  [390, 130, -320, 1.3, -2],
-  [440, 30, -80, 1.3, 0],
-  // hold until 490
-
-  // 4 — Despachos de abogados (left)
-  [490, -320, -16, 1.25, -1],
-  [540, -30, -14, 1.25, 1],
-  // hold until 590
-
-  // 5 — Gestión presencial (down)
-  [590, -16, 280, 1.2, 2],
-  [640, 0, 60, 1.15, 0],
-  // hold until 690
-
-  // 6 — Gestión self-service (down-right)
-  [690, 210, 220, 1.15, -1],
-  [740, 0, 0, 1.1, 0], // the whole wheel, roughly framed
-  // hold until 790
-
-  // ascend to SIREC Agent Fabric
-  [790, 0, -320, 1.25, 0],
-  [870, 0, -780, 1.4, 0],
-  [930, 0, -780, 1.4, 0], // hold — read "SIREC Agent Fabric"
-
-  // Agentes IA blooming above the Fabric layer
-  [1000, 0, -950, 1.3, 0],
-  [1060, 0, -950, 1.3, 0], // hold — read "Agentes IA"
-
-  // gather everything — the final, biggest legible view of the whole schema
-  [1140, FINAL_VIEW.x, FINAL_VIEW.y, FINAL_VIEW.zoom, 0],
-  [DURATION_IN_FRAMES, FINAL_VIEW.x, FINAL_VIEW.y, FINAL_VIEW.zoom, 0],
+  [130, 0, 0, 1.5, 0], // arrive SIREC core
+  [250, 0, 0, 1.5, 0], // hold — read "SIREC" before the first connection
 ];
+
+const CHANNEL_PHASE: Record<ChannelKey, ChannelPhase> = {} as Record<ChannelKey, ChannelPhase>;
+
+let cursor = 250;
+CHANNEL_ORDER.forEach((key, index) => {
+  const target = CHANNEL_TARGET[key];
+  const pushStart = cursor;
+  const arrive = pushStart + PUSH_DUR;
+  const holdEnd = arrive + HOLD_DUR;
+  const returnEnd = holdEnd + RETURN_DUR;
+  const pauseEnd = returnEnd + PAUSE_DUR;
+
+  CAM.push([arrive, target.x, target.y, target.zoom, target.tilt]);
+  CAM.push([holdEnd, target.x, target.y, target.zoom, target.tilt]);
+  CAM.push([returnEnd, CENTER_STATE.x, CENTER_STATE.y, CENTER_STATE.zoom, CENTER_STATE.tilt]);
+  CAM.push([pauseEnd, CENTER_STATE.x, CENTER_STATE.y, CENTER_STATE.zoom, CENTER_STATE.tilt]);
+
+  CHANNEL_PHASE[key] = { index, pushStart, arrive, holdEnd, returnEnd, pauseEnd };
+  cursor = pauseEnd;
+});
+
+// ---- Ascend to SIREC Agent Fabric, then gather everything ------------------
+const FABRIC_TARGET: CamState = { x: 0, y: -530, zoom: 1.35, tilt: 0 };
+const FABRIC_PUSH_DUR = 65;
+const FABRIC_HOLD_DUR = 110;
+
+const fabricPushStart = cursor;
+const fabricArrive = fabricPushStart + FABRIC_PUSH_DUR;
+const fabricHoldEnd = fabricArrive + FABRIC_HOLD_DUR;
+
+CAM.push([fabricArrive, FABRIC_TARGET.x, FABRIC_TARGET.y, FABRIC_TARGET.zoom, FABRIC_TARGET.tilt]);
+CAM.push([fabricHoldEnd, FABRIC_TARGET.x, FABRIC_TARGET.y, FABRIC_TARGET.zoom, FABRIC_TARGET.tilt]);
+
+// the final, biggest legible view of the whole schema
+export const FINAL_VIEW = { x: 0, y: -100, zoom: 0.65 };
+const GATHER_DUR = 90;
+const gatherArrive = fabricHoldEnd + GATHER_DUR;
+
+CAM.push([gatherArrive, FINAL_VIEW.x, FINAL_VIEW.y, FINAL_VIEW.zoom, 0]);
+
+export const DURATION_IN_FRAMES = gatherArrive + 170;
+CAM.push([DURATION_IN_FRAMES, FINAL_VIEW.x, FINAL_VIEW.y, FINAL_VIEW.zoom, 0]);
 
 const frames = CAM.map((k) => k[0]);
 const xs = CAM.map((k) => k[1]);
@@ -121,55 +157,65 @@ export const worldTransform = (cam: CameraState, factor = 1): string => {
   return `translate(${WIDTH / 2}px, ${HEIGHT / 2}px) rotate(${cam.tilt * factor}deg) scale(${zoom}) translate(${-cx}px, ${-cy}px)`;
 };
 
+/** A channel recedes only while the camera is tightly pushed onto a LATER
+ * channel (where it would otherwise clip at the frame edge), fading out over
+ * that push and back in over that channel's return to SIREC. Once every
+ * channel has had its turn, nothing blocks anything else — which is exactly
+ * the "gather" moment for the final view. */
+export const channelVisibility = (frame: number, key: ChannelKey): number => {
+  const mine = CHANNEL_PHASE[key];
+  let visibility = 1;
+  for (const otherKey of CHANNEL_ORDER) {
+    const other = CHANNEL_PHASE[otherKey];
+    if (other.index <= mine.index) continue;
+    const dip = interpolate(frame, [other.pushStart, other.arrive, other.holdEnd, other.returnEnd], [1, 0, 0, 1], {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    });
+    visibility = Math.min(visibility, dip);
+  }
+  return visibility;
+};
+
 // ---- Element entrance timing (frame each element starts building) ---------
+const channelTiming = (key: ChannelKey) => {
+  const phase = CHANNEL_PHASE[key];
+  return {
+    line: phase.pushStart + 5,
+    lineDuration: CHANNEL_LINE_DURATION[key],
+    node: phase.arrive - 10,
+    label: phase.arrive,
+    focusStart: phase.pushStart,
+    focusEnd: phase.holdEnd,
+  };
+};
+
 export const T = {
   title: { line1: 6, line2: 24, line3: 46, exit: 100 },
 
-  sirec: { core: 100, ring: 114, label: 132 },
+  sirec: { core: 130, ring: 144, label: 162 },
 
-  amistosa: { line: 195, lineDuration: 26, node: 214, label: 228 },
-  litigiosa: { line: 295, lineDuration: 24, node: 316, label: 330 },
-  cobranza: { line: 395, lineDuration: 26, node: 414, label: 428, satellites: [438, 446, 454] },
-  despachos: { line: 495, lineDuration: 30, node: 522, label: 536 },
-  presencial: { line: 595, lineDuration: 24, node: 616, label: 630 },
-  selfService: { line: 695, lineDuration: 24, node: 716, label: 730 },
+  amistosa: channelTiming("amistosa"),
+  litigiosa: channelTiming("litigiosa"),
+  cobranza: {
+    ...channelTiming("cobranza"),
+    satellites: [
+      channelTiming("cobranza").node + 22,
+      channelTiming("cobranza").node + 30,
+      channelTiming("cobranza").node + 38,
+    ] as readonly number[],
+  },
+  despachos: channelTiming("despachos"),
+  presencial: channelTiming("presencial"),
+  selfService: channelTiming("selfService"),
 
-  agentFabric: { line: 760, lineDuration: 55, container: 818, title: 838, subtitle: 856 },
-  agentNodes: [
-    { from: 935, connFrom: 925 },
-    { from: 946, connFrom: 936 },
-    { from: 957, connFrom: 947 },
-  ],
-  agentsLabel: 985,
+  agentFabric: {
+    line: fabricPushStart + 5,
+    lineDuration: 50,
+    container: fabricPushStart + Math.round(FABRIC_PUSH_DUR * 0.4),
+    title: fabricArrive + 10,
+    subtitle: fabricArrive + 26,
+  },
 
-  finalTagline: 1155,
+  finalTagline: gatherArrive + 40,
 } as const;
-
-// ---- Channel node visibility ------------------------------------------
-// Each spoke recedes shortly before the camera pushes toward the next one
-// (so it never lingers to get clipped at a hold framed for its neighbour),
-// then every spoke returns together as the camera pulls back for the final
-// gathered view — reinforcing that "gather" motion rather than just hiding
-// a bug.
-export const CHANNEL_AWAY = {
-  amistosa: 270,
-  litigiosa: 370,
-  cobranza: 470,
-  despachos: 570,
-  presencial: 670,
-  selfService: 770,
-} as const;
-
-const GATHER_FADE_IN: [number, number] = [1060, 1140];
-
-export const channelFade = (frame: number, awayStart: number): number => {
-  const fadeOut = interpolate(frame, [awayStart, awayStart + 25], [1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const fadeIn = interpolate(frame, GATHER_FADE_IN, [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  return Math.max(fadeOut, fadeIn);
-};

@@ -61,16 +61,6 @@ export const SelfServiceMark: React.FC<MarkProps> = ({ size = 26, color = "#FFFF
   </svg>
 );
 
-/** SIREC's own emblem — a layered ring node, no literal chip or brain. */
-export const SirecMark: React.FC<MarkProps> = ({ size = 48, color = "#FFFFFF" }) => (
-  <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
-    <circle cx={32} cy={32} r={9} fill={color} />
-    <ellipse cx={32} cy={32} rx={26} ry={12.5} stroke={color} strokeWidth={1.8} opacity={0.85} />
-    <ellipse cx={32} cy={32} rx={26} ry={12.5} stroke={color} strokeWidth={1.8} opacity={0.55} transform="rotate(60 32 32)" />
-    <ellipse cx={32} cy={32} rx={26} ry={12.5} stroke={color} strokeWidth={1.8} opacity={0.35} transform="rotate(120 32 32)" />
-  </svg>
-);
-
 export const AgentFabricMark: React.FC<MarkProps> = ({ size = 30, color = "#FFFFFF" }) => (
   <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
     {Array.from({ length: 6 }).map((_, i) => (
@@ -86,22 +76,6 @@ export const AgentFabricMark: React.FC<MarkProps> = ({ size = 30, color = "#FFFF
         strokeWidth={2}
         transform={`rotate(${i * 60} 16 16)`}
         opacity={0.9}
-      />
-    ))}
-  </svg>
-);
-
-export const AgentMark: React.FC<MarkProps> = ({ size = 22, color = "#FFFFFF" }) => (
-  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
-    <circle cx={16} cy={16} r={4.4} fill={color} />
-    {[0, 120, 240].map((a) => (
-      <circle
-        key={a}
-        cx={16 + Math.cos((a * Math.PI) / 180) * 11}
-        cy={16 + Math.sin((a * Math.PI) / 180) * 11}
-        r={2.2}
-        fill={color}
-        opacity={0.7}
       />
     ))}
   </svg>

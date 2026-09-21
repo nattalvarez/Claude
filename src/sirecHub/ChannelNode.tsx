@@ -1,7 +1,6 @@
 import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
 import { COLORS, FONT_FAMILY } from "../styles/theme";
-import { channelFade } from "./timeline";
 
 type Variant = "pop" | "unfold" | "satellite" | "flow";
 
@@ -18,11 +17,10 @@ type Props = {
   satellites?: readonly number[];
   /** label placement relative to the node, so it reads toward SIREC or away from it */
   labelSide?: "right" | "left" | "top" | "bottom";
-  /** frame at which this node starts receding as the camera pushes toward
-   * the next channel — keeps it from lingering into a hold framed for its
-   * neighbour and getting clipped at the edge. It returns for the final
-   * gathered view. */
-  awayStart?: number;
+  /** external visibility multiplier (0-1) — lets the node recede while the
+   * camera is tightly focused on a different channel, so it never lingers
+   * clipped at the edge, then return once the camera opens back up. */
+  fade?: number;
 };
 
 /** One management channel, arriving at the end of its own connection. Four
@@ -41,11 +39,10 @@ export const ChannelNode: React.FC<Props> = ({
   variant = "pop",
   satellites = [],
   labelSide = "right",
-  awayStart,
+  fade = 1,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const fadeMult = awayStart !== undefined ? channelFade(frame, awayStart) : 1;
 
   const nodeSpring =
     variant === "flow"
@@ -54,7 +51,7 @@ export const ChannelNode: React.FC<Props> = ({
 
   const labelSpring = spring({ frame: frame - labelFrom, fps, config: { damping: 16, mass: 0.7, stiffness: 130 } });
 
-  if (nodeSpring <= 0.001 || fadeMult <= 0.001) return null;
+  if (nodeSpring <= 0.001 || fade <= 0.001) return null;
 
   const breathe = 1 + Math.sin((frame - nodeFrom) / 34) * 0.025 * Math.min(1, nodeSpring);
   const rotateIn = variant === "pop" ? interpolate(nodeSpring, [0, 1], [-16, 0]) : 0;
@@ -74,7 +71,7 @@ export const ChannelNode: React.FC<Props> = ({
         flexDirection,
         alignItems: "center",
         gap: isVertical ? 16 : 20,
-        opacity: fadeMult,
+        opacity: fade,
       }}
     >
       <div
@@ -87,10 +84,9 @@ export const ChannelNode: React.FC<Props> = ({
           alignItems: "center",
           justifyContent: "center",
           flexShrink: 0,
-          background: "rgba(255,255,255,0.07)",
-          border: `1px solid ${accent}55`,
-          backdropFilter: "blur(2px)",
-          boxShadow: `0 0 40px -12px ${accent}88`,
+          background: COLORS.white,
+          border: `1.5px solid ${accent}77`,
+          boxShadow: `0 16px 34px -12px ${COLORS.navyShadow}, 0 0 26px -8px ${accent}66`,
           opacity: interpolate(nodeSpring, [0, 1], [0, 1]),
           transform: `scale(${interpolate(nodeSpring, [0, 1], [0.5, 1]) * breathe}) rotate(${rotateIn}deg)`,
         }}
@@ -112,7 +108,7 @@ export const ChannelNode: React.FC<Props> = ({
                   width: 23,
                   height: 23,
                   borderRadius: "50%",
-                  background: COLORS.navyDeep,
+                  background: COLORS.navy,
                   border: `1px solid ${accent}88`,
                   opacity: interpolate(satP, [0, 1], [0, 1]),
                   transform: `translate(-50%, -50%) translate(${Math.cos((angle * Math.PI) / 180) * r}px, ${
@@ -144,7 +140,7 @@ export const ChannelNode: React.FC<Props> = ({
             fontFamily: FONT_FAMILY,
             fontWeight: 700,
             fontSize: 30,
-            color: COLORS.white,
+            color: COLORS.navy,
             whiteSpace: "nowrap",
             textAlign: labelSide === "left" ? "right" : labelSide === "top" || labelSide === "bottom" ? "center" : "left",
           }}

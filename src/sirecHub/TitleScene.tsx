@@ -49,7 +49,7 @@ export const TitleScene: React.FC = () => {
           top: "38%",
           transform: `translate(-50%, -50%) scale(${interpolate(glow, [0, 1], [0.6, 1])})`,
           opacity: interpolate(glow, [0, 1], [0, 0.6]),
-          background: `radial-gradient(circle, ${COLORS.turquoise}22, ${COLORS.magenta}0F 55%, transparent 72%)`,
+          background: `radial-gradient(circle, ${COLORS.turquoise}2E, ${COLORS.blue}12 55%, transparent 72%)`,
           filter: "blur(20px)",
         }}
       />
@@ -61,7 +61,7 @@ export const TitleScene: React.FC = () => {
           fontWeight: 900,
           fontSize: 118,
           letterSpacing: -1.5,
-          color: COLORS.white,
+          color: COLORS.navy,
           opacity: interpolate(name, [0, 1], [0, 1]),
           filter: `blur(${Math.max(0, blur)}px)`,
           transform: `translateY(${interpolate(name, [0, 1], [46, 0])}px) scale(${interpolate(name, [0, 1], [1.1, 1])})`,
@@ -71,7 +71,7 @@ export const TitleScene: React.FC = () => {
       </span>
 
       <KineticText
-        parts={[{ text: "Plataforma de orquestación del ciclo de riesgo de crédito", color: COLORS.lightBlue }]}
+        parts={[{ text: "Plataforma de orquestación del ciclo de riesgo de crédito", color: COLORS.blue }]}
         from={T.title.line2}
         fontSize={36}
         fontWeight={500}
