@@ -101,3 +101,30 @@ export const GoogleCloudMark: React.FC<MarkProps> = ({ size = 26, color = "#2334
     />
   </svg>
 );
+
+/** The three closing-statement glyphs — plain geometry (bars, links, a dial),
+ * matching the box icons' visual language instead of AI-cliché iconography. */
+
+export const PotenciaMark: React.FC<MarkProps> = ({ size = 28, color = "#233456" }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <rect x={6} y={17} width={5} height={10} rx={1.4} fill={color} opacity={0.5} />
+    <rect x={13.5} y={11} width={5} height={16} rx={1.4} fill={color} opacity={0.75} />
+    <rect x={21} y={5} width={5} height={22} rx={1.4} fill={color} />
+  </svg>
+);
+
+export const IntegraMark: React.FC<MarkProps> = ({ size = 28, color = "#233456" }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <rect x={4} y={11} width={15} height={10} rx={5} stroke={color} strokeWidth={2.2} />
+    <rect x={13} y={11} width={15} height={10} rx={5} stroke={color} strokeWidth={2.2} opacity={0.55} />
+  </svg>
+);
+
+export const OrquestaMark: React.FC<MarkProps> = ({ size = 28, color = "#233456" }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <circle cx={16} cy={16} r={11} stroke={color} strokeWidth={2} opacity={0.85} />
+    <circle cx={16} cy={16} r={2.6} fill={color} />
+    <line x1={16} y1={16} x2={16} y2={6.5} stroke={color} strokeWidth={2.2} strokeLinecap="round" />
+    <circle cx={16} cy={6.5} r={1.8} fill={color} />
+  </svg>
+);

@@ -1,8 +1,9 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Roboto";
-import { BgMesh, Grade, Grain, Vignette } from "../components/CinematicLayers";
+import { Grade, Grain, Vignette } from "../components/CinematicLayers";
 import { World } from "./World";
+import { Background } from "./Background";
 
 loadFont("normal", {
   weights: ["300", "400", "500", "700", "900"],
@@ -17,7 +18,7 @@ loadFont("normal", {
 export const AgentFabricMotion: React.FC = () => {
   return (
     <AbsoluteFill>
-      <BgMesh />
+      <Background />
       <World />
       <Grade />
       <Grain />

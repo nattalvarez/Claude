@@ -22,7 +22,19 @@ import { ProviderNode } from "./ProviderNode";
 import { ConceptPanel } from "./ConceptPanel";
 import { TitleScene } from "./TitleScene";
 import { AmbientField } from "./AmbientField";
-import { StackMark, OrbitMark, CpuMark, McpMark, OpenAIMark, AnthropicMark, GeminiMark, GoogleCloudMark } from "./marks";
+import {
+  StackMark,
+  OrbitMark,
+  CpuMark,
+  McpMark,
+  OpenAIMark,
+  AnthropicMark,
+  GeminiMark,
+  GoogleCloudMark,
+  PotenciaMark,
+  IntegraMark,
+  OrquestaMark,
+} from "./marks";
 
 const O = WORLD_OFFSET;
 
@@ -192,6 +204,7 @@ export const World: React.FC = () => {
           from={T.concepts.potencia}
           heading="POTENCIA"
           body="el negocio con agentes IA propios, de SIREC o de terceros."
+          icon={<PotenciaMark size={26} color={COLORS.blue} />}
           accent={COLORS.blue}
         />
         <ConceptPanel
@@ -200,6 +213,7 @@ export const World: React.FC = () => {
           from={T.concepts.integra}
           heading="INTEGRA"
           body="agentes en el ciclo de recobro de forma ágil y con garantías."
+          icon={<IntegraMark size={26} color={COLORS.turquoise} />}
           accent={COLORS.turquoise}
         />
         <ConceptPanel
@@ -208,6 +222,7 @@ export const World: React.FC = () => {
           from={T.concepts.orquesta}
           heading="ORQUESTA"
           body="el proceso alineando cada decisión con los objetivos de negocio."
+          icon={<OrquestaMark size={26} color={COLORS.navy} />}
           accent={COLORS.navy}
         />
       </div>

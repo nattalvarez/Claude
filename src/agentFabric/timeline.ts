@@ -91,7 +91,7 @@ export const T = {
   connFabricMcp: { from: 292, duration: 24 },
   fabric: { container: 226, icon: 238, title: 250, subtitle: 266, tag: 282 },
 
-  connMcpAgents: { from: 350, duration: 30 },
+  connMcpAgents: { from: 363, duration: 30 }, // finishes exactly as the Agents card starts — never a bare line
   mcp: { badge: 300, label: 312 },
 
   agents: { container: 393, icon: 405, title: 417, subtitle: 432 },
@@ -100,7 +100,8 @@ export const T = {
     { from: 462, dx: 0, dy: -110 },
     { from: 472, dx: 220, dy: -60 },
   ],
-  pillConnectors: [452, 462, 472],
+  // starts a beat after each pill so the connector catches up to an already-settling chip
+  pillConnectors: [460, 470, 480],
 
   ecosystem: {
     aiConnFrom: 496,
