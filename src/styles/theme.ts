@@ -6,6 +6,10 @@ export const COLORS = {
   turquoise: "#2ABBCE",
   lightBlue: "#DDE7F4",
   glow: "rgba(42, 187, 206, 0.4)",
+  // sparing magenta/purple accent for the Agent Fabric piece — never more than
+  // one glowing/accented element per frame
+  magenta: "#8B5CF6",
+  magentaGlow: "rgba(139, 92, 246, 0.35)",
 } as const;
 
 export const FPS = 30;
