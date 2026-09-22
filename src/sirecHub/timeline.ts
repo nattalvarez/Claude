@@ -44,9 +44,10 @@ export const WORLD_SVG_SIZE = 4800;
 // ---- Camera keyframes: frame, x, y, zoom, tilt(deg) ------------------------
 type CamKey = [number, number, number, number, number];
 
-// Same sweep as the hexagon itself — 0°, 60°, 120°, 180°, 240°, 300° — so the
-// wheel visibly builds itself around the circle in order, not in jumps.
-const CHANNEL_ORDER = ["litigiosa", "selfService", "presencial", "despachos", "cobranza", "amistosa"] as const;
+// Same sweep as the hexagon itself, starting from amistosa (300°) and
+// continuing forward around the circle — 300°, 0°, 60°, 120°, 180°, 240° —
+// so the wheel visibly builds itself in order, not in jumps.
+const CHANNEL_ORDER = ["amistosa", "litigiosa", "selfService", "presencial", "despachos", "cobranza"] as const;
 export type ChannelKey = (typeof CHANNEL_ORDER)[number];
 
 // One steady, held view for the entire wheel-building section — every
@@ -158,12 +159,12 @@ export const T = {
 
   sirec: { core: 150, ring: 164, label: 182 },
 
-  litigiosa: channelTiming("litigiosa", 0),
-  selfService: channelTiming("selfService", 1),
-  presencial: channelTiming("presencial", 2),
-  despachos: channelTiming("despachos", 3),
-  cobranza: channelTiming("cobranza", 4),
-  amistosa: channelTiming("amistosa", 5),
+  amistosa: channelTiming("amistosa", 0),
+  litigiosa: channelTiming("litigiosa", 1),
+  selfService: channelTiming("selfService", 2),
+  presencial: channelTiming("presencial", 3),
+  despachos: channelTiming("despachos", 4),
+  cobranza: channelTiming("cobranza", 5),
 
   agentFabric: {
     line: fabricPushStart + 5,

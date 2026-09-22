@@ -19,6 +19,11 @@ export const AgentFabricLayer: React.FC = () => {
 
   const breathe = 1 + Math.sin((frame - T.agentFabric.container) / 44) * 0.02 * Math.min(1, container);
 
+  // A gentle, perpetual pulse once "SIREC Agent Fabric" has settled in —
+  // it never stops moving, unlike every other static label, since this is
+  // the one line that should read as live and active.
+  const pulse = (Math.sin((frame - T.agentFabric.subtitle) / 20) * 0.5 + 0.5) * Math.min(1, subtitle);
+
   return (
     <div
       style={{
@@ -81,19 +86,42 @@ export const AgentFabricLayer: React.FC = () => {
         <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 32, color: COLORS.navy, whiteSpace: "nowrap" }}>
           Agentes IA
         </span>
-        <span
+        <div
           style={{
-            fontFamily: FONT_FAMILY,
-            fontWeight: 600,
-            fontSize: 18,
-            color: COLORS.blue,
-            whiteSpace: "nowrap",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            marginTop: 2,
             opacity: interpolate(subtitle, [0, 1], [0, 1]),
             transform: `translateY(${interpolate(subtitle, [0, 1], [8, 0])}px)`,
           }}
         >
-          SIREC Agent Fabric
-        </span>
+          <div
+            style={{
+              width: 9,
+              height: 9,
+              borderRadius: "50%",
+              background: COLORS.turquoise,
+              boxShadow: `0 0 ${6 + pulse * 8}px ${COLORS.turquoise}`,
+              transform: `scale(${1 + pulse * 0.35})`,
+              flexShrink: 0,
+            }}
+          />
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontWeight: 800,
+              fontSize: 27,
+              color: COLORS.blue,
+              letterSpacing: 0.3,
+              whiteSpace: "nowrap",
+              transform: `scale(${1 + pulse * 0.02})`,
+              textShadow: `0 0 ${4 + pulse * 10}px ${COLORS.blue}55`,
+            }}
+          >
+            SIREC Agent Fabric
+          </span>
+        </div>
       </div>
     </div>
   );
