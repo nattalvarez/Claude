@@ -129,7 +129,7 @@ export const ChannelNode: React.FC<Props> = ({
           display: "flex",
           alignItems: "center",
           overflow: variant === "unfold" ? "hidden" : "visible",
-          maxWidth: variant === "unfold" ? interpolate(labelSpring, [0, 1], [0, 380]) : undefined,
+          maxWidth: variant === "unfold" ? interpolate(labelSpring, [0, 1], [0, 230]) : undefined,
           opacity: variant === "unfold" ? 1 : interpolate(labelSpring, [0, 1], [0, 1]),
           transform:
             variant === "unfold"
@@ -140,29 +140,30 @@ export const ChannelNode: React.FC<Props> = ({
         }}
       >
         {/* A solid card behind every label — nothing behind it (a connector
-         * line, another node's halo) can ever show through the text. Top/
-         * bottom labels wrap to two lines: two adjacent hexagon vertices
-         * only 60° apart need narrow cards, not wide single-line ones, to
-         * clear each other. */}
+         * line, another node's halo) can ever show through the text. Every
+         * card wraps to two lines at the same narrow width, whichever side
+         * it sits on: two adjacent hexagon vertices only 60° apart need
+         * narrow cards, not wide single-line ones, to clear each other, and
+         * it keeps all six channels reading as the same size and weight. */}
         <div
           style={{
             background: COLORS.white,
             borderRadius: 14,
-            padding: isVertical ? "10px 18px" : "12px 22px",
+            padding: "10px 18px",
             boxShadow: `0 14px 30px -12px ${COLORS.navyShadow}, 0 0 0 1.5px ${accent}3D`,
-            whiteSpace: isVertical ? "normal" : "nowrap",
-            maxWidth: isVertical ? 220 : undefined,
+            whiteSpace: "normal",
+            maxWidth: 220,
           }}
         >
           <span
             style={{
               fontFamily: FONT_FAMILY,
               fontWeight: 700,
-              fontSize: isVertical ? 27 : 32,
+              fontSize: 27,
               color: COLORS.navy,
-              textAlign: isVertical ? "center" : undefined,
-              display: isVertical ? "block" : undefined,
-              whiteSpace: isVertical ? "normal" : "nowrap",
+              textAlign: "center",
+              display: "block",
+              whiteSpace: "normal",
             }}
           >
             {label}

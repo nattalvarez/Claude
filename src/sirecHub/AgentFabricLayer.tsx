@@ -66,6 +66,10 @@ export const AgentFabricLayer: React.FC = () => {
 
       <div
         style={{
+          background: COLORS.white,
+          borderRadius: 14,
+          padding: "14px 24px",
+          boxShadow: `0 14px 30px -12px ${COLORS.navyShadow}, 0 0 0 1.5px ${COLORS.blue}3D`,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -74,24 +78,23 @@ export const AgentFabricLayer: React.FC = () => {
           transform: `translateY(${interpolate(title, [0, 1], [12, 0])}px)`,
         }}
       >
-        <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 38, color: COLORS.navy, whiteSpace: "nowrap" }}>
+        <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 32, color: COLORS.navy, whiteSpace: "nowrap" }}>
           Agentes IA
         </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontWeight: 600,
+            fontSize: 18,
+            color: COLORS.blue,
+            whiteSpace: "nowrap",
+            opacity: interpolate(subtitle, [0, 1], [0, 1]),
+            transform: `translateY(${interpolate(subtitle, [0, 1], [8, 0])}px)`,
+          }}
+        >
+          SIREC Agent Fabric
+        </span>
       </div>
-
-      <span
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontWeight: 600,
-          fontSize: 20,
-          color: COLORS.blue,
-          whiteSpace: "nowrap",
-          opacity: interpolate(subtitle, [0, 1], [0, 1]),
-          transform: `translateY(${interpolate(subtitle, [0, 1], [8, 0])}px)`,
-        }}
-      >
-        SIREC Agent Fabric
-      </span>
     </div>
   );
 };
