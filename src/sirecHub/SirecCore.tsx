@@ -68,40 +68,19 @@ export const SirecCore: React.FC = () => {
         <Img src={staticFile("sirecHub/sirec-icon.webp")} style={{ width: 128, height: "auto" }} />
       </div>
 
-      <div
+      <span
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 4,
+          fontFamily: FONT_FAMILY,
+          fontWeight: 900,
+          fontSize: 52,
+          letterSpacing: -0.5,
+          color: COLORS.navy,
           opacity: interpolate(label, [0, 1], [0, 1]),
           transform: `translateY(${interpolate(label, [0, 1], [14, 0])}px)`,
         }}
       >
-        <span
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontWeight: 900,
-            fontSize: 52,
-            letterSpacing: -0.5,
-            color: COLORS.navy,
-          }}
-        >
-          SIREC
-        </span>
-        <span
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontWeight: 500,
-            fontSize: 20,
-            color: COLORS.blue,
-            opacity: 0.9,
-            whiteSpace: "nowrap",
-          }}
-        >
-          Orquestación del ciclo de riesgo de crédito
-        </span>
-      </div>
+        SIREC
+      </span>
     </div>
   );
 };

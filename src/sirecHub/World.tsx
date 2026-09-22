@@ -1,7 +1,6 @@
 import React from "react";
-import { useCurrentFrame, interpolate } from "remotion";
+import { useCurrentFrame } from "remotion";
 import { COLORS } from "../styles/theme";
-import { KineticText } from "../components/KineticText";
 import { FlowLine } from "../agentFabric/FlowLine";
 import {
   cameraAt,
@@ -11,7 +10,6 @@ import {
   CENTER,
   SPOKES,
   AGENT_FABRIC_POS,
-  FINAL_TAGLINE_SCREEN_Y,
   T,
 } from "./timeline";
 import { TitleScene } from "./TitleScene";
@@ -106,7 +104,7 @@ export const World: React.FC = () => {
           nodeFrom={T.amistosa.node}
           labelFrom={T.amistosa.label}
           label="Gestión interna amistosa"
-          icon={<AmistosaMark size={46} color={COLORS.navy} />}
+          icon={<AmistosaMark size={22} color={COLORS.navy} />}
           accent={COLORS.turquoise}
           variant="pop"
           labelSide="top"
@@ -118,7 +116,7 @@ export const World: React.FC = () => {
           nodeFrom={T.litigiosa.node}
           labelFrom={T.litigiosa.label}
           label="Gestión interna litigiosa"
-          icon={<LitigiosaMark size={44} color={COLORS.navy} />}
+          icon={<LitigiosaMark size={22} color={COLORS.navy} />}
           accent={COLORS.blue}
           variant="unfold"
           labelSide="left"
@@ -130,10 +128,9 @@ export const World: React.FC = () => {
           nodeFrom={T.cobranza.node}
           labelFrom={T.cobranza.label}
           label="Agencias de cobranza"
-          icon={<CobranzaMark size={44} color={COLORS.navy} />}
+          icon={<CobranzaMark size={22} color={COLORS.navy} />}
           accent={COLORS.turquoise}
-          variant="satellite"
-          satellites={T.cobranza.satellites}
+          variant="pop"
           labelSide="top"
         />
 
@@ -143,7 +140,7 @@ export const World: React.FC = () => {
           nodeFrom={T.despachos.node}
           labelFrom={T.despachos.label}
           label="Despachos de abogados"
-          icon={<DespachosMark size={44} color={COLORS.navy} />}
+          icon={<DespachosMark size={22} color={COLORS.navy} />}
           accent={COLORS.blue}
           variant="flow"
           labelSide="bottom"
@@ -155,7 +152,7 @@ export const World: React.FC = () => {
           nodeFrom={T.presencial.node}
           labelFrom={T.presencial.label}
           label="Gestión presencial"
-          icon={<PresencialMark size={44} color={COLORS.navy} />}
+          icon={<PresencialMark size={22} color={COLORS.navy} />}
           accent={COLORS.blue}
           variant="pop"
           labelSide="bottom"
@@ -167,7 +164,7 @@ export const World: React.FC = () => {
           nodeFrom={T.selfService.node}
           labelFrom={T.selfService.label}
           label="Gestión self-service"
-          icon={<SelfServiceMark size={46} color={COLORS.navy} />}
+          icon={<SelfServiceMark size={22} color={COLORS.navy} />}
           accent={COLORS.turquoise}
           variant="pop"
           labelSide="bottom"
@@ -180,40 +177,7 @@ export const World: React.FC = () => {
       <div style={{ position: "absolute", inset: 0, transform: worldTransform(cam, 1.3), transformOrigin: "0 0" }}>
         <ForegroundFloaters />
       </div>
-
-      {/* Fixed screen-space caption — independent of the world camera so it
-       * never competes for space with the gathered schema underneath it. */}
-      <FinalTagline />
     </>
-  );
-};
-
-const FinalTagline: React.FC = () => {
-  const frame = useCurrentFrame();
-  const p = interpolate(frame, [T.finalTagline, T.finalTagline + 20], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  if (p <= 0.001) return null;
-  return (
-    <div
-      style={{
-        position: "absolute",
-        left: "50%",
-        top: FINAL_TAGLINE_SCREEN_Y,
-        transform: `translate(-50%, -50%) translateY(${interpolate(p, [0, 1], [14, 0])}px)`,
-        opacity: p,
-      }}
-    >
-      <KineticText
-        parts={[{ text: "Todos los datos en una única plataforma.", color: COLORS.turquoise }]}
-        from={T.finalTagline}
-        fontSize={34}
-        fontWeight={700}
-        align="center"
-        wordStagger={2.4}
-      />
-    </div>
   );
 };
 

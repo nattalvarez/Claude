@@ -17,9 +17,6 @@ export const FPS = 30;
 
 export const CENTER = { x: 0, y: 0 };
 export const TITLE_POS = { x: 0, y: -150 };
-// a fixed screen-space spot, independent of the world camera, so the
-// closing line never has to compete with the schema underneath it.
-export const FINAL_TAGLINE_SCREEN_Y = 1015;
 
 // A true regular hexagon — six channels, 60° apart, all at the same
 // radius from SIREC — so the structure reads as symmetric at a glance
@@ -47,7 +44,9 @@ export const WORLD_SVG_SIZE = 4800;
 // ---- Camera keyframes: frame, x, y, zoom, tilt(deg) ------------------------
 type CamKey = [number, number, number, number, number];
 
-const CHANNEL_ORDER = ["amistosa", "litigiosa", "cobranza", "despachos", "presencial", "selfService"] as const;
+// Same sweep as the hexagon itself — 0°, 60°, 120°, 180°, 240°, 300° — so the
+// wheel visibly builds itself around the circle in order, not in jumps.
+const CHANNEL_ORDER = ["litigiosa", "selfService", "presencial", "despachos", "cobranza", "amistosa"] as const;
 export type ChannelKey = (typeof CHANNEL_ORDER)[number];
 
 // One steady, held view for the entire wheel-building section — every
@@ -159,18 +158,12 @@ export const T = {
 
   sirec: { core: 150, ring: 164, label: 182 },
 
-  amistosa: channelTiming("amistosa", 0),
-  litigiosa: channelTiming("litigiosa", 1),
-  cobranza: {
-    ...channelTiming("cobranza", 2),
-    satellites: (() => {
-      const node = channelTiming("cobranza", 2).node;
-      return [node + 22, node + 30, node + 38] as readonly number[];
-    })(),
-  },
+  litigiosa: channelTiming("litigiosa", 0),
+  selfService: channelTiming("selfService", 1),
+  presencial: channelTiming("presencial", 2),
   despachos: channelTiming("despachos", 3),
-  presencial: channelTiming("presencial", 4),
-  selfService: channelTiming("selfService", 5),
+  cobranza: channelTiming("cobranza", 4),
+  amistosa: channelTiming("amistosa", 5),
 
   agentFabric: {
     line: fabricPushStart + 5,
@@ -179,6 +172,4 @@ export const T = {
     title: fabricArrive + 10,
     subtitle: fabricArrive + 26,
   },
-
-  finalTagline: gatherArrive + 35,
 } as const;
