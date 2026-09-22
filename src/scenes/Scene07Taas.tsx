@@ -69,7 +69,6 @@ export const Scene07Taas: React.FC = () => {
 
         <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 90 }}>
           <TitleBlock
-            eyebrow="Servicio SIREC"
             title="TaaS"
             subtitle="Training as a Service"
             description="Formación planificada con sesiones presenciales y acceso a contenido formativo."

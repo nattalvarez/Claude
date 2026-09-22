@@ -66,7 +66,7 @@ const Layer: React.FC<{ stageIndex: number; frame: number }> = ({ stageIndex, fr
 export const Scene06Uaas: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const cameraY = interpolate(frame, [0, DURATION], [40, -90], {
+  const cameraY = interpolate(frame, [0, DURATION], [55, -135], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
@@ -132,7 +132,6 @@ export const Scene06Uaas: React.FC = () => {
 
         <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-start", paddingTop: 96 }}>
           <TitleBlock
-            eyebrow="Servicio SIREC"
             title="UaaS"
             subtitle="Upgrade as a Service"
             description="Actualizaciones de software para aprovechar las ventajas de las versiones más recientes del producto."

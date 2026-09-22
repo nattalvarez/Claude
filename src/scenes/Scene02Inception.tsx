@@ -5,7 +5,6 @@ import { Cube3D } from "../components/Cube3D";
 import { FloatingPiece, PieceType } from "../components/FloatingPiece";
 import { Node3D } from "../components/Node3D";
 import { ConnectionLine } from "../components/ConnectionLine";
-import { TechIcon } from "../components/TechIcon";
 import { TitleBlock } from "../components/TitleBlock";
 import { SceneExit } from "../components/SceneExit";
 import { seededRange } from "../lib/random";
@@ -25,7 +24,7 @@ type Piece = {
   stagger: number;
 };
 
-const PIECE_KINDS: Array<"cube" | PieceType> = ["cube", "circle", "square", "triangle", "cube", "diamond", "circle", "square"];
+const PIECE_KINDS: Array<"cube" | PieceType> = ["cube", "circle", "square", "cube", "circle", "square", "cube", "circle"];
 
 const buildPieces = (): Piece[] =>
   PIECE_KINDS.map((kind, i) => {
@@ -169,20 +168,7 @@ export const Scene02Inception: React.FC = () => {
         </AbsoluteFill>
 
         <AbsoluteFill style={{ justifyContent: "center", paddingLeft: 150, paddingRight: 980 }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 16,
-              marginBottom: 8,
-              opacity: interpolate(frame, [60, 76], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
-              transform: `translateY(${interpolate(frame, [60, 76], [10, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}px)`,
-            }}
-          >
-            <TechIcon type="node" color={COLORS.turquoise} size={30} />
-          </div>
           <TitleBlock
-            eyebrow="Servicio SIREC"
             title="INCEPTION"
             description="Consultoría y acompañamiento experto durante la definición de un proyecto."
             from={70}

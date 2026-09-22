@@ -38,7 +38,7 @@ export const Scene01Intro: React.FC = () => {
 
   // whole-structure camera: a slow zoom toward the core for the full scene, with a
   // faster final push in the last 45 frames that hands off into Scene02's overlap.
-  const zoomBase = interpolate(frame, [0, DURATION - 45], [1, 1.08], {
+  const zoomBase = interpolate(frame, [0, DURATION - 45], [1, 1.16], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),

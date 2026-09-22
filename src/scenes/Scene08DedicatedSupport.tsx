@@ -53,7 +53,7 @@ const Tag: React.FC<{ x: number; y: number; label: string; from: number }> = ({ 
 export const Scene08DedicatedSupport: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const cameraX = interpolate(frame, [0, DURATION], [-30, 50], {
+  const cameraX = interpolate(frame, [0, DURATION], [-55, 90], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
@@ -85,7 +85,6 @@ export const Scene08DedicatedSupport: React.FC = () => {
 
         <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 84 }}>
           <TitleBlock
-            eyebrow="Servicio SIREC"
             title="DEDICATED SUPPORT"
             description="Asignación directa de especialistas de SIREC a un cliente, de manera temporal o permanente."
             from={20}

@@ -3,7 +3,6 @@ import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS, WIDTH, HEIGHT, EASE, SCENE_DURATIONS } from "../styles/theme";
 import { Cube3D } from "../components/Cube3D";
 import { Node3D } from "../components/Node3D";
-import { Panel3D } from "../components/Panel3D";
 import { ConnectionLine } from "../components/ConnectionLine";
 import { ParticleFlow } from "../components/ParticleFlow";
 import { TechIcon } from "../components/TechIcon";
@@ -44,7 +43,7 @@ const NODES = [
   { type: "cube" as const, x: 960, y: 590, size: 96, color: COLORS.navy, from: 48 },
   { type: "node" as const, x: 640, y: 560, size: 26, color: COLORS.turquoise, from: 70 },
   { type: "node" as const, x: 1230, y: 560, size: 24, color: COLORS.blue, from: 78 },
-  { type: "panel" as const, x: 900, y: 300, size: 0, color: COLORS.blue, from: 64 },
+  { type: "cube" as const, x: 900, y: 300, size: 52, color: COLORS.blue, from: 64 },
   { type: "node" as const, x: 1080, y: 660, size: 20, color: COLORS.turquoise, from: 86 },
 ];
 
@@ -69,12 +68,12 @@ export const Scene05CloudServices: React.FC = () => {
     easing: Easing.bezier(...EASE.out),
   });
 
-  const cameraScale = interpolate(frame, [0, DURATION], [1, 1.22], {
+  const cameraScale = interpolate(frame, [0, DURATION], [1, 1.23], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
   });
-  const cameraY = interpolate(frame, [0, DURATION], [10, -34], {
+  const cameraY = interpolate(frame, [0, DURATION], [15, -38], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
@@ -143,12 +142,8 @@ export const Scene05CloudServices: React.FC = () => {
           {NODES.map((n, i) =>
             n.type === "cube" ? (
               <Cube3D key={i} x={n.x} y={n.y} size={n.size} color={n.color} from={n.from} rotateX={-16} rotateY={26} spinY={0.04} floatAmp={5} />
-            ) : n.type === "node" ? (
-              <Node3D key={i} x={n.x} y={n.y} size={n.size} color={n.color} from={n.from} />
             ) : (
-              <Panel3D key={i} x={n.x} y={n.y} width={120} height={78} color={n.color} from={n.from} rotateX={10} rotateY={-8} floatAmp={4} filled>
-                <TechIcon type="layers" color={n.color} size={26} />
-              </Panel3D>
+              <Node3D key={i} x={n.x} y={n.y} size={n.size} color={n.color} from={n.from} />
             )
           )}
         </AbsoluteFill>
@@ -187,7 +182,6 @@ export const Scene05CloudServices: React.FC = () => {
 
         <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 78 }}>
           <TitleBlock
-            eyebrow="Servicio SIREC"
             title="SIREC CLOUD SERVICES"
             description="Cartera integral de servicios Cloud para operar SIREC con altos niveles de seguridad y escalabilidad."
             from={20}

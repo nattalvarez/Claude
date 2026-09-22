@@ -38,7 +38,7 @@ const PULSE_FROM = DURATION - 34;
 export const Scene09Ecosystem: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const cameraScale = interpolate(frame, [0, 170], [1.5, 1], {
+  const cameraScale = interpolate(frame, [0, 170], [1.65, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),

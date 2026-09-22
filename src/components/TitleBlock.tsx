@@ -1,10 +1,8 @@
 import React from "react";
-import { useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
-import { COLORS, FONT_FAMILY } from "../styles/theme";
+import { COLORS } from "../styles/theme";
 import { KineticText } from "./KineticText";
 
 type Props = {
-  eyebrow?: string;
   title?: string;
   subtitle?: string;
   description?: string;
@@ -15,12 +13,12 @@ type Props = {
   accent?: string;
 };
 
-/** The standard title/subtitle/description stack used across every service scene —
- * eyebrow label snaps in first, then the title (big, navy), then the subtitle
- * (accent-colored, medium), then one short descriptive line. Kept inside the safe area
- * by the caller via x/y placement. */
+/** The standard title/subtitle/description stack used across every service scene — the
+ * title (big, navy) leads, then the subtitle (accent-colored, medium), then one short
+ * descriptive line. No eyebrow/kicker row: that generic "— LABEL" convention reads as
+ * templated stock-motion-graphics, so the title itself does the work of announcing the
+ * scene. Kept inside the safe area by the caller via x/y placement. */
 export const TitleBlock: React.FC<Props> = ({
-  eyebrow,
   title,
   subtitle,
   description,
@@ -30,38 +28,8 @@ export const TitleBlock: React.FC<Props> = ({
   titleSize = 64,
   accent = COLORS.turquoise,
 }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const eyebrowAppear = spring({ frame: frame - from, fps, config: { damping: 16, mass: 0.6, stiffness: 140 } });
-
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: align === "center" ? "center" : "flex-start", maxWidth }}>
-      {eyebrow && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            marginBottom: 18,
-            opacity: eyebrowAppear,
-            transform: `translateY(${interpolate(eyebrowAppear, [0, 1], [10, 0])}px)`,
-          }}
-        >
-          <div style={{ width: 28, height: 2, background: accent }} />
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontWeight: 500,
-              fontSize: 20,
-              letterSpacing: 3,
-              color: accent,
-            }}
-          >
-            {eyebrow.toUpperCase()}
-          </span>
-        </div>
-      )}
-
       {title && (
         <KineticText
           parts={[{ text: title }]}

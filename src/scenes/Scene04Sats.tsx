@@ -26,12 +26,12 @@ export const Scene04Sats: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const cameraX = interpolate(frame, [0, DURATION], [-40, 60], {
+  const cameraX = interpolate(frame, [0, DURATION], [-65, 95], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
   });
-  const cameraY = interpolate(frame, [0, DURATION], [30, -40], {
+  const cameraY = interpolate(frame, [0, DURATION], [45, -65], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
@@ -122,7 +122,6 @@ export const Scene04Sats: React.FC = () => {
 
         <AbsoluteFill style={{ justifyContent: "center", paddingRight: 150, paddingLeft: 980 }}>
           <TitleBlock
-            eyebrow="Servicio SIREC"
             title="SATS"
             subtitle="SIREC Automated Testing Suite"
             description="Automatización de pruebas para SIREC que ayuda a reducir costes y mejorar el time to market."

@@ -64,7 +64,7 @@ export const Scene03ChangeManagement: React.FC = () => {
   const frame = useCurrentFrame();
   const modules = useMemo(buildModules, []);
 
-  const cameraX = interpolate(frame, [0, DURATION], [-70, 70], {
+  const cameraX = interpolate(frame, [0, DURATION], [-115, 115], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
@@ -149,7 +149,6 @@ export const Scene03ChangeManagement: React.FC = () => {
         <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-start", paddingTop: 100 }}>
           <div style={{ transform: `translateY(${titleFloat}px)` }}>
             <TitleBlock
-              eyebrow="Servicio SIREC"
               title="CHANGE MANAGEMENT"
               description="Modelo de gestión especializado para impulsar la adopción y el máximo aprovechamiento de SIREC."
               from={140}
