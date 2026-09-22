@@ -2,12 +2,12 @@
   "name": "sirec-motion",
   "version": "1.0.0",
   "private": true,
-  "description": "SIREC — Motion Graphics 30s (Remotion)",
+  "description": "SIREC — Un ecosistema que evoluciona contigo (Remotion)",
   "scripts": {
     "start": "remotion studio",
-    "build": "remotion render SirecMotion out/sirec-motion.mp4 --ignore-certificate-errors",
-    "preview": "remotion render SirecMotion out/sirec-motion-preview.mp4 --scale=0.5 --jpeg-quality=80 --ignore-certificate-errors",
-    "still": "remotion still SirecMotion out/still.png --ignore-certificate-errors",
+    "build": "remotion render SirecEcosystem out/sirec-ecosystem.mp4 --ignore-certificate-errors",
+    "preview": "remotion render SirecEcosystem out/sirec-ecosystem-preview.mp4 --scale=0.5 --jpeg-quality=80 --ignore-certificate-errors",
+    "still": "remotion still SirecEcosystem out/still.png --ignore-certificate-errors",
     "upgrade": "remotion upgrade"
   },
   "dependencies": {

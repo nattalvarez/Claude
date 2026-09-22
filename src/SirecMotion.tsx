@@ -1,15 +1,18 @@
 import React from "react";
-import { AbsoluteFill, Sequence } from "remotion";
+import { AbsoluteFill, Series } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Roboto";
-import { SCENES } from "./styles/theme";
+import { OVERLAP, SCENE_DURATIONS } from "./styles/theme";
 import { BgMesh, Grade, Grain, Vignette } from "./components/CinematicLayers";
-import { Scene01Complexity } from "./scenes/Scene01Complexity";
-import { Scene02Sirec } from "./scenes/Scene02Sirec";
-import { Scene03Autonomy } from "./scenes/Scene03Autonomy";
-import { Scene04Agents } from "./scenes/Scene04Agents";
-import { Scene05Governance } from "./scenes/Scene05Governance";
-import { Scene06Specialization } from "./scenes/Scene06Specialization";
-import { Scene07Outro } from "./scenes/Scene07Outro";
+import { Scene01Intro } from "./scenes/Scene01Intro";
+import { Scene02Inception } from "./scenes/Scene02Inception";
+import { Scene03ChangeManagement } from "./scenes/Scene03ChangeManagement";
+import { Scene04Sats } from "./scenes/Scene04Sats";
+import { Scene05CloudServices } from "./scenes/Scene05CloudServices";
+import { Scene06Uaas } from "./scenes/Scene06Uaas";
+import { Scene07Taas } from "./scenes/Scene07Taas";
+import { Scene08DedicatedSupport } from "./scenes/Scene08DedicatedSupport";
+import { Scene09Ecosystem } from "./scenes/Scene09Ecosystem";
+import { Scene10EndCard } from "./scenes/Scene10EndCard";
 
 loadFont("normal", {
   weights: ["300", "400", "500", "700", "900"],
@@ -17,32 +20,47 @@ loadFont("normal", {
   ignoreTooManyRequestsWarning: true,
 });
 
+/** SIREC — Un ecosistema que evoluciona contigo. Ten scenes assembled with `Series`,
+ * each overlapping the next by OVERLAP frames so the outgoing scene's exit motif and the
+ * incoming scene's entrance motif cross-dissolve instead of hard-cutting — every scene is
+ * meant to feel "born" from the one before it. */
 export const SirecMotion: React.FC = () => {
   return (
     <AbsoluteFill>
       <BgMesh />
 
-      <Sequence from={SCENES.s01.from} durationInFrames={SCENES.s01.duration} name="01 — Complejidad">
-        <Scene01Complexity />
-      </Sequence>
-      <Sequence from={SCENES.s02.from} durationInFrames={SCENES.s02.duration} name="02 — SIREC">
-        <Scene02Sirec />
-      </Sequence>
-      <Sequence from={SCENES.s03.from} durationInFrames={SCENES.s03.duration} name="03 — Autonomía">
-        <Scene03Autonomy />
-      </Sequence>
-      <Sequence from={SCENES.s04.from} durationInFrames={SCENES.s04.duration} name="04 — Agentes">
-        <Scene04Agents />
-      </Sequence>
-      <Sequence from={SCENES.s05.from} durationInFrames={SCENES.s05.duration} name="05 — Gobernanza">
-        <Scene05Governance />
-      </Sequence>
-      <Sequence from={SCENES.s06.from} durationInFrames={SCENES.s06.duration} name="06 — Especialización">
-        <Scene06Specialization />
-      </Sequence>
-      <Sequence from={SCENES.s07.from} durationInFrames={SCENES.s07.duration} name="07 — Cierre">
-        <Scene07Outro />
-      </Sequence>
+      <Series>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.intro} name="01 — Núcleo">
+          <Scene01Intro />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.inception} offset={-OVERLAP} name="02 — Inception">
+          <Scene02Inception />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.changeManagement} offset={-OVERLAP} name="03 — Change Management">
+          <Scene03ChangeManagement />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.sats} offset={-OVERLAP} name="04 — SATS">
+          <Scene04Sats />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.cloud} offset={-OVERLAP} name="05 — Cloud Services">
+          <Scene05CloudServices />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.uaas} offset={-OVERLAP} name="06 — UaaS">
+          <Scene06Uaas />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.taas} offset={-OVERLAP} name="07 — TaaS">
+          <Scene07Taas />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.support} offset={-OVERLAP} name="08 — Dedicated Support">
+          <Scene08DedicatedSupport />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.ecosystem} offset={-OVERLAP} name="09 — Ecosystem">
+          <Scene09Ecosystem />
+        </Series.Sequence>
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.endCard} offset={-OVERLAP} name="10 — End Card">
+          <Scene10EndCard />
+        </Series.Sequence>
+      </Series>
 
       <Grade />
       <Grain />

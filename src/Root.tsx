@@ -7,7 +7,7 @@ export const Root: React.FC = () => {
   return (
     <>
       <Composition
-        id="SirecMotion"
+        id="SirecEcosystem"
         component={SirecMotion}
         durationInFrames={DURATION_IN_FRAMES}
         fps={FPS}
