@@ -17,17 +17,21 @@ type Props = {
   satellites?: readonly number[];
   /** label placement relative to the node, so it reads toward SIREC or away from it */
   labelSide?: "right" | "left" | "top" | "bottom";
-  /** external visibility multiplier (0-1) — lets the node recede while the
-   * camera is tightly focused on a different channel, so it never lingers
-   * clipped at the edge, then return once the camera opens back up. */
+  /** external visibility multiplier (0-1), 1 by default — every channel stays
+   * on screen once it appears; this only exists for the rare moment a beat
+   * needs to fade something deliberately. */
   fade?: number;
 };
+
+const ICON_SIZE = 110;
 
 /** One management channel, arriving at the end of its own connection. Four
  * variants keep the six channels from feeling like one animation repeated:
  * a snappy pop, a text that unfolds open, a node ringed by small satellites,
  * and a node that lands with an impact bounce as if just delivered by the
- * line's flow. */
+ * line's flow. Every one is the same size and gets the same solid label
+ * card, so no channel reads as more important than another and no
+ * connector line ever shows through the text. */
 export const ChannelNode: React.FC<Props> = ({
   x,
   y,
@@ -70,15 +74,15 @@ export const ChannelNode: React.FC<Props> = ({
         display: "flex",
         flexDirection,
         alignItems: "center",
-        gap: isVertical ? 16 : 20,
+        gap: isVertical ? 18 : 22,
         opacity: fade,
       }}
     >
       <div
         style={{
           position: "relative",
-          width: 86,
-          height: 86,
+          width: ICON_SIZE,
+          height: ICON_SIZE,
           borderRadius: "50%",
           display: "flex",
           alignItems: "center",
@@ -97,7 +101,7 @@ export const ChannelNode: React.FC<Props> = ({
           satellites.map((satFrom, i) => {
             const satP = spring({ frame: frame - satFrom, fps, config: { damping: 14, mass: 0.5, stiffness: 150 } });
             const angle = -90 + i * 100;
-            const r = 66;
+            const r = 82;
             return (
               <div
                 key={i}
@@ -105,8 +109,8 @@ export const ChannelNode: React.FC<Props> = ({
                   position: "absolute",
                   left: "50%",
                   top: "50%",
-                  width: 23,
-                  height: 23,
+                  width: 26,
+                  height: 26,
                   borderRadius: "50%",
                   background: COLORS.navy,
                   border: `1px solid ${accent}88`,
@@ -125,7 +129,7 @@ export const ChannelNode: React.FC<Props> = ({
           display: "flex",
           alignItems: "center",
           overflow: variant === "unfold" ? "hidden" : "visible",
-          maxWidth: variant === "unfold" ? interpolate(labelSpring, [0, 1], [0, 320]) : undefined,
+          maxWidth: variant === "unfold" ? interpolate(labelSpring, [0, 1], [0, 380]) : undefined,
           opacity: variant === "unfold" ? 1 : interpolate(labelSpring, [0, 1], [0, 1]),
           transform:
             variant === "unfold"
@@ -135,18 +139,35 @@ export const ChannelNode: React.FC<Props> = ({
                 }px)`,
         }}
       >
-        <span
+        {/* A solid card behind every label — nothing behind it (a connector
+         * line, another node's halo) can ever show through the text. Top/
+         * bottom labels wrap to two lines: two adjacent hexagon vertices
+         * only 60° apart need narrow cards, not wide single-line ones, to
+         * clear each other. */}
+        <div
           style={{
-            fontFamily: FONT_FAMILY,
-            fontWeight: 700,
-            fontSize: 30,
-            color: COLORS.navy,
-            whiteSpace: "nowrap",
-            textAlign: labelSide === "left" ? "right" : labelSide === "top" || labelSide === "bottom" ? "center" : "left",
+            background: COLORS.white,
+            borderRadius: 14,
+            padding: isVertical ? "10px 18px" : "12px 22px",
+            boxShadow: `0 14px 30px -12px ${COLORS.navyShadow}, 0 0 0 1.5px ${accent}3D`,
+            whiteSpace: isVertical ? "normal" : "nowrap",
+            maxWidth: isVertical ? 220 : undefined,
           }}
         >
-          {label}
-        </span>
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontWeight: 700,
+              fontSize: isVertical ? 27 : 32,
+              color: COLORS.navy,
+              textAlign: isVertical ? "center" : undefined,
+              display: isVertical ? "block" : undefined,
+              whiteSpace: isVertical ? "normal" : "nowrap",
+            }}
+          >
+            {label}
+          </span>
+        </div>
       </div>
     </div>
   );
