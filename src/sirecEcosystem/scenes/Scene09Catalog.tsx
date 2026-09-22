@@ -11,11 +11,11 @@ const DUR = scene("catalog").duration;
 
 const lookAt = (cx: number, cy: number, s: number, frame: number): CamKF => [frame, cx, cy, s];
 
-const CARD_W = 660;
-const COL_L = -370;
-const COL_R = 370;
-const ROWS = [-260, -84, 92, 268];
-const HEADER_Y = -430;
+const CARD_W = 740;
+const COL_L = -410;
+const COL_R = 410;
+const ROWS = [-320, -100, 120, 340];
+const HEADER_Y = -520;
 
 type Layout = { id: string; x: number; y: number; revealFrame: number; variant: CardVariant; big?: boolean };
 
@@ -29,17 +29,14 @@ const LAYOUT: Layout[] = [
   { id: "cloud", x: 0, y: ROWS[3], revealFrame: 256, variant: "pop", big: true },
 ];
 
+// One single, continuous zoom-out for the whole scene — no intermediate
+// stops to visit each card — so the camera never has to snap between
+// waypoints (the earlier per-card tour) and nothing risks framing a card
+// half off-screen mid-move. Cards still reveal one at a time on their own
+// stagger, independent of the camera.
 const CAM: CamKF[] = [
-  lookAt(0, HEADER_Y - 20, 1.05, 0),
-  lookAt(COL_L, ROWS[0], 1.55, 34),
-  lookAt(COL_R, ROWS[0], 1.55, 72),
-  lookAt(COL_L, ROWS[1], 1.55, 108),
-  lookAt(COL_R, ROWS[1], 1.55, 144),
-  lookAt(COL_L, ROWS[2], 1.55, 180),
-  lookAt(COL_R, ROWS[2], 1.55, 216),
-  lookAt(0, ROWS[3], 1.4, 252),
-  lookAt(0, -50, 0.85, 306),
-  lookAt(0, -50, 0.85, DUR),
+  lookAt(0, HEADER_Y - 60, 1.1, 0),
+  lookAt(0, -60, 0.74, DUR),
 ];
 
 export const Scene09Catalog: React.FC = () => {
@@ -70,11 +67,11 @@ export const Scene09Catalog: React.FC = () => {
               transform: `translate(-50%, -50%) translateY(${interpolate(headerP, [0, 1], [20, 0])}px) scale(${interpolate(headerP, [0, 1], [0.96, 1])})`,
             }}
           >
-            <KineticTitle text="SIREC" from={4} fontSize={70} align="center" />
+            <KineticTitle text="SIREC" from={4} fontSize={92} align="center" />
             <TextBlock
               text="Servicios para acompañar la evolución de la plataforma"
               from={20}
-              fontSize={24}
+              fontSize={28}
               weight={500}
               color={COLORS.navySoft}
               align="center"

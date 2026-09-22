@@ -41,14 +41,14 @@ export const Scene01Intro: React.FC = () => {
             <div
               style={{
                 position: "relative",
-                width: 170,
-                height: 170,
-                transform: `translateX(${shiftX}px) translateY(-190px) scale(${markScale * growScale * shiftScale * breathe})`,
+                width: 108,
+                height: 108,
+                transform: `translateX(${shiftX}px) translateY(-430px) scale(${markScale * growScale * shiftScale * breathe})`,
               }}
             >
-              <Chip w={170} radius={32} color={COLORS.navy} />
-              <div style={{ position: "absolute", left: 46, top: 46 }}>
-                <Chip w={90} radius={20} color={COLORS.turquoise} />
+              <Chip w={108} radius={22} color={COLORS.navy} />
+              <div style={{ position: "absolute", left: 30, top: 30 }}>
+                <Chip w={58} radius={14} color={COLORS.turquoise} />
               </div>
             </div>
           </AbsoluteFill>
@@ -57,30 +57,29 @@ export const Scene01Intro: React.FC = () => {
             style={{
               alignItems: "center",
               justifyContent: "center",
-              paddingTop: 470,
               opacity: textFade,
               transform: `translateY(${textShift}px)`,
             }}
           >
-            <Card from={50} style={{ padding: "40px 80px", display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
-              <KineticTitle text="SIREC" from={58} fontSize={116} weight={900} align="center" letterSpacing={-2} />
+            <Card from={50} style={{ padding: "48px 96px", display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+              <KineticTitle text="SIREC" from={58} fontSize={150} weight={900} align="center" letterSpacing={-3} />
               <TextBlock
                 text="Un ecosistema de servicios alrededor de la plataforma"
                 from={98}
-                fontSize={34}
+                fontSize={40}
                 weight={700}
                 color={COLORS.navy}
                 align="center"
-                maxWidth={1000}
+                maxWidth={1100}
               />
               <TextBlock
                 text="Soluciones especializadas para acompañar todo el ciclo de vida de SIREC"
                 from={126}
-                fontSize={22}
+                fontSize={26}
                 weight={500}
                 color={COLORS.navySoft}
                 align="center"
-                maxWidth={780}
+                maxWidth={860}
               />
             </Card>
           </AbsoluteFill>

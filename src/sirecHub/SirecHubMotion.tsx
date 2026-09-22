@@ -1,15 +1,11 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { loadFont } from "@remotion/google-fonts/Roboto";
+import { loadRobotoLocally } from "../shared/loadRobotoLocally";
 import { COLORS } from "../styles/theme";
 import { Background } from "./Background";
 import { World } from "./World";
 
-loadFont("normal", {
-  weights: ["300", "400", "500", "700", "800", "900"],
-  subsets: ["latin", "latin-ext"],
-  ignoreTooManyRequestsWarning: true,
-});
+loadRobotoLocally();
 
 /** Above content, below grain: a whisper of grade for depth. */
 const Grade: React.FC = () => (

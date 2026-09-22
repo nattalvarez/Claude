@@ -8,11 +8,11 @@ import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
 
 const DUR = scene("cloud").duration;
-const CANVAS = 300;
+const CANVAS = 190;
 
 const DOTS = [
-  { x: 168, y: -108, size: 32, color: COLORS.turquoise, delay: 30, speed: 46 },
-  { x: -170, y: 66, size: 26, color: COLORS.blue, delay: 40, speed: 54 },
+  { x: 106, y: -68, size: 20, color: COLORS.turquoise, delay: 30, speed: 46 },
+  { x: -108, y: 42, size: 17, color: COLORS.blue, delay: 40, speed: 54 },
 ];
 
 export const Scene05Cloud: React.FC = () => {
@@ -72,13 +72,13 @@ export const Scene05Cloud: React.FC = () => {
               </div>
             </div>
 
-            <Card from={12} fade={pushO} style={{ padding: "40px 44px", maxWidth: 620, display: "flex", flexDirection: "column", gap: 18 }}>
+            <Card from={12} fade={pushO} style={{ padding: "46px 50px", maxWidth: 720, display: "flex", flexDirection: "column", gap: 20 }}>
               <div>
-                <KineticTitle text="SIREC CLOUD" from={18} fontSize={64} style={{ marginBottom: -14 }} />
-                <KineticTitle text="SERVICES" from={24} fontSize={64} />
+                <KineticTitle text="SIREC CLOUD" from={18} fontSize={86} style={{ marginBottom: -18 }} />
+                <KineticTitle text="SERVICES" from={24} fontSize={86} />
               </div>
-              <TextBlock text="Cartera integral de servicios Cloud para operar SIREC." from={64} fontSize={24} weight={600} color={COLORS.navy} lineHeight={1.4} />
-              <TextBlock text="Altos niveles de seguridad y escalabilidad." from={96} fontSize={19} weight={500} color={COLORS.navySoft} lineHeight={1.4} />
+              <TextBlock text="Cartera integral de servicios Cloud para operar SIREC." from={64} fontSize={30} weight={600} color={COLORS.navy} lineHeight={1.4} />
+              <TextBlock text="Altos niveles de seguridad y escalabilidad." from={96} fontSize={24} weight={500} color={COLORS.navySoft} lineHeight={1.4} />
             </Card>
           </AbsoluteFill>
         </AbsoluteFill>

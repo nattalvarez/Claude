@@ -37,21 +37,21 @@ export const Scene02Inception: React.FC = () => {
 
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
           <AbsoluteFill style={{ flexDirection: "row", alignItems: "center", padding: "0 150px" }}>
-            <Card from={10} style={{ padding: "44px 48px", maxWidth: 600, display: "flex", flexDirection: "column", gap: 20 }}>
-              <KineticTitle text="INCEPTION" from={16} fontSize={92} />
+            <Card from={10} style={{ padding: "48px 52px", maxWidth: 700, display: "flex", flexDirection: "column", gap: 22 }}>
+              <KineticTitle text="INCEPTION" from={16} fontSize={128} />
               <TextBlock
                 text="Consultoría y acompañamiento experto durante la definición de un proyecto."
                 from={54}
-                fontSize={25}
+                fontSize={32}
                 weight={500}
                 color={COLORS.navySoft}
                 lineHeight={1.42}
               />
             </Card>
 
-            <div style={{ width: "52%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ width: "48%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div style={{ transform: `translateY(${Math.sin(frame / 55) * 8}px)` }}>
-                <FlatAssembly pieces={inceptionPieces} size={380} localFrame={frame} exitStart={196} />
+                <FlatAssembly pieces={inceptionPieces} size={175} localFrame={frame} exitStart={196} />
               </div>
             </div>
           </AbsoluteFill>

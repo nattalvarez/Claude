@@ -11,11 +11,11 @@ const DUR = scene("taas").duration;
 
 type CardDef = { x: number; rot: number; glyph: Glyph; color: string; delay: number };
 const CARDS: CardDef[] = [
-  { x: -300, rot: -9, glyph: "doc", color: COLORS.blue, delay: 0 },
-  { x: -150, rot: -4, glyph: "play", color: COLORS.turquoise, delay: 10 },
+  { x: -225, rot: -9, glyph: "doc", color: COLORS.blue, delay: 0 },
+  { x: -112, rot: -4, glyph: "play", color: COLORS.turquoise, delay: 10 },
   { x: 0, rot: 0, glyph: "book", color: COLORS.navy, delay: 20 },
-  { x: 150, rot: 4, glyph: "bars", color: COLORS.blue, delay: 30 },
-  { x: 300, rot: 9, glyph: "dots", color: COLORS.turquoise, delay: 40 },
+  { x: 112, rot: 4, glyph: "bars", color: COLORS.blue, delay: 30 },
+  { x: 225, rot: 9, glyph: "dots", color: COLORS.turquoise, delay: 40 },
 ];
 
 export const Scene07Taas: React.FC = () => {
@@ -34,41 +34,41 @@ export const Scene07Taas: React.FC = () => {
 
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
           <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-            <div style={{ position: "relative", width: 700, height: 220, marginBottom: 8 }}>
+            <div style={{ position: "relative", width: 550, height: 176, marginBottom: 8 }}>
               {CARDS.map((c, i) => {
                 const enter = spring({ frame: frame - c.delay, fps, config: SPRING.smooth });
-                const y = interpolate(enter, [0, 1], [110, i === 2 ? -10 : 0]);
+                const y = interpolate(enter, [0, 1], [88, i === 2 ? -8 : 0]);
                 return (
                   <div
                     key={i}
                     style={{
                       position: "absolute",
-                      left: 350 + c.x,
-                      top: 110 + y,
+                      left: 275 + c.x,
+                      top: 88 + y,
                       transform: `translate(-50%, -50%) rotate(${c.rot}deg) scale(${interpolate(enter, [0, 1], [0.7, 1])})`,
                       opacity: enter,
                     }}
                   >
-                    <Chip w={140} h={186} radius={18} color={COLORS.white} style={{ boxShadow: `0 20px 40px -18px ${COLORS.shadow}, 0 0 0 1px ${COLORS.navyHair}` }} />
+                    <Chip w={110} h={146} radius={16} color={COLORS.white} style={{ boxShadow: `0 20px 40px -18px ${COLORS.shadow}, 0 0 0 1px ${COLORS.navyHair}` }} />
                     <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
-                      <GlyphMark kind={c.glyph} color={c.color} size={38} />
+                      <GlyphMark kind={c.glyph} color={c.color} size={30} />
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <Card from={30} style={{ padding: "32px 44px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-              <KineticTitle text="TaaS" from={36} fontSize={70} per={4} />
-              <TextBlock text="Training as a Service" from={48} fontSize={24} weight={700} color={COLORS.blue} align="center" />
+            <Card from={30} style={{ padding: "38px 52px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+              <KineticTitle text="TaaS" from={36} fontSize={96} per={4} />
+              <TextBlock text="Training as a Service" from={48} fontSize={30} weight={700} color={COLORS.blue} align="center" />
               <TextBlock
                 text="Formación planificada con sesiones presenciales y acceso a contenido formativo."
                 from={70}
-                fontSize={21}
+                fontSize={27}
                 weight={500}
                 color={COLORS.navySoft}
                 align="center"
-                maxWidth={740}
+                maxWidth={840}
                 lineHeight={1.4}
               />
             </Card>

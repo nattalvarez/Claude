@@ -1,9 +1,9 @@
 import { Easing } from "remotion";
-import { loadFont, fontFamily } from "@remotion/google-fonts/Roboto";
+import { loadRobotoLocally } from "../shared/loadRobotoLocally";
 
-loadFont("normal", { weights: ["400", "500", "700", "900"], subsets: ["latin"] });
+loadRobotoLocally(["latin"]);
 
-export const FONT = fontFamily;
+export const FONT = "Roboto";
 
 export const COLORS = {
   white: "#FFFFFF",

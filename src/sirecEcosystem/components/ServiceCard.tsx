@@ -52,26 +52,26 @@ export const ServiceCard: React.FC<{
           background: COLORS.white,
           borderRadius: 22,
           boxShadow: `0 26px 60px -22px ${COLORS.shadow}, 0 0 0 1px ${COLORS.navyHair}`,
-          padding: big ? "26px 34px" : "20px 28px",
+          padding: big ? "28px 36px" : "22px 30px",
           display: "flex",
           alignItems: "center",
-          gap: 22,
+          gap: 20,
           clipPath: clip,
         }}
       >
-        <div style={{ flexShrink: 0, width: 84, height: 84, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <ServiceMark id={id as ServiceId} size={72} />
+        <div style={{ flexShrink: 0, width: 58, height: 58, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <ServiceMark id={id as ServiceId} size={50} />
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 5, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-            <span style={{ fontFamily: FONT, fontWeight: 800, fontSize: big ? 26 : 23, color: COLORS.navy, letterSpacing: -0.3, whiteSpace: "nowrap" }}>
+            <span style={{ fontFamily: FONT, fontWeight: 800, fontSize: big ? 36 : 32, color: COLORS.navy, letterSpacing: -0.3, whiteSpace: "nowrap" }}>
               {title}
             </span>
             {kicker && (
-              <span style={{ fontFamily: FONT, fontWeight: 600, fontSize: 14, color: COLORS.blue, whiteSpace: "nowrap" }}>{kicker}</span>
+              <span style={{ fontFamily: FONT, fontWeight: 600, fontSize: 18, color: COLORS.blue, whiteSpace: "nowrap" }}>{kicker}</span>
             )}
           </div>
-          <span style={{ fontFamily: FONT, fontWeight: 400, fontSize: 16, color: COLORS.navySoft, lineHeight: 1.35 }}>{desc}</span>
+          <span style={{ fontFamily: FONT, fontWeight: 400, fontSize: 20, color: COLORS.navySoft, lineHeight: 1.35 }}>{desc}</span>
         </div>
       </div>
     </div>

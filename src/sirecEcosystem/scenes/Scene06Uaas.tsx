@@ -2,13 +2,13 @@ import React from "react";
 import { useCurrentFrame, useVideoConfig, AbsoluteFill, interpolate, spring } from "remotion";
 import { COLORS, FONT, SPRING } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
-import { FlatAssembly, uaasPieces } from "../components/FlatMark";
+import { FlatAssembly, uaasPieces, PIECE_CANVAS } from "../components/FlatMark";
 import { TextBlock, Card, SceneFade } from "../components/TextBlocks";
 import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
 
 const DUR = scene("uaas").duration;
-const CANVAS = 210;
+const ICON_SIZE = 170;
 
 export const Scene06Uaas: React.FC = () => {
   const frame = useCurrentFrame();
@@ -28,32 +28,38 @@ export const Scene06Uaas: React.FC = () => {
 
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
           <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-            <div style={{ position: "relative", width: CANVAS, height: CANVAS, marginBottom: 20 }}>
-              <FlatAssembly pieces={uaasPieces} size={CANVAS} localFrame={frame} />
-              <div
-                style={{
-                  position: "absolute",
-                  left: CANVAS / 2 + 36,
-                  top: CANVAS / 2 + 36,
-                  width: 100,
-                  height: 100,
-                  borderRadius: 24,
-                  transform: "translate(-50%, -50%)",
-                  boxShadow: `0 0 0 ${2 + pulse * 10}px ${COLORS.turquoise}${Math.round((0.35 - pulse * 0.3) * 255)
-                    .toString(16)
-                    .padStart(2, "0")}`,
-                  opacity: interpolate(frame, [10, 30], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
-                }}
+            <div style={{ position: "relative", marginBottom: 20 }}>
+              <FlatAssembly
+                pieces={uaasPieces}
+                size={ICON_SIZE}
+                localFrame={frame}
+                extra={
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: PIECE_CANVAS / 2 + 36,
+                      top: PIECE_CANVAS / 2 + 36,
+                      width: 100,
+                      height: 100,
+                      borderRadius: 24,
+                      transform: "translate(-50%, -50%)",
+                      boxShadow: `0 0 0 ${2 + pulse * 10}px ${COLORS.turquoise}${Math.round((0.35 - pulse * 0.3) * 255)
+                        .toString(16)
+                        .padStart(2, "0")}`,
+                      opacity: interpolate(frame, [10, 30], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+                    }}
+                  />
+                }
               />
             </div>
 
-            <Card from={30} style={{ padding: "34px 46px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 18 }}>
+            <Card from={30} style={{ padding: "40px 54px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 20 }}>
                 <span
                   style={{
                     fontFamily: FONT,
                     fontWeight: 900,
-                    fontSize: 76,
+                    fontSize: 100,
                     letterSpacing: -2,
                     color: COLORS.navy,
                     opacity: spring({ frame: frame - 36, fps, config: SPRING.snappy }),
@@ -66,7 +72,7 @@ export const Scene06Uaas: React.FC = () => {
                   style={{
                     fontFamily: FONT,
                     fontWeight: 500,
-                    fontSize: 26,
+                    fontSize: 30,
                     color: COLORS.blue,
                     opacity: spring({ frame: frame - 48, fps, config: SPRING.snappy }),
                   }}
@@ -77,11 +83,11 @@ export const Scene06Uaas: React.FC = () => {
               <TextBlock
                 text="Actualizaciones de software para aprovechar las ventajas de las versiones más recientes del producto."
                 from={66}
-                fontSize={22}
+                fontSize={28}
                 weight={500}
                 color={COLORS.navySoft}
                 align="center"
-                maxWidth={820}
+                maxWidth={900}
                 lineHeight={1.4}
               />
             </Card>

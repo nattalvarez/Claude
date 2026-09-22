@@ -1,15 +1,11 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
-import { loadFont } from "@remotion/google-fonts/Roboto";
+import { loadRobotoLocally } from "../shared/loadRobotoLocally";
 import { Grade, Grain, Vignette } from "../components/CinematicLayers";
 import { World } from "./World";
 import { Background } from "./Background";
 
-loadFont("normal", {
-  weights: ["300", "400", "500", "700", "900"],
-  subsets: ["latin", "latin-ext"],
-  ignoreTooManyRequestsWarning: true,
-});
+loadRobotoLocally();
 
 /** SIREC Agent Fabric — 28s, one continuous camera move through a tight
  * vertical 3D architecture: SIREC → SIREC Agent Fabric → MCP → Agentes IA →

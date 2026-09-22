@@ -12,7 +12,9 @@ export const cameraAt = (frame: number, kfs: CamKF[]): CamState => {
   const ys = kfs.map((k) => k[2]);
   const scales = kfs.map((k) => k[3]);
   const rots = kfs.map((k) => k[4] ?? 0);
-  const opts = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as const, easing: EASE.inOut };
+  // EASE.standard (fast-start, gentle-settle) reads far more fluid across a
+  // chain of waypoints than EASE.inOut's hard stop-start-stop character.
+  const opts = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as const, easing: EASE.standard };
   return {
     x: interpolate(frame, frames, xs, opts),
     y: interpolate(frame, frames, ys, opts),

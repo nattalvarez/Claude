@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Sequence } from "remotion";
-import { loadFont } from "@remotion/google-fonts/Roboto";
+import { loadRobotoLocally } from "./shared/loadRobotoLocally";
 import { SCENES } from "./styles/theme";
 import { BgMesh, Grade, Grain, Vignette } from "./components/CinematicLayers";
 import { Scene01Complexity } from "./scenes/Scene01Complexity";
@@ -11,11 +11,7 @@ import { Scene05Governance } from "./scenes/Scene05Governance";
 import { Scene06Specialization } from "./scenes/Scene06Specialization";
 import { Scene07Outro } from "./scenes/Scene07Outro";
 
-loadFont("normal", {
-  weights: ["300", "400", "500", "700", "900"],
-  subsets: ["latin", "latin-ext"],
-  ignoreTooManyRequestsWarning: true,
-});
+loadRobotoLocally();
 
 export const SirecMotion: React.FC = () => {
   return (

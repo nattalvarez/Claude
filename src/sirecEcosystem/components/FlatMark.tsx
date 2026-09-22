@@ -40,6 +40,13 @@ export type FlatPiece = {
   delay?: number;
 };
 
+/** The coordinate space every piece dataset below is authored in — wide
+ * enough to contain the widest one (satsPieces/supportPieces) without
+ * clipping. `FlatAssembly`'s `size` prop is the actual rendered footprint;
+ * it scales this fixed canvas down (or up) to fit, so `size` finally means
+ * what it says instead of being ignored. */
+export const PIECE_CANVAS = 250;
+
 /** Renders a small cluster of flat chips. With `localFrame` each piece
  * springs in from its own direction, staggered; without it, every piece
  * simply sits at rest — the same layout doubles as the small catalog mark
@@ -47,55 +54,71 @@ export type FlatPiece = {
 export const FlatAssembly: React.FC<{
   pieces: FlatPiece[];
   size: number;
+  refCanvas?: number;
   localFrame?: number;
   exitStart?: number;
   fps?: number;
-}> = ({ pieces, size, localFrame, exitStart, fps: fpsProp }) => {
+  extra?: React.ReactNode;
+}> = ({ pieces, size, refCanvas = PIECE_CANVAS, localFrame, exitStart, fps: fpsProp, extra }) => {
   const config = useVideoConfig();
   const fps = fpsProp ?? config.fps;
+  const groupScale = size / refCanvas;
+
   return (
     <div style={{ position: "relative", width: size, height: size }}>
-      {pieces.map((p, i) => {
-        let x = p.x;
-        let y = p.y;
-        let rot = p.rot ?? 0;
-        let scale = 1;
-        let opacity = 1;
+      <div
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          width: refCanvas,
+          height: refCanvas,
+          transform: `translate(-50%, -50%) scale(${groupScale})`,
+        }}
+      >
+        {pieces.map((p, i) => {
+          let x = p.x;
+          let y = p.y;
+          let rot = p.rot ?? 0;
+          let pieceScale = 1;
+          let opacity = 1;
 
-        if (localFrame !== undefined) {
-          const sp = spring({ frame: localFrame - (p.delay ?? 0), fps, config: SPRING.smooth });
-          x = interpolate(sp, [0, 1], [p.fromX ?? p.x, p.x]);
-          y = interpolate(sp, [0, 1], [p.fromY ?? p.y, p.y]);
-          rot = interpolate(sp, [0, 1], [p.fromRot ?? rot, rot]);
-          scale = interpolate(sp, [0, 1], [0.55, 1]);
-          opacity = sp;
+          if (localFrame !== undefined) {
+            const sp = spring({ frame: localFrame - (p.delay ?? 0), fps, config: SPRING.smooth });
+            x = interpolate(sp, [0, 1], [p.fromX ?? p.x, p.x]);
+            y = interpolate(sp, [0, 1], [p.fromY ?? p.y, p.y]);
+            rot = interpolate(sp, [0, 1], [p.fromRot ?? rot, rot]);
+            pieceScale = interpolate(sp, [0, 1], [0.55, 1]);
+            opacity = sp;
 
-          if (exitStart !== undefined) {
-            const ex = interpolate(localFrame, [exitStart + i * 3, exitStart + i * 3 + 30], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-            });
-            x = interpolate(ex, [0, 1], [x, (p.fromX ?? p.x) * 1.3]);
-            y = interpolate(ex, [0, 1], [y, (p.fromY ?? p.y) * 1.3]);
-            opacity *= 1 - ex;
+            if (exitStart !== undefined) {
+              const ex = interpolate(localFrame, [exitStart + i * 3, exitStart + i * 3 + 30], [0, 1], {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              });
+              x = interpolate(ex, [0, 1], [x, (p.fromX ?? p.x) * 1.3]);
+              y = interpolate(ex, [0, 1], [y, (p.fromY ?? p.y) * 1.3]);
+              opacity *= 1 - ex;
+            }
           }
-        }
 
-        return (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left: size / 2 + x,
-              top: size / 2 + y,
-              transform: `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`,
-              opacity,
-            }}
-          >
-            <Chip w={p.w} h={p.h} color={p.color} radius={p.radius} />
-          </div>
-        );
-      })}
+          return (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                left: refCanvas / 2 + x,
+                top: refCanvas / 2 + y,
+                transform: `translate(-50%, -50%) rotate(${rot}deg) scale(${pieceScale})`,
+                opacity,
+              }}
+            >
+              <Chip w={p.w} h={p.h} color={p.color} radius={p.radius} />
+            </div>
+          );
+        })}
+        {extra}
+      </div>
     </div>
   );
 };
@@ -215,15 +238,15 @@ export const ServiceMark: React.FC<{ id: ServiceId; size?: number }> = ({ id, si
     </div>
   );
 
-  if (id === "inception") return wrap(<FlatAssembly pieces={inceptionPieces} size={REF} />);
-  if (id === "changeManagement") return wrap(<FlatAssembly pieces={changeManagementPieces} size={REF} />);
-  if (id === "cloud") return wrap(<FlatAssembly pieces={cloudPieces} size={REF} />);
-  if (id === "uaas") return wrap(<FlatAssembly pieces={uaasPieces} size={REF} />);
-  if (id === "support") return wrap(<FlatAssembly pieces={supportPieces} size={REF} />);
+  if (id === "inception") return wrap(<FlatAssembly pieces={inceptionPieces} size={REF} refCanvas={REF} />);
+  if (id === "changeManagement") return wrap(<FlatAssembly pieces={changeManagementPieces} size={REF} refCanvas={REF} />);
+  if (id === "cloud") return wrap(<FlatAssembly pieces={cloudPieces} size={REF} refCanvas={REF} />);
+  if (id === "uaas") return wrap(<FlatAssembly pieces={uaasPieces} size={REF} refCanvas={REF} />);
+  if (id === "support") return wrap(<FlatAssembly pieces={supportPieces} size={REF} refCanvas={REF} />);
   if (id === "sats")
     return wrap(
       <>
-        <FlatAssembly pieces={satsPieces} size={REF} />
+        <FlatAssembly pieces={satsPieces} size={REF} refCanvas={REF} />
         {satsPieces.slice(0, 3).map((p, i) => (
           <div
             key={i}

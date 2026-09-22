@@ -25,22 +25,22 @@ export const Scene03ChangeManagement: React.FC = () => {
 
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
           <AbsoluteFill style={{ flexDirection: "row", alignItems: "center", padding: "0 150px" }}>
-            <div style={{ width: "52%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ width: "44%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div style={{ transform: `translateY(${Math.sin(frame / 50) * 8}px)` }}>
-                <FlatAssembly pieces={changeManagementPieces} size={420} localFrame={frame} exitStart={198} />
+                <FlatAssembly pieces={changeManagementPieces} size={175} localFrame={frame} exitStart={198} />
               </div>
             </div>
 
-            <Card from={10} style={{ padding: "44px 48px", maxWidth: 620, display: "flex", flexDirection: "column", gap: 18 }}>
+            <Card from={10} style={{ padding: "48px 52px", maxWidth: 720, display: "flex", flexDirection: "column", gap: 20 }}>
               <div>
-                <KineticTitle text="CHANGE" from={16} fontSize={80} style={{ marginBottom: -18 }} />
-                <KineticTitle text="MANAGEMENT" from={22} fontSize={80} />
+                <KineticTitle text="CHANGE" from={16} fontSize={108} style={{ marginBottom: -22 }} />
+                <KineticTitle text="MANAGEMENT" from={22} fontSize={108} />
               </div>
-              <TextBlock text="Impulsa la adopción y el máximo aprovechamiento de SIREC." from={56} fontSize={25} weight={600} color={COLORS.navy} lineHeight={1.4} />
+              <TextBlock text="Impulsa la adopción y el máximo aprovechamiento de SIREC." from={56} fontSize={32} weight={600} color={COLORS.navy} lineHeight={1.4} />
               <TextBlock
                 text="Modelo de gestión especializado para las organizaciones."
                 from={78}
-                fontSize={19}
+                fontSize={24}
                 weight={500}
                 color={COLORS.navySoft}
                 lineHeight={1.4}
