@@ -47,7 +47,7 @@ export type ChannelKey = (typeof CHANNEL_ORDER)[number];
 // from a version already verified frame-by-frame to frame that channel's own
 // label without clipping.
 const CHANNEL_TARGET: Record<ChannelKey, CamState> = {
-  amistosa: { x: 30, y: -30, zoom: 1.4, tilt: -1 },
+  amistosa: { x: 170, y: -220, zoom: 1.35, tilt: -1 },
   litigiosa: { x: 40, y: -14, zoom: 1.35, tilt: 1 },
   cobranza: { x: 180, y: -500, zoom: 1.3, tilt: 0 },
   despachos: { x: -30, y: -14, zoom: 1.25, tilt: 1 },
@@ -67,10 +67,10 @@ const CHANNEL_LINE_DURATION: Record<ChannelKey, number> = {
 // One push-out/hold/return-to-SIREC cycle per channel — this is the beat
 // the camera repeats six times: arrive, let the name form and be read, then
 // travel back to SIREC before pulling out toward the next one.
-const PUSH_DUR = 55;
-const HOLD_DUR = 65;
-const RETURN_DUR = 45;
-const PAUSE_DUR = 15;
+const PUSH_DUR = 60;
+const HOLD_DUR = 95;
+const RETURN_DUR = 50;
+const PAUSE_DUR = 20;
 const CHANNEL_CYCLE = PUSH_DUR + HOLD_DUR + RETURN_DUR + PAUSE_DUR;
 
 type ChannelPhase = {
@@ -84,14 +84,14 @@ type ChannelPhase = {
 
 const CAM: CamKey[] = [
   [0, 0, -150, 1.1, 0], // intro — title floating just above SIREC's spot
-  [70, 0, -150, 1.15, 0], // slow forward creep, long enough to read all 3 lines
-  [130, 0, 0, 1.5, 0], // arrive SIREC core
-  [250, 0, 0, 1.5, 0], // hold — read "SIREC" before the first connection
+  [80, 0, -150, 1.15, 0], // slow forward creep, long enough to read all 3 lines
+  [150, 0, 0, 1.5, 0], // arrive SIREC core
+  [280, 0, 0, 1.5, 0], // hold — read "SIREC" before the first connection
 ];
 
 const CHANNEL_PHASE: Record<ChannelKey, ChannelPhase> = {} as Record<ChannelKey, ChannelPhase>;
 
-let cursor = 250;
+let cursor = 280;
 CHANNEL_ORDER.forEach((key, index) => {
   const target = CHANNEL_TARGET[key];
   const pushStart = cursor;
@@ -111,8 +111,8 @@ CHANNEL_ORDER.forEach((key, index) => {
 
 // ---- Ascend to SIREC Agent Fabric, then gather everything ------------------
 const FABRIC_TARGET: CamState = { x: 0, y: -530, zoom: 1.35, tilt: 0 };
-const FABRIC_PUSH_DUR = 65;
-const FABRIC_HOLD_DUR = 110;
+const FABRIC_PUSH_DUR = 75;
+const FABRIC_HOLD_DUR = 140;
 
 const fabricPushStart = cursor;
 const fabricArrive = fabricPushStart + FABRIC_PUSH_DUR;
@@ -123,12 +123,12 @@ CAM.push([fabricHoldEnd, FABRIC_TARGET.x, FABRIC_TARGET.y, FABRIC_TARGET.zoom, F
 
 // the final, biggest legible view of the whole schema
 export const FINAL_VIEW = { x: 0, y: -100, zoom: 0.65 };
-const GATHER_DUR = 90;
+const GATHER_DUR = 100;
 const gatherArrive = fabricHoldEnd + GATHER_DUR;
 
 CAM.push([gatherArrive, FINAL_VIEW.x, FINAL_VIEW.y, FINAL_VIEW.zoom, 0]);
 
-export const DURATION_IN_FRAMES = gatherArrive + 170;
+export const DURATION_IN_FRAMES = gatherArrive + 230;
 CAM.push([DURATION_IN_FRAMES, FINAL_VIEW.x, FINAL_VIEW.y, FINAL_VIEW.zoom, 0]);
 
 const frames = CAM.map((k) => k[0]);
@@ -157,18 +157,21 @@ export const worldTransform = (cam: CameraState, factor = 1): string => {
   return `translate(${WIDTH / 2}px, ${HEIGHT / 2}px) rotate(${cam.tilt * factor}deg) scale(${zoom}) translate(${-cx}px, ${-cy}px)`;
 };
 
-/** A channel recedes only while the camera is tightly pushed onto a LATER
- * channel (where it would otherwise clip at the frame edge), fading out over
- * that push and back in over that channel's return to SIREC. Once every
- * channel has had its turn, nothing blocks anything else — which is exactly
- * the "gather" moment for the final view. */
+/** A channel recedes while the camera is pushed onto a LATER channel and
+ * stays hidden through that channel's entire hold AND its return trip —
+ * never just the hold — because a camera mid-transit is not a position any
+ * other channel has been verified safe at. It only fades back in once the
+ * camera has actually settled at CENTER_STATE (during that channel's pause),
+ * so a clip is never exposed mid-fade. Once every channel has had its turn,
+ * nothing blocks anything else — which is exactly the "gather" moment for
+ * the final view. */
 export const channelVisibility = (frame: number, key: ChannelKey): number => {
   const mine = CHANNEL_PHASE[key];
   let visibility = 1;
   for (const otherKey of CHANNEL_ORDER) {
     const other = CHANNEL_PHASE[otherKey];
     if (other.index <= mine.index) continue;
-    const dip = interpolate(frame, [other.pushStart, other.arrive, other.holdEnd, other.returnEnd], [1, 0, 0, 1], {
+    const dip = interpolate(frame, [other.pushStart, other.arrive, other.returnEnd, other.pauseEnd], [1, 0, 0, 1], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
     });

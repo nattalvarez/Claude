@@ -154,7 +154,7 @@ export const World: React.FC = () => {
           icon={<DespachosMark size={34} color={COLORS.navy} />}
           accent={COLORS.blue}
           variant="flow"
-          labelSide="left"
+          labelSide="bottom"
           fade={fadeDespachos}
         />
 
