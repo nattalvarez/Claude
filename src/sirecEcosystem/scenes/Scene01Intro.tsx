@@ -2,7 +2,7 @@ import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig, AbsoluteFill } from "remotion";
 import { COLORS, SPRING, EASE } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
-import { Solid3D, Stage3D, GroundShadow } from "../components/Primitives3D";
+import { Chip } from "../components/FlatMark";
 import { KineticTitle, TextBlock, Card, SceneFade } from "../components/TextBlocks";
 import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
@@ -13,12 +13,11 @@ export const Scene01Intro: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const cubeIn = spring({ frame: frame - 4, fps, config: SPRING.gentle });
-  const cubeScale = interpolate(cubeIn, [0, 1], [0.3, 1]);
-  const rotY = frame * 0.55;
-  const rotX = 18 + Math.sin(frame / 90) * 6;
+  const markIn = spring({ frame: frame - 4, fps, config: SPRING.gentle });
+  const markScale = interpolate(markIn, [0, 1], [0.4, 1]);
+  const breathe = 1 + Math.sin(frame / 45) * 0.015;
 
-  const growScale = interpolate(frame, [30, 150], [1, 1.3], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
+  const growScale = interpolate(frame, [30, 150], [1, 1.2], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
 
   const shiftX = interpolate(frame, [168, 210], [0, 620], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
   const shiftScale = interpolate(frame, [168, 210], [1, 0.62], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
@@ -42,23 +41,15 @@ export const Scene01Intro: React.FC = () => {
             <div
               style={{
                 position: "relative",
-                transform: `translateX(${shiftX}px) translateY(-190px) scale(${cubeScale * growScale * shiftScale})`,
+                width: 170,
+                height: 170,
+                transform: `translateX(${shiftX}px) translateY(-190px) scale(${markScale * growScale * shiftScale * breathe})`,
               }}
             >
-              <GroundShadow w={180} style={{ top: 150 }} opacity={0.14} />
-              <Stage3D style={{ width: 220, height: 220 }} perspective={1200}>
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                    transformStyle: "preserve-3d",
-                    transform: `translate3d(-50%,-50%,0) rotateX(${rotX}deg) rotateY(${rotY}deg)`,
-                  }}
-                >
-                  <Solid3D w={150} color={COLORS.blue} radius={22} glow={0.5} />
-                </div>
-              </Stage3D>
+              <Chip w={170} radius={32} color={COLORS.navy} />
+              <div style={{ position: "absolute", left: 46, top: 46 }}>
+                <Chip w={90} radius={20} color={COLORS.turquoise} />
+              </div>
             </div>
           </AbsoluteFill>
 

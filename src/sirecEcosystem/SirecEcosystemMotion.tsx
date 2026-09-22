@@ -26,8 +26,8 @@ const COMPONENTS: Record<string, React.FC> = {
 };
 
 /** SIREC — a premium, editorial motion-graphics piece for a corporate event:
- * ten scenes, each its own 3D composition, handed off to the next through a
- * short overlap rather than a hard cut. */
+ * ten scenes, each its own flat-geometric composition, handed off to the
+ * next through a short overlap rather than a hard cut. */
 export const SirecEcosystemMotion: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: "#FFFFFF" }}>

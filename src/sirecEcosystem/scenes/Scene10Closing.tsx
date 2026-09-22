@@ -2,7 +2,7 @@ import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig, AbsoluteFill } from "remotion";
 import { COLORS, FONT, SPRING } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
-import { MiniIcon } from "../components/Icons";
+import { ServiceMark, ServiceId } from "../components/FlatMark";
 import { KineticTitle, TextBlock, SceneFade, WorldPoint } from "../components/TextBlocks";
 import { cameraAt, worldCameraTransform } from "../camera";
 import { scene, SERVICES } from "../timeline";
@@ -41,8 +41,8 @@ const Chip: React.FC<{ id: string; x: number; y: number; fade: number; scale: nu
         padding: "14px 22px",
       }}
     >
-      <div style={{ width: 52, height: 52, display: "flex", alignItems: "center", justifyContent: "center", transform: "scale(0.62)" }}>
-        <MiniIcon id={id} />
+      <div style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <ServiceMark id={id as ServiceId} size={44} />
       </div>
       <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 18, color: COLORS.navySoft, whiteSpace: "nowrap" }}>{svc.title}</span>
     </WorldPoint>

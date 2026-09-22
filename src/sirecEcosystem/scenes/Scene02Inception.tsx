@@ -1,9 +1,9 @@
 import React from "react";
-import { useCurrentFrame, AbsoluteFill, interpolate } from "remotion";
+import { useCurrentFrame, AbsoluteFill } from "remotion";
 import { COLORS } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
-import { PieceAssembly, inceptionPieces } from "../components/Icons";
-import { KineticTitle, TextBlock, Eyebrow, Card, SceneFade } from "../components/TextBlocks";
+import { FlatAssembly, inceptionPieces } from "../components/FlatMark";
+import { KineticTitle, TextBlock, Card, SceneFade } from "../components/TextBlocks";
 import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
 
@@ -38,7 +38,6 @@ export const Scene02Inception: React.FC = () => {
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
           <AbsoluteFill style={{ flexDirection: "row", alignItems: "center", padding: "0 150px" }}>
             <Card from={10} style={{ padding: "44px 48px", maxWidth: 600, display: "flex", flexDirection: "column", gap: 20 }}>
-              <Eyebrow text="Servicio 01" from={10} />
               <KineticTitle text="INCEPTION" from={16} fontSize={92} />
               <TextBlock
                 text="Consultoría y acompañamiento experto durante la definición de un proyecto."
@@ -51,16 +50,8 @@ export const Scene02Inception: React.FC = () => {
             </Card>
 
             <div style={{ width: "52%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <div
-                style={{
-                  transform: `translateY(${Math.sin(frame / 55) * 8}px) rotateY(${interpolate(frame, [70, DUR], [0, 24], {
-                    extrapolateLeft: "clamp",
-                    extrapolateRight: "clamp",
-                  })}deg)`,
-                  transformStyle: "preserve-3d",
-                }}
-              >
-                <PieceAssembly pieces={inceptionPieces} localFrame={frame} size={380} exitStart={196} />
+              <div style={{ transform: `translateY(${Math.sin(frame / 55) * 8}px)` }}>
+                <FlatAssembly pieces={inceptionPieces} size={380} localFrame={frame} exitStart={196} />
               </div>
             </div>
           </AbsoluteFill>

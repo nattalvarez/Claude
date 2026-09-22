@@ -1,9 +1,9 @@
 import React from "react";
-import { useCurrentFrame, AbsoluteFill, interpolate } from "remotion";
+import { useCurrentFrame, AbsoluteFill } from "remotion";
 import { COLORS } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
-import { PieceAssembly, changeManagementPieces } from "../components/Icons";
-import { KineticTitle, TextBlock, Eyebrow, Card, SceneFade } from "../components/TextBlocks";
+import { FlatAssembly, changeManagementPieces } from "../components/FlatMark";
+import { KineticTitle, TextBlock, Card, SceneFade } from "../components/TextBlocks";
 import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
 
@@ -18,8 +18,6 @@ export const Scene03ChangeManagement: React.FC = () => {
     [DUR, 30, -8, 1.05, 0],
   ]);
 
-  const spinOut = interpolate(frame, [180, DUR], [0, 70], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-
   return (
     <SceneFade duration={DUR}>
       <AbsoluteFill>
@@ -28,20 +26,12 @@ export const Scene03ChangeManagement: React.FC = () => {
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
           <AbsoluteFill style={{ flexDirection: "row", alignItems: "center", padding: "0 150px" }}>
             <div style={{ width: "52%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <div
-                style={{
-                  transform: `translateY(${Math.sin(frame / 50) * 8}px) rotateY(${
-                    interpolate(frame, [70, 180], [0, 16], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) + spinOut
-                  }deg)`,
-                  transformStyle: "preserve-3d",
-                }}
-              >
-                <PieceAssembly pieces={changeManagementPieces} localFrame={frame} size={420} exitStart={198} />
+              <div style={{ transform: `translateY(${Math.sin(frame / 50) * 8}px)` }}>
+                <FlatAssembly pieces={changeManagementPieces} size={420} localFrame={frame} exitStart={198} />
               </div>
             </div>
 
             <Card from={10} style={{ padding: "44px 48px", maxWidth: 620, display: "flex", flexDirection: "column", gap: 18 }}>
-              <Eyebrow text="Servicio 02" from={10} />
               <div>
                 <KineticTitle text="CHANGE" from={16} fontSize={80} style={{ marginBottom: -18 }} />
                 <KineticTitle text="MANAGEMENT" from={22} fontSize={80} />

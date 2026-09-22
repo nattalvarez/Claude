@@ -2,8 +2,8 @@ import React from "react";
 import { useCurrentFrame, useVideoConfig, AbsoluteFill, interpolate, spring } from "remotion";
 import { COLORS, SPRING, EASE } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
-import { Solid3D, Stage3D, GroundShadow } from "../components/Primitives3D";
-import { Eyebrow, KineticTitle, TextBlock, Pill, Card, SceneFade } from "../components/TextBlocks";
+import { Chip } from "../components/FlatMark";
+import { KineticTitle, TextBlock, Pill, Card, SceneFade } from "../components/TextBlocks";
 import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
 
@@ -16,10 +16,8 @@ export const Scene08Support: React.FC = () => {
   const approach = spring({ frame: frame - 6, fps, config: SPRING.gentle });
   const partFrame = interpolate(frame, [188, DUR], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
 
-  const leftX = interpolate(approach, [0, 1], [-520, -44]) + partFrame * -190;
-  const rightX = interpolate(approach, [0, 1], [520, 44]) + partFrame * 190;
-  const leftRot = interpolate(approach, [0, 1], [-14, 0]);
-  const rightRot = interpolate(approach, [0, 1], [14, 0]);
+  const leftX = interpolate(approach, [0, 1], [-320, -58]) + partFrame * -170;
+  const rightX = interpolate(approach, [0, 1], [320, 58]) + partFrame * 170;
 
   const meetGlow = interpolate(approach, [0.75, 1], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) * (1 - partFrame);
   const pulse = 0.6 + Math.sin(frame / 20) * 0.4;
@@ -45,8 +43,7 @@ export const Scene08Support: React.FC = () => {
 
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
           <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-            <div style={{ position: "relative", transform: "translateY(-60px)" }}>
-              <GroundShadow w={420} style={{ top: 150 }} opacity={0.14} />
+            <div style={{ position: "relative", width: 400, height: 240, marginBottom: 8 }}>
               <div
                 style={{
                   position: "absolute",
@@ -61,20 +58,15 @@ export const Scene08Support: React.FC = () => {
                   opacity: meetGlow * (0.5 + pulse * 0.3),
                 }}
               />
-              <Stage3D style={{ width: 560, height: 320 }} perspective={1600}>
-                <div style={{ position: "absolute", left: "50%", top: "50%", transformStyle: "preserve-3d", transform: "translate3d(-50%,-50%,0) rotateX(10deg)" }}>
-                  <div style={{ position: "absolute", transform: `translate3d(${leftX}px, 0px, 20px) rotateZ(${leftRot}deg)`, opacity: approach }}>
-                    <Solid3D w={190} h={230} d={38} color={COLORS.navy} radius={28} glow={0.25} />
-                  </div>
-                  <div style={{ position: "absolute", transform: `translate3d(${rightX}px, 6px, -14px) rotateZ(${rightRot}deg)`, opacity: approach }}>
-                    <Solid3D w={230} h={190} d={38} color={COLORS.turquoise} radius={28} glow={0.25} />
-                  </div>
-                </div>
-              </Stage3D>
+              <div style={{ position: "absolute", left: 200 + leftX, top: 120, transform: "translate(-50%, -50%)", opacity: approach }}>
+                <Chip w={130} h={170} radius={26} color={COLORS.navy} />
+              </div>
+              <div style={{ position: "absolute", left: 200 + rightX, top: 126, transform: "translate(-50%, -50%)", opacity: approach }}>
+                <Chip w={150} h={130} radius={26} color={COLORS.turquoise} />
+              </div>
             </div>
 
-            <Card from={110} style={{ padding: "36px 48px", marginTop: 30, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
-              <Eyebrow text="Servicio 07" from={110} align="center" />
+            <Card from={110} style={{ padding: "36px 48px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
               <KineticTitle text="DEDICATED SUPPORT" from={116} fontSize={62} align="center" />
               <TextBlock
                 text="Asignación directa de especialistas de SIREC a un cliente."

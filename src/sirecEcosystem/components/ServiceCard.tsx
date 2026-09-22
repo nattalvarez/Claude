@@ -1,7 +1,7 @@
 import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
 import { COLORS, FONT, SPRING } from "../theme";
-import { MiniIcon } from "./Icons";
+import { ServiceMark, ServiceId } from "./FlatMark";
 
 export type CardVariant = "slideL" | "slideR" | "slideUp" | "slideDown" | "pop" | "mask";
 
@@ -60,7 +60,7 @@ export const ServiceCard: React.FC<{
         }}
       >
         <div style={{ flexShrink: 0, width: 84, height: 84, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <MiniIcon id={id} />
+          <ServiceMark id={id as ServiceId} size={72} />
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
