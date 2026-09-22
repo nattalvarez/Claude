@@ -1,25 +1,18 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
-import { COLORS, WIDTH, HEIGHT, EASE, SCENE_DURATIONS, FONT_FAMILY } from "../styles/theme";
-import { Node3D } from "../components/Node3D";
-import { ConnectionLine } from "../components/ConnectionLine";
-import { ParticleFlow } from "../components/ParticleFlow";
+import { AbsoluteFill, interpolate, useCurrentFrame, spring, useVideoConfig, Easing } from "remotion";
+import { COLORS, EASE, FONT_FAMILY, SCENE_DURATIONS } from "../styles/theme";
 import { TitleBlock } from "../components/TitleBlock";
 import { SceneExit } from "../components/SceneExit";
 
 const DURATION = SCENE_DURATIONS.support;
-const CLIENT = { x: 460, y: 460 };
-const SPECIALIST = { x: 1460, y: 460 };
-const LINE_FROM = 44;
-const LINE_DUR = 40;
+const CENTER = { x: 960, y: 440 };
+const MEET_FROM = 20;
+const MEET_TO = 96;
+const SEPARATE_FROM = DURATION - 50;
 
 const Tag: React.FC<{ x: number; y: number; label: string; from: number }> = ({ x, y, label, from }) => {
   const frame = useCurrentFrame();
-  const appear = interpolate(frame, [from, from + 20], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.bezier(...EASE.out),
-  });
+  const appear = interpolate(frame, [from, from + 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.bezier(...EASE.out) });
   return (
     <div
       style={{
@@ -29,13 +22,13 @@ const Tag: React.FC<{ x: number; y: number; label: string; from: number }> = ({ 
         transform: `translate(-50%, -50%) translateY(${interpolate(appear, [0, 1], [10, 0])}px) scale(${interpolate(appear, [0, 1], [0.85, 1])})`,
         opacity: appear,
         background: COLORS.white,
-        border: `1px solid ${COLORS.turquoise}66`,
+        border: `1px solid ${COLORS.turquoise}55`,
         borderRadius: 999,
-        padding: "10px 22px",
-        boxShadow: `0 16px 30px -16px ${COLORS.navy}44`,
+        padding: "10px 24px",
+        boxShadow: `0 16px 30px -18px ${COLORS.navy}44`,
         fontFamily: FONT_FAMILY,
         fontWeight: 500,
-        fontSize: 18,
+        fontSize: 17,
         letterSpacing: 2,
         color: COLORS.navy,
         whiteSpace: "nowrap",
@@ -46,51 +39,86 @@ const Tag: React.FC<{ x: number; y: number; label: string; from: number }> = ({ 
   );
 };
 
-/** Scene 08 — Dedicated Support. Two large nodes, CLIENTE and ESPECIALISTA SIREC, start
- * apart; a connection draws between them and solidifies with particle traffic; TEMPORAL /
- * PERMANENTE tags mark two points along the same line. Horizontal composition, camera
- * travels from client toward specialist. */
+const Block: React.FC<{ x: number; color: string; label: string; z: number }> = ({ x, color, label, z }) => (
+  <div
+    style={{
+      position: "absolute",
+      left: x - 155,
+      top: CENTER.y - 155,
+      width: 310,
+      height: 310,
+      zIndex: z,
+      borderRadius: 46,
+      background: `linear-gradient(150deg, ${COLORS.white}, ${color}2e)`,
+      border: `1px solid ${color}55`,
+      boxShadow: `0 44px 90px -40px ${COLORS.navy}55`,
+    }}
+  >
+    <div
+      style={{
+        position: "absolute",
+        left: "50%",
+        bottom: -46,
+        transform: "translateX(-50%)",
+        whiteSpace: "nowrap",
+        fontFamily: FONT_FAMILY,
+        fontWeight: 500,
+        fontSize: 20,
+        letterSpacing: 2,
+        color: COLORS.navy,
+      }}
+    >
+      {label}
+    </div>
+  </div>
+);
+
+/** Scene 08 — Dedicated Support. Two large geometric blocks — CLIENTE and ESPECIALISTA
+ * SIREC — slide together and overlap softly at the seam; no connecting line, just direct
+ * assignment. They separate again as the camera pulls back into the full catalog. */
 export const Scene08DedicatedSupport: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
 
-  const cameraX = interpolate(frame, [0, DURATION], [-55, 90], {
+  const meet = interpolate(frame, [MEET_FROM, MEET_TO], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.bezier(...EASE.out),
+  });
+  const separate = interpolate(frame, [SEPARATE_FROM, DURATION - 6], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
   });
 
-  const solidify = interpolate(frame, [LINE_FROM + LINE_DUR, LINE_FROM + LINE_DUR + 30], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const appear = spring({ frame: frame - MEET_FROM, fps, config: { damping: 18, mass: 0.9, stiffness: 100 } });
 
-  const midX = (CLIENT.x + SPECIALIST.x) / 2;
+  const gapMeet = interpolate(meet, [0, 1], [560, 230]);
+  const gapSeparate = interpolate(separate, [0, 1], [0, 420]);
+  const gap = gapMeet + gapSeparate;
+
+  const cameraZoom = 1 - separate * 0.1;
 
   return (
-    <AbsoluteFill>
+    <AbsoluteFill style={{ background: `radial-gradient(ellipse at center, ${COLORS.white} 40%, ${COLORS.lightBlue}66 100%)` }}>
       <SceneExit duration={DURATION} exitDuration={16}>
-        <AbsoluteFill style={{ transform: `translateX(${cameraX}px)` }}>
-          <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
-            <ConnectionLine x1={CLIENT.x} y1={CLIENT.y} x2={SPECIALIST.x} y2={SPECIALIST.y} from={LINE_FROM} duration={LINE_DUR} color={COLORS.blue} strokeWidth={1.5 + solidify * 1.5} opacity={0.4 + solidify * 0.4} />
-            <ParticleFlow id="support-flow-a" x1={CLIENT.x} y1={CLIENT.y} x2={SPECIALIST.x} y2={SPECIALIST.y} from={LINE_FROM + LINE_DUR} count={8} color={COLORS.turquoise} />
-            <ParticleFlow id="support-flow-b" x1={SPECIALIST.x} y1={SPECIALIST.y + 14} x2={CLIENT.x} y2={CLIENT.y + 14} from={LINE_FROM + LINE_DUR + 8} count={6} color={COLORS.blue} />
-          </svg>
+        <AbsoluteFill style={{ opacity: interpolate(appear, [0, 1], [0, 1]), transform: `scale(${cameraZoom})`, transformOrigin: `${CENTER.x}px ${CENTER.y}px` }}>
+          <Block x={CENTER.x - gap / 2} color={COLORS.blue} label="CLIENTE" z={1} />
+          <Block x={CENTER.x + gap / 2} color={COLORS.turquoise} label="ESPECIALISTA SIREC" z={2} />
 
-          <Node3D x={CLIENT.x} y={CLIENT.y} size={92} color={COLORS.blue} from={0} core label="Cliente" />
-          <Node3D x={SPECIALIST.x} y={SPECIALIST.y} size={92} color={COLORS.turquoise} from={14} core label="Especialista SIREC" />
-
-          <Tag x={midX - 130} y={CLIENT.y - 150} label="TEMPORAL" from={LINE_FROM + LINE_DUR + 20} />
-          <Tag x={midX + 130} y={CLIENT.y - 150} label="PERMANENTE" from={LINE_FROM + LINE_DUR + 34} />
+          <Tag x={CENTER.x - 90} y={CENTER.y - 210} label="TEMPORAL" from={MEET_TO + 6} />
+          <Tag x={CENTER.x + 90} y={CENTER.y - 210} label="PERMANENTE" from={MEET_TO + 18} />
         </AbsoluteFill>
 
-        <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 84 }}>
+        <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 96 }}>
           <TitleBlock
             title="DEDICATED SUPPORT"
-            description="Asignación directa de especialistas de SIREC a un cliente, de manera temporal o permanente."
-            from={20}
+            subtitle="Asignación directa de especialistas de SIREC a un cliente."
+            description="De manera temporal o permanente."
+            from={MEET_TO + 30}
             align="center"
-            maxWidth={980}
-            titleSize={54}
+            maxWidth={900}
+            titleSize={50}
           />
         </AbsoluteFill>
       </SceneExit>

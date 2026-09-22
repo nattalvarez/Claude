@@ -17,20 +17,20 @@ export const HEIGHT = 1080;
  * transformation instead of a hard edit. */
 export const OVERLAP = 15;
 
-/** Scene durations, in frames, BEFORE overlap is subtracted — mirrors the brief's
- * per-scene second ranges. Order matches the ecosystem narrative:
- * núcleo → inception → change management → sats → cloud → uaas → taas → support → ecosystem → end card. */
+/** Scene durations, in frames, BEFORE overlap is subtracted. Editorial-catalog narrative:
+ * intro → inception → change management → sats → cloud → uaas → taas → support →
+ * full catalog → closing. */
 const RAW_DURATIONS = {
-  intro: 270, // 9s — el núcleo
-  inception: 255, // 8.5s
-  changeManagement: 255, // 8.5s
-  sats: 285, // 9.5s
-  cloud: 285, // 9.5s
+  intro: 210, // 7s
+  inception: 240, // 8s
+  changeManagement: 240, // 8s
+  sats: 270, // 9s
+  cloud: 270, // 9s
   uaas: 240, // 8s
-  taas: 255, // 8.5s
+  taas: 240, // 8s
   support: 240, // 8s
-  ecosystem: 330, // 11s
-  endCard: 120, // 4s
+  catalog: 330, // 11s
+  closing: 210, // 7s
 } as const;
 
 export const SCENE_KEYS = [
@@ -42,8 +42,8 @@ export const SCENE_KEYS = [
   "uaas",
   "taas",
   "support",
-  "ecosystem",
-  "endCard",
+  "catalog",
+  "closing",
 ] as const;
 
 export type SceneKey = (typeof SCENE_KEYS)[number];
@@ -76,14 +76,42 @@ export const SAFE = {
   y: 90,
 } as const;
 
-/** The seven SIREC services, in the order they orbit the core in Scene09 — shared so the
- * ecosystem scene and the end card agree on node positions/colors. */
+/** The seven SIREC services with the exact catalog copy from the brief — shared between
+ * the full-catalog scene and the closing scene so wording never drifts. */
 export const SERVICES = [
-  { key: "inception", label: "INCEPTION" },
-  { key: "changeManagement", label: "CHANGE MANAGEMENT" },
-  { key: "sats", label: "SATS" },
-  { key: "cloud", label: "SIREC CLOUD SERVICES" },
-  { key: "uaas", label: "UaaS" },
-  { key: "taas", label: "TaaS" },
-  { key: "support", label: "DEDICATED SUPPORT" },
+  {
+    key: "inception",
+    label: "INCEPTION",
+    description: "Consultoría y acompañamiento experto durante la definición de un proyecto.",
+  },
+  {
+    key: "changeManagement",
+    label: "CHANGE MANAGEMENT",
+    description: "Impulsa la adopción y el máximo aprovechamiento de SIREC.",
+  },
+  {
+    key: "sats",
+    label: "SATS",
+    description: "Automatización de pruebas para reducir costes y mejorar el time to market.",
+  },
+  {
+    key: "cloud",
+    label: "SIREC CLOUD SERVICES",
+    description: "Servicios Cloud para operar SIREC con seguridad y escalabilidad.",
+  },
+  {
+    key: "uaas",
+    label: "UaaS",
+    description: "Actualizaciones de software para aprovechar las versiones más recientes.",
+  },
+  {
+    key: "taas",
+    label: "TaaS",
+    description: "Formación planificada con sesiones presenciales y contenido formativo.",
+  },
+  {
+    key: "support",
+    label: "DEDICATED SUPPORT",
+    description: "Asignación directa de especialistas de SIREC, temporal o permanente.",
+  },
 ] as const;

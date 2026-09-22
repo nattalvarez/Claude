@@ -11,8 +11,8 @@ import { Scene05CloudServices } from "./scenes/Scene05CloudServices";
 import { Scene06Uaas } from "./scenes/Scene06Uaas";
 import { Scene07Taas } from "./scenes/Scene07Taas";
 import { Scene08DedicatedSupport } from "./scenes/Scene08DedicatedSupport";
-import { Scene09Ecosystem } from "./scenes/Scene09Ecosystem";
-import { Scene10EndCard } from "./scenes/Scene10EndCard";
+import { Scene09Catalog } from "./scenes/Scene09Catalog";
+import { Scene10Closing } from "./scenes/Scene10Closing";
 
 loadFont("normal", {
   weights: ["300", "400", "500", "700", "900"],
@@ -20,17 +20,16 @@ loadFont("normal", {
   ignoreTooManyRequestsWarning: true,
 });
 
-/** SIREC — Un ecosistema que evoluciona contigo. Ten scenes assembled with `Series`,
- * each overlapping the next by OVERLAP frames so the outgoing scene's exit motif and the
- * incoming scene's entrance motif cross-dissolve instead of hard-cutting — every scene is
- * meant to feel "born" from the one before it. */
+/** SIREC — pieza editorial de motion graphics. Ten scenes assembled with `Series`, each
+ * overlapping the next by OVERLAP frames so the outgoing scene's exit motif and the
+ * incoming scene's entrance motif cross-dissolve instead of hard-cutting. */
 export const SirecMotion: React.FC = () => {
   return (
     <AbsoluteFill>
       <BgMesh />
 
       <Series>
-        <Series.Sequence durationInFrames={SCENE_DURATIONS.intro} name="01 — Núcleo">
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.intro} name="01 — Introducción">
           <Scene01Intro />
         </Series.Sequence>
         <Series.Sequence durationInFrames={SCENE_DURATIONS.inception} offset={-OVERLAP} name="02 — Inception">
@@ -54,11 +53,11 @@ export const SirecMotion: React.FC = () => {
         <Series.Sequence durationInFrames={SCENE_DURATIONS.support} offset={-OVERLAP} name="08 — Dedicated Support">
           <Scene08DedicatedSupport />
         </Series.Sequence>
-        <Series.Sequence durationInFrames={SCENE_DURATIONS.ecosystem} offset={-OVERLAP} name="09 — Ecosystem">
-          <Scene09Ecosystem />
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.catalog} offset={-OVERLAP} name="09 — Catálogo">
+          <Scene09Catalog />
         </Series.Sequence>
-        <Series.Sequence durationInFrames={SCENE_DURATIONS.endCard} offset={-OVERLAP} name="10 — End Card">
-          <Scene10EndCard />
+        <Series.Sequence durationInFrames={SCENE_DURATIONS.closing} offset={-OVERLAP} name="10 — Cierre">
+          <Scene10Closing />
         </Series.Sequence>
       </Series>
 

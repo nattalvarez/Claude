@@ -1,7 +1,7 @@
 import React from "react";
 import { COLORS } from "../styles/theme";
 
-export type IconType = "check" | "play" | "doc" | "screen" | "node" | "shield" | "layers" | "cube";
+export type IconType = "check" | "play" | "doc" | "screen" | "node" | "shield" | "layers" | "cube" | "book";
 
 /** Abstract line-art glyphs — never emoji, never a literal icon-font pack — in the
  * brand's navy/blue/turquoise. Matches the geometric mark language used throughout. */
@@ -80,6 +80,14 @@ export const TechIcon: React.FC<{ type: IconType; color?: string; size?: number 
           <line x1={s * 0.5} y1={s * 0.12} x2={s * 0.5} y2={s * 0.48} {...common} />
           <line x1={s * 0.16} y1={s * 0.3} x2={s * 0.5} y2={s * 0.48} {...common} />
           <line x1={s * 0.84} y1={s * 0.3} x2={s * 0.5} y2={s * 0.48} {...common} />
+        </svg>
+      );
+    case "book":
+      return (
+        <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`}>
+          <path d={`M ${s * 0.5} ${s * 0.22} C ${s * 0.4} ${s * 0.14} ${s * 0.26} ${s * 0.14} ${s * 0.18} ${s * 0.18} V ${s * 0.74} C ${s * 0.26} ${s * 0.7} ${s * 0.4} ${s * 0.7} ${s * 0.5} ${s * 0.78}`} {...common} />
+          <path d={`M ${s * 0.5} ${s * 0.22} C ${s * 0.6} ${s * 0.14} ${s * 0.74} ${s * 0.14} ${s * 0.82} ${s * 0.18} V ${s * 0.74} C ${s * 0.74} ${s * 0.7} ${s * 0.6} ${s * 0.7} ${s * 0.5} ${s * 0.78}`} {...common} />
+          <line x1={s * 0.5} y1={s * 0.22} x2={s * 0.5} y2={s * 0.78} {...common} />
         </svg>
       );
   }
