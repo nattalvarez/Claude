@@ -18,7 +18,7 @@ export const Scene01Intro: React.FC = () => {
   const rotY = frame * 0.55;
   const rotX = 18 + Math.sin(frame / 90) * 6;
 
-  const growScale = interpolate(frame, [30, 150], [1, 1.55], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
+  const growScale = interpolate(frame, [30, 150], [1, 1.3], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
 
   const shiftX = interpolate(frame, [168, 210], [0, 620], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
   const shiftScale = interpolate(frame, [168, 210], [1, 0.62], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: EASE.inOut });
@@ -42,7 +42,7 @@ export const Scene01Intro: React.FC = () => {
             <div
               style={{
                 position: "relative",
-                transform: `translateX(${shiftX}px) translateY(-70px) scale(${cubeScale * growScale * shiftScale})`,
+                transform: `translateX(${shiftX}px) translateY(-190px) scale(${cubeScale * growScale * shiftScale})`,
               }}
             >
               <GroundShadow w={180} style={{ top: 150 }} opacity={0.14} />
@@ -66,12 +66,12 @@ export const Scene01Intro: React.FC = () => {
             style={{
               alignItems: "center",
               justifyContent: "center",
-              paddingTop: 300,
+              paddingTop: 470,
               opacity: textFade,
               transform: `translateY(${textShift}px)`,
             }}
           >
-            <Card from={50} style={{ padding: "56px 88px", display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+            <Card from={50} style={{ padding: "40px 80px", display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
               <KineticTitle text="SIREC" from={58} fontSize={116} weight={900} align="center" letterSpacing={-2} />
               <TextBlock
                 text="Un ecosistema de servicios alrededor de la plataforma"
