@@ -1,19 +1,18 @@
 import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig, Easing, Img, staticFile } from "remotion";
-import { COLORS, FONT_FAMILY } from "../styles/theme";
+import { COLORS } from "../styles/theme";
 import { KineticText } from "../components/KineticText";
 import { TITLE_POS, T } from "./timeline";
 
-/** The opening beat: SIREC's name locks in first with a blur+rise settle,
- * then the mission line, then the promise line — each its own reveal, never
- * a flat fade — before the whole group recedes as the camera arrives at the
- * core. */
+/** The opening beat: the SIREC logo — mark and wordmark together as one
+ * asset — locks in first with a blur+rise settle, then the mission line,
+ * then the promise line — each its own reveal, never a flat fade — before
+ * the whole group recedes as the camera arrives at the core. */
 export const TitleScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const glow = spring({ frame: frame - T.title.line1, fps, config: { damping: 22, mass: 1.2, stiffness: 70 } });
-  const icon = spring({ frame: frame - T.title.line1, fps, config: { damping: 15, mass: 1, stiffness: 110 } });
   const name = spring({ frame: frame - T.title.line1 - 6, fps, config: { damping: 17, mass: 0.9, stiffness: 100 } });
 
   const exit = interpolate(frame, [T.title.exit, T.title.exit + 18], [0, 1], {
@@ -55,40 +54,17 @@ export const TitleScene: React.FC = () => {
         }}
       />
 
-      <div
+      <Img
+        src={staticFile("sirecHub/sirec-logo-color.webp")}
         style={{
           position: "relative",
-          width: 132,
-          height: 132,
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: `radial-gradient(circle at 35% 30%, ${COLORS.blue}, ${COLORS.navy} 72%)`,
-          border: `1.5px solid rgba(255,255,255,0.22)`,
-          boxShadow: `0 20px 50px -14px ${COLORS.navyShadow}, 0 0 70px -16px ${COLORS.glow}`,
-          opacity: interpolate(icon, [0, 1], [0, 1]),
-          transform: `scale(${interpolate(icon, [0, 1], [0.6, 1])}) translateY(${interpolate(icon, [0, 1], [22, 0])}px)`,
-        }}
-      >
-        <Img src={staticFile("sirecHub/sirec-icon.webp")} style={{ width: 84, height: "auto" }} />
-      </div>
-
-      <span
-        style={{
-          position: "relative",
-          fontFamily: FONT_FAMILY,
-          fontWeight: 900,
-          fontSize: 118,
-          letterSpacing: -1.5,
-          color: COLORS.navy,
+          width: 460,
+          height: "auto",
           opacity: interpolate(name, [0, 1], [0, 1]),
           filter: `blur(${Math.max(0, blur)}px)`,
           transform: `translateY(${interpolate(name, [0, 1], [46, 0])}px) scale(${interpolate(name, [0, 1], [1.1, 1])})`,
         }}
-      >
-        SIREC
-      </span>
+      />
 
       <KineticText
         parts={[{ text: "Plataforma de orquestación del ciclo de riesgo de crédito", color: COLORS.blue }]}

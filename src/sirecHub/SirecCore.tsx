@@ -1,18 +1,17 @@
 import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
-import { COLORS, FONT_FAMILY } from "../styles/theme";
+import { COLORS } from "../styles/theme";
 import { CENTER, T } from "./timeline";
 
 /** SIREC's own presence: a glowing layered node with real depth, not a card.
- * A halo breathes in first, then the ring emblem settles with a light
- * overshoot, then the wordmark locks in beneath it. */
+ * A halo breathes in first, then the badge — mark and wordmark together as
+ * one logo asset — settles with a light overshoot. */
 export const SirecCore: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const core = spring({ frame: frame - T.sirec.core, fps, config: { damping: 16, mass: 1.1, stiffness: 90 } });
   const ring = spring({ frame: frame - T.sirec.ring, fps, config: { damping: 13, mass: 0.7, stiffness: 130 } });
-  const label = spring({ frame: frame - T.sirec.label, fps, config: { damping: 16, mass: 0.8, stiffness: 120 } });
 
   if (core <= 0.001) return null;
 
@@ -52,12 +51,11 @@ export const SirecCore: React.FC = () => {
       <div
         style={{
           position: "relative",
-          width: 200,
-          height: 200,
-          borderRadius: "50%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          padding: "30px 34px",
+          borderRadius: 32,
           background: `radial-gradient(circle at 35% 30%, ${COLORS.blue}, ${COLORS.navy} 72%)`,
           border: `1.5px solid rgba(255,255,255,0.22)`,
           boxShadow: `0 24px 60px -14px ${COLORS.navyShadow}, 0 0 90px -18px ${COLORS.glow}, inset 0 0 44px rgba(255,255,255,0.08)`,
@@ -65,22 +63,8 @@ export const SirecCore: React.FC = () => {
           opacity: interpolate(ring, [0, 1], [0, 1]),
         }}
       >
-        <Img src={staticFile("sirecHub/sirec-icon.webp")} style={{ width: 128, height: "auto" }} />
+        <Img src={staticFile("sirecHub/sirec-logo-white.png")} style={{ width: 190, height: "auto" }} />
       </div>
-
-      <span
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontWeight: 900,
-          fontSize: 52,
-          letterSpacing: -0.5,
-          color: COLORS.navy,
-          opacity: interpolate(label, [0, 1], [0, 1]),
-          transform: `translateY(${interpolate(label, [0, 1], [14, 0])}px)`,
-        }}
-      >
-        SIREC
-      </span>
     </div>
   );
 };
