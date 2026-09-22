@@ -6,6 +6,9 @@ import { AgentFabricMotion } from "./agentFabric/AgentFabricMotion";
 import { DURATION_IN_FRAMES as AF_DURATION } from "./agentFabric/timeline";
 import { SirecHubMotion } from "./sirecHub/SirecHubMotion";
 import { DURATION_IN_FRAMES as HUB_DURATION } from "./sirecHub/timeline";
+import { SirecEcosystemMotion } from "./sirecEcosystem/SirecEcosystemMotion";
+import { DURATION_IN_FRAMES as ECOSYSTEM_DURATION } from "./sirecEcosystem/timeline";
+import { FPS as ECOSYSTEM_FPS, WIDTH as ECOSYSTEM_WIDTH, HEIGHT as ECOSYSTEM_HEIGHT } from "./sirecEcosystem/theme";
 
 export const Root: React.FC = () => {
   return (
@@ -35,6 +38,15 @@ export const Root: React.FC = () => {
         fps={FPS}
         width={WIDTH}
         height={HEIGHT}
+        defaultProps={{}}
+      />
+      <Composition
+        id="SirecEcosystem"
+        component={SirecEcosystemMotion}
+        durationInFrames={ECOSYSTEM_DURATION}
+        fps={ECOSYSTEM_FPS}
+        width={ECOSYSTEM_WIDTH}
+        height={ECOSYSTEM_HEIGHT}
         defaultProps={{}}
       />
     </>
