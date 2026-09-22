@@ -103,15 +103,15 @@ export const Scene05Cloud: React.FC = () => {
               </div>
             </div>
 
-            <div style={{ width: "44%", display: "flex", flexDirection: "column", gap: 20, opacity: pushO }}>
+            <Card from={12} fade={pushO} style={{ padding: "40px 44px", maxWidth: 620, display: "flex", flexDirection: "column", gap: 18 }}>
               <Eyebrow text="Servicio 04" from={12} />
-              <KineticTitle text="SIREC CLOUD" from={18} fontSize={64} style={{ marginBottom: -14 }} />
-              <KineticTitle text="SERVICES" from={24} fontSize={64} />
-              <Card from={54} style={{ padding: "28px 32px", maxWidth: 600, marginTop: 8, display: "flex", flexDirection: "column", gap: 12 }}>
-                <TextBlock text="Cartera integral de servicios Cloud para operar SIREC." from={64} fontSize={24} weight={600} color={COLORS.navy} lineHeight={1.4} />
-                <TextBlock text="Altos niveles de seguridad y escalabilidad." from={96} fontSize={19} weight={500} color={COLORS.navySoft} lineHeight={1.4} />
-              </Card>
-            </div>
+              <div>
+                <KineticTitle text="SIREC CLOUD" from={18} fontSize={64} style={{ marginBottom: -14 }} />
+                <KineticTitle text="SERVICES" from={24} fontSize={64} />
+              </div>
+              <TextBlock text="Cartera integral de servicios Cloud para operar SIREC." from={64} fontSize={24} weight={600} color={COLORS.navy} lineHeight={1.4} />
+              <TextBlock text="Altos niveles de seguridad y escalabilidad." from={96} fontSize={19} weight={500} color={COLORS.navySoft} lineHeight={1.4} />
+            </Card>
           </AbsoluteFill>
         </AbsoluteFill>
 

@@ -125,10 +125,15 @@ export const Eyebrow: React.FC<{ text: string; from: number; color?: string; ali
 /** Elevated white surface — the one card treatment used everywhere text
  * needs a clean plane to sit on. Rises in on its own `from`, slightly ahead
  * of the copy it holds, instead of appearing as a dead static box. */
-export const Card: React.FC<{ from: number; style?: React.CSSProperties; children: React.ReactNode }> = ({ from, style, children }) => {
+export const Card: React.FC<{ from: number; fade?: number; style?: React.CSSProperties; children: React.ReactNode }> = ({
+  from,
+  fade = 1,
+  style,
+  children,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const p = spring({ frame: frame - from, fps, config: SPRING.smooth });
+  const p = spring({ frame: frame - from, fps, config: SPRING.smooth }) * fade;
   if (p <= 0.001) return null;
   return (
     <div

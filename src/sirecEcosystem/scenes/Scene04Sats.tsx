@@ -88,22 +88,20 @@ export const Scene04Sats: React.FC = () => {
           </AbsoluteFill>
 
           <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 90 }}>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+            <Card from={92} style={{ padding: "36px 48px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
               <KineticTitle text="SATS" from={92} fontSize={88} align="center" />
               <TextBlock text="SIREC Automated Testing Suite" from={118} fontSize={24} weight={700} color={COLORS.blue} align="center" />
-              <Card from={138} style={{ padding: "24px 40px", marginTop: 8 }}>
-                <TextBlock
-                  text="Automatización de pruebas para SIREC que ayuda a reducir costes y mejorar el time to market."
-                  from={148}
-                  fontSize={22}
-                  weight={500}
-                  color={COLORS.navySoft}
-                  align="center"
-                  maxWidth={760}
-                  lineHeight={1.4}
-                />
-              </Card>
-            </div>
+              <TextBlock
+                text="Automatización de pruebas para SIREC que ayuda a reducir costes y mejorar el time to market."
+                from={148}
+                fontSize={22}
+                weight={500}
+                color={COLORS.navySoft}
+                align="center"
+                maxWidth={760}
+                lineHeight={1.4}
+              />
+            </Card>
           </AbsoluteFill>
         </AbsoluteFill>
 

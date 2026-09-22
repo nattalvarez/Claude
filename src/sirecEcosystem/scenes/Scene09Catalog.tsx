@@ -1,6 +1,6 @@
 import React from "react";
-import { useCurrentFrame, AbsoluteFill } from "remotion";
-import { COLORS } from "../theme";
+import { useCurrentFrame, useVideoConfig, spring, interpolate, AbsoluteFill } from "remotion";
+import { COLORS, SPRING } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
 import { ServiceCard, CardVariant } from "../components/ServiceCard";
 import { KineticTitle, TextBlock, SceneFade, WorldPoint } from "../components/TextBlocks";
@@ -44,7 +44,9 @@ const CAM: CamKF[] = [
 
 export const Scene09Catalog: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const cam = cameraAt(frame, CAM);
+  const headerP = spring({ frame: frame - 4, fps, config: SPRING.smooth });
 
   return (
     <SceneFade duration={DUR}>
@@ -52,7 +54,22 @@ export const Scene09Catalog: React.FC = () => {
         <SceneBackdrop />
 
         <AbsoluteFill style={{ transform: worldCameraTransform(cam) }}>
-          <WorldPoint x={0} y={HEADER_Y} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <WorldPoint
+            x={0}
+            y={HEADER_Y}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 10,
+              background: COLORS.white,
+              borderRadius: 24,
+              boxShadow: `0 30px 70px -24px ${COLORS.shadow}, 0 0 0 1px ${COLORS.navyHair}`,
+              padding: "34px 56px",
+              opacity: headerP,
+              transform: `translate(-50%, -50%) translateY(${interpolate(headerP, [0, 1], [20, 0])}px) scale(${interpolate(headerP, [0, 1], [0.96, 1])})`,
+            }}
+          >
             <KineticTitle text="SIREC" from={4} fontSize={70} align="center" />
             <TextBlock
               text="Servicios para acompañar la evolución de la plataforma"

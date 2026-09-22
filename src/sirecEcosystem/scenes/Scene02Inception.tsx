@@ -37,20 +37,18 @@ export const Scene02Inception: React.FC = () => {
 
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
           <AbsoluteFill style={{ flexDirection: "row", alignItems: "center", padding: "0 150px" }}>
-            <div style={{ width: "48%", display: "flex", flexDirection: "column", gap: 22 }}>
+            <Card from={10} style={{ padding: "44px 48px", maxWidth: 600, display: "flex", flexDirection: "column", gap: 20 }}>
               <Eyebrow text="Servicio 01" from={10} />
               <KineticTitle text="INCEPTION" from={16} fontSize={92} />
-              <Card from={44} style={{ padding: "30px 34px", maxWidth: 560, marginTop: 10 }}>
-                <TextBlock
-                  text="Consultoría y acompañamiento experto durante la definición de un proyecto."
-                  from={54}
-                  fontSize={25}
-                  weight={500}
-                  color={COLORS.navySoft}
-                  lineHeight={1.42}
-                />
-              </Card>
-            </div>
+              <TextBlock
+                text="Consultoría y acompañamiento experto durante la definición de un proyecto."
+                from={54}
+                fontSize={25}
+                weight={500}
+                color={COLORS.navySoft}
+                lineHeight={1.42}
+              />
+            </Card>
 
             <div style={{ width: "52%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div

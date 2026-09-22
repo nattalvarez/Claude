@@ -40,22 +40,22 @@ export const Scene03ChangeManagement: React.FC = () => {
               </div>
             </div>
 
-            <div style={{ width: "48%", display: "flex", flexDirection: "column", gap: 22 }}>
+            <Card from={10} style={{ padding: "44px 48px", maxWidth: 620, display: "flex", flexDirection: "column", gap: 18 }}>
               <Eyebrow text="Servicio 02" from={10} />
-              <KineticTitle text="CHANGE" from={16} fontSize={80} style={{ marginBottom: -18 }} />
-              <KineticTitle text="MANAGEMENT" from={22} fontSize={80} />
-              <Card from={46} style={{ padding: "30px 34px", maxWidth: 580, marginTop: 6, display: "flex", flexDirection: "column", gap: 10 }}>
-                <TextBlock text="Impulsa la adopción y el máximo aprovechamiento de SIREC." from={56} fontSize={25} weight={600} color={COLORS.navy} lineHeight={1.4} />
-                <TextBlock
-                  text="Modelo de gestión especializado para las organizaciones."
-                  from={78}
-                  fontSize={19}
-                  weight={500}
-                  color={COLORS.navySoft}
-                  lineHeight={1.4}
-                />
-              </Card>
-            </div>
+              <div>
+                <KineticTitle text="CHANGE" from={16} fontSize={80} style={{ marginBottom: -18 }} />
+                <KineticTitle text="MANAGEMENT" from={22} fontSize={80} />
+              </div>
+              <TextBlock text="Impulsa la adopción y el máximo aprovechamiento de SIREC." from={56} fontSize={25} weight={600} color={COLORS.navy} lineHeight={1.4} />
+              <TextBlock
+                text="Modelo de gestión especializado para las organizaciones."
+                from={78}
+                fontSize={19}
+                weight={500}
+                color={COLORS.navySoft}
+                lineHeight={1.4}
+              />
+            </Card>
           </AbsoluteFill>
         </AbsoluteFill>
 

@@ -1,46 +1,13 @@
 import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig, AbsoluteFill } from "remotion";
-import { COLORS, SPRING, EASE, WIDTH, HEIGHT } from "../theme";
+import { COLORS, SPRING, EASE } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
 import { Solid3D, Stage3D, GroundShadow } from "../components/Primitives3D";
-import { KineticTitle, TextBlock, SceneFade } from "../components/TextBlocks";
+import { KineticTitle, TextBlock, Card, SceneFade } from "../components/TextBlocks";
 import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
 
 const DUR = scene("intro").duration;
-
-const driftShapes = [
-  { x: -360, y: -220, size: 16, kind: "circle" as const, delay: 40 },
-  { x: 340, y: -260, size: 12, kind: "dot" as const, delay: 55 },
-  { x: -420, y: 160, size: 20, kind: "square" as const, delay: 70 },
-  { x: 400, y: 210, size: 14, kind: "dot" as const, delay: 85 },
-  { x: 0, y: -320, size: 10, kind: "dot" as const, delay: 100 },
-];
-
-const MicroShape: React.FC<{ x: number; y: number; size: number; kind: "circle" | "square" | "dot"; delay: number; frame: number; fps: number }> = ({
-  x,
-  y,
-  size,
-  kind,
-  delay,
-  frame,
-  fps,
-}) => {
-  const p = spring({ frame: frame - delay, fps, config: SPRING.gentle });
-  const drift = Math.sin((frame - delay) / 60) * 10;
-  const common: React.CSSProperties = {
-    position: "absolute",
-    left: WIDTH / 2 + x,
-    top: HEIGHT / 2 + y + drift,
-    width: size,
-    height: size,
-    opacity: p * 0.5,
-    transform: `scale(${interpolate(p, [0, 1], [0.3, 1])})`,
-  };
-  if (kind === "dot") return <div style={{ ...common, borderRadius: "50%", background: COLORS.turquoise }} />;
-  if (kind === "square") return <div style={{ ...common, borderRadius: 4, border: `2px solid ${COLORS.blue}` }} />;
-  return <div style={{ ...common, borderRadius: "50%", border: `2px solid ${COLORS.blue}` }} />;
-};
 
 export const Scene01Intro: React.FC = () => {
   const frame = useCurrentFrame();
@@ -71,10 +38,6 @@ export const Scene01Intro: React.FC = () => {
         <SceneBackdrop />
 
         <AbsoluteFill style={{ transform: cameraTransform(cam), transformOrigin: "50% 50%" }}>
-          {driftShapes.map((s, i) => (
-            <MicroShape key={i} {...s} frame={frame} fps={fps} />
-          ))}
-
           <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
             <div
               style={{
@@ -108,7 +71,7 @@ export const Scene01Intro: React.FC = () => {
               transform: `translateY(${textShift}px)`,
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+            <Card from={50} style={{ padding: "56px 88px", display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
               <KineticTitle text="SIREC" from={58} fontSize={116} weight={900} align="center" letterSpacing={-2} />
               <TextBlock
                 text="Un ecosistema de servicios alrededor de la plataforma"
@@ -128,7 +91,7 @@ export const Scene01Intro: React.FC = () => {
                 align="center"
                 maxWidth={780}
               />
-            </div>
+            </Card>
           </AbsoluteFill>
         </AbsoluteFill>
 

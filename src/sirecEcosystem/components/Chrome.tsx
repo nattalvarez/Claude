@@ -3,72 +3,6 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, alpha } from "../theme";
 import { WIDTH, HEIGHT } from "../theme";
 
-type Shape = { x: number; y: number; size: number; kind: "circle" | "square" | "tri" | "dot"; color: string; speed: number; rot: number };
-
-// Hand-placed, not random — deterministic across renders, and kept out of
-// the center safe zone so nothing ever competes with type or hero objects.
-const SHAPES: Shape[] = [
-  { x: 120, y: 160, size: 46, kind: "circle", color: COLORS.blue, speed: 70, rot: 0 },
-  { x: 230, y: 560, size: 22, kind: "square", color: COLORS.turquoise, speed: 95, rot: 18 },
-  { x: 90, y: 860, size: 34, kind: "tri", color: COLORS.blue, speed: 60, rot: -12 },
-  { x: 330, y: 940, size: 10, kind: "dot", color: COLORS.turquoise, speed: 40, rot: 0 },
-  { x: 1790, y: 190, size: 30, kind: "square", color: COLORS.turquoise, speed: 80, rot: 30 },
-  { x: 1840, y: 480, size: 54, kind: "circle", color: COLORS.blue, speed: 110, rot: 0 },
-  { x: 1720, y: 830, size: 24, kind: "tri", color: COLORS.turquoise, speed: 65, rot: 8 },
-  { x: 1860, y: 960, size: 12, kind: "dot", color: COLORS.blue, speed: 50, rot: 0 },
-  { x: 560, y: 90, size: 14, kind: "dot", color: COLORS.blue, speed: 55, rot: 0 },
-  { x: 1340, y: 1010, size: 18, kind: "dot", color: COLORS.turquoise, speed: 45, rot: 0 },
-];
-
-const ShapeGlyph: React.FC<{ s: Shape; rot: number }> = ({ s, rot }) => {
-  const common: React.CSSProperties = { position: "absolute", width: s.size, height: s.size };
-  if (s.kind === "dot") {
-    return <div style={{ ...common, borderRadius: "50%", background: alpha(s.color, 0.28) }} />;
-  }
-  if (s.kind === "circle") {
-    return (
-      <div style={{ ...common, borderRadius: "50%", border: `2px solid ${alpha(s.color, 0.22)}`, transform: `rotate(${rot}deg)` }} />
-    );
-  }
-  if (s.kind === "square") {
-    return (
-      <div
-        style={{ ...common, borderRadius: 6, border: `2px solid ${alpha(s.color, 0.24)}`, transform: `rotate(${rot}deg)` }}
-      />
-    );
-  }
-  return (
-    <svg width={s.size} height={s.size} style={{ ...common, transform: `rotate(${rot}deg)` }}>
-      <polygon
-        points={`${s.size / 2},2 ${s.size - 2},${s.size - 2} 2,${s.size - 2}`}
-        fill="none"
-        stroke={alpha(s.color, 0.24)}
-        strokeWidth={2}
-      />
-    </svg>
-  );
-};
-
-/** Unconnected geometric shapes drifting far from center — texture, not a
- * diagram. Nothing here ever links to another element. */
-export const AmbientField: React.FC<{ opacity?: number }> = ({ opacity = 1 }) => {
-  const frame = useCurrentFrame();
-  return (
-    <>
-      {SHAPES.map((s, i) => {
-        const drift = Math.sin(frame / s.speed + i) * 16;
-        const driftX = Math.cos(frame / (s.speed * 1.3) + i) * 10;
-        const rot = s.rot + frame * (0.08 + (i % 3) * 0.03);
-        return (
-          <div key={i} style={{ position: "absolute", left: s.x + driftX, top: s.y + drift, opacity }}>
-            <ShapeGlyph s={s} rot={rot} />
-          </div>
-        );
-      })}
-    </>
-  );
-};
-
 /** Two extremely soft tinted blooms — keeps the background from ever being
  * a flat, dead white while staying a bright editorial white overall. */
 export const BgWash: React.FC = () => {
@@ -135,11 +69,11 @@ export const EdgeShade: React.FC = () => (
 );
 
 /** The full background stack every scene mounts once, bottom to top:
- * wash → ambient shapes → (scene content goes here) → grain → edge shade. */
-export const SceneBackdrop: React.FC<{ ambientOpacity?: number }> = ({ ambientOpacity = 1 }) => (
+ * wash → (scene content goes here) → grain → edge shade. No decorative
+ * shapes — the only geometry on screen is the content itself. */
+export const SceneBackdrop: React.FC = () => (
   <AbsoluteFill>
     <BgWash />
-    <AmbientField opacity={ambientOpacity} />
   </AbsoluteFill>
 );
 

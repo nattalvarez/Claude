@@ -122,25 +122,21 @@ export const Scene07Taas: React.FC = () => {
               </Stage3D>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, marginTop: 16 }}>
+            <Card from={110} style={{ padding: "32px 44px", marginTop: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
               <Eyebrow text="Servicio 06" from={110} align="center" />
-              <div style={{ display: "flex", alignItems: "baseline", gap: 18 }}>
-                <KineticTitle text="TaaS" from={116} fontSize={70} per={4} />
-              </div>
+              <KineticTitle text="TaaS" from={116} fontSize={70} per={4} />
               <TextBlock text="Training as a Service" from={128} fontSize={24} weight={700} color={COLORS.blue} align="center" />
-              <Card from={140} style={{ padding: "22px 36px", marginTop: 6 }}>
-                <TextBlock
-                  text="Formación planificada con sesiones presenciales y acceso a contenido formativo."
-                  from={150}
-                  fontSize={21}
-                  weight={500}
-                  color={COLORS.navySoft}
-                  align="center"
-                  maxWidth={740}
-                  lineHeight={1.4}
-                />
-              </Card>
-            </div>
+              <TextBlock
+                text="Formación planificada con sesiones presenciales y acceso a contenido formativo."
+                from={150}
+                fontSize={21}
+                weight={500}
+                color={COLORS.navySoft}
+                align="center"
+                maxWidth={740}
+                lineHeight={1.4}
+              />
+            </Card>
           </AbsoluteFill>
         </AbsoluteFill>
 

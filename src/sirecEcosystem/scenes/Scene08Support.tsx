@@ -3,7 +3,7 @@ import { useCurrentFrame, useVideoConfig, AbsoluteFill, interpolate, spring } fr
 import { COLORS, SPRING, EASE } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
 import { Solid3D, Stage3D, GroundShadow } from "../components/Primitives3D";
-import { Eyebrow, KineticTitle, TextBlock, Pill, SceneFade } from "../components/TextBlocks";
+import { Eyebrow, KineticTitle, TextBlock, Pill, Card, SceneFade } from "../components/TextBlocks";
 import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
 
@@ -73,7 +73,7 @@ export const Scene08Support: React.FC = () => {
               </Stage3D>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginTop: 30 }}>
+            <Card from={110} style={{ padding: "36px 48px", marginTop: 30, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
               <Eyebrow text="Servicio 07" from={110} align="center" />
               <KineticTitle text="DEDICATED SUPPORT" from={116} fontSize={62} align="center" />
               <TextBlock
@@ -90,7 +90,7 @@ export const Scene08Support: React.FC = () => {
                 <Pill text="Temporal" from={188} color={COLORS.navy} bg={COLORS.lightBlue} />
                 <Pill text="Permanente" from={198} color={COLORS.white} bg={COLORS.blue} />
               </div>
-            </div>
+            </Card>
           </AbsoluteFill>
         </AbsoluteFill>
 

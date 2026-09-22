@@ -3,7 +3,7 @@ import { useCurrentFrame, useVideoConfig, AbsoluteFill, interpolate, spring } fr
 import { COLORS, FONT, SPRING, EASE, shade } from "../theme";
 import { SceneBackdrop, SceneOverlay } from "../components/Chrome";
 import { Solid3D, Stage3D, GroundShadow } from "../components/Primitives3D";
-import { Eyebrow, TextBlock, SceneFade } from "../components/TextBlocks";
+import { Eyebrow, TextBlock, Card, SceneFade } from "../components/TextBlocks";
 import { cameraAt, cameraTransform } from "../camera";
 import { scene } from "../timeline";
 
@@ -78,7 +78,7 @@ export const Scene06Uaas: React.FC = () => {
               </Stage3D>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, marginTop: 44 }}>
+            <Card from={150} style={{ padding: "34px 46px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, marginTop: 44 }}>
               <Eyebrow text="Servicio 05" from={150} align="center" />
               <div style={{ display: "flex", alignItems: "baseline", gap: 18 }}>
                 <span
@@ -116,7 +116,7 @@ export const Scene06Uaas: React.FC = () => {
                 maxWidth={820}
                 lineHeight={1.4}
               />
-            </div>
+            </Card>
           </AbsoluteFill>
         </AbsoluteFill>
 
