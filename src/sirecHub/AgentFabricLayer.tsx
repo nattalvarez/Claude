@@ -72,51 +72,61 @@ export const AgentFabricLayer: React.FC = () => {
       <div
         style={{
           background: COLORS.white,
-          borderRadius: 14,
-          padding: "14px 24px",
+          borderRadius: 16,
+          padding: "18px 32px",
           boxShadow: `0 14px 30px -12px ${COLORS.navyShadow}, 0 0 0 1.5px ${COLORS.blue}3D`,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 4,
+          gap: 6,
           opacity: interpolate(title, [0, 1], [0, 1]),
           transform: `translateY(${interpolate(title, [0, 1], [12, 0])}px)`,
         }}
       >
-        <span style={{ fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 32, color: COLORS.navy, whiteSpace: "nowrap" }}>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontWeight: 700,
+            fontSize: 18,
+            color: COLORS.navy,
+            opacity: 0.55,
+            letterSpacing: 2.5,
+            textTransform: "uppercase",
+            whiteSpace: "nowrap",
+          }}
+        >
           Agentes IA
         </span>
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 8,
+            gap: 12,
             marginTop: 2,
             opacity: interpolate(subtitle, [0, 1], [0, 1]),
-            transform: `translateY(${interpolate(subtitle, [0, 1], [8, 0])}px)`,
+            transform: `translateY(${interpolate(subtitle, [0, 1], [8, 0])}px) scale(${1 + pulse * 0.045})`,
           }}
         >
           <div
             style={{
-              width: 9,
-              height: 9,
+              width: 13,
+              height: 13,
               borderRadius: "50%",
               background: COLORS.turquoise,
-              boxShadow: `0 0 ${6 + pulse * 8}px ${COLORS.turquoise}`,
-              transform: `scale(${1 + pulse * 0.35})`,
+              boxShadow: `0 0 ${8 + pulse * 16}px ${COLORS.turquoise}`,
+              transform: `scale(${1 + pulse * 0.45})`,
               flexShrink: 0,
             }}
           />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontWeight: 800,
-              fontSize: 27,
+              fontWeight: 900,
+              fontSize: 46,
               color: COLORS.blue,
-              letterSpacing: 0.3,
+              letterSpacing: -0.5,
               whiteSpace: "nowrap",
-              transform: `scale(${1 + pulse * 0.02})`,
-              textShadow: `0 0 ${4 + pulse * 10}px ${COLORS.blue}55`,
+              textShadow: `0 0 ${8 + pulse * 22}px ${COLORS.blue}70`,
             }}
           >
             SIREC Agent Fabric
