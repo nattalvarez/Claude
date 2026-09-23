@@ -15,6 +15,9 @@ type Props = {
   labelBelow?: boolean;
   breathe?: boolean;
   opacity?: number;
+  /** when set, the label wraps to this width instead of forcing a single line —
+   * needed for longer labels packed at tight angular spacing. */
+  labelMaxWidth?: number;
 };
 
 /** A flat, brand-colored mark with a soft directional shadow and a faint glow behind it —
@@ -32,6 +35,7 @@ export const Node3D: React.FC<Props> = ({
   labelBelow = true,
   breathe = true,
   opacity = 1,
+  labelMaxWidth,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -77,7 +81,10 @@ export const Node3D: React.FC<Props> = ({
             left: "50%",
             top: labelBelow ? size + 18 : -18 - 22,
             transform: "translateX(-50%)",
-            whiteSpace: "nowrap",
+            whiteSpace: labelMaxWidth ? "normal" : "nowrap",
+            width: labelMaxWidth,
+            textAlign: labelMaxWidth ? "center" : undefined,
+            lineHeight: 1.28,
             fontFamily: FONT_FAMILY,
             fontWeight: 500,
             fontSize: 18,

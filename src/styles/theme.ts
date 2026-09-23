@@ -17,34 +17,15 @@ export const HEIGHT = 1080;
  * transformation instead of a hard edit. */
 export const OVERLAP = 15;
 
-/** Scene durations, in frames, BEFORE overlap is subtracted — mirrors the brief's
- * per-scene second ranges. Order matches the ecosystem narrative:
- * núcleo → inception → change management → sats → cloud → uaas → taas → support → ecosystem → end card. */
+/** Scene durations, in frames, BEFORE overlap is subtracted.
+ * núcleo (intro) → esquema radial de 9 nodos (schema) → cierre. */
 const RAW_DURATIONS = {
   intro: 270, // 9s — el núcleo
-  inception: 255, // 8.5s
-  changeManagement: 255, // 8.5s
-  sats: 285, // 9.5s
-  cloud: 285, // 9.5s
-  uaas: 240, // 8s
-  taas: 255, // 8.5s
-  support: 240, // 8s
-  ecosystem: 330, // 11s
-  endCard: 120, // 4s
+  schema: 390, // 13s — se forma el esquema de 9 nodos
+  closing: 210, // 7s — el esquema se retira, aparece la frase final
 } as const;
 
-export const SCENE_KEYS = [
-  "intro",
-  "inception",
-  "changeManagement",
-  "sats",
-  "cloud",
-  "uaas",
-  "taas",
-  "support",
-  "ecosystem",
-  "endCard",
-] as const;
+export const SCENE_KEYS = ["intro", "schema", "closing"] as const;
 
 export type SceneKey = (typeof SCENE_KEYS)[number];
 
@@ -76,14 +57,17 @@ export const SAFE = {
   y: 90,
 } as const;
 
-/** The seven SIREC services, in the order they orbit the core in Scene09 — shared so the
- * ecosystem scene and the end card agree on node positions/colors. */
+/** The nine nodes of the risk-management scheme, in the exact order they must appear
+ * around the core — shared so the schema scene and the closing scene agree on
+ * node positions/colors. */
 export const SERVICES = [
-  { key: "inception", label: "INCEPTION" },
-  { key: "changeManagement", label: "CHANGE MANAGEMENT" },
-  { key: "sats", label: "SATS" },
-  { key: "cloud", label: "SIREC CLOUD SERVICES" },
-  { key: "uaas", label: "UaaS" },
-  { key: "taas", label: "TaaS" },
-  { key: "support", label: "DEDICATED SUPPORT" },
+  { key: "seguimiento", label: "SEGUIMIENTO DEL RIESGO" },
+  { key: "prevencion", label: "GESTIÓN PREVENTIVA" },
+  { key: "anticipacion", label: "GESTIÓN ANTICIPATIVA" },
+  { key: "selfservice", label: "SELFSERVICE" },
+  { key: "presencial", label: "PRESENCIAL" },
+  { key: "agencias", label: "AGENCIAS" },
+  { key: "amistosaInterna", label: "GESTIÓN AMISTOSA INTERNA" },
+  { key: "litigiosaInterna", label: "GESTIÓN LITIGIOSA INTERNA" },
+  { key: "despachoAbogados", label: "DESPACHO DE ABOGADOS" },
 ] as const;

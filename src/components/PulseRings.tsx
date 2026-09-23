@@ -16,8 +16,8 @@ type Props = {
 };
 
 /** Concentric rings that emit outward from a point at a steady interval — a radar/pulse
- * read. Tune interval+maxRadius+maxOpacity to make it read as an urgent scan (Scene02) or
- * a calm heartbeat (Scene07); never the same rhythm twice. */
+ * read. Tune interval+maxRadius+maxOpacity to make it read as an urgent scan or a calm
+ * heartbeat; never the same rhythm twice. */
 export const PulseRings: React.FC<Props> = ({
   cx,
   cy,

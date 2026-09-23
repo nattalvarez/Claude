@@ -7,10 +7,11 @@ import { ParticleFlow } from "../components/ParticleFlow";
 import { TitleBlock } from "../components/TitleBlock";
 import { SceneExit } from "../components/SceneExit";
 
-const DURATION = SCENE_DURATIONS.ecosystem;
+const DURATION = SCENE_DURATIONS.schema;
 const CORE = { x: WIDTH / 2, y: HEIGHT / 2 };
-const RADIUS_X = 460;
-const RADIUS_Y = 300;
+const RADIUS_X = 540;
+const RADIUS_Y = 320;
+const LABEL_MAX_WIDTH = 200;
 
 const NODES = SERVICES.map((s, i) => {
   const angle = (i / SERVICES.length) * Math.PI * 2 - Math.PI / 2;
@@ -21,21 +22,21 @@ const NODES = SERVICES.map((s, i) => {
     x,
     y,
     labelBelow: y >= CORE.y,
-    delay: 44 + i * 15,
-    size: 30 + (i % 3) * 5,
+    delay: 44 + i * 13,
+    size: 28 + (i % 3) * 5,
     color: i % 2 === 0 ? COLORS.blue : COLORS.turquoise,
   };
 });
 
-const TEXT_FROM = 196;
-const TEXT_HOLD = 292;
+const TEXT_FROM = 210;
+const TEXT_HOLD = 326;
 const PULSE_FROM = DURATION - 34;
 
-/** Scene 09 — El ecosistema completo. The camera pulls back from the previous scene's
- * incoming line to reveal SIREC's core with all seven services orbiting and connecting
- * around it; the full positioning line reads center-stage before every node pulses once
- * and the core lights up for the final hold. */
-export const Scene09Ecosystem: React.FC = () => {
+/** Scene 02 — Se forma el esquema. The camera pulls back from the intro's core to reveal
+ * SIREC's model of nine risk-management stages, in a fixed order, orbiting and connecting
+ * around it — seguimiento, prevención y anticipación first, then los canales de gestión,
+ * cerrando con las vías de resolución. Every node pulses once before the final hold. */
+export const Scene02Schema: React.FC = () => {
   const frame = useCurrentFrame();
 
   const cameraScale = interpolate(frame, [0, 170], [1.65, 1], {
@@ -89,7 +90,7 @@ export const Scene09Ecosystem: React.FC = () => {
               {NODES.map((n, i) => (
                 <ParticleFlow
                   key={`pf-${i}`}
-                  id={`eco-pf-${i}`}
+                  id={`schema-pf-${i}`}
                   x1={CORE.x}
                   y1={CORE.y}
                   x2={n.x}
@@ -104,7 +105,17 @@ export const Scene09Ecosystem: React.FC = () => {
 
           <AbsoluteFill style={{ opacity: nodesDim }}>
             {NODES.map((n, i) => (
-              <Node3D key={i} x={n.x} y={n.y} size={n.size * (frame >= PULSE_FROM ? pulse : 1)} color={n.color} from={n.delay} label={n.label} labelBelow={n.labelBelow} />
+              <Node3D
+                key={i}
+                x={n.x}
+                y={n.y}
+                size={n.size * (frame >= PULSE_FROM ? pulse : 1)}
+                color={n.color}
+                from={n.delay}
+                label={n.label}
+                labelBelow={n.labelBelow}
+                labelMaxWidth={LABEL_MAX_WIDTH}
+              />
             ))}
           </AbsoluteFill>
 
@@ -144,7 +155,7 @@ export const Scene09Ecosystem: React.FC = () => {
             >
               SIREC
             </div>
-            <TitleBlock subtitle="Un ecosistema que evoluciona contigo" description="Servicios especializados para acompañar todo el ciclo de vida de la plataforma" from={0} align="center" maxWidth={760} />
+            <TitleBlock subtitle="Un modelo integral de gestión del riesgo" description="Del seguimiento a la resolución, una misma estructura conectada" from={0} align="center" maxWidth={760} />
           </div>
         </AbsoluteFill>
       </SceneExit>
