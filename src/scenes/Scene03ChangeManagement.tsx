@@ -1,37 +1,55 @@
 import React, { useMemo } from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame, Easing } from "remotion";
-import { COLORS, EASE, SCENE_DURATIONS } from "../styles/theme";
+import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
+import { COLORS, WIDTH, HEIGHT, EASE, SCENE_DURATIONS } from "../styles/theme";
 import { Panel3D } from "../components/Panel3D";
+import { ParticleFlow } from "../components/ParticleFlow";
 import { TitleBlock } from "../components/TitleBlock";
 import { SceneExit } from "../components/SceneExit";
 import { seededRange } from "../lib/random";
 
 const DURATION = SCENE_DURATIONS.changeManagement;
-const COLS = 3;
+const COLS = 4;
 const ROWS = 3;
-const CELL = 158;
-const GRID = { x: 560, y: 520 };
-const ORGANIZE_START = 16;
-const ORGANIZE_END = 118;
+const CELL_W = 168;
+const CELL_H = 118;
+const GRID_X = WIDTH / 2 - ((COLS - 1) * CELL_W) / 2;
+const GRID_Y = 560;
+const ORGANIZE_START = 22;
+const ORGANIZE_END = 128;
 
-type Module = { id: string; ordered: { x: number; y: number }; scattered: { x: number; y: number }; stagger: number; color: string; spin: number };
+type Approach = "up" | "down" | "left" | "right";
+
+type Module = {
+  id: string;
+  approach: Approach;
+  ordered: { x: number; y: number };
+  scattered: { x: number; y: number };
+  stagger: number;
+  color: string;
+};
 
 const buildModules = (): Module[] => {
   const modules: Module[] = [];
   let i = 0;
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
-      const ordered = { x: GRID.x + (c - 1) * CELL, y: GRID.y + (r - 1) * CELL };
+      const ordered = { x: GRID_X + c * CELL_W, y: GRID_Y + r * CELL_H };
+      const approach: Approach = (["up", "down", "left", "right"] as const)[i % 4];
+      const scattered =
+        approach === "up"
+          ? { x: ordered.x + seededRange(`cm-jx-${i}`, -80, 80), y: HEIGHT + 140 }
+          : approach === "down"
+          ? { x: ordered.x + seededRange(`cm-jx-${i}`, -80, 80), y: -160 }
+          : approach === "left"
+          ? { x: -200, y: ordered.y + seededRange(`cm-jy-${i}`, -60, 60) }
+          : { x: WIDTH + 200, y: ordered.y + seededRange(`cm-jy-${i}`, -60, 60) };
       modules.push({
         id: `m-${i}`,
+        approach,
         ordered,
-        scattered: {
-          x: seededRange(`cm-x-${i}`, 120, 900),
-          y: seededRange(`cm-y-${i}`, 100, 940),
-        },
-        stagger: Math.floor(seededRange(`cm-st-${i}`, 0, 48)),
-        color: i % 3 === 0 ? COLORS.turquoise : i % 3 === 1 ? COLORS.blue : COLORS.navy,
-        spin: seededRange(`cm-spin-${i}`, -50, 50),
+        scattered,
+        stagger: Math.floor(seededRange(`cm-st-${i}`, 0, 46)),
+        color: i % 3 === 0 ? COLORS.turquoise : COLORS.blue,
       });
       i++;
     }
@@ -39,14 +57,14 @@ const buildModules = (): Module[] => {
   return modules;
 };
 
-/** Scene 03 — Change Management. Small geometric modules drift in scattered, then settle
- * into a solid, balanced grid — pure reorganization, no arrows or connectors. Composition
- * flips from Scene 02: a large object on the LEFT, text on the RIGHT. */
+/** Scene 03 — Change Management. Square modules fly in from every direction (never
+ * people) and lock into an organized grid while the camera pans laterally; blue
+ * particles trace each module's path in. Central structure with floating text. */
 export const Scene03ChangeManagement: React.FC = () => {
   const frame = useCurrentFrame();
   const modules = useMemo(buildModules, []);
 
-  const settleRotate = interpolate(frame, [DURATION - 56, DURATION - 6], [0, 10], {
+  const cameraX = interpolate(frame, [0, DURATION], [-115, 115], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
@@ -61,50 +79,84 @@ export const Scene03ChangeManagement: React.FC = () => {
     return {
       x: m.scattered.x + (m.ordered.x - m.scattered.x) * t,
       y: m.scattered.y + (m.ordered.y - m.scattered.y) * t,
-      settle: t,
+      t,
     };
   };
 
+  const titleFloat = Math.sin(frame / 50) * 6;
+
+  const gridGlowIn = interpolate(frame, [ORGANIZE_END, ORGANIZE_END + 20], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
   return (
-    <AbsoluteFill style={{ background: COLORS.white }}>
+    <AbsoluteFill>
       <SceneExit duration={DURATION} exitDuration={16}>
-        <AbsoluteFill
-          style={{
-            transform: `perspective(1600px) rotateY(${settleRotate}deg)`,
-            transformOrigin: `${GRID.x}px ${GRID.y}px`,
-          }}
-        >
+        <AbsoluteFill style={{ transform: `translateX(${cameraX}px)` }}>
+          <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
+            {modules.map((m) => (
+              <ParticleFlow
+                key={`flow-${m.id}`}
+                id={`flow-${m.id}`}
+                x1={m.scattered.x}
+                y1={m.scattered.y}
+                x2={m.ordered.x}
+                y2={m.ordered.y}
+                from={ORGANIZE_START + m.stagger}
+                count={4}
+                color={COLORS.blue}
+                size={2}
+                maxOpacity={0.6}
+              />
+            ))}
+            <rect
+              x={GRID_X - CELL_W / 2 - 14}
+              y={GRID_Y - CELL_H / 2 - 14}
+              width={(COLS - 1) * CELL_W + CELL_W + 28}
+              height={(ROWS - 1) * CELL_H + CELL_H + 28}
+              rx={26}
+              fill="none"
+              stroke={COLORS.turquoise}
+              strokeWidth={1}
+              strokeDasharray="2 10"
+              opacity={gridGlowIn * 0.35}
+            />
+          </svg>
+
           {modules.map((m) => {
             const pos = position(m);
-            const spin = m.spin * (1 - pos.settle);
             return (
               <Panel3D
                 key={m.id}
                 x={pos.x}
                 y={pos.y}
-                width={CELL - 30}
-                height={CELL - 30}
+                width={CELL_W - 26}
+                height={CELL_H - 22}
                 color={m.color}
                 from={0}
-                rotateX={8 + spin * 0.3}
-                rotateY={-14 + spin}
-                floatAmp={2}
+                rotateX={6 + (1 - pos.t) * 14}
+                rotateY={-10 + (1 - pos.t) * 18}
+                floatAmp={3}
                 filled={m.color === COLORS.turquoise}
-              />
+              >
+                <div style={{ width: 16, height: 16, borderRadius: 4, background: m.color, transform: "rotate(45deg)" }} />
+              </Panel3D>
             );
           })}
         </AbsoluteFill>
 
-        <AbsoluteFill style={{ justifyContent: "center", paddingLeft: 1080, paddingRight: 130 }}>
-          <TitleBlock
-            title="CHANGE MANAGEMENT"
-            subtitle="Impulsa la adopción y el máximo aprovechamiento de SIREC."
-            description="Modelo de gestión especializado para las organizaciones."
-            from={ORGANIZE_END + 20}
-            align="left"
-            maxWidth={640}
-            titleSize={52}
-          />
+        <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-start", paddingTop: 100 }}>
+          <div style={{ transform: `translateY(${titleFloat}px)` }}>
+            <TitleBlock
+              title="CHANGE MANAGEMENT"
+              description="Modelo de gestión especializado para impulsar la adopción y el máximo aprovechamiento de SIREC."
+              from={140}
+              align="center"
+              maxWidth={980}
+              titleSize={58}
+            />
+          </div>
         </AbsoluteFill>
       </SceneExit>
     </AbsoluteFill>

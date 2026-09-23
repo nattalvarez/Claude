@@ -53,7 +53,7 @@ export const Panel3D: React.FC<Props> = ({
         height,
         opacity: interpolate(appear, [0, 1], [0, 1]) * opacity,
         transform: `scale(${interpolate(appear, [0, 1], [0.85, 1])}) perspective(900px) rotateX(${rotateX + tiltDrift}deg) rotateY(${rotateY}deg)`,
-        borderRadius: Math.min(18, width * 0.16, height * 0.16),
+        borderRadius: 18,
         background: filled ? `linear-gradient(155deg, ${COLORS.white}, ${COLORS.lightBlue})` : `${COLORS.white}f2`,
         border: `1px solid ${color}3d`,
         boxShadow: glow

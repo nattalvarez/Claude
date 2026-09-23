@@ -1,18 +1,22 @@
 import React from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame, Easing } from "remotion";
-import { COLORS, EASE, SCENE_DURATIONS, WIDTH, HEIGHT } from "../styles/theme";
+import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
+import { COLORS, WIDTH, HEIGHT, EASE, SCENE_DURATIONS } from "../styles/theme";
 import { Cube3D } from "../components/Cube3D";
-import { Panel3D } from "../components/Panel3D";
+import { Node3D } from "../components/Node3D";
+import { ConnectionLine } from "../components/ConnectionLine";
+import { ParticleFlow } from "../components/ParticleFlow";
+import { TechIcon } from "../components/TechIcon";
 import { TitleBlock } from "../components/TitleBlock";
 import { SceneExit } from "../components/SceneExit";
 
 const DURATION = SCENE_DURATIONS.cloud;
-const CENTER = { x: 1290, y: 500 };
+const CENTER = { x: 960, y: 470 };
 
-/** An irregular, gently-rounded polygon container — a deliberate alternative to a literal
- * cartoon cloud silhouette. Reads as an abstract technological enclosure. */
-const buildContainer = (cx: number, cy: number, rx: number, ry: number, corner = 0.34) => {
-  const scales = [1, 0.85, 1.05, 0.92, 1.08, 0.9];
+/** An irregular, gently-rounded hexagonal container — a deliberate alternative to the
+ * classic scalloped "cloud" icon silhouette the brief explicitly forbids. Reads as an
+ * abstract data-hub enclosure instead. */
+const buildHexContainer = (cx: number, cy: number, rx: number, ry: number, corner = 0.32) => {
+  const scales = [1, 0.86, 1.06, 0.94, 1.1, 0.9];
   const points = scales.map((s, i) => {
     const angle = (i / 6) * Math.PI * 2;
     return { x: cx + Math.cos(angle) * rx * s, y: cy + Math.sin(angle) * ry * s };
@@ -31,73 +35,160 @@ const buildContainer = (cx: number, cy: number, rx: number, ry: number, corner =
   return d + "Z";
 };
 
-const CONTAINER = buildContainer(CENTER.x, CENTER.y, 430, 280);
+const BLOB = buildHexContainer(CENTER.x, CENTER.y, 470, 290);
 
-const PIECES = [
-  { kind: "cube" as const, dx: -110, dy: -30, size: 96, color: COLORS.blue, from: 30, drift: 16, driftSpeed: 70 },
-  { kind: "cube" as const, dx: 150, dy: -60, size: 70, color: COLORS.turquoise, from: 46, drift: 20, driftSpeed: 60 },
-  { kind: "cube" as const, dx: 20, dy: 90, size: 84, color: COLORS.navy, from: 38, drift: 14, driftSpeed: 80 },
-  { kind: "panel" as const, dx: -170, dy: 130, size: 0, color: COLORS.blue, from: 58, drift: 12, driftSpeed: 90 },
-  { kind: "panel" as const, dx: 190, dy: 110, size: 0, color: COLORS.turquoise, from: 66, drift: 18, driftSpeed: 65 },
+const NODES = [
+  { type: "cube" as const, x: 760, y: 420, size: 88, color: COLORS.blue, from: 40 },
+  { type: "cube" as const, x: 1120, y: 400, size: 74, color: COLORS.turquoise, from: 56 },
+  { type: "cube" as const, x: 960, y: 590, size: 96, color: COLORS.navy, from: 48 },
+  { type: "node" as const, x: 640, y: 560, size: 26, color: COLORS.turquoise, from: 70 },
+  { type: "node" as const, x: 1230, y: 560, size: 24, color: COLORS.blue, from: 78 },
+  { type: "cube" as const, x: 900, y: 300, size: 52, color: COLORS.blue, from: 64 },
+  { type: "node" as const, x: 1080, y: 660, size: 20, color: COLORS.turquoise, from: 86 },
 ];
 
-/** Scene 05 — SIREC Cloud Services. The largest, most visual object in the piece: an
- * abstract enclosure holding cubes and plates that drift up and down independently — no
- * lines between them. The camera drifts slowly around the object like a slow orbit. */
+const LINKS: [number, number][] = [
+  [0, 2],
+  [1, 2],
+  [3, 0],
+  [4, 1],
+  [5, 0],
+  [6, 2],
+];
+
+/** Scene 05 — SIREC Cloud Services. The most visually dense scene: an abstract, geometric
+ * cloud container hosting connected cube-servers, nodes and blocks, camera pushing slowly
+ * through. SEGURIDAD / ESCALABILIDAD labels sit at the cloud's edges. */
 export const Scene05CloudServices: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const containerIn = interpolate(frame, [0, 44], [0, 1], {
+  const blobIn = interpolate(frame, [0, 46], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.out),
   });
 
-  const orbitX = interpolate(frame, [0, DURATION], [-24, 18], {
+  const cameraScale = interpolate(frame, [0, DURATION], [1, 1.23], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.bezier(...EASE.inOut),
   });
-  const orbitScale = 1 + Math.sin((frame / DURATION) * Math.PI) * 0.05;
+  const cameraY = interpolate(frame, [0, DURATION], [15, -38], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.bezier(...EASE.inOut),
+  });
 
-  const secondLineFrom = 150;
+  const labelFrom = 130;
+  const labelAppear = (f: number) =>
+    interpolate(frame, [f, f + 22], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.bezier(...EASE.out) });
 
   return (
-    <AbsoluteFill style={{ background: `linear-gradient(160deg, ${COLORS.white} 55%, ${COLORS.lightBlue}33)` }}>
+    <AbsoluteFill>
       <SceneExit duration={DURATION} exitDuration={18}>
         <AbsoluteFill
           style={{
-            transform: `translateX(${orbitX}px) scale(${orbitScale})`,
+            transform: `scale(${cameraScale}) translateY(${cameraY}px)`,
             transformOrigin: `${CENTER.x}px ${CENTER.y}px`,
           }}
         >
           <svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ position: "absolute", inset: 0 }}>
             <defs>
-              <linearGradient id="container-fill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor={COLORS.lightBlue} stopOpacity={0.6} />
-                <stop offset="100%" stopColor={COLORS.white} stopOpacity={0.15} />
+              <linearGradient id="cloud-fill" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor={COLORS.lightBlue} stopOpacity={0.7} />
+                <stop offset="100%" stopColor={COLORS.white} stopOpacity={0.2} />
               </linearGradient>
             </defs>
-            <path d={CONTAINER} fill="url(#container-fill)" stroke={COLORS.blue} strokeWidth={1.4} opacity={containerIn * 0.85} />
+            <path d={BLOB} fill="url(#cloud-fill)" stroke={COLORS.blue} strokeWidth={1.4} opacity={blobIn * 0.9} />
+            <path d={BLOB} fill="none" stroke={COLORS.turquoise} strokeWidth={0.8} strokeDasharray="1 10" opacity={blobIn * 0.5} pathLength={1} strokeDashoffset={1 - blobIn} />
+
+            {LINKS.map(([a, b], i) => {
+              const na = NODES[a];
+              const nb = NODES[b];
+              return (
+                <ConnectionLine
+                  key={`link-${i}`}
+                  x1={na.x}
+                  y1={na.y}
+                  x2={nb.x}
+                  y2={nb.y}
+                  from={Math.max(na.from, nb.from) + 10}
+                  duration={22}
+                  color={i % 2 === 0 ? COLORS.blue : COLORS.turquoise}
+                  strokeWidth={1.2}
+                  opacity={0.45}
+                />
+              );
+            })}
+            {LINKS.map(([a, b], i) => {
+              const na = NODES[a];
+              const nb = NODES[b];
+              return (
+                <ParticleFlow
+                  key={`pf-${i}`}
+                  id={`cloud-pf-${i}`}
+                  x1={na.x}
+                  y1={na.y}
+                  x2={nb.x}
+                  y2={nb.y}
+                  from={Math.max(na.from, nb.from) + 34}
+                  count={4}
+                  color={COLORS.turquoise}
+                />
+              );
+            })}
           </svg>
 
-          {PIECES.map((p, i) => {
-            const drift = Math.sin(frame / p.driftSpeed + i) * p.drift;
-            const x = CENTER.x + p.dx;
-            const y = CENTER.y + p.dy + drift;
-            return p.kind === "cube" ? (
-              <Cube3D key={i} x={x} y={y} size={p.size} color={p.color} from={p.from} rotateX={-16} rotateY={26} spinY={0.03} floatAmp={0} />
+          {NODES.map((n, i) =>
+            n.type === "cube" ? (
+              <Cube3D key={i} x={n.x} y={n.y} size={n.size} color={n.color} from={n.from} rotateX={-16} rotateY={26} spinY={0.04} floatAmp={5} />
             ) : (
-              <Panel3D key={i} x={x} y={y} width={118} height={78} color={p.color} from={p.from} rotateX={12} rotateY={-10} floatAmp={0} filled />
-            );
-          })}
+              <Node3D key={i} x={n.x} y={n.y} size={n.size} color={n.color} from={n.from} />
+            )
+          )}
         </AbsoluteFill>
 
-        <AbsoluteFill style={{ justifyContent: "center", paddingLeft: 130, paddingRight: 1080 }}>
-          <TitleBlock title="SIREC CLOUD SERVICES" subtitle="Cartera integral de servicios Cloud para operar SIREC." from={20} align="left" maxWidth={620} titleSize={50} />
-          <div style={{ marginTop: 26 }}>
-            <TitleBlock description="Altos niveles de seguridad y escalabilidad." from={secondLineFrom} align="left" maxWidth={560} />
-          </div>
+        {/* SEGURIDAD / ESCALABILIDAD — small labels anchored to the cloud's edges */}
+        <div
+          style={{
+            position: "absolute",
+            left: 320,
+            top: 520,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            opacity: labelAppear(labelFrom),
+            transform: `translateY(${interpolate(labelAppear(labelFrom), [0, 1], [10, 0])}px)`,
+          }}
+        >
+          <TechIcon type="shield" color={COLORS.navy} size={26} />
+          <span style={{ fontFamily: "Roboto", fontWeight: 500, fontSize: 22, letterSpacing: 2, color: COLORS.navy }}>SEGURIDAD</span>
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            right: 300,
+            top: 620,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            opacity: labelAppear(labelFrom + 14),
+            transform: `translateY(${interpolate(labelAppear(labelFrom + 14), [0, 1], [10, 0])}px)`,
+          }}
+        >
+          <TechIcon type="layers" color={COLORS.navy} size={26} />
+          <span style={{ fontFamily: "Roboto", fontWeight: 500, fontSize: 22, letterSpacing: 2, color: COLORS.navy }}>ESCALABILIDAD</span>
+        </div>
+
+        <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: 78 }}>
+          <TitleBlock
+            title="SIREC CLOUD SERVICES"
+            description="Cartera integral de servicios Cloud para operar SIREC con altos niveles de seguridad y escalabilidad."
+            from={20}
+            align="center"
+            maxWidth={1000}
+            titleSize={54}
+          />
         </AbsoluteFill>
       </SceneExit>
     </AbsoluteFill>
