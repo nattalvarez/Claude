@@ -2,7 +2,8 @@ import React from "react";
 import { useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
 import { COLORS, FONT_FAMILY } from "../styles/theme";
 
-type Variant = "pop" | "unfold" | "flow";
+export type ChannelVariant = "pop" | "unfold" | "flow";
+export type LabelSide = "right" | "left" | "top" | "bottom";
 
 type Props = {
   x: number;
@@ -12,11 +13,11 @@ type Props = {
   label: string;
   icon: React.ReactNode;
   accent?: string;
-  variant?: Variant;
+  variant?: ChannelVariant;
   /** which side the card leans toward as it settles in — a small entrance
    * direction only, not a layout split; the card itself always sits
    * centered on the node's point. */
-  labelSide?: "right" | "left" | "top" | "bottom";
+  labelSide?: LabelSide;
   /** external visibility multiplier (0-1), 1 by default — every channel stays
    * on screen once it appears; this only exists for the rare moment a beat
    * needs to fade something deliberately. */

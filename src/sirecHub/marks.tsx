@@ -61,6 +61,28 @@ export const SelfServiceMark: React.FC<MarkProps> = ({ size = 26, color = "#FFFF
   </svg>
 );
 
+export const SeguimientoMark: React.FC<MarkProps> = ({ size = 26, color = "#FFFFFF" }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <polyline points="5,23 12,15 17,19 26,7" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" opacity={0.9} />
+    <circle cx={26} cy={7} r={3} fill={color} />
+    <circle cx={5} cy={23} r={2.2} fill={color} opacity={0.5} />
+  </svg>
+);
+
+export const PrevencionMark: React.FC<MarkProps> = ({ size = 26, color = "#FFFFFF" }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <path d="M16 5 L25 11 L25 21 L16 27 L7 21 L7 11 Z" stroke={color} strokeWidth={1.8} opacity={0.85} />
+    <circle cx={16} cy={16} r={3.4} fill={color} />
+  </svg>
+);
+
+export const AnticipacionMark: React.FC<MarkProps> = ({ size = 26, color = "#FFFFFF" }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <path d="M9 8 L19 16 L9 24" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={0.9} />
+    <circle cx={25} cy={16} r={2.6} fill={color} opacity={0.75} />
+  </svg>
+);
+
 export const AgentFabricMark: React.FC<MarkProps> = ({ size = 30, color = "#FFFFFF" }) => (
   <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
     {Array.from({ length: 6 }).map((_, i) => (
