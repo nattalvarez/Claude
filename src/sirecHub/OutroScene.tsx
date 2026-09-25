@@ -60,23 +60,13 @@ export const OutroScene: React.FC = () => {
       />
 
       <KineticText
-        parts={[{ text: "Toda la gestión del riesgo de crédito, orquestada en un mismo ecosistema.", color: COLORS.blue }]}
+        parts={[{ text: "Toda la gestión del riesgo de crédito, orquestada en una misma plataforma.", color: COLORS.blue }]}
         from={T.outro.line2}
         fontSize={36}
         fontWeight={500}
         align="center"
         maxWidth={1100}
         wordStagger={2}
-      />
-
-      <KineticText
-        parts={[{ text: "Un solo SIREC. Todos los canales conectados.", color: COLORS.turquoise }]}
-        from={T.outro.line3}
-        fontSize={30}
-        fontWeight={700}
-        align="center"
-        wordStagger={2.4}
-        style={{ marginTop: 6 }}
       />
     </div>
   );
