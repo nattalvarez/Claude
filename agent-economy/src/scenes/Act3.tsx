@@ -190,7 +190,7 @@ export const Act3: React.FC = () => {
 
       {/* S06 — header + three open questions, each at its own scale */}
       <Screen style={{ left: 80, top: 150 }}>
-        <TextBlock start={934} exit={SC.s06[1] - 8} size={56} weight={WEIGHT.light} track={-0.02} color={C.g600}
+        <TextBlock start={934} exit={SC.s06[1] - 8} size={56} weight={WEIGHT.light} track={-0.02} color={C.text2}
           lines={["Con reglas todavía por escribir."]} />
       </Screen>
       <Screen style={{ left: 80, top: 250 }}>

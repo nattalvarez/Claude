@@ -43,6 +43,8 @@ export const TextBlock: React.FC<BlockProps> = ({
   track = -0.02, stagger = 8, dur = 30, mode = "rise", align = "left", style, indent,
 }) => {
   const frame = useCurrentFrame();
+  // legibility: hairline weights only at display scale; body-size type never goes below Regular
+  if (size < 120 && weight < WEIGHT.regular) weight = WEIGHT.regular;
   if (frame < start - 1) return null;
   if (exit !== undefined && frame > exit + 40) return null;
   return (

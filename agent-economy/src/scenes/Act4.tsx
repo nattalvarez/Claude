@@ -152,7 +152,7 @@ export const Act4: React.FC = () => {
     t: "precio", w: WEIGHT.medium,
     dyn: (fr: number) => {
       const d = ramp(fr, 1236, 1262, ease.inOut);
-      return { color: d > 0 ? `color-mix(in srgb, ${C.g400} ${d * 100}%, ${C.ink})` : C.ink, opacity: 1 - d * 0.55 };
+      return { color: d > 0 ? `color-mix(in srgb, ${C.g500} ${d * 100}%, ${C.ink})` : C.ink, opacity: 1 - d * 0.4 };
     },
   };
   return (
@@ -164,7 +164,7 @@ export const Act4: React.FC = () => {
       {/* S07 — type below, the stream above */}
       <Screen style={{ left: 80, top: 575 }}>
         <TextBlock
-          start={1196} exit={SC.s07[1] - 12} size={84} track={-0.03} lead={1.03} stagger={8} color={C.g600}
+          start={1196} exit={SC.s07[1] - 12} size={84} track={-0.03} lead={1.03} stagger={8} color={C.text2}
           lines={[
             "Cuando comparar sea",
             [{ t: "inmediato, el " }, precio],
@@ -179,8 +179,8 @@ export const Act4: React.FC = () => {
         <TextBlock
           start={1326} exit={SC.s08[1] - 10} size={84} track={-0.03} lead={1.04} stagger={10}
           lines={[
-            [{ t: "La diferencia estará en", color: C.g600 }],
-            [{ t: "el ", color: C.g600 }, { t: "criterio", w: WEIGHT.medium, color: C.pink }, { t: ".", color: C.g600 }].map((x) => ({ ...x, size: 1.8 })),
+            [{ t: "La diferencia estará en", color: C.text2 }],
+            [{ t: "el ", color: C.text2 }, { t: "criterio", w: WEIGHT.medium, color: C.pink }, { t: ".", color: C.text2 }].map((x) => ({ ...x, size: 1.8 })),
           ]}
         />
       </Screen>
@@ -190,8 +190,8 @@ export const Act4: React.FC = () => {
         <TextBlock
           start={1424} exit={SC.s09[1] - 10} size={84} track={-0.03} lead={1.0} stagger={10}
           lines={[
-            [{ t: "La diferencia estará en", color: C.g600 }],
-            [{ t: "el ", color: C.g600 }, { t: "dato", w: WEIGHT.medium, color: C.ink }, { t: ".", color: C.g600 }].map((x) => ({ ...x, size: 2.6 })),
+            [{ t: "La diferencia estará en", color: C.text2 }],
+            [{ t: "el ", color: C.text2 }, { t: "dato", w: WEIGHT.medium, color: C.pink }, { t: ".", color: C.text2 }].map((x) => ({ ...x, size: 2.6 })),
           ]}
         />
       </Screen>
@@ -201,8 +201,8 @@ export const Act4: React.FC = () => {
         <TextBlock
           start={1526} exit={SC.s10[1] - 4} size={84} track={-0.03} lead={1.04} stagger={10}
           lines={[
-            [{ t: "La diferencia estará en", color: C.g600 }],
-            [{ t: "la ", color: C.g600 }, { t: "confianza", w: WEIGHT.medium, color: C.ink }, { t: ".", color: C.g600 }].map((x) => ({ ...x, size: 1.7 })),
+            [{ t: "La diferencia estará en", color: C.text2 }],
+            [{ t: "la ", color: C.text2 }, { t: "confianza", w: WEIGHT.medium, color: C.pink }, { t: ".", color: C.text2 }].map((x) => ({ ...x, size: 1.7 })),
           ]}
         />
       </Screen>

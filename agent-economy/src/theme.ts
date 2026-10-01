@@ -12,6 +12,9 @@ export const C = {
   g500: "#7D7D7B",
   g600: "#55555A",
   ink: "#17181B",
+  /** text-only greys: dark enough to stay crisp over the gradient (≥ 7:1 on the stage) */
+  text2: "#34353A",
+  text3: "#4B4C52",
 } as const;
 
 /** Same pink at a given opacity (never another pink). */

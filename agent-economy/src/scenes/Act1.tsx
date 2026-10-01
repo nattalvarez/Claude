@@ -55,7 +55,7 @@ export const Act1: React.FC = () => {
   const st = systemState(frame);
   const key = (f: number) => ({
     dyn: () => ({
-      color: `color-mix(in srgb, ${C.ink} ${ramp(frame, f, f + 18) * 100}%, ${C.g500})`,
+      color: `color-mix(in srgb, ${C.ink} ${ramp(frame, f, f + 18) * 100}%, ${C.text3})`,
       fontWeight: 500,
     }),
   });
@@ -76,8 +76,8 @@ export const Act1: React.FC = () => {
         <TextBlock
           start={100} exit={SC.s01[1] - 14} size={84} track={-0.025} lead={1.04}
           lines={[
-            [{ t: "El seguro siempre", color: C.g600 }],
-            [{ t: "ha sido una", color: C.g600 }],
+            [{ t: "El seguro siempre", color: C.text2 }],
+            [{ t: "ha sido una", color: C.text2 }],
             [{ t: "conversación.", w: WEIGHT.medium, size: 1.78 }],
           ]}
         />
@@ -92,7 +92,7 @@ export const Act1: React.FC = () => {
             [{ t: "Entre un " }, { t: "cliente", ...key(318) }, { t: ", su" }],
             [{ t: "mediador", ...key(332) }, { t: " y su" }],
             [{ t: "aseguradora", ...key(346) }, { t: "." }],
-          ].map((l) => l.map((s) => ({ color: C.g500, ...s })))}
+          ].map((l) => l.map((s) => ({ color: C.text3, ...s })))}
         />
       </Screen>
 
@@ -101,8 +101,8 @@ export const Act1: React.FC = () => {
         <TextBlock
           start={436} exit={SC.s03[1] - 18} size={66} track={-0.02} lead={1.1} stagger={9}
           lines={[
-            [{ t: "Muy pronto, en esa conversación", color: C.g600 }],
-            [{ t: "participarán también sus", color: C.g600 }],
+            [{ t: "Muy pronto, en esa conversación", color: C.text2 }],
+            [{ t: "participarán también sus", color: C.text2 }],
             [{ t: "agentes de IA.", w: WEIGHT.medium, color: C.pink, size: 1.9 }],
           ]}
         />

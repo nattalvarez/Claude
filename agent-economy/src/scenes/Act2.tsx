@@ -2,7 +2,7 @@ import React from "react";
 import { useCurrentFrame } from "remotion";
 import { Layer, Dot3, Poly3, Solid3, boxFaces, octaFaces, ringPts, rectPts } from "../engine/primitives";
 import { Channel, arcPoint } from "../world/Channel";
-import { Insurer } from "../world/Entities";
+import { Insurer, Client } from "../world/Entities";
 import { loop } from "../world/System";
 import { PlaneText, Screen, TextBlock } from "../engine/Text";
 import { Vec3, clamp, lerp, lerp3, ramp, rotY } from "../engine/math";
@@ -132,6 +132,21 @@ const Bokeh: React.FC = () => {
   );
 };
 
+/** "En nombre de alguien": the executed contract ties back to the person it was done for. */
+const Behalf: React.FC = () => {
+  const f = useCurrentFrame();
+  const P: Vec3 = [X.C - 40, 0, 300];
+  const a = ramp(f, 744, 770);
+  if (a <= 0) return null;
+  return (
+    <>
+      <Channel a={[X.C + 200, 110, 40]} b={[P[0], 78, P[2]]} lift={60} draw={ramp(f, 752, 780, ease.inOut)} color={C.pink} sw={1.2}
+        packets={loop(776, 1200, 34, 30, -1, undefined, 6)} packetColor={C.pink} />
+      <Client a={a} pos={P} pulse={ramp(f, 782, 818)} />
+    </>
+  );
+};
+
 export const Act2: React.FC = () => {
   const f = useCurrentFrame();
   if (f < SC.s04[0] - 20 || f > SC.s06[1] + 20) return null;
@@ -152,6 +167,7 @@ export const Act2: React.FC = () => {
         <StationA />
         <StationB />
         <StationC />
+        <Behalf />
       </Layer>
 
       <Bokeh />
@@ -171,7 +187,7 @@ export const Act2: React.FC = () => {
         <TextBlock
           start={752} exit={SC.s04[1] + 8} size={78} track={-0.025} lead={1.04} stagger={10}
           lines={[
-            [{ t: "En nombre de alguien.", color: C.g600 }],
+            [{ t: "En nombre de alguien.", color: C.text2 }],
             [{ t: "En segundos.", w: WEIGHT.medium, color: C.pink, size: 1.85 }],
           ]}
         />
