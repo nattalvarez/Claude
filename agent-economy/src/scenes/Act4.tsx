@@ -148,13 +148,8 @@ const Dato: React.FC = () => {
 export const Act4: React.FC = () => {
   const f = useCurrentFrame();
   if (f < SC.s07[0] - 20 || f > SC.s11[0] + 20) return null;
-  const precio = {
-    t: "precio", w: WEIGHT.medium,
-    dyn: (fr: number) => {
-      const d = ramp(fr, 1236, 1262, ease.inOut);
-      return { color: d > 0 ? `color-mix(in srgb, ${C.g500} ${d * 100}%, ${C.ink})` : C.ink, opacity: 1 - d * 0.4 };
-    },
-  };
+  // "precio" is the word the whole scene turns on: pink, heavier and a touch larger
+  const precio = { t: "precio", w: WEIGHT.bold, color: C.pink, size: 1.12 };
   return (
     <>
       <Price />

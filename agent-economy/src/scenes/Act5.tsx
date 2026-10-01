@@ -76,7 +76,7 @@ const Field: React.FC = () => {
   const f = useCurrentFrame();
   if (f < 1500 || f > SC.s13[0] + 40) return null;
   const w = ramp(f, WALL.rise[0] + 4, WALL.rise[1] + 10);
-  const fade = 1 - ramp(f, 1868, 1900);
+  const fade = 1 - ramp(f, WALL.rise[0] + 2, WALL.rise[1] + 4); // the pink stage is clean: elements leave as it rises
   const conv = ease.inOut(ramp(f, 1744, 1806));
   const sett = ease.inOut(ramp(f, 1520, 1566));
   const offz = (i: number) => lerp(((i * 97) % 5 - 2) * 130, 0, sett);
