@@ -17,9 +17,8 @@ export const pinkRect = (f: number) => {
   if (f < WALL.rise[0]) return null;
   const rise = ease.inOut(ramp(f, WALL.rise[0], WALL.rise[1]));
   const sh = ease.inOut(ramp(f, WALL.shrink[0], WALL.shrink[1]));
-  const top = lerp(H + 40, 0, rise);
-  return {
-    x0: lerp(0, PANEL.x, sh), x1: lerp(W, PANEL.x + PANEL.w, sh),
-    y0: lerp(top, PANEL.y, sh), y1: lerp(H, PANEL.y + PANEL.h, sh),
-  };
+  if (sh >= 1) return null;
+  // rises from the bottom; at the close it sinks back down the same way
+  const top = lerp(lerp(H + 40, 0, rise), H + 40, sh);
+  return { x0: 0, x1: W, y0: top, y1: H };
 };

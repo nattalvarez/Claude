@@ -20,6 +20,8 @@ export const C = {
 
 /** Same pink at a given opacity (never another pink). */
 export const blueA = (a: number) => `rgba(89,171,223,${a})`;
+/** the blue leaning towards violet (background light only) */
+export const violetA = (a: number) => `rgba(112,118,224,${a})`;
 export const pinkA = (a: number) => `rgba(232,31,118,${a})`;
 export const inkA = (a: number) => `rgba(23,24,27,${a})`;
 export const whiteA = (a: number) => `rgba(255,255,255,${a})`;

@@ -174,30 +174,25 @@ export const Act5: React.FC = () => {
           lines={["Las reglas se", "están escribiendo", "ahora."]} />
       </Screen>
 
-      {/* S13 — close (the mark itself is the permanent <Brand/> layer) */}
+      {/* S13 — close: clean. Title, the publication's mark, the date. */}
       {inEnd && (
         <>
-          <Layer opacity={ramp(f, 1912, 1940)}>
-            <CameraProvider cam={UI_CAM}>
-              <AgentSwarm center={[0, -280, 0]} R={112} assemble={ramp(f, 1896, 1950, ease.soft)} count={34} size={6.6} color="#FFFFFF" seed={11} />
-            </CameraProvider>
-          </Layer>
-          <Screen style={{ left: 80, top: 210 }}>
-            <TextBlock start={1920} size={72} track={-0.03} lead={1.1} stagger={12} color={C.text2}
+          <Screen style={{ left: 80, top: 330 }}>
+            <TextBlock start={1920} size={74} track={-0.03} lead={1.1} stagger={12} color={C.text2}
               lines={[
                 [{ t: "Agent Economy", w: WEIGHT.medium, color: C.ink }, { t: ": quién" }],
                 "fijará las reglas del seguro",
               ]} />
           </Screen>
-          <Screen style={{ left: 80, top: 470 }}>
-            <TextBlock start={1966} size={44} weight={WEIGHT.medium} track={-0.01} lead={1.3} stagger={14} dur={28} color={C.ink}
-              lines={["12 de noviembre", [{ t: "Nuevo artículo", w: WEIGHT.regular, color: C.text3 }]]} />
-          </Screen>
-          {/* Insurance Revolution: the publication, native size (150×58) so the file stays sharp */}
+          {/* Insurance Revolution, 1.25× its native 150×58 so it stays sharp */}
           <img src={staticFile("logo-ir.png")} style={{
-            position: "absolute", left: W - 80 - 150, top: 58 + (1 - ramp(f, 1990, 2016, ease.out)) * 10, width: 150, height: 58,
-            opacity: ramp(f, 1990, 2016, ease.out),
+            position: "absolute", left: 80, top: 552 + (1 - ramp(f, 1962, 1988, ease.out)) * 10, width: 188, height: 73,
+            opacity: ramp(f, 1962, 1988, ease.out),
           }} />
+          <Screen style={{ left: 80, top: 680 }}>
+            <TextBlock start={1992} size={52} weight={WEIGHT.medium} track={-0.015} lead={1.2} dur={28} color={C.ink}
+              lines={["12 de noviembre"]} />
+          </Screen>
         </>
       )}
     </>
