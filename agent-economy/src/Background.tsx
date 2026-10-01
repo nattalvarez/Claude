@@ -19,8 +19,8 @@ export const TechBackground: React.FC<{ variant?: "light" | "pink"; opacity?: nu
           style={{
             background: [
               `radial-gradient(circle at ${gx}% ${gy}%, ${pinkA(0.10)}, ${pinkA(0)} 55%)`,
-              `radial-gradient(ellipse 85% 70% at ${bx}% ${by}%, ${blueA(0.30)}, ${blueA(0)} 62%)`,
-              `radial-gradient(circle at 0% 62%, ${blueA(0.12)}, ${blueA(0)} 45%)`,
+              `radial-gradient(ellipse 90% 75% at ${bx}% ${by}%, rgba(34,96,158,0.55), ${blueA(0.42)} 38%, ${blueA(0)} 72%)`,
+              `radial-gradient(circle at 0% 64%, ${blueA(0.30)}, ${blueA(0)} 52%)`,
               `linear-gradient(165deg, #FFFFFF 0%, ${C.bg} 60%, #F0F0EE 100%)`,
             ].join(","),
           }}
