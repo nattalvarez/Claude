@@ -60,7 +60,7 @@ Para integrarlo: copia el archivo a `public/` y rellena `LOGO` en `src/config.ts
 export const LOGO = { file: "logo.svg", aspect: 4.2 }; // archivo en /public · aspect = ancho / alto
 ```
 
-Aparece en el cierre, arriba a la izquierda, alineado a los márgenes de seguridad (160 px), a 56 px de alto,
+Aparece en el cierre, arriba a la izquierda, alineado a los márgenes de seguridad (160 px), a 72 px de alto,
 sin deformar, sin sombras y sin efecto de "logo reveal".
 
 ## Sonido

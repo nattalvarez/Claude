@@ -200,7 +200,7 @@ export const Act5: React.FC = () => {
           </Screen>
           {LOGO && (
             <img src={staticFile(LOGO.file.replace(/^\//, ""))} style={{
-              position: "absolute", left: 160, top: 112, height: 56, width: 56 * LOGO.aspect,
+              position: "absolute", left: 160, top: 112, height: 72, width: 72 * LOGO.aspect,
               opacity: ramp(f, 1996, 2020),
             }} />
           )}

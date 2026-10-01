@@ -32,7 +32,7 @@ export const DURATION = SC.s13[1]; // 2055f ≈ 68.5 s
  * Left null → the closing keeps the clear-space reserved and no mark is drawn
  * (the repo ships without a logo file; nothing is invented).
  */
-export const LOGO: { file: string; aspect: number } | null = null; // e.g. { file: "logo.svg", aspect: 4.2 }  (file lives in /public)
+export const LOGO: { file: string; aspect: number } | null = { file: "logo.png", aspect: 1550 / 436 }; // file lives in /public
 
 /** Sound design lives in src/audio/cues.ts; flip to render a silent master. */
 export const SOUND_ENABLED = true;
