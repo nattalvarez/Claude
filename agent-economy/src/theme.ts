@@ -30,6 +30,7 @@ export const WEIGHT = { light: 300, regular: 400, medium: 500, bold: 700 } as co
 export const ease = {
   out: Easing.bezier(0.16, 1, 0.3, 1), // entrances (expo-out feel, no overshoot)
   soft: Easing.bezier(0.22, 1, 0.36, 1),
+  text: Easing.bezier(0.2, 0.85, 0.3, 1), // type: decisive arrival, short tail
   inOut: Easing.bezier(0.65, 0, 0.35, 1),
   cam: Easing.bezier(0.5, 0, 0.18, 1), // virtual camera moves: gentle start, long settle
   drift: Easing.bezier(0.37, 0, 0.63, 1), // slow push-ins

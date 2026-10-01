@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { C, blueA, pinkA } from "./theme";
 
 /**
@@ -8,9 +8,8 @@ import { C, blueA, pinkA } from "./theme";
  * `pink` variant = the halftone in white, used above the pink surface.
  */
 export const TechBackground: React.FC<{ variant?: "light" | "pink"; opacity?: number }> = ({ variant = "light", opacity = 1 }) => {
-  const f = useCurrentFrame();
-  const gx = 86 + Math.sin(f / 150) * 8, gy = 100 + Math.cos(f / 190) * 5;
-  const bx = 96 + Math.sin(f / 170) * 5, by = -4 + Math.cos(f / 210) * 4;
+  const gx = 86, gy = 100; // static on purpose: a drifting gradient makes the encoder flicker/band
+  const bx = 96, by = -4;
   const dot = variant === "light" ? "rgba(232,31,118,0.34)" : "rgba(255,255,255,0.30)";
   const mask = "radial-gradient(circle at 100% 100%, #000 0%, rgba(0,0,0,0.55) 30%, transparent 62%)";
   return (

@@ -57,10 +57,13 @@ export const TextBlock: React.FC<BlockProps> = ({
     >
       {lines.map((ln, i) => {
         const s0 = start + i * stagger;
-        const p = ramp(frame, s0, s0 + dur, ease.out);
+        // settle exactly (no sub-pixel creep at the tail of the curve — that is what made type shimmer)
+        const p0 = ramp(frame, s0, s0 + dur, ease.text);
+        const p = p0 > 0.997 ? 1 : p0;
         const q = exit === undefined ? 0 : ramp(frame, exit + i * 2, exit + i * 2 + 14, ease.in);
         const segs: Seg[] = typeof ln === "string" ? [{ t: ln }] : ln;
-        const ty = (1 - p) * 108 - q * 46;
+        const lh = size * lead;
+        const ty = Math.round((1 - p) * lh * 1.12 - q * lh * 0.46); // whole pixels only
         const op = Math.min(1, p * 2.4) * (1 - q);
         const wipe = mode === "wipe";
         return (
@@ -75,10 +78,9 @@ export const TextBlock: React.FC<BlockProps> = ({
           >
             <div
               style={{
-                transform: wipe ? `translateX(${(1 - p) * -36 - q * 20}px)` : `translateY(${ty}%)`,
+                transform: wipe ? `translateX(${Math.round((1 - p) * -36 - q * 20)}px)` : `translate3d(0, ${ty}px, 0)`,
                 opacity: op,
                 clipPath: wipe ? `inset(-10% ${(1 - p) * 100}% -10% -10%)` : undefined,
-                willChange: "transform",
               }}
             >
               {segs.map((sg, j) => (
