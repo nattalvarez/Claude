@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { C } from "./theme";
+import { C, blueA, pinkA } from "./theme";
 
 /**
  * Stage: a calm gradient with one soft pink light drifting in the lower corner, and a fine print
@@ -10,6 +10,7 @@ import { C } from "./theme";
 export const TechBackground: React.FC<{ variant?: "light" | "pink"; opacity?: number }> = ({ variant = "light", opacity = 1 }) => {
   const f = useCurrentFrame();
   const gx = 86 + Math.sin(f / 150) * 8, gy = 100 + Math.cos(f / 190) * 5;
+  const bx = 96 + Math.sin(f / 170) * 5, by = -4 + Math.cos(f / 210) * 4;
   const dot = variant === "light" ? "rgba(232,31,118,0.34)" : "rgba(255,255,255,0.30)";
   const mask = "radial-gradient(circle at 100% 100%, #000 0%, rgba(0,0,0,0.55) 30%, transparent 62%)";
   return (
@@ -18,7 +19,9 @@ export const TechBackground: React.FC<{ variant?: "light" | "pink"; opacity?: nu
         <AbsoluteFill
           style={{
             background: [
-              `radial-gradient(circle at ${gx}% ${gy}%, rgba(232,31,118,0.09), rgba(232,31,118,0) 55%)`,
+              `radial-gradient(circle at ${gx}% ${gy}%, ${pinkA(0.10)}, ${pinkA(0)} 55%)`,
+              `radial-gradient(ellipse 85% 70% at ${bx}% ${by}%, ${blueA(0.30)}, ${blueA(0)} 62%)`,
+              `radial-gradient(circle at 0% 62%, ${blueA(0.12)}, ${blueA(0)} 45%)`,
               `linear-gradient(165deg, #FFFFFF 0%, ${C.bg} 60%, #F0F0EE 100%)`,
             ].join(","),
           }}
@@ -34,6 +37,17 @@ export const TechBackground: React.FC<{ variant?: "light" | "pink"; opacity?: nu
           opacity: 0.55,
         }}
       />
+      {variant === "light" && (
+        <AbsoluteFill
+          style={{
+            backgroundImage: `radial-gradient(circle at center, ${blueA(0.55)} 1.3px, transparent 1.9px)`,
+            backgroundSize: "13px 13px",
+            WebkitMaskImage: "radial-gradient(circle at 100% 0%, #000 0%, rgba(0,0,0,0.5) 25%, transparent 50%)",
+            maskImage: "radial-gradient(circle at 100% 0%, #000 0%, rgba(0,0,0,0.5) 25%, transparent 50%)",
+            opacity: 0.5,
+          }}
+        />
+      )}
     </AbsoluteFill>
   );
 };

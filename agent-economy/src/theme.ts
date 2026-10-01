@@ -3,6 +3,7 @@ import { Easing } from "remotion";
 // One theme object. No hex / easing / font is inlined anywhere else.
 export const C = {
   pink: "#E81F76", // corporate accent — EXACT
+  blue: "#59ABDF", // secondary brand colour — used only in background gradients
   white: "#FFFFFF",
   bg: "#F7F7F5", // off-white stage
   g100: "#F0F0EE",
@@ -18,6 +19,7 @@ export const C = {
 } as const;
 
 /** Same pink at a given opacity (never another pink). */
+export const blueA = (a: number) => `rgba(89,171,223,${a})`;
 export const pinkA = (a: number) => `rgba(232,31,118,${a})`;
 export const inkA = (a: number) => `rgba(23,24,27,${a})`;
 export const whiteA = (a: number) => `rgba(255,255,255,${a})`;
