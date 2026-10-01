@@ -173,14 +173,14 @@ export const Act2: React.FC = () => {
       <Bokeh />
 
       {/* the three verbs: one per station, each in its own place and size */}
-      <Screen style={{ left: 80, top: 160 }}>
-        <TextBlock start={590} exit={634} size={200} weight={WEIGHT.light} track={-0.04} lead={1} lines={["Comparan."]} />
+      <Screen style={{ left: 80, top: 190 }}>
+        <TextBlock start={584} exit={626} size={200} weight={WEIGHT.light} track={-0.04} lead={1} lines={["Comparan."]} />
       </Screen>
       <Screen style={{ right: 80, top: 250 }}>
-        <TextBlock start={654} exit={700} size={200} weight={WEIGHT.light} track={-0.04} lead={1} align="right" lines={["Cotizan."]} />
+        <TextBlock start={656} exit={692} size={200} weight={WEIGHT.light} track={-0.04} lead={1} align="right" lines={["Cotizan."]} />
       </Screen>
-      <Screen style={{ left: 80, top: 160 }}>
-        <TextBlock start={712} exit={750} size={190} weight={WEIGHT.light} track={-0.04} lead={1} lines={["Contratan."]} />
+      <Screen style={{ left: 80, top: 190 }}>
+        <TextBlock start={712} exit={738} size={190} weight={WEIGHT.light} track={-0.04} lead={1} lines={["Contratan."]} />
       </Screen>
 
       <Screen style={{ left: 80, top: 190 }}>

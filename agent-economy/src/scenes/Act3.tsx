@@ -183,24 +183,24 @@ export const Act3: React.FC = () => {
       </Layer>
 
       {/* S05 — the name */}
-      <Screen style={{ left: 80, top: 140 }}>
-        <TextBlock start={852} exit={SC.s05[1] + 14} size={212} weight={WEIGHT.light} track={-0.045} lead={0.96} stagger={10} dur={36}
+      <Screen style={{ left: 80, top: 178 }}>
+        <TextBlock start={852} exit={912} size={212} weight={WEIGHT.light} track={-0.045} lead={0.96} stagger={10} dur={36}
           lines={[[{ t: "Agent", color: C.ink }], [{ t: "Economy", color: C.ink }, { t: ".", color: C.pink, w: WEIGHT.medium }]]} />
       </Screen>
 
       {/* S06 — header + three open questions, each at its own scale */}
       <Screen style={{ left: 80, top: 150 }}>
-        <TextBlock start={934} exit={SC.s06[1] - 8} size={56} weight={WEIGHT.light} track={-0.02} color={C.text2}
+        <TextBlock start={938} exit={SC.s06[1] - 8} size={56} weight={WEIGHT.light} track={-0.02} color={C.text2}
           lines={["Con reglas todavía por escribir."]} />
       </Screen>
       <Screen style={{ left: 80, top: 250 }}>
-        <TextBlock start={1018} exit={1058} size={150} weight={WEIGHT.regular} track={-0.04} lead={1} lines={["¿Quién entra?"]} />
+        <TextBlock start={1018} exit={1052} size={150} weight={WEIGHT.regular} track={-0.04} lead={1} lines={["¿Quién entra?"]} />
       </Screen>
       <Screen style={{ left: 80, top: 290 }}>
-        <TextBlock start={1070} exit={1110} size={100} weight={WEIGHT.regular} track={-0.035} lead={1} lines={["¿Qué se intercambia?"]} />
+        <TextBlock start={1072} exit={1102} size={100} weight={WEIGHT.regular} track={-0.035} lead={1} lines={["¿Qué se intercambia?"]} />
       </Screen>
       <Screen style={{ left: 80, top: 250 }}>
-        <TextBlock start={1120} exit={SC.s06[1] - 14} size={150} weight={WEIGHT.regular} track={-0.04} lead={1} lines={["¿Quién cobra?"]} />
+        <TextBlock start={1124} exit={SC.s06[1] - 14} size={150} weight={WEIGHT.regular} track={-0.04} lead={1} lines={["¿Quién cobra?"]} />
       </Screen>
     </>
   );
