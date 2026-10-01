@@ -174,25 +174,20 @@ export const Act5: React.FC = () => {
           lines={["Las reglas se", "están escribiendo", "ahora."]} />
       </Screen>
 
-      {/* S13 — close: clean. Title, the publication's mark, the date. */}
+      {/* S13 — close: just the title; Insurance Revolution sits top-right, native size */}
       {inEnd && (
         <>
-          <Screen style={{ left: 80, top: 330 }}>
+          <Screen style={{ left: 80, top: 440 }}>
             <TextBlock start={1920} size={74} track={-0.03} lead={1.1} stagger={12} color={C.text2}
               lines={[
                 [{ t: "Agent Economy", w: WEIGHT.medium, color: C.ink }, { t: ": quién" }],
                 "fijará las reglas del seguro",
               ]} />
           </Screen>
-          {/* Insurance Revolution at ~1.87× its native 150×58 (proportions kept) */}
           <img src={staticFile("logo-ir.png")} style={{
-            position: "absolute", left: 80, top: 538 + (1 - ramp(f, 1962, 1988, ease.out)) * 10, width: 280, height: 108,
-            opacity: ramp(f, 1962, 1988, ease.out),
+            position: "absolute", left: W - 80 - 150, top: 58 + (1 - ramp(f, 1950, 1976, ease.out)) * 10, width: 150, height: 58,
+            opacity: ramp(f, 1950, 1976, ease.out),
           }} />
-          <Screen style={{ left: 80, top: 690 }}>
-            <TextBlock start={1992} size={34} weight={WEIGHT.medium} track={-0.015} lead={1.2} dur={28} color={C.ink}
-              lines={["12 de noviembre"]} />
-          </Screen>
         </>
       )}
     </>
