@@ -182,26 +182,26 @@ export const Act3: React.FC = () => {
         <Sockets />
       </Layer>
 
-      {/* S05 — the name, set into the space in front of the revealed system */}
-      <PlaneText pos={AGENT_T} w={1500} h={640}>
-        <TextBlock start={852} exit={SC.s05[1] + 14} size={280} weight={WEIGHT.light} track={-0.035} lead={0.98} stagger={10} dur={36}
+      {/* S05 — the name */}
+      <Screen style={{ left: 80, top: 140 }}>
+        <TextBlock start={852} exit={SC.s05[1] + 14} size={212} weight={WEIGHT.light} track={-0.045} lead={0.96} stagger={10} dur={36}
           lines={[[{ t: "Agent", color: C.ink }], [{ t: "Economy", color: C.ink }, { t: ".", color: C.pink, w: WEIGHT.medium }]]} />
-      </PlaneText>
+      </Screen>
 
-      {/* S06 — header + three open questions */}
-      <Screen style={{ left: 160, top: 120 }}>
-        <TextBlock start={934} exit={SC.s06[1] - 8} size={50} weight={WEIGHT.light} track={-0.015} color={C.g600}
+      {/* S06 — header + three open questions, each at its own scale */}
+      <Screen style={{ left: 80, top: 150 }}>
+        <TextBlock start={934} exit={SC.s06[1] - 8} size={56} weight={WEIGHT.light} track={-0.02} color={C.g600}
           lines={["Con reglas todavía por escribir."]} />
       </Screen>
-      <PlaneText pos={Qpos.q1} w={1100} h={150}>
-        <TextBlock start={1018} exit={1056} size={104} weight={WEIGHT.regular} track={-0.03} lines={["¿Quién entra?"]} />
-      </PlaneText>
-      <PlaneText pos={Qpos.q2} w={1300} h={150}>
-        <TextBlock start={1070} exit={1108} size={104} weight={WEIGHT.regular} track={-0.03} lines={["¿Qué se intercambia?"]} />
-      </PlaneText>
-      <PlaneText pos={Qpos.q3} w={1000} h={150}>
-        <TextBlock start={1120} exit={SC.s06[1] - 14} size={104} weight={WEIGHT.regular} track={-0.03} lines={["¿Quién cobra?"]} />
-      </PlaneText>
+      <Screen style={{ left: 80, top: 250 }}>
+        <TextBlock start={1018} exit={1058} size={150} weight={WEIGHT.regular} track={-0.04} lead={1} lines={["¿Quién entra?"]} />
+      </Screen>
+      <Screen style={{ left: 80, top: 290 }}>
+        <TextBlock start={1070} exit={1110} size={100} weight={WEIGHT.regular} track={-0.035} lead={1} lines={["¿Qué se intercambia?"]} />
+      </Screen>
+      <Screen style={{ left: 80, top: 250 }}>
+        <TextBlock start={1120} exit={SC.s06[1] - 14} size={150} weight={WEIGHT.regular} track={-0.04} lead={1} lines={["¿Quién cobra?"]} />
+      </Screen>
     </>
   );
 };

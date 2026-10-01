@@ -10,7 +10,7 @@ import { C, WEIGHT, ease, pinkA } from "../theme";
 import { SC, LOGO, W, H } from "../config";
 import { X } from "../world/layout";
 import { loop } from "../world/System";
-import { wallCover, WALL, PANEL } from "../climax";
+import { wallCover, WALL, PANEL, pinkRect } from "../climax";
 
 const T = X.trust;
 const K: Vec3 = [T + 330, 0, 40];
@@ -143,16 +143,12 @@ const Field: React.FC = () => {
 /** Pink surface: rises behind the system (climax), then contracts into the end-card panel. */
 export const PinkField: React.FC = () => {
   const f = useCurrentFrame();
-  const rise = ramp(f, WALL.rise[0], WALL.rise[1], ease.inOut);
-  if (f < WALL.rise[0]) return null;
-  const sh = ease.inOut(ramp(f, WALL.shrink[0], WALL.shrink[1]));
-  const top = lerp(H + 40, 0, rise);
-  const x0 = lerp(0, PANEL.x, sh), x1 = lerp(W, PANEL.x + PANEL.w, sh);
-  const y0 = lerp(top, PANEL.y, sh), y1 = lerp(H, PANEL.y + PANEL.h, sh);
-  return <div style={{ position: "absolute", left: x0, top: y0, width: x1 - x0, height: y1 - y0, background: C.pink }} />;
+  const r = pinkRect(f);
+  if (!r) return null;
+  return <div style={{ position: "absolute", left: r.x0, top: r.y0, width: r.x1 - r.x0, height: r.y1 - r.y0, background: C.pink }} />;
 };
 
-const UI_CAM = { x: 0, y: 0, z: -1400, yaw: 0, pitch: 0, f: 1400 };
+const UI_CAM = { x: 0, y: 0, z: -1400, yaw: 0, pitch: 0, f: 1400, ox: 0, oy: 0, k: 1 };
 
 export const Act5: React.FC = () => {
   const f = useCurrentFrame();
@@ -162,48 +158,42 @@ export const Act5: React.FC = () => {
       <Field />
 
       {/* S11 */}
-      <Screen style={{ left: 160, top: 110 }}>
-        <TextBlock start={1642} exit={SC.s11[1] - 20} size={60} track={-0.02} lead={1.14} stagger={9} color={C.g600}
+      <Screen style={{ left: 80, top: 625 }}>
+        <TextBlock start={1642} exit={SC.s11[1] - 20} size={78} track={-0.028} lead={1.05} stagger={9} color={C.g600}
           lines={[
             "Las aseguradoras que",
             [{ t: "den hoy el primer paso", w: WEIGHT.medium, color: C.ink }],
             "ayudarán a escribir las",
-            "reglas de mañana.",
+            [{ t: "reglas de mañana.", w: WEIGHT.medium, color: C.pink, size: 1.38 }],
           ]} />
       </Screen>
 
       {/* S12 — climax: scale + silence + camera; type in white on the pink surface */}
-      <Screen style={{ left: 160, top: 470 }}>
-        <TextBlock start={1772} exit={SC.s12[1] - 4} size={124} weight={WEIGHT.medium} color="#FFFFFF" track={-0.035} lead={1.04} stagger={11} dur={34}
+      <Screen style={{ left: 80, top: 600 }}>
+        <TextBlock start={1772} exit={SC.s12[1] - 4} size={108} weight={WEIGHT.medium} color="#FFFFFF" track={-0.04} lead={1.04} stagger={11} dur={34}
           lines={["Las reglas se", "están escribiendo", "ahora."]} />
       </Screen>
 
-      {/* S13 — close */}
+      {/* S13 — close (the mark itself is the permanent <Brand/> layer) */}
       {inEnd && (
         <>
           <Layer opacity={ramp(f, 1912, 1940)}>
             <CameraProvider cam={UI_CAM}>
-              <AgentSwarm center={[PANEL.x + PANEL.w / 2 - W / 2, 0, 0]} R={118} assemble={ramp(f, 1896, 1950, ease.soft)} count={34} size={6.6} color="#FFFFFF" seed={11} />
+              <AgentSwarm center={[0, -280, 0]} R={112} assemble={ramp(f, 1896, 1950, ease.soft)} count={34} size={6.6} color="#FFFFFF" seed={11} />
             </CameraProvider>
           </Layer>
-          <Screen style={{ left: 160, top: 360 }}>
-            <TextBlock start={1920} size={68} track={-0.022} lead={1.14} stagger={12} color={C.g600}
+          <Screen style={{ left: 80, top: 210 }}>
+            <TextBlock start={1920} size={72} track={-0.03} lead={1.1} stagger={12} color={C.g600}
               lines={[
                 [{ t: "Agent Economy", w: WEIGHT.medium, color: C.ink }, { t: ": quién" }],
                 "fijará las reglas del seguro",
               ]} />
           </Screen>
-          <div style={{ position: "absolute", left: 160, top: 806, width: 56 * ramp(f, 1960, 1984, ease.out), height: 3, background: C.pink }} />
-          <Screen style={{ left: 160, top: 828 }}>
-            <TextBlock start={1966} size={34} weight={WEIGHT.medium} track={0} lead={1.4} stagger={14} dur={28} color={C.ink}
+          <div style={{ position: "absolute", left: 80, top: 470, width: 56 * ramp(f, 1960, 1984, ease.out), height: 3, background: C.pink }} />
+          <Screen style={{ left: 80, top: 492 }}>
+            <TextBlock start={1966} size={44} weight={WEIGHT.medium} track={-0.01} lead={1.3} stagger={14} dur={28} color={C.ink}
               lines={["12 de noviembre", [{ t: "Nuevo artículo", w: WEIGHT.regular, color: C.g500 }]]} />
           </Screen>
-          {LOGO && (
-            <img src={staticFile(LOGO.file.replace(/^\//, ""))} style={{
-              position: "absolute", left: 160, top: 112, height: 72, width: 72 * LOGO.aspect,
-              opacity: ramp(f, 1996, 2020),
-            }} />
-          )}
         </>
       )}
     </>

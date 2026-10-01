@@ -1,6 +1,6 @@
 # Agent Economy — pieza de motion design (Remotion)
 
-1920 × 1080 · 30 fps · 2055 fotogramas (≈ 68,5 s) · Roboto · acento `#E81F76`.
+1080 × 1080 (cuadrado) · 30 fps · 2055 fotogramas (≈ 68,5 s) · Roboto · acento `#E81F76`.
 
 Una sola cámara virtual 3D recorre un único mundo continuo: no hay escenas sueltas ni fundidos.
 Las transiciones nacen del contenido (una cámara que viaja, una estructura que se reorganiza,
@@ -11,7 +11,7 @@ una superficie rosa que sube y luego se contrae en la pieza de cierre).
 ```bash
 npm install
 npm start         # Remotion Studio (genera antes los SFX)
-npm run build     # render final → out/agent-economy.mp4  (H.264, CRF 16)
+npm run build     # render final → out/agent-economy.mp4 (H.264, CRF 16)
 npm run preview   # render rápido a media resolución
 npm run sfx       # regenera public/sfx/*.wav (kit sintetizado, sin descargas)
 npm run typecheck
@@ -60,7 +60,7 @@ Para integrarlo: copia el archivo a `public/` y rellena `LOGO` en `src/config.ts
 export const LOGO = { file: "logo.svg", aspect: 4.2 }; // archivo en /public · aspect = ancho / alto
 ```
 
-Aparece en el cierre, arriba a la izquierda, alineado a los márgenes de seguridad (160 px), a 72 px de alto,
+Aparece en el cierre, arriba a la izquierda durante todo el vídeo (blanco sobre la superficie rosa), alineado al margen de seguridad (80 px), a 72 px de alto,
 sin deformar, sin sombras y sin efecto de "logo reveal".
 
 ## Sonido

@@ -161,44 +161,48 @@ export const Act4: React.FC = () => {
       <Criterio />
       <Dato />
 
-      <Screen style={{ left: 160, top: 690 }}>
+      {/* S07 — type below, the stream above */}
+      <Screen style={{ left: 80, top: 575 }}>
         <TextBlock
-          start={1196} exit={SC.s07[1] - 12} size={58} track={-0.02} lead={1.12} stagger={8} color={C.g600}
+          start={1196} exit={SC.s07[1] - 12} size={84} track={-0.03} lead={1.03} stagger={8} color={C.g600}
           lines={[
             "Cuando comparar sea",
             [{ t: "inmediato, el " }, precio],
             "dejará de marcar la",
-            "diferencia.",
+            [{ t: "diferencia.", size: 1.78, color: C.ink, w: WEIGHT.regular }],
           ]}
         />
       </Screen>
 
-      <Screen style={{ left: 160, top: 730 }}>
+      {/* S08 — criterio */}
+      <Screen style={{ left: 80, top: 150 }}>
         <TextBlock
-          start={1330} exit={SC.s08[1] - 10} size={74} track={-0.025} lead={1.1} stagger={10}
+          start={1326} exit={SC.s08[1] - 10} size={84} track={-0.03} lead={1.04} stagger={10}
           lines={[
             [{ t: "La diferencia estará en", color: C.g600 }],
-            [{ t: "el " , color: C.g600 }, { t: "criterio", w: WEIGHT.medium, color: C.pink }, { t: ".", color: C.g600 }],
+            [{ t: "el ", color: C.g600 }, { t: "criterio", w: WEIGHT.medium, color: C.pink }, { t: ".", color: C.g600 }].map((x) => ({ ...x, size: 1.8 })),
           ]}
         />
       </Screen>
 
-      <Screen style={{ left: 160, top: 130 }}>
+      {/* S09 — dato */}
+      <Screen style={{ left: 80, top: 640 }}>
         <TextBlock
-          start={1424} exit={SC.s09[1] - 10} size={74} track={-0.025} lead={1.1} stagger={10}
+          start={1424} exit={SC.s09[1] - 10} size={84} track={-0.03} lead={1.0} stagger={10}
           lines={[
             [{ t: "La diferencia estará en", color: C.g600 }],
-            [{ t: "el " , color: C.g600 }, { t: "dato", w: WEIGHT.medium, color: C.ink }, { t: ".", color: C.g600 }],
+            [{ t: "el ", color: C.g600 }, { t: "dato", w: WEIGHT.medium, color: C.ink }, { t: ".", color: C.g600 }].map((x) => ({ ...x, size: 2.6 })),
           ]}
         />
       </Screen>
 
-      <Screen style={{ left: 160, top: 730 }}>
+      {/* S10 — confianza: almost nothing else on screen */}
+      <Screen style={{ left: 80, top: 150 }}>
         <TextBlock
-          start={1526} exit={SC.s10[1] - 4} size={74} track={-0.025} lead={1.1} stagger={10}
+          start={1526} exit={SC.s10[1] - 4} size={84} track={-0.03} lead={1.04} stagger={10}
           lines={[
             [{ t: "La diferencia estará en", color: C.g600 }],
-            [{ t: "la " , color: C.g600 }, { t: "confianza", w: WEIGHT.medium, color: C.ink }, { t: ".", color: C.g600 }],
+            [{ t: "la ", color: C.g600 }, { t: "confianza", w: WEIGHT.medium, color: C.ink }, { t: ".", color: C.g600 }].map((x) => ({ ...x, size: 1.7 })),
           ]}
         />
       </Screen>

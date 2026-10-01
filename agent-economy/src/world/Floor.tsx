@@ -4,6 +4,7 @@ import { project, useCam } from "../engine/camera";
 import { clamp, ramp, mixHex, lerp } from "../engine/math";
 import { ease, C } from "../theme";
 import { Layer } from "../engine/primitives";
+import { W, H } from "../config";
 
 /** A travelling disturbance in the floor: the space "reacts" to an event. */
 export type Ripple = {
@@ -55,7 +56,7 @@ export const Floor: React.FC<FloorProps> = ({ ripples = [], opacity = 1, inverse
         y += r.amp * shape; hit = Math.max(hit, shape); pk = Math.max(pk, shape * (r.pink ?? 0));
       }
       const q = project([x, y, z], cam);
-      if (!q.vis || q.x < -60 || q.x > 1980 || q.y < -60 || q.y > 1140) continue;
+      if (!q.vis || q.x < -60 || q.x > W + 60 || q.y < -60 || q.y > H + 60) continue;
       let a = 1 - clamp((q.d - 1700) / 3600);
       a *= clamp((q.d - 120) / 400);
       if (appear) {

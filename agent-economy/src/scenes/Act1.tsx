@@ -59,7 +59,7 @@ export const Act1: React.FC = () => {
       fontWeight: 500,
     }),
   });
-  const bokeh = ramp(frame, 226, 246) * (1 - ramp(frame, 330, 362));
+  const bokeh = 0; // (gray bokeh read as smudges on the square frame)
   return (
     <>
       <System {...st} />
@@ -71,22 +71,22 @@ export const Act1: React.FC = () => {
         </Layer>
       )}
 
-      {/* S01 — conversation */}
-      <Screen style={{ left: 160, top: 330 }}>
+      {/* S01 — conversation: the word is the hero, the actors sit below it */}
+      <Screen style={{ left: 80, top: 150 }}>
         <TextBlock
-          start={100} exit={SC.s01[1] - 14} size={92} track={-0.025}
+          start={100} exit={SC.s01[1] - 14} size={84} track={-0.025} lead={1.04}
           lines={[
             [{ t: "El seguro siempre", color: C.g600 }],
             [{ t: "ha sido una", color: C.g600 }],
-            [{ t: "conversación.", w: WEIGHT.medium, size: 1.32 }],
+            [{ t: "conversación.", w: WEIGHT.medium, size: 1.78 }],
           ]}
         />
       </Screen>
 
-      {/* S02 — three actors */}
-      <Screen style={{ left: 160, top: 706 }}>
+      {/* S02 — three actors (type below, system above) */}
+      <Screen style={{ left: 80, top: 640 }}>
         <TextBlock
-          start={302} exit={SC.s02[1] + 8} size={70} track={-0.02} lead={1.1} stagger={7}
+          start={302} exit={SC.s02[1] + 8} size={100} track={-0.03} lead={1.06} stagger={7}
           weight={WEIGHT.light}
           lines={[
             [{ t: "Entre un " }, { t: "cliente", ...key(318) }, { t: ", su" }],
@@ -97,13 +97,13 @@ export const Act1: React.FC = () => {
       </Screen>
 
       {/* S03 — agents join */}
-      <Screen style={{ right: 160, top: 690 }}>
+      <Screen style={{ left: 80, top: 150 }}>
         <TextBlock
-          start={436} exit={SC.s03[1] - 18} size={60} track={-0.02} lead={1.14} stagger={9} align="right"
+          start={436} exit={SC.s03[1] - 18} size={66} track={-0.02} lead={1.1} stagger={9}
           lines={[
             [{ t: "Muy pronto, en esa conversación", color: C.g600 }],
             [{ t: "participarán también sus", color: C.g600 }],
-            [{ t: "agentes de IA.", w: WEIGHT.medium, color: C.pink, size: 1.5 }],
+            [{ t: "agentes de IA.", w: WEIGHT.medium, color: C.pink, size: 1.9 }],
           ]}
         />
       </Screen>

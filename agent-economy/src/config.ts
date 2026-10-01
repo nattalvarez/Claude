@@ -1,7 +1,7 @@
 // Single source of truth for format, timeline and brand switches.
 export const FPS = 30;
-export const W = 1920;
-export const H = 1080;
+export const W = 1080;
+export const H = 1080; // square master (1080×1080)
 
 /** Seconds → frames (all timing derives from FPS). */
 export const sec = (s: number) => Math.round(s * FPS);

@@ -156,23 +156,23 @@ export const Act2: React.FC = () => {
 
       <Bokeh />
 
-      {/* the three verbs live in the world, one per station */}
-      <PlaneText pos={VERB.a} w={760} h={170}>
-        <TextBlock start={590} exit={634} size={128} weight={WEIGHT.light} track={-0.03} lines={["Comparan."]} />
-      </PlaneText>
-      <PlaneText pos={VERB.b} w={760} h={170}>
-        <TextBlock start={654} exit={700} size={128} weight={WEIGHT.light} track={-0.03} lines={["Cotizan."]} />
-      </PlaneText>
-      <PlaneText pos={VERB.c} w={860} h={170}>
-        <TextBlock start={712} exit={SC.s04[1] - 10} size={128} weight={WEIGHT.light} track={-0.03} lines={["Contratan."]} />
-      </PlaneText>
+      {/* the three verbs: one per station, each in its own place and size */}
+      <Screen style={{ left: 80, top: 160 }}>
+        <TextBlock start={590} exit={634} size={200} weight={WEIGHT.light} track={-0.04} lead={1} lines={["Comparan."]} />
+      </Screen>
+      <Screen style={{ right: 80, top: 250 }}>
+        <TextBlock start={654} exit={700} size={200} weight={WEIGHT.light} track={-0.04} lead={1} align="right" lines={["Cotizan."]} />
+      </Screen>
+      <Screen style={{ left: 80, top: 160 }}>
+        <TextBlock start={712} exit={750} size={190} weight={WEIGHT.light} track={-0.04} lead={1} lines={["Contratan."]} />
+      </Screen>
 
-      <Screen style={{ left: 160, top: 770 }}>
+      <Screen style={{ left: 80, top: 190 }}>
         <TextBlock
-          start={730} exit={SC.s04[1] + 6} size={64} track={-0.02} lead={1.14} stagger={10}
+          start={752} exit={SC.s04[1] + 8} size={78} track={-0.025} lead={1.04} stagger={10}
           lines={[
             [{ t: "En nombre de alguien.", color: C.g600 }],
-            [{ t: "En segundos.", w: WEIGHT.medium, color: C.pink }],
+            [{ t: "En segundos.", w: WEIGHT.medium, color: C.pink, size: 1.85 }],
           ]}
         />
       </Screen>

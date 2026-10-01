@@ -9,12 +9,19 @@ import { Vec3 } from "./math";
  * pitch (down). `f` is the focal length: an object at depth f renders at 1:1.
  * Push-in = z up · pull-out = z down · travelling = x · crane = y · pan = yaw.
  */
-export type Cam = { x: number; y: number; z: number; yaw: number; pitch: number; f: number };
+export type Cam = {
+  x: number; y: number; z: number; yaw: number; pitch: number; f: number;
+  /** framing: ox/oy shift the whole picture on screen (px), k scales it. The world was composed
+   *  for 16:9; k fits that frame inside the square and leaves room for the type. */
+  ox: number; oy: number; k: number;
+};
 
 export type CamKey = Partial<Omit<Cam, "f">> & { f: number; ease?: (t: number) => number };
 // (key.f is the FRAME here; `ease` shapes the move that ARRIVES at this key.)
 
 export const FOCAL = 1400;
+const OW = 1920, OH = 1080; // the 16:9 frame the world was composed in
+export const DEFAULT_K = 0.66;
 
 export type Projected = { x: number; y: number; s: number; d: number; vis: boolean };
 
@@ -26,18 +33,19 @@ export const project = (p: Vec3, c: Cam): Projected => {
   const cp = Math.cos(c.pitch), sp = Math.sin(c.pitch);
   const y1 = dy * cp + z1 * sp;
   const z2 = z1 * cp - dy * sp;
-  const s = c.f / Math.max(z2, 1);
-  return { x: W / 2 + x1 * s, y: H / 2 - y1 * s, s, d: z2, vis: z2 > 60 };
+  const s0 = c.f / Math.max(z2, 1);
+  const xo = OW / 2 + x1 * s0, yo = OH / 2 - y1 * s0;
+  return { x: W / 2 + c.ox + (xo - OW / 2) * c.k, y: H / 2 + c.oy + (yo - OH / 2) * c.k, s: s0 * c.k, d: z2, vis: z2 > 60 };
 };
 
-const CH = ["x", "y", "z", "yaw", "pitch"] as const;
+const CH = ["x", "y", "z", "yaw", "pitch", "ox", "oy", "k"] as const;
 
 /** Sample a keyframed camera path. Holds = two keys with identical values. */
 export const sampleCamera = (keys: CamKey[], frame: number): Cam => {
   const k = keys;
-  const out: Cam = { x: 0, y: 0, z: -FOCAL, yaw: 0, pitch: 0, f: FOCAL };
+  const out: Cam = { x: 0, y: 0, z: -FOCAL, yaw: 0, pitch: 0, f: FOCAL, ox: 0, oy: 0, k: DEFAULT_K };
   // carry-forward values for channels a key omits
-  const state = { x: 0, y: 0, z: -FOCAL, yaw: 0, pitch: 0 };
+  const state = { x: 0, y: 0, z: -FOCAL, yaw: 0, pitch: 0, ox: 0, oy: 0, k: DEFAULT_K };
   const full = k.map((key) => {
     for (const c of CH) if (key[c] !== undefined) state[c] = key[c] as number;
     return { f: key.f, ease: key.ease, ...state };
@@ -59,7 +67,7 @@ export const sampleCamera = (keys: CamKey[], frame: number): Cam => {
   return { ...out, ...CH.reduce((a, c) => ({ ...a, [c]: last[c] }), {}) };
 };
 
-const CamCtx = createContext<Cam>({ x: 0, y: 0, z: -FOCAL, yaw: 0, pitch: 0, f: FOCAL });
+const CamCtx = createContext<Cam>({ x: 0, y: 0, z: -FOCAL, yaw: 0, pitch: 0, f: FOCAL, ox: 0, oy: 0, k: DEFAULT_K });
 export const CameraProvider: React.FC<{ cam: Cam; children: React.ReactNode }> = ({ cam, children }) => (
   <CamCtx.Provider value={cam}>{children}</CamCtx.Provider>
 );
@@ -67,9 +75,11 @@ export const useCam = () => useContext(CamCtx);
 
 /** Inverse of `project`: the world point at view-depth `d` that lands on screen (sx, sy). */
 export const unproject = (sx: number, sy: number, d: number, c: Cam): Vec3 => {
+  const xo = OW / 2 + (sx - W / 2 - c.ox) / c.k;
+  const yo = OH / 2 + (sy - H / 2 - c.oy) / c.k;
   const s = c.f / d;
-  const x1 = (sx - W / 2) / s;
-  const y1 = (H / 2 - sy) / s;
+  const x1 = (xo - OW / 2) / s;
+  const y1 = (OH / 2 - yo) / s;
   const cp = Math.cos(c.pitch), sp = Math.sin(c.pitch);
   const cy = Math.cos(c.yaw), sy_ = Math.sin(c.yaw);
   const z1 = d * cp + y1 * sp;
