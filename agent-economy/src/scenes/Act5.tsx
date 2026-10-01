@@ -184,13 +184,13 @@ export const Act5: React.FC = () => {
                 "fijará las reglas del seguro",
               ]} />
           </Screen>
-          {/* Insurance Revolution, 1.25× its native 150×58 so it stays sharp */}
+          {/* Insurance Revolution at ~1.87× its native 150×58 (proportions kept) */}
           <img src={staticFile("logo-ir.png")} style={{
-            position: "absolute", left: 80, top: 552 + (1 - ramp(f, 1962, 1988, ease.out)) * 10, width: 188, height: 73,
+            position: "absolute", left: 80, top: 538 + (1 - ramp(f, 1962, 1988, ease.out)) * 10, width: 280, height: 108,
             opacity: ramp(f, 1962, 1988, ease.out),
           }} />
-          <Screen style={{ left: 80, top: 680 }}>
-            <TextBlock start={1992} size={52} weight={WEIGHT.medium} track={-0.015} lead={1.2} dur={28} color={C.ink}
+          <Screen style={{ left: 80, top: 690 }}>
+            <TextBlock start={1992} size={34} weight={WEIGHT.medium} track={-0.015} lead={1.2} dur={28} color={C.ink}
               lines={["12 de noviembre"]} />
           </Screen>
         </>
