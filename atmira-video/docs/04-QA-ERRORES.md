@@ -17,7 +17,22 @@ Método: render de fotogramas sueltos (`scripts/frames.mjs`) y hojas de contacto
 | 10 | Cierre: texto ilegible sobre los planos y la seda | Planos a las esquinas, seda atenuada en la banda de texto, velo de lectura |
 | 11 | Cierre: la seda final cruzaba el mensaje y `ATMIRA.COM` | Seda reducida (amp 0,55) y desplazada al borde inferior; URL subida; comprobado en el fotograma 439 de la escena |
 | 12 | Transición «dark» con punto medio turbio | `Flood` reescrita: la escena saliente llega a color pleno a mitad y entra la siguiente |
+| 14 | **«Cómo aceleramos»: el contenedor «Agent Factory» quedaba vacío ~10 s** (mientras suena «Spec-Driven Development… aprobación humana antes de cada fase»; detectado con `freezedetect` en el MP4, el mismo defecto del original) | Animación del método: especificaciones v1→v3 que se apilan, trazado a «Repositorios» y «CI/CD», rombo de aprobación humana; se retira antes de «Analiza». Solo se re-renderizó ese tramo (fotogramas 4530–5429) y se empalmó |
 | 13 | Error de tipos `FontFaceSet.add` / manifiesto de dimensiones en S15 | Casts explícitos; `tsc --noEmit` limpio |
+
+## Verificación del MP4 final (`entrega/atmira-corporativo-v5.mp4`)
+Medido con ffprobe/ffmpeg sobre el archivo entregado:
+| Comprobación | Resultado |
+|---|---|
+| Formato | H.264 High, 1920×1080, 25 fps, **yuv420p rango TV (BT.709)**, AAC 48 kHz estéreo 192 kb/s, 77 MB |
+| Duración / fotogramas | 468,04 s (7:48) · 11.701 fotogramas, igual que `timeline.json` |
+| Sonoridad integrada | **−18,6 LUFS** (LRA 2,2 LU) · pico real **−1,2 dBFS** (sin recorte) |
+| Silencios | 0 de más de 1,5 s (umbral −45 dB) |
+| Fotogramas negros | 0 |
+| Imagen quieta ≥ 3,3 s (`freezedetect`) | 4 casos, todos reposos al final de escena con la voz terminando: 165,4 s (3,4), 211,4 s (3,7), 223,7 s (3,5), 232,6 s (4,5). Se dejan como respiración; el de 9 s en «Cómo» se corrigió (error 14) |
+| Revisión visual | 54 fotogramas del MP4 (14 %, 50 % y 90 % de cada una de las 18 escenas) vistos en 3 hojas de contacto: sin texto cortado, sin solapes, cierre y cifras correctos. Las **transiciones** se revisaron en desarrollo con fotogramas sueltos, no una a una en el MP4 final |
+
+Nota técnica: el máster de Remotion pesa 1,7 GB (crf 17 + grano) y sale en `yuvj420p` (rango completo); la entrega se recodifica (`scripts/encode_delivery.sh`) a yuv420p rango TV para evitar diferencias de contraste entre reproductores y para caber en GitHub. El máster no se versiona.
 
 ## Incidencias del proveedor de voz
 - **HTTP 429** (límite de peticiones): se espaciaron las llamadas; las fallidas no consumen crédito.
