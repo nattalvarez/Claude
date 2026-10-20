@@ -28,6 +28,12 @@ export const S08Como: React.FC = () => {
   const cArn = cue(ID, "arnés");
   const cBrain = cue(ID, "Digital Brain");
   const cGuard = cue(ID, "Guardrails");
+  // mientras se explica el método (antes de «Analiza») el contenedor muestra la idea: especificaciones versionadas → repositorio y CI/CD → aprobación humana
+  const cVer = cue(ID, "versionadas");
+  const cRepo = cue(ID, "repositorios");
+  const cCI = cRepo + 30;
+  const cApr = cue(ID, "aprobación");
+  const specOut = 1 - ramp(frame, cPh[0] - 34, 22, EASE.in);
 
   const base = ramp(frame, 18, 30, EASE.out);
   const COLW = 380;
@@ -60,6 +66,98 @@ export const S08Como: React.FC = () => {
         }}
       />
       <div style={{ position: "absolute", left: 156, top: 292, opacity: base, ...font(36, 400, { letterSpacing: "-0.03em" }) }}>{COMO.factory}</div>
+
+      {/* método: especificación versionada → repositorio y CI/CD → aprobación humana */}
+      {specOut > 0.001 && (
+        <div style={{ position: "absolute", left: 0, top: 0, width: 1920, height: 1080, opacity: specOut * base }}>
+          {[0, 1, 2].map((k) => {
+            const t0 = k === 0 ? cSpec - 6 : cVer - 8 + (k - 1) * 14;
+            const p = ramp(frame, t0, 26, EASE.out);
+            const bob = Math.sin((frame + k * 17) / 26) * 3;
+            const x = 232 + k * 40;
+            const y = 392 + k * 66 + bob;
+            const ver = ["v1", "v2", "v3"][k];
+            return (
+              <div
+                key={k}
+                style={{
+                  position: "absolute",
+                  left: x,
+                  top: y,
+                  width: 400,
+                  height: 236,
+                  borderRadius: 14,
+                  background: "#fff",
+                  boxShadow: "0 14px 36px rgba(80,20,50,0.10)",
+                  padding: "24px 28px",
+                  opacity: clamp(p * 1.6),
+                  transform: `translateY(${(1 - p) * 40}px)`,
+                  zIndex: k,
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", ...font(20, 600, { letterSpacing: "0.12em", color: C.mute }) }}>
+                  <span style={{ textTransform: "uppercase" }}>Especificación</span>
+                  <span style={{ background: C.magenta, color: "#fff", borderRadius: 999, padding: "3px 14px", letterSpacing: "0.04em" }}>{ver}</span>
+                </div>
+                {[0.92, 0.7, 0.84, 0.5, 0.76].map((w, i) => {
+                  const q = ramp(frame, t0 + 8 + i * 4, 18, EASE.out);
+                  return <div key={i} style={{ marginTop: 18, height: 9, borderRadius: 5, background: i === 0 ? C.magenta : C.line, width: `${w * 100 * q}%`, opacity: i === 0 ? 0.9 : 1 }} />;
+                })}
+              </div>
+            );
+          })}
+          {/* trazado hacia repositorios y CI/CD */}
+          {(() => {
+            const lp = ramp(frame, cRepo - 20, 70, EASE.inOut);
+            const y = 560;
+            return (
+              <>
+                <div style={{ position: "absolute", left: 760, top: y, width: 880 * lp, height: 3, background: C.magenta, borderRadius: 2 }} />
+                {[
+                  { x: 800, l: "Repositorios", t: cRepo },
+                  { x: 1120, l: "CI/CD", t: cCI },
+                ].map((c) => {
+                  const a = ramp(frame, c.t - 8, 22, EASE.out);
+                  return (
+                    <div
+                      key={c.l}
+                      style={{
+                        position: "absolute",
+                        left: c.x,
+                        top: y - 36,
+                        height: 72,
+                        padding: "0 34px",
+                        display: "flex",
+                        alignItems: "center",
+                        borderRadius: 36,
+                        background: "#fff",
+                        border: `3px solid ${C.magenta}`,
+                        boxShadow: "0 10px 26px rgba(80,20,50,0.10)",
+                        opacity: clamp(a * 1.6),
+                        transform: `scale(${0.8 + 0.2 * a})`,
+                        ...font(30, 500, { letterSpacing: "-0.02em" }),
+                      }}
+                    >
+                      {c.l}
+                    </div>
+                  );
+                })}
+                {(() => {
+                  const a = ramp(frame, cApr - 8, 24, EASE.out);
+                  return (
+                    <div style={{ position: "absolute", left: 1560, top: y - 62, width: 190, textAlign: "center", opacity: clamp(a * 1.6), transform: `scale(${0.6 + 0.4 * a})` }}>
+                      <div style={{ display: "flex", justifyContent: "center", paddingTop: 22 }}>
+                        <Diamond size={54} />
+                      </div>
+                      <div style={{ marginTop: 40, ...font(21, 500, { color: C.magenta, letterSpacing: 0, lineHeight: 1.2 }) }}>aprobación humana antes de cada fase</div>
+                    </div>
+                  );
+                })()}
+              </>
+            );
+          })()}
+        </div>
+      )}
       {/* arnés y steering */}
       {(() => {
         const p = ramp(frame, cArn - 8, 24, EASE.out);
