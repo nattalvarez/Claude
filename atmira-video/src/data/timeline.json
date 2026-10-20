@@ -1,0 +1,363 @@
+{
+ "fps": 25,
+ "total": 11701,
+ "scenes": [
+  {
+   "id": "apertura",
+   "index": 0,
+   "start": 0,
+   "duration": 302,
+   "voice": [
+    {
+     "id": "b01_apertura",
+     "from": 80,
+     "frames": 176,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "fade",
+    "frames": 14
+   },
+   "overlapOut": 14
+  },
+  {
+   "id": "modernizar",
+   "index": 1,
+   "start": 288,
+   "duration": 899,
+   "voice": [
+    {
+     "id": "b02_modernizar",
+     "from": 30,
+     "frames": 825,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "silk",
+    "frames": 22
+   },
+   "overlapOut": 22
+  },
+  {
+   "id": "agentica",
+   "index": 2,
+   "start": 1165,
+   "duration": 671,
+   "voice": [
+    {
+     "id": "b03_agentica",
+     "from": 34,
+     "frames": 593,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "zoom",
+    "frames": 20
+   },
+   "overlapOut": 20
+  },
+  {
+   "id": "transformacion",
+   "index": 3,
+   "start": 1816,
+   "duration": 242,
+   "voice": [
+    {
+     "id": "b04_beneficios",
+     "from": 30,
+     "frames": 142,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "push",
+    "frames": 20
+   },
+   "overlapOut": 20
+  },
+  {
+   "id": "plataforma",
+   "index": 4,
+   "start": 2038,
+   "duration": 1148,
+   "voice": [
+    {
+     "id": "b05_plataforma",
+     "from": 34,
+     "frames": 1062,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "iris",
+    "frames": 22
+   },
+   "overlapOut": 22
+  },
+  {
+   "id": "agentfactory",
+   "index": 5,
+   "start": 3164,
+   "duration": 594,
+   "voice": [
+    {
+     "id": "b06_agentfactory",
+     "from": 34,
+     "frames": 528,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "split",
+    "frames": 20
+   },
+   "overlapOut": 20
+  },
+  {
+   "id": "donde",
+   "index": 6,
+   "start": 3738,
+   "duration": 843,
+   "voice": [
+    {
+     "id": "b07_donde",
+     "from": 32,
+     "frames": 763,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "push",
+    "frames": 18
+   },
+   "overlapOut": 18
+  },
+  {
+   "id": "como",
+   "index": 7,
+   "start": 4563,
+   "duration": 830,
+   "voice": [
+    {
+     "id": "b08_como",
+     "from": 30,
+     "frames": 744,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "slide",
+    "frames": 18
+   },
+   "overlapOut": 18
+  },
+  {
+   "id": "quien",
+   "index": 8,
+   "start": 5375,
+   "duration": 565,
+   "voice": [
+    {
+     "id": "b09_quien",
+     "from": 30,
+     "frames": 479,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "silk",
+    "frames": 24
+   },
+   "overlapOut": 24
+  },
+  {
+   "id": "especializacion",
+   "index": 9,
+   "start": 5916,
+   "duration": 549,
+   "voice": [
+    {
+     "id": "b10a_especializacion",
+     "from": 36,
+     "frames": 469,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "zoom",
+    "frames": 18
+   },
+   "overlapOut": 18
+  },
+  {
+   "id": "porsector",
+   "index": 10,
+   "start": 6447,
+   "duration": 659,
+   "voice": [
+    {
+     "id": "b10b_porsector",
+     "from": 30,
+     "frames": 559,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "dark",
+    "frames": 22
+   },
+   "overlapOut": 22
+  },
+  {
+   "id": "banking",
+   "index": 11,
+   "start": 7084,
+   "duration": 869,
+   "voice": [
+    {
+     "id": "b11_banking",
+     "from": 34,
+     "frames": 755,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "split",
+    "frames": 20
+   },
+   "overlapOut": 20
+  },
+  {
+   "id": "insurance",
+   "index": 12,
+   "start": 7933,
+   "duration": 669,
+   "voice": [
+    {
+     "id": "b12_insurance",
+     "from": 32,
+     "frames": 557,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "split",
+    "frames": 20
+   },
+   "overlapOut": 20
+  },
+  {
+   "id": "smart",
+   "index": 13,
+   "start": 8582,
+   "duration": 583,
+   "voice": [
+    {
+     "id": "b13_smart",
+     "from": 32,
+     "frames": 475,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "light",
+    "frames": 22
+   },
+   "overlapOut": 22
+  },
+  {
+   "id": "casos",
+   "index": 14,
+   "start": 9143,
+   "duration": 1125,
+   "voice": [
+    {
+     "id": "b14_casos",
+     "from": 30,
+     "frames": 1047,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "fade",
+    "frames": 16
+   },
+   "overlapOut": 16
+  },
+  {
+   "id": "clientes",
+   "index": 15,
+   "start": 10252,
+   "duration": 600,
+   "voice": [
+    {
+     "id": "b15_clientes",
+     "from": 28,
+     "frames": 156,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "push",
+    "frames": 18
+   },
+   "overlapOut": 18
+  },
+  {
+   "id": "cifras",
+   "index": 16,
+   "start": 10834,
+   "duration": 457,
+   "voice": [
+    {
+     "id": "b16_cifras",
+     "from": 30,
+     "frames": 377,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": {
+    "kind": "dark",
+    "frames": 30
+   },
+   "overlapOut": 30
+  },
+  {
+   "id": "cierre",
+   "index": 17,
+   "start": 11261,
+   "duration": 440,
+   "voice": [
+    {
+     "id": "b17_cierre",
+     "from": 70,
+     "frames": 204,
+     "real": true,
+     "estimated": false
+    }
+   ],
+   "out": null,
+   "overlapOut": 0
+  }
+ ]
+}

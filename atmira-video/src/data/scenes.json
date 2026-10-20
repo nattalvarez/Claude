@@ -1,0 +1,291 @@
+{
+ "fps": 25,
+ "note": "Par\u00e1metros de montaje. lead = frames desde el inicio de la escena hasta que arranca la voz (incluye la transici\u00f3n de entrada). tail = frames de respiraci\u00f3n tras la voz. min = duraci\u00f3n m\u00ednima si la imagen necesita m\u00e1s tiempo que la voz.",
+ "scenes": [
+  {
+   "id": "apertura",
+   "blocks": [
+    "b01_apertura"
+   ],
+   "fallbackSec": [
+    7.0
+   ],
+   "lead": 80,
+   "tail": 46,
+   "min": 0,
+   "out": {
+    "kind": "fade",
+    "frames": 14
+   }
+  },
+  {
+   "id": "modernizar",
+   "blocks": [
+    "b02_modernizar"
+   ],
+   "fallbackSec": [
+    33
+   ],
+   "lead": 30,
+   "tail": 44,
+   "min": 0,
+   "out": {
+    "kind": "silk",
+    "frames": 22
+   }
+  },
+  {
+   "id": "agentica",
+   "blocks": [
+    "b03_agentica"
+   ],
+   "fallbackSec": [
+    23.7
+   ],
+   "lead": 34,
+   "tail": 44,
+   "min": 0,
+   "out": {
+    "kind": "zoom",
+    "frames": 20
+   }
+  },
+  {
+   "id": "transformacion",
+   "blocks": [
+    "b04_beneficios"
+   ],
+   "fallbackSec": [
+    5.6
+   ],
+   "lead": 30,
+   "tail": 70,
+   "min": 0,
+   "out": {
+    "kind": "push",
+    "frames": 20
+   }
+  },
+  {
+   "id": "plataforma",
+   "blocks": [
+    "b05_plataforma"
+   ],
+   "fallbackSec": [
+    42.4
+   ],
+   "lead": 34,
+   "tail": 52,
+   "min": 0,
+   "out": {
+    "kind": "iris",
+    "frames": 22
+   }
+  },
+  {
+   "id": "agentfactory",
+   "blocks": [
+    "b06_agentfactory"
+   ],
+   "fallbackSec": [
+    19
+   ],
+   "lead": 34,
+   "tail": 32,
+   "min": 0,
+   "out": {
+    "kind": "split",
+    "frames": 20
+   }
+  },
+  {
+   "id": "donde",
+   "blocks": [
+    "b07_donde"
+   ],
+   "fallbackSec": [
+    30
+   ],
+   "lead": 32,
+   "tail": 48,
+   "min": 0,
+   "out": {
+    "kind": "push",
+    "frames": 18
+   }
+  },
+  {
+   "id": "como",
+   "blocks": [
+    "b08_como"
+   ],
+   "fallbackSec": [
+    28
+   ],
+   "lead": 30,
+   "tail": 56,
+   "min": 0,
+   "out": {
+    "kind": "slide",
+    "frames": 18
+   }
+  },
+  {
+   "id": "quien",
+   "blocks": [
+    "b09_quien"
+   ],
+   "fallbackSec": [
+    22
+   ],
+   "lead": 30,
+   "tail": 56,
+   "min": 0,
+   "out": {
+    "kind": "silk",
+    "frames": 24
+   }
+  },
+  {
+   "id": "especializacion",
+   "blocks": [
+    "b10a_especializacion"
+   ],
+   "fallbackSec": [
+    15
+   ],
+   "lead": 36,
+   "tail": 44,
+   "min": 0,
+   "out": {
+    "kind": "zoom",
+    "frames": 18
+   }
+  },
+  {
+   "id": "porsector",
+   "blocks": [
+    "b10b_porsector"
+   ],
+   "fallbackSec": [
+    18
+   ],
+   "lead": 30,
+   "tail": 70,
+   "min": 0,
+   "out": {
+    "kind": "dark",
+    "frames": 22
+   }
+  },
+  {
+   "id": "banking",
+   "blocks": [
+    "b11_banking"
+   ],
+   "fallbackSec": [
+    35
+   ],
+   "lead": 34,
+   "tail": 80,
+   "min": 0,
+   "out": {
+    "kind": "split",
+    "frames": 20
+   }
+  },
+  {
+   "id": "insurance",
+   "blocks": [
+    "b12_insurance"
+   ],
+   "fallbackSec": [
+    28
+   ],
+   "lead": 32,
+   "tail": 80,
+   "min": 0,
+   "out": {
+    "kind": "split",
+    "frames": 20
+   }
+  },
+  {
+   "id": "smart",
+   "blocks": [
+    "b13_smart"
+   ],
+   "fallbackSec": [
+    20
+   ],
+   "lead": 32,
+   "tail": 76,
+   "min": 0,
+   "out": {
+    "kind": "light",
+    "frames": 22
+   }
+  },
+  {
+   "id": "casos",
+   "blocks": [
+    "b14_casos"
+   ],
+   "fallbackSec": [
+    40
+   ],
+   "lead": 30,
+   "tail": 48,
+   "min": 0,
+   "out": {
+    "kind": "fade",
+    "frames": 16
+   }
+  },
+  {
+   "id": "clientes",
+   "blocks": [
+    "b15_clientes"
+   ],
+   "fallbackSec": [
+    7
+   ],
+   "lead": 28,
+   "tail": 32,
+   "min": 600,
+   "out": {
+    "kind": "push",
+    "frames": 18
+   }
+  },
+  {
+   "id": "cifras",
+   "blocks": [
+    "b16_cifras"
+   ],
+   "fallbackSec": [
+    15
+   ],
+   "lead": 30,
+   "tail": 50,
+   "min": 0,
+   "out": {
+    "kind": "dark",
+    "frames": 30
+   }
+  },
+  {
+   "id": "cierre",
+   "blocks": [
+    "b17_cierre"
+   ],
+   "fallbackSec": [
+    10
+   ],
+   "lead": 70,
+   "tail": 150,
+   "min": 440,
+   "out": null
+  }
+ ]
+}

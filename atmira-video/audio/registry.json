@@ -1,0 +1,84 @@
+{
+ "flowId": "RalSn6lzvJ0lk7E50e5p",
+ "voice": {
+  "id": "WWVK6dYMrl0ZHnHT7cRj",
+  "name": "Alejandro Castellanos",
+  "accent": "peninsular (etiqueta ElevenLabs)",
+  "model": "eleven_v4"
+ },
+ "blocks": {
+  "b01_apertura": {
+   "tts": "D8vOTgMS5KxO9C9vEPPY",
+   "session": "7D5ndmZn7MT9zSSfk0pV",
+   "gen": "tsqlSYMCw5XET7qKSot7",
+   "stt": "4f7Qi5p3AuVjSD7v5Mpr",
+   "sttSession": "8S7rTymA9xRr9yOHxeOM"
+  },
+  "b02_modernizar": {
+   "tts": "MpP4ylxitSAoFGBT1RuP",
+   "session": "hsxEIjU3rnD9VcyJfBx0",
+   "gen": "ZqDFkTWSsWMDe48b3wC4"
+  },
+  "b03_agentica": {
+   "tts": "uiiMzbFRutDZmjeeq9wl",
+   "session": "vK0Y05VMW4lVvKrr6AUp",
+   "gen": "lKX8aqw3csIvRAroAs5O"
+  },
+  "b04_beneficios": {
+   "tts": "h8TLZxXWRM6mx6gBNpjk",
+   "session": "VLyUTVE7h4eH3svo970I",
+   "gen": "ibJ4fOQ3mUHgnQgibAj5"
+  },
+  "b05_plataforma": {
+   "tts": "h5LIkSYZZMpD3KYATCcp",
+   "session": "9BVpMtKTcbMaLJtON9rA",
+   "gen": "DTAqRBMKDis9tZegDgfa",
+   "stt": "uX8Scy3R4IIYcOkImfFA",
+   "sttSession": "Cf8Nm2Cq1Y9vcSI6gcxd"
+  },
+  "g06_07": {
+   "tts": "6gsE0Z9218U1wDR9n1I9",
+   "session": "db3S6Hsl9TFxlfwQ6zcu",
+   "gen": "HDIXF1ZPtU76uoxJEP8b",
+   "stt": "N9ztf4kCrApofAvLt2gH",
+   "sttSession": "b3sWidSr4pKCaillT8RU"
+  },
+  "b17_cierre": {
+   "tts": "c4zLxIRYWp390inRt5Mt",
+   "session": "IQunDMi4asc3qISzwuoI",
+   "gen": "o5h8docFC0aTnr16dYlq",
+   "stt": "5PZCiEE80bntWtwalxZ1",
+   "sttSession": "QN7RLd7SNXWwU97AYCsv"
+  },
+  "g08_09": {
+   "tts": "Orvb4f2caQZGmzjMuAFZ",
+   "session": "zbi1vjOGyKVK5S8im4Q4",
+   "gen": "RI7zBvANNO5eSjoi3o6V",
+   "note": "1.er intento falló con 'Free Tier access has been disabled' (transitorio); el reintento funcionó",
+   "stt": "yt3uFTu5EHw1SVaboYpC",
+   "sttSession": "fShdq1dyAyHVZJtbUPON"
+  },
+  "g10": {
+   "tts": "EcOzFnJPs2LpWwEXMMWr",
+   "session": "b63Py5I63X6BrkP5wNhu",
+   "gen": "IFu2eLVs6f7ZTAkmfDvu",
+   "stt": "NAPM13YP141UYWSSTeBg",
+   "sttSession": "gqoDDgLahHpoxmfIyl2k"
+  },
+  "g11_13": {
+   "tts": "zjyQffr43yN5LIglFMP9",
+   "session": "9QJmvv47AJxHZNmcn1vN",
+   "gen": "hOE5nj7YF8jaUj27p3ER",
+   "stt": "Goq9VwQwB6zTFrBINRKM",
+   "sttSession": "2cYXhyuntF4wJGrTrfHx"
+  },
+  "g14_16": {
+   "tts": "2apFAOywkgXYFJP9g44n",
+   "session": "nGTzag8tVijhJNgAnpD5",
+   "gen": "FJzCPCbehbUm9YDFKm60",
+   "note": "1.er intento (session xaZFouj4MipizpGrVVQ1) falló con 'Free Tier access has been disabled…'; el reintento funcionó",
+   "stt": "8GQ1aEm5PjMzsMIjNq3a",
+   "sttSession": "GaETOuHgnYJh4iHyl7W2"
+  }
+ }
+}
