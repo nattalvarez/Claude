@@ -85,7 +85,7 @@ export const S01Apertura: React.FC = () => {
         </MaskLine>
       </div>
 
-      <div style={{ position: "absolute", left: 120, top: 520, ...font(168, 400, { color: C.magenta, lineHeight: 1.02 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 520, ...font(168, 700, { color: C.magenta, lineHeight: 1.02 }) }}>
         <div style={{ height: 176 }}>
           <CharSettle text="Modernizamos" start={cModer - 6} seed={11} />
         </div>
@@ -94,7 +94,7 @@ export const S01Apertura: React.FC = () => {
           <SpeedWord text="aceleramos" start={cAcel - 4} dur={26} />
         </div>
         <div style={{ marginTop: 14 }}>
-          <Words text="los servicios financieros" start={cServ - 2} stagger={4} dur={22} style={font(88, 400, { color: C.ink, letterSpacing: "-0.03em" })} />
+          <Words text="los servicios financieros" start={cServ - 2} stagger={4} dur={22} style={font(88, 600, { color: C.ink, letterSpacing: "-0.03em" })} />
         </div>
       </div>
       <Finish tone="light" />

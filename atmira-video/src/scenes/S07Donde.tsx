@@ -46,7 +46,7 @@ export const S07Donde: React.FC = () => {
       />
       <Chrome chapter="06 · Dónde aceleramos" start={2} />
 
-      <div style={{ position: "absolute", left: 120, top: 150, width: 600, ...font(66, 400, { letterSpacing: "-0.04em", lineHeight: 1.03 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 150, width: 600, ...font(66, 600, { letterSpacing: "-0.04em", lineHeight: 1.03 }) }}>
         <SyncWords scene={ID} text="Dónde aceleramos, eficientamos e industrializamos" from="Dónde aceleramos" accent={[2, 3, 4]} lead={3} dur={16} />
       </div>
       <div style={{ position: "absolute", left: 120, top: 430, width: 560, ...font(31, 400, { color: C.ink, letterSpacing: "-0.015em", lineHeight: 1.3 }) }}>

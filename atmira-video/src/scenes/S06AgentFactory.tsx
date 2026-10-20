@@ -44,10 +44,10 @@ export const S06AgentFactory: React.FC = () => {
       />
       <Chrome chapter="05 · Aceleración" start={2} hideLogo={false} />
 
-      <div style={{ position: "absolute", left: 120, top: 262, ...font(190, 400, { letterSpacing: "-0.05em", lineHeight: 1 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 262, ...font(190, 700, { letterSpacing: "-0.05em", lineHeight: 1 }) }}>
         <CharSettle text="Aceleración" start={cue(ID, "Aceleración") - 4} seed={4} mess={0.7} />
       </div>
-      <div style={{ position: "absolute", left: 124, top: 478, ...font(58, 400, { color: C.magenta, letterSpacing: "-0.03em" }) }}>
+      <div style={{ position: "absolute", left: 124, top: 478, ...font(58, 600, { color: C.magenta, letterSpacing: "-0.03em" }) }}>
         <MaskLine start={cue(ID, "habilitada") - 6} dur={26}>
           habilitada por la Agent Factory
         </MaskLine>

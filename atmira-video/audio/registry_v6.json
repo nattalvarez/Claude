@@ -1,0 +1,264 @@
+{
+ "flowId": "GWsRC5NHLK77Stl6bsgQ",
+ "voices": {
+  "M": {
+   "name": "Alejandro Castellanos",
+   "id": "WWVK6dYMrl0ZHnHT7cRj"
+  },
+  "F": {
+   "name": "Francesca Dari - Warm & Natural",
+   "id": "S7bOxFEwwuJG764dSujP"
+  }
+ },
+ "model": "eleven_v4",
+ "segments": {
+  "b02_2": {
+   "session": "35a9IbGR8RysqUlalb6J",
+   "gen": "4h6cFBWvhH9JbLPG4mfw"
+  },
+  "b01_1": {
+   "session": "SXGLKW7MAKnJwMR4Qwb8",
+   "gen": "W1RZNT3ECZeYpiU7RsBg"
+  },
+  "b01_2": {
+   "session": "DpnourUWfUm7SKwgClex",
+   "gen": "WjHkR1n5xersbwld1DyF"
+  },
+  "b02_1": {
+   "session": "FSltgrSmLqA1pLfSPxvi",
+   "gen": "2TAoUmdET1jI9KYoT9vv"
+  },
+  "b02_3": {
+   "session": "CrhpFOFz59dutZCcn3YT",
+   "gen": "ZrpMgJsSGv77nJaX2gIB"
+  },
+  "b02_4": {
+   "session": "rDdYcEYsSM8sNBUBuUdH",
+   "gen": "64jzZmK54b3YNSeOsDkb"
+  },
+  "b02_5": {
+   "session": "w3xqzUevG7WUFJMTLkMP",
+   "gen": "aY1X4NJTv3MHXFlbU2XR"
+  },
+  "b03_1": {
+   "session": "fcv2yxqirGKASl5WtJ4Y",
+   "gen": "proyUmxhse9OfFEBJ4rv"
+  },
+  "b03_2": {
+   "session": "6LBgesVlJjmKKlaFjhBu",
+   "gen": "NTqyFUhjFJHDOsgm4xvY"
+  },
+  "b03_3": {
+   "session": "v5N1u3iz3FyUqCt846ni",
+   "gen": "NcLubeNuXXMvgFW0Q02Q"
+  },
+  "b03_4": {
+   "session": "Qw8x2Yu28jcAGjiZi0zU",
+   "gen": "iklg7MzmaLao0wSL3ufn"
+  },
+  "b04_1": {
+   "session": "urw8PAKWHLbN0dr1PvkY",
+   "gen": "6Ux3HuIiUQVmXXScaOYy"
+  },
+  "b04_2": {
+   "session": "NYg2zYZLvF4UOhiIMqLJ",
+   "gen": "1KFT7EilBFyAeioDDZkT"
+  },
+  "b04_3": {
+   "session": "rgnbtYSAiHVBTadarFPh",
+   "gen": "cXh6MzUsvbwronpndlZS"
+  },
+  "b05_1": {
+   "session": "Eyw22YPUcXEnQRr4BVcC",
+   "gen": "jBIjtY4S1BVVYrrwzOmG",
+   "failed": true
+  },
+  "b05_2": {
+   "session": "IrshnJt81CNd9fwUg1tv",
+   "gen": "pAppt04CcFwenvgfMe7M"
+  },
+  "b05_3": {
+   "session": "FgMkPERd326GEUtpSa2m",
+   "gen": "stuEtsFrSITDttKQcbTy"
+  },
+  "b05_4": {
+   "session": "IvJXwCLAzNuoXcFYux4C",
+   "gen": "ZO9GrGEdEZSAP4Mda5jX"
+  },
+  "b05_5": {
+   "session": "UkjCyPGrzrJOf96pi3zs",
+   "gen": "P2JCeIcURCRu71FhUhwV",
+   "failed": true
+  },
+  "b06_1": {
+   "session": "7xqyARFPiy61nY6aeVIE",
+   "gen": "YipNyOA9e01AYRuImmTY"
+  },
+  "b06_2": {
+   "session": "PYW0Ny5SXk4SMXzLXGAH",
+   "gen": "aAwOpHVfkxxJtBaRslX7"
+  },
+  "b07_1": {
+   "session": "Dds9OEMO6rtmnhUN3vgi",
+   "gen": "9H6URLPEPdO0nawjzoL5"
+  },
+  "b07_2": {
+   "session": "xNFRrZQjIiGXMwRECg7O",
+   "gen": "ZkvsZDhGDLe9E3RDhB1l"
+  },
+  "b07_3": {
+   "session": "LwBbslGnefgLKVfHvtVB",
+   "gen": "lEfTNvBTaAr57kr3ZpQf"
+  },
+  "b08_1": {
+   "session": "Q4RSUF0WZtz5Sg291dbs",
+   "gen": "7CFz2I9BmTgFWClMDmRF"
+  },
+  "b08_2": {
+   "session": "tP0oXtUHArxmD8vyLSLb",
+   "gen": "hDwqteSEhmB4cwU44Otf"
+  },
+  "b08_3": {
+   "session": "bncwrOGEBlbPdlGZaoxZ",
+   "gen": "LCdGxTnpnVD3AyEqiHJ0"
+  },
+  "b08_4": {
+   "session": "0rNxUj1Bx4WGcHEkXOq6",
+   "gen": "zsm43uelPyo0m06eJ3wJ"
+  },
+  "b08_5": {
+   "session": "EezW20mgdHwMxY5raNKY",
+   "gen": "n0Po0ER4lJgX0h50xMVk"
+  },
+  "b08_6": {
+   "session": "ZTEMbHSuN3xy0TbGiU2e",
+   "gen": "Y5zrItGuvqaJRWQpYd3j"
+  },
+  "b09_1": {
+   "session": "1BMiCfRa7KpEJiOxcgZV",
+   "gen": "RR1dw2GXLvS0xkHxXOdE"
+  },
+  "b09_2": {
+   "session": "UM5JuZMkx3M0Wm5P3CMe",
+   "gen": "0hoBU9b4ieVnEla2VkT7"
+  },
+  "b09_3": {
+   "session": "1X7kefLHhNvePEhyC8YM",
+   "gen": "8FVCq1tJwxPS2FE1InyW"
+  },
+  "b10a_1": {
+   "session": "FVjcbiKu0Y5XfjLv00e8",
+   "gen": "6J2OE7P9O5rPyStCXVKc"
+  },
+  "b10a_2": {
+   "session": "rnk0Cd1oizIQtDKg8Ui9",
+   "gen": "IacPXiVfz3aZv1Ctfh7Z"
+  },
+  "b10b_1": {
+   "session": "lhgVQPHldB2XeMp5vRji",
+   "gen": "FzQpGXEoIXeT0BBnfA1m",
+   "failed": true
+  },
+  "b10b_2": {
+   "session": "H6o1L2l0rKLHuWaRMBEE",
+   "gen": "87S8rKE4JMp0XPakSgos",
+   "failed": true
+  },
+  "b11_1": {
+   "session": "rftdqDo4kCHpRcVvjlak",
+   "gen": "cSRvvT4ikaptYNGdX9Vt",
+   "failed": true
+  },
+  "b11_2": {
+   "session": "lwu3kFN5HOpc5FFldiKY",
+   "gen": "LhvanMRzbyen9mIYYrf7",
+   "failed": true
+  },
+  "b12_1": {
+   "session": "sQFkziknBoVi8e6UefXK",
+   "gen": "sxzrBXmjVVq73fxA3e2a",
+   "failed": true
+  },
+  "b12_2": {
+   "session": "SH6hQscc4ohVKEszMfAU",
+   "gen": "5Ody039VzzByA1YPZhmQ",
+   "failed": true
+  },
+  "b13_1": {
+   "session": "ACauWqDBQJXhB1RW35YK",
+   "gen": "aeCvbQfcoVc2sm2UZna9",
+   "failed": true
+  },
+  "b13_2": {
+   "session": "42xAi3Jw1Ph5KIVfpRZY",
+   "gen": "5Dk0KjCF8LrfUiMDN5BV",
+   "failed": true
+  },
+  "b13_3": {
+   "session": "pNYevBB9zxMHJo6S0IWk",
+   "gen": "TfG1NEHX1x4h1ZRBxrGc",
+   "failed": true
+  },
+  "b14_1": {
+   "session": "RMoaad40pCIP28UaxWTq",
+   "gen": "sOiQy9Kh43gz6Vz2WkxL",
+   "failed": true
+  },
+  "b14_2": {
+   "session": "kkiO2vXt1cP7nty1NBJN",
+   "gen": "F1DODCabYcpilyRqj4Y3",
+   "failed": true
+  },
+  "b14_3": {
+   "session": "NSMJSHEqjYfS61ba0kRk",
+   "gen": "ztH64aHQJnfGam9f7xJC",
+   "failed": true
+  },
+  "b14_4": {
+   "session": "BajOH0Amf1wxA9Y4JRC8",
+   "gen": "UIb8jaOeyoGgaZDXNlhe",
+   "failed": true
+  },
+  "b15_1": {
+   "session": "L6SqV4W6WhEYqx9rcoNl",
+   "gen": "m0t0DeVzMtlN6FuCKvrp",
+   "failed": true
+  },
+  "b15_2": {
+   "session": "CnCyXIl19GNRtpKWhJzd",
+   "gen": "r4sp098Lncp7AasqJuDO",
+   "failed": true
+  },
+  "b16_1": {
+   "session": "8J02s65r2UqgjqOfMsGU",
+   "gen": "Rji0nY5P6Ekrkpo1nwvv",
+   "failed": true
+  },
+  "b16_2": {
+   "session": "n0AFqxTdPQGufZQBh2jP",
+   "gen": "1RUeR08ownzdDL9pg5Tc",
+   "failed": true
+  },
+  "b16_3": {
+   "session": "zVIB1BtStR0RBEN0O2pT",
+   "gen": "0I2uERm0oKrypbfaI2ot",
+   "failed": true
+  },
+  "b17_1": {
+   "session": "mRJ6EpaS1iRKQGryTced",
+   "gen": "J0cWottPnwjsEMFOoKnW",
+   "failed": true
+  },
+  "b17_2": {
+   "session": "dwMYNeebG09PBOfm8njp",
+   "gen": "tbH6tGF0b9drguMQ0nO3",
+   "failed": true
+  },
+  "b17_3": {
+   "session": "pOBAjTxG1T4PO3BRFVkP",
+   "gen": "eyL7ZZNCcSSoW4EPreW2",
+   "failed": true
+  }
+ },
+ "status": "33 de 56 tramos generados; 23 fallaron (b05_1 y b05_5 por 'Free Tier access disabled'; el resto por cuota de cr\u00e9ditos agotada: 0 de 10000). Hay que regenerar los marcados failed cuando haya cr\u00e9ditos."
+}

@@ -33,7 +33,7 @@ export const S17Cifras: React.FC = () => {
         style={{ top: 420, WebkitMaskImage: "linear-gradient(180deg, transparent 0%, #000 62%)", maskImage: "linear-gradient(180deg, transparent 0%, #000 62%)" }}
       />
       <Chrome chapter="16 · En cifras" start={2} />
-      <div style={{ position: "absolute", left: 120, top: 120, ...font(84, 400, { letterSpacing: "-0.045em", lineHeight: 1.02 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 120, ...font(84, 600, { letterSpacing: "-0.045em", lineHeight: 1.02 }) }}>
         <MaskLine start={cue(ID, "atmira") - 6} dur={28} style={{ color: C.magenta }}>
           {CIFRAS.title[0]} <span style={{ color: C.ink }}>{CIFRAS.title[1]}</span>
         </MaskLine>

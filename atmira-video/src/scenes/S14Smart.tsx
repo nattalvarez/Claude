@@ -66,10 +66,10 @@ export const S14Smart: React.FC = () => {
       />
       <Chrome chapter="13 · Smart Digital Brains" start={2} />
       <div style={{ position: "absolute", left: 120, top: 112, display: "flex", gap: 28, alignItems: "baseline" }}>
-        <MaskLine start={cTag - 10} dur={26} style={font(100, 400, { color: C.magenta, letterSpacing: "-0.045em" })}>
+        <MaskLine start={cTag - 10} dur={26} style={font(100, 700, { color: C.magenta, letterSpacing: "-0.045em" })}>
           {b.accent}
         </MaskLine>
-        <MaskLine start={cTag - 4} dur={26} style={font(100, 400, { letterSpacing: "-0.045em" })}>
+        <MaskLine start={cTag - 4} dur={26} style={font(100, 700, { letterSpacing: "-0.045em" })}>
           {b.name}
         </MaskLine>
       </div>
@@ -78,33 +78,56 @@ export const S14Smart: React.FC = () => {
         text={b.tagline}
         from="brains en construcción"
         appear={cTag + 6}
-        style={{ position: "absolute", left: 124, top: 240, width: 1560, ...font(30, 400, { letterSpacing: "-0.015em", lineHeight: 1.3 }) }}
+        style={{ position: "absolute", left: 124, top: 236, width: 1640, ...font(38, 500, { letterSpacing: "-0.028em", lineHeight: 1.22 }) }}
         on={C.ink}
         dim="#CCCBD1"
       />
 
-      {b.cols.map((col, i) => {
-        const st = cCol[i] - 8;
+      {/* capas 02 y 03: una línea de epígrafes cada una, sin descripciones ni cajas */}
+      {[1, 2].map((ci, r) => {
+        const col = b.cols[ci];
+        const st = cCol[ci] - 10;
         const p = ramp(frame, st, 26, EASE.out);
         return (
-          <div key={col.n} style={{ position: "absolute", left: colX(i), top: 376, width: COLW, opacity: clamp(p * 1.4) }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 22, transform: `translateY(${(1 - p) * 20}px)` }}>
-              <Mark kind={i} start={st} />
-              <div>
-                <div style={{ ...font(22, 600, { color: C.magenta, letterSpacing: "0.14em" }) }}>{col.n}</div>
-                <div style={{ marginTop: 4, ...font(32, 500, { letterSpacing: "-0.025em", lineHeight: 1.1 }) }}>{col.t}</div>
-              </div>
+          <div key={col.n} style={{ position: "absolute", left: 124, top: 366 + r * 116, width: 1650, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 20}px)` }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <span style={{ ...font(20, 700, { color: C.magenta, letterSpacing: "0.16em" }) }}>{col.n}</span>
+              <span style={{ ...font(20, 700, { color: C.ink, letterSpacing: "0.16em", textTransform: "uppercase" }) }}>{col.t}</span>
+              <span style={{ height: 2, width: 520 * p, background: C.line }} />
             </div>
-            <Rule start={st + 8} width={COLW} color={C.ink} thickness={2.5} style={{ marginTop: 16 }} />
-            <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 20 }}>
-              {col.items.map((it, k) => {
-                const s0 = i === 0 ? cSec[k] - 10 : st + 14 + k * 9;
-                return <BrainItem key={it.h} h={it.h} d={it.d} start={s0} hSize={22} dSize={19} />;
-              })}
+            <div style={{ marginTop: 10, ...font(30, 500, { letterSpacing: "-0.015em", lineHeight: 1.25, color: C.ink2 }) }}>
+              {col.items.map((it, k) => (
+                <span key={it.h}>
+                  {k > 0 && <span style={{ color: C.magenta, padding: "0 0.5em" }}>·</span>}
+                  <span style={{ opacity: clamp(ramp(frame, st + 8 + k * 6, 18) * 1.5) }}>{it.h}</span>
+                </span>
+              ))}
             </div>
           </div>
         );
       })}
+
+      {/* capa 01: los sectores, al ritmo de la voz */}
+      {(() => {
+        const col = b.cols[0];
+        const st = cSec[0] - 24;
+        const p = ramp(frame, st, 24, EASE.out);
+        return (
+          <div style={{ position: "absolute", left: 124, top: 632, width: 1680, opacity: clamp(p * 1.5) }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 24, transform: `translateY(${(1 - p) * 20}px)` }}>
+              <Mark kind={0} start={st} />
+              <span style={{ ...font(22, 700, { color: C.magenta, letterSpacing: "0.16em" }) }}>{col.n}</span>
+              <span style={{ ...font(56, 700, { letterSpacing: "-0.045em" }) }}>{col.t}</span>
+            </div>
+            <Rule start={st + 8} width={1680} color={C.ink} thickness={2.5} style={{ marginTop: 14 }} />
+            <div style={{ marginTop: 26, display: "flex", gap: 60 }}>
+              {col.items.map((it, k) => (
+                <BrainItem key={it.h} h={it.h} d={it.d} start={cSec[k] - 10} hSize={38} hWeight={600} dSize={22} hColor={C.ink} style={{ width: 520 }} />
+              ))}
+            </div>
+          </div>
+        );
+      })()}
       <Finish tone="mist" />
     </AbsoluteFill>
   );

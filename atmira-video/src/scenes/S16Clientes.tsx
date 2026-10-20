@@ -51,7 +51,7 @@ export const S16Clientes: React.FC = () => {
         style={{ top: 560 }}
       />
       <Chrome chapter="15 · Clientes" start={2} />
-      <div style={{ position: "absolute", left: 120, top: 112, ...font(76, 400, { letterSpacing: "-0.042em" }) }}>
+      <div style={{ position: "absolute", left: 120, top: 112, ...font(76, 600, { letterSpacing: "-0.042em" }) }}>
         <MaskLine start={cue(ID, "Relaciones") - 6} dur={28}>
           {CLIENTES.title[0]} <span style={{ color: C.magenta }}>{CLIENTES.title[1]}</span>
         </MaskLine>

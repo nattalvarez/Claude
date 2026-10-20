@@ -193,6 +193,7 @@ export const BANKING: Brain = {
   accent: "Banking",
   name: "Digital Brain",
   tagline: "El cerebro de la banca agéntica.",
+  intro: "Activamos la banca agéntica modernizando con IA los dominios de negocio del banco: del core al recobro inteligente y a la relación con el cliente, en retail, privada y corporativa.",
   legend: ["A quién · segmento", "Qué · dominios de negocio", "Cómo · tecnología y arquitectura"],
   cols: [
     {
@@ -231,6 +232,7 @@ export const INSURANCE: Brain = {
   accent: "Insurance",
   name: "Digital Brain",
   tagline: "El cerebro de los seguros inteligentes.",
+  intro: "Activamos los seguros inteligentes modernizando con IA los dominios de negocio de la aseguradora: del core a la suscripción, los siniestros y la distribución, en vida, generales y salud.",
   legend: ["A quién · segmento", "Qué · dominios de negocio", "Cómo · tecnología y arquitectura"],
   cols: [
     {

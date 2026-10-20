@@ -5,6 +5,7 @@ import { SilkField } from "../components/SilkField";
 import { Logo } from "../components/Logo";
 import { MaskLine, font } from "../components/Type";
 import { BrainItem } from "../components/Brain";
+import { Karaoke } from "../components/Sync";
 import { C, EASE } from "../theme";
 import { clamp, ramp } from "../lib/anim";
 import { cue } from "../lib/tl";
@@ -20,12 +21,6 @@ export const S13Insurance: React.FC = () => {
   const b = INSURANCE;
   const cTag = cue(ID, "Insurance");
   const cRow = [cue(ID, "Activamos los seguros") + 40, cue(ID, "suscripción") - 20, cue(ID, "Con capas")];
-  const rows = [
-    { top: 292, h: 175 },
-    { top: 492, h: 240 },
-    { top: 758, h: 210 },
-  ];
-  const rail = ramp(frame, cTag + 20, 260, EASE.inOut);
 
   return (
     <AbsoluteFill>
@@ -50,35 +45,44 @@ export const S13Insurance: React.FC = () => {
         <Logo width={168} tone="white" />
       </div>
       <div style={{ position: "absolute", left: 120, top: 128, display: "flex", gap: 30, alignItems: "baseline" }}>
-        <MaskLine start={cTag - 10} dur={26} style={font(92, 400, { color: "#FF4DA6", letterSpacing: "-0.045em" })}>
+        <MaskLine start={cTag - 10} dur={26} style={font(92, 700, { color: "#FF4DA6", letterSpacing: "-0.045em" })}>
           {b.accent}
         </MaskLine>
-        <MaskLine start={cTag - 4} dur={26} style={font(92, 400, { color: "#fff", letterSpacing: "-0.045em" })}>
+        <MaskLine start={cTag - 4} dur={26} style={font(92, 700, { color: "#fff", letterSpacing: "-0.045em" })}>
           {b.name}
         </MaskLine>
       </div>
       <div style={{ position: "absolute", left: 124, top: 236, ...font(30, 400, { color: "rgba(255,255,255,0.85)", letterSpacing: "-0.012em", opacity: ramp(frame, cTag + 6, 26) }) }}>{b.tagline}</div>
 
-      {/* raíl de proceso */}
-      <div style={{ position: "absolute", left: 138, top: 330, width: 3, height: (968 - 330) * rail, background: `linear-gradient(180deg, ${C.magenta}, rgba(225,3,122,0.1))` }} />
+      <Karaoke
+        scene={ID}
+        text={b.intro ?? ""}
+        from="Activamos"
+        appear={cTag + 24}
+        exitAt={cRow[0] - 26}
+        style={{ position: "absolute", left: 124, top: 380, width: 1480, ...font(60, 500, { color: "#fff", letterSpacing: "-0.032em", lineHeight: 1.2 }) }}
+        on="#fff"
+        dim="rgba(255,255,255,0.28)"
+        accent={[]}
+      />
 
+      {/* las tres capas, de una en una: numeral y nombre a la izquierda, epígrafes en rejilla a la derecha */}
       {b.cols.map((col, ri) => {
-        const r = rows[ri];
-        const st = cRow[ri] - 14;
-        const p = ramp(frame, st, 26, EASE.out);
-        const n = col.items.length;
-        const gap = 28;
-        const cw = (1370 - (n - 1) * gap) / n;
+        const lv = ramp(frame, cRow[ri] - 10, 22, EASE.out) * (1 - (ri < 2 ? ramp(frame, cRow[ri + 1] - 14, 14, EASE.in) : 0));
+        if (lv <= 0.002) return null;
+        const st = cRow[ri] - 8;
         return (
-          <div key={col.n} style={{ position: "absolute", left: 120, top: r.top, width: 1680, height: r.h, opacity: clamp(p * 1.4) }}>
-            <div style={{ position: "absolute", left: 0, right: 0, top: -14, height: 1.5, background: "rgba(255,255,255,0.22)", transformOrigin: "left", transform: `scaleX(${ramp(frame, st, 30, EASE.inOut)})` }} />
-            <div style={{ position: "absolute", left: 40, top: 0, width: 250, transform: `translateX(${(1 - p) * -24}px)` }}>
-              <div style={{ ...font(54, 300, { color: C.magenta, letterSpacing: "-0.04em", lineHeight: 1 }) }}>{col.n}</div>
-              <div style={{ marginTop: 10, ...font(26, 500, { color: "#fff", letterSpacing: "-0.02em", lineHeight: 1.12 }) }}>{col.t}</div>
+          <div key={col.n} style={{ position: "absolute", left: 120, top: 330, width: 1680, opacity: clamp(lv * 1.6), transform: `translateY(${(1 - lv) * 30}px)` }}>
+            <div style={{ position: "absolute", left: 0, top: 0, width: 420 }}>
+              <div style={{ ...font(190, 700, { color: C.magenta, letterSpacing: "-0.06em", lineHeight: 0.9 }) }}>{col.n}</div>
+              <div style={{ marginTop: 24, ...font(48, 700, { color: "#fff", letterSpacing: "-0.04em", lineHeight: 1.05 }) }}>{col.t}</div>
+              <div style={{ marginTop: 26, height: 3, width: 140 * ramp(frame, st + 4, 24, EASE.inOut), background: C.magenta }} />
             </div>
-            {col.items.map((it, k) => (
-              <BrainItem key={it.h} h={it.h} d={it.d} dark start={st + 10 + k * 8} style={{ position: "absolute", left: 310 + k * (cw + gap), top: 0, width: cw }} dSize={19} />
-            ))}
+            <div style={{ position: "absolute", left: 520, top: 4, width: 1160, display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 64, rowGap: 38 }}>
+              {col.items.map((it, k) => (
+                <BrainItem key={it.h} h={it.h} d={it.d} dark start={st + 12 + k * 9} hSize={34} hWeight={600} dSize={22} />
+              ))}
+            </div>
           </div>
         );
       })}

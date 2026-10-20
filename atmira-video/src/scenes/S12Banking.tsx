@@ -4,6 +4,7 @@ import { Backdrop, Finish } from "../components/Stage";
 import { SilkField } from "../components/SilkField";
 import { Logo } from "../components/Logo";
 import { MaskLine, Rule, font } from "../components/Type";
+import { Karaoke } from "../components/Sync";
 import { BrainItem } from "../components/Brain";
 import { C, EASE } from "../theme";
 import { clamp, ramp } from "../lib/anim";
@@ -58,11 +59,11 @@ export const S12Banking: React.FC = () => {
           <Logo width={216} tone="white" />
         </div>
         <div style={{ position: "absolute", left: 86, top: 250 }}>
-          <MaskLine start={cTag - 10} dur={26} style={font(96, 400, { color: C.magenta, letterSpacing: "-0.045em", lineHeight: 1 })}>
+          <MaskLine start={cTag - 10} dur={26} style={font(96, 700, { color: C.magenta, letterSpacing: "-0.045em", lineHeight: 1 })}>
             {b.accent}
           </MaskLine>
           {b.name.split(" ").map((w, k) => (
-            <MaskLine key={w} start={cTag - 4 + k * 6} dur={26} style={font(96, 400, { color: "#fff", letterSpacing: "-0.045em", lineHeight: 1.04, marginTop: 4 })}>
+            <MaskLine key={w} start={cTag - 4 + k * 6} dur={26} style={font(96, 700, { color: "#fff", letterSpacing: "-0.045em", lineHeight: 1.04, marginTop: 4 })}>
               {w}
             </MaskLine>
           ))}
@@ -82,22 +83,32 @@ export const S12Banking: React.FC = () => {
         </div>
       </div>
 
-      {/* tres columnas de conocimiento */}
+      {/* Mientras suena la presentación del cerebro, el texto se lee a la vez que la voz */}
+      <Karaoke
+        scene={ID}
+        text={b.intro ?? ""}
+        from="Activamos"
+        appear={cTag + 24}
+        exitAt={cCol[0] - 22}
+        style={{ position: "absolute", left: 680, top: 300, width: 1100, ...font(58, 500, { letterSpacing: "-0.03em", lineHeight: 1.2 }) }}
+        accent={[]}
+      />
+
+      {/* las tres capas, de una en una */}
       {b.cols.map((col, i) => {
-        const st = cCol[i] - 8;
-        const p = ramp(frame, st, 26, EASE.out);
-        const a = Math.max(active(i), focusAll);
-        const dim = i === 0 && frame < cCol[0] - 20 ? 1 : 0.34 + 0.66 * a;
+        const lv = ramp(frame, cCol[i] - 8, 22, EASE.out) * (1 - (i < 2 ? ramp(frame, cCol[i + 1] - 12, 14, EASE.in) : focusAll * 0));
+        if (lv <= 0.002) return null;
+        const st = cCol[i] - 6;
         return (
-          <div key={col.n} style={{ position: "absolute", left: colX(i), top: 84, width: COLW, opacity: clamp(p * 1.4) * dim }}>
-            <div style={{ transform: `translateY(${(1 - p) * 22}px)` }}>
-              <div style={{ ...font(60, 400, { color: C.magenta, letterSpacing: "-0.04em", lineHeight: 1 }) }}>{col.n}</div>
-              <div style={{ marginTop: 10, ...font(29, 400, { letterSpacing: "-0.02em" }) }}>{col.t}</div>
+          <div key={col.n} style={{ position: "absolute", left: 680, top: 110, width: 1110, opacity: clamp(lv * 1.6), transform: `translateY(${(1 - lv) * 30}px)` }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 26 }}>
+              <span style={{ ...font(150, 700, { color: C.magenta, letterSpacing: "-0.06em", lineHeight: 0.9 }) }}>{col.n}</span>
+              <span style={{ ...font(60, 700, { letterSpacing: "-0.045em", lineHeight: 1 }) }}>{col.t}</span>
             </div>
-            <Rule start={st + 6} width={COLW} color={C.ink} thickness={2.5} style={{ marginTop: 16 }} />
-            <div style={{ marginTop: 22, display: "flex", flexDirection: "column", gap: 24 }}>
+            <Rule start={st + 4} width={1110} color={C.ink} thickness={2.5} style={{ marginTop: 26 }} />
+            <div style={{ marginTop: 34, display: "flex", flexDirection: "column", gap: 26 }}>
               {col.items.map((it, k) => (
-                <BrainItem key={it.h} h={it.h} d={it.d} start={st + 14 + k * 9} />
+                <BrainItem key={it.h} h={it.h} d={it.d} start={st + 12 + k * 10} hSize={38} hWeight={600} dSize={24} hColor={C.ink} />
               ))}
             </div>
           </div>

@@ -18,13 +18,11 @@ const Lane: React.FC<{ lane: typeof QUIEN.business; tone: "biz" | "tech"; show: 
   const frame = useCurrentFrame();
   const p = ramp(frame, show, 26, EASE.out);
   const q = ramp(frame, hide, 18, EASE.in);
-  const bg = tone === "biz" ? "#FBE3EF" : "#E4E3E8";
   const dot = tone === "biz" ? C.magenta : C.ink;
   return (
     <div style={{ position: "absolute", left: 0, top: 0, width: 1920, height: 1080, opacity: clamp(p * 1.4) * (1 - q), transform: `translateX(${(1 - p) * 80 - q * 90}px)` }}>
-      <div style={{ position: "absolute", left: 120, top: 396, width: 1680, height: 452, borderRadius: 24, background: bg }} />
-      <div style={{ position: "absolute", left: 156, top: 430, width: 280 }}>
-        <div style={{ ...font(40, 400, { letterSpacing: "-0.03em", lineHeight: 1.1 }) }}>{lane.t}</div>
+      <div style={{ position: "absolute", left: 120, top: 404, width: 300 }}>
+        <div style={{ ...font(46, 700, { letterSpacing: "-0.04em", lineHeight: 1.05, color: tone === "biz" ? C.magenta : C.ink }) }}>{lane.t}</div>
         <div style={{ marginTop: 18, ...font(22, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.36 }) }}>{lane.d}</div>
       </div>
       {lane.cells.map(([h, d], idx) => {
@@ -40,16 +38,13 @@ const Lane: React.FC<{ lane: typeof QUIEN.business; tone: "biz" | "tech"; show: 
               top: 420 + row * 204,
               width: CW,
               height: 190,
-              borderRadius: 12,
-              background: "#fff",
-              boxShadow: "0 8px 22px rgba(40,20,40,0.07)",
-              padding: "20px 22px",
+              padding: "18px 4px 0 0",
               opacity: clamp(k * 1.5),
               transform: `translateY(${(1 - k) * 22}px)`,
             }}
           >
+            <div style={{ position: "absolute", left: 0, top: 0, height: 2.5, width: `${k * 100}%`, background: dot }} />
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ width: 12, height: 12, borderRadius: 6, background: dot, flex: "none" }} />
               <span style={{ ...font(24, 500, { letterSpacing: "-0.02em", lineHeight: 1.1 }) }}>{h}</span>
             </div>
             <div style={{ marginTop: 12, ...font(20, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.32 }) }}>{d}</div>
@@ -84,7 +79,7 @@ export const S09Quien: React.FC = () => {
         style={{ top: 600 }}
       />
       <Chrome chapter="08 · Agent Factory · quién" start={2} />
-      <div style={{ position: "absolute", left: 120, top: 96, width: 1500, ...font(62, 400, { letterSpacing: "-0.04em", lineHeight: 1.04 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 96, width: 1500, ...font(68, 600, { letterSpacing: "-0.045em", lineHeight: 1.04 }) }}>
         <SyncWords scene={ID} text="Quién acelera: agentes expertos en cada fase" from="quién acelera" accent={[2, 3, 4, 5, 6]} lead={3} dur={16} />
       </div>
       <div style={{ position: "absolute", left: 120, top: 186, width: 1500, opacity: ramp(frame, 20, 24), ...font(25, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.36 }) }}>

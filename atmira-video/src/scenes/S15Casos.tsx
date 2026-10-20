@@ -41,10 +41,10 @@ export const S15Casos: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="mist" />
-      <Chrome chapter="14 · Experiencia en servicios financieros" start={2} />
+      <Chrome chapter="14 · Experiencia en servicios financieros" start={2} hideLogo />
 
       {/* título de sección */}
-      <div style={{ position: "absolute", left: 120, top: 120, ...font(70, 400, { letterSpacing: "-0.04em", lineHeight: 1.02 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 120, ...font(78, 600, { letterSpacing: "-0.045em", lineHeight: 1.02 }) }}>
         <MaskLine start={4} dur={26}>{CASOS.title[0]}</MaskLine>
         <MaskLine start={10} dur={26} style={{ color: C.magenta }}>{CASOS.title[1]}</MaskLine>
       </div>
@@ -53,21 +53,18 @@ export const S15Casos: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          left: 1170,
-          top: 150,
-          width: 630,
-          height: 800,
-          borderRadius: 30,
+          left: 1230,
+          top: 0,
+          width: 690,
+          height: 1080,
           overflow: "hidden",
           background: PANEL[group].bg,
-          boxShadow: "0 50px 100px rgba(60,10,40,0.3)",
-          opacity: clamp(panelIn * 1.5),
-          transform: `translateY(${(1 - panelIn) * 40}px)`,
+          clipPath: `inset(0 0 ${(1 - panelIn) * 100}% 0)`,
         }}
       >
         <SilkField
-          width={630}
-          height={800}
+          width={690}
+          height={1080}
           time={t + group * 4}
           order={0.5 + 0.5 * ramp(frame, 0, 200)}
           lines={100}
@@ -81,9 +78,9 @@ export const S15Casos: React.FC = () => {
           alpha={0.5}
           style={{ position: "absolute", left: 0, top: 0, WebkitMaskImage: "linear-gradient(180deg, #000 0%, transparent 24%, transparent 78%, #000 100%)", maskImage: "linear-gradient(180deg, #000 0%, transparent 24%, transparent 78%, #000 100%)" }}
         />
-        <div style={{ position: "absolute", left: 48, top: 44, ...font(18, 600, { color: "rgba(255,255,255,0.75)", letterSpacing: "0.2em", textTransform: "uppercase" }) }}>{CASOS.eyebrow}</div>
+        <div style={{ position: "absolute", left: 64, top: 70, ...font(18, 600, { color: "rgba(255,255,255,0.75)", letterSpacing: "0.2em", textTransform: "uppercase" }) }}>{CASOS.eyebrow}</div>
         {[0, 1, 2].map((g) => (
-          <div key={g} style={{ position: "absolute", left: 48, top: 110 + g * 236, width: 540, opacity: g === group ? 1 : 0.4 }}>
+          <div key={g} style={{ position: "absolute", left: 64, top: 160 + g * 280, width: 570, opacity: g === group ? 1 : 0.4 }}>
             <div style={{ ...font(24, 500, { color: "#fff", letterSpacing: 0, marginBottom: 14, borderBottom: "1.5px solid rgba(255,255,255,0.45)", paddingBottom: 12 }) }}>
               {String(g + 1).padStart(2, "0")} · {CASOS.cols[g]}
             </div>
@@ -122,7 +119,7 @@ export const S15Casos: React.FC = () => {
             <div style={{ marginTop: 28, height: 128, display: "flex", alignItems: "center", filter: `blur(${(1 - p) * 8}px)` }}>
               <Img src={staticFile(`cases/${it.id}.png`)} style={{ width: lw, height: lh }} />
             </div>
-            <div style={{ marginTop: 28, ...font(46, 500, { letterSpacing: "-0.03em", lineHeight: 1.1, width: 940 }) }}>{it.h}</div>
+            <div style={{ marginTop: 28, ...font(52, 600, { letterSpacing: "-0.04em", lineHeight: 1.1, width: 940 }) }}>{it.h}</div>
             <div style={{ marginTop: 22, ...font(29, 400, { color: C.ink2, letterSpacing: "-0.005em", lineHeight: 1.38, width: 900 }) }}>{it.d}</div>
           </div>
         );

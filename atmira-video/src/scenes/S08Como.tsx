@@ -44,7 +44,7 @@ export const S08Como: React.FC = () => {
       <Backdrop tone="light" />
       <Chrome chapter="07 · Agent Factory · cómo" start={2} />
 
-      <div style={{ position: "absolute", left: 120, top: 96, ...font(62, 400, { letterSpacing: "-0.04em" }), opacity: clamp(ramp(frame, 4, 24) * 1.4), transform: `translateY(${(1 - ramp(frame, 4, 24)) * 20}px)` }}>
+      <div style={{ position: "absolute", left: 120, top: 96, ...font(62, 600, { letterSpacing: "-0.04em" }), opacity: clamp(ramp(frame, 4, 24) * 1.4), transform: `translateY(${(1 - ramp(frame, 4, 24)) * 20}px)` }}>
         {COMO.title[0]} <span style={{ color: C.magenta }}>{COMO.title[1]}</span>
       </div>
       <div style={{ position: "absolute", left: 120, top: 186, width: 1560, opacity: clamp(ramp(frame, 12, 24) * 1.4), ...font(25, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.36 }) }}>

@@ -32,6 +32,7 @@ export const S05Plataforma: React.FC = () => {
   const sysP = ramp(frame, cSys - 6, 28, EASE.out);
   const tgtP = ramp(frame, cObj - 8, 28, EASE.out);
   const hubP = ramp(frame, cHub - 10, 26, EASE.out);
+  void hubP;
 
   const LX = 120;
   const CX = 610;
@@ -58,17 +59,16 @@ export const S05Plataforma: React.FC = () => {
       />
       <Chrome chapter="04 · Plataforma" start={2} />
 
-      <div style={{ position: "absolute", left: 120, top: 118, width: 1500, ...font(50, 400, { letterSpacing: "-0.03em", lineHeight: 1.06 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 104, width: 1600, ...font(56, 600, { letterSpacing: "-0.04em", lineHeight: 1.08 }) }}>
         <SyncWords scene={ID} text="Ofrecemos un enfoque de plataforma:" from="Lo hacemos" lead={2} style={{ display: "none" }} />
-        {PLATAFORMA.title.map((l, i) => (
-          <div key={i} style={{ color: i === 0 ? C.ink : C.magenta, opacity: ramp(frame, 8 + i * 6, 22, EASE.out), transform: `translateY(${(1 - ramp(frame, 8 + i * 6, 22, EASE.out)) * 22}px)` }}>
-            {l}
-          </div>
-        ))}
+        <div style={{ opacity: ramp(frame, 8, 22, EASE.out), transform: `translateY(${(1 - ramp(frame, 8, 22, EASE.out)) * 22}px)` }}>{PLATAFORMA.title[0]}</div>
+        <div style={{ color: C.magenta, opacity: ramp(frame, 14, 22, EASE.out), transform: `translateY(${(1 - ramp(frame, 14, 22, EASE.out)) * 22}px)` }}>
+          {PLATAFORMA.title[1]} {PLATAFORMA.title[2]}
+        </div>
       </div>
 
-      {/* Tus sistemas */}
-      <div style={{ position: "absolute", left: LX, top: 392 }}>
+      {/* Tus sistemas: líneas abiertas con filete, sin cajas */}
+      <div style={{ position: "absolute", left: LX, top: 352 }}>
         <Eyebrow start={cSys - 8} color={C.ink}>
           {PLATAFORMA.systemsLabel}
         </Eyebrow>
@@ -81,79 +81,48 @@ export const S05Plataforma: React.FC = () => {
             style={{
               position: "absolute",
               left: LX,
-              top: 442 + i * 66,
-              width: 410,
-              height: 52,
-              borderRadius: 10,
-              background: "#EFEEF1",
+              top: 402 + i * 62,
+              width: 430,
+              height: 62,
               display: "flex",
               alignItems: "center",
-              paddingLeft: 22,
-              ...font(23, 400, { color: C.ink2, letterSpacing: 0 }),
+              ...font(27, 400, { color: C.ink2, letterSpacing: "-0.01em" }),
               opacity: clamp(p * 1.5),
               transform: `translateX(${(1 - p) * -40}px)`,
             }}
           >
             {s}
+            <span style={{ position: "absolute", left: 0, bottom: 0, height: 1.5, width: `${p * 100}%`, background: C.line }} />
           </div>
         );
       })}
 
-      {/* ModernIzA */}
-      <div style={{ position: "absolute", left: CX, top: 388, opacity: hubP }}>
-        <span style={{ ...font(30, 800, { letterSpacing: "-0.02em" }) }}>
+      {/* ModernIzA: tres capas en columna, la activa se enciende */}
+      <div style={{ position: "absolute", left: CX, top: 340, opacity: hubP }}>
+        <span style={{ ...font(64, 800, { letterSpacing: "-0.045em" }) }}>
           Modern<span style={{ color: C.magenta }}>Iz</span>A
         </span>
       </div>
-      <div
-        style={{
-          position: "absolute",
-          left: CX - 14,
-          top: 430,
-          width: 746,
-          height: 468,
-          borderRadius: 22,
-          border: `2px dashed ${C.magenta}`,
-          opacity: hubP * 0.9,
-          transform: `scale(${0.96 + hubP * 0.04})`,
-        }}
-      />
+      <div style={{ position: "absolute", left: CX - 34, top: 436, width: 3, height: 486 * hubP, background: C.magenta, opacity: 0.9 }} />
       {PLATAFORMA.layers.map((l, i) => {
         const p = ramp(frame, cL[i] - 8, 24, EASE.out);
         const h = hot(i);
-        const bg = i === 1 ? C.magenta : i === 0 ? C.magentaSoft : "#EFEEF1";
-        const fg = i === 1 ? "#fff" : C.ink;
+        const done = frame > cL[2] + 150 ? 1 : 0;
+        const act = Math.max(h, done * 0.6);
         return (
-          <div
-            key={l.t}
-            style={{
-              position: "absolute",
-              left: CX,
-              top: 444 + i * 150,
-              width: 718,
-              height: 140,
-              borderRadius: 14,
-              background: bg,
-              boxShadow: h > 0.01 ? `0 18px 40px rgba(225,3,122,${0.25 * h})` : "none",
-              transform: `translateY(${(1 - p) * 26}px) scale(${1 + h * 0.012})`,
-              opacity: clamp(p * 1.5) * (0.62 + 0.38 * Math.max(h, p > 0.99 && frame > cL[2] + 150 ? 1 : h)),
-              display: "flex",
-              alignItems: "center",
-              padding: "0 26px",
-              gap: 26,
-            }}
-          >
-            <div style={{ width: 262, flex: "none" }}>
-              <div style={{ ...font(34, 500, { color: fg, letterSpacing: "-0.03em" }) }}>{l.t}</div>
-              <div style={{ marginTop: 8, ...font(21, 500, { color: i === 1 ? "rgba(255,255,255,0.85)" : C.magenta, letterSpacing: 0, lineHeight: 1.2 }) }}>{l.s}</div>
+          <div key={l.t} style={{ position: "absolute", left: CX, top: 436 + i * 166, width: 700, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 26}px)` }}>
+            <div style={{ position: "absolute", left: -34, top: 4, width: 3, height: 140 * h, background: C.ink }} />
+            <div style={{ display: "flex", alignItems: "baseline", gap: 20 }}>
+              <span style={{ ...font(50, h > 0.5 ? 700 : 500, { color: act > 0.4 ? C.ink : "#B9B8BF", letterSpacing: "-0.04em" }) }}>{l.t}</span>
+              <span style={{ ...font(22, 600, { color: C.magenta, letterSpacing: "0.02em", opacity: 0.4 + 0.6 * act }) }}>{l.s}</span>
             </div>
-            <div style={{ ...font(20, 400, { color: i === 1 ? "rgba(255,255,255,0.95)" : C.ink2, letterSpacing: 0, lineHeight: 1.3 }) }}>{l.d}</div>
+            <div style={{ marginTop: 8, opacity: 0.3 + 0.7 * act, ...font(23, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.3 }) }}>{l.d}</div>
           </div>
         );
       })}
 
       {/* Arquitectura objetivo */}
-      <div style={{ position: "absolute", left: RX, top: 392 }}>
+      <div style={{ position: "absolute", left: RX, top: 352 }}>
         <Eyebrow start={cObj - 10}>{PLATAFORMA.targetLabel}</Eyebrow>
       </div>
       {PLATAFORMA.target.map((s, i) => {
@@ -164,53 +133,37 @@ export const S05Plataforma: React.FC = () => {
             style={{
               position: "absolute",
               left: RX,
-              top: 442 + i * 66,
-              width: 400,
-              height: 52,
-              borderRadius: 10,
-              border: `2px solid ${C.magenta}`,
-              background: "#fff",
+              top: 402 + i * 62,
+              width: 420,
+              height: 62,
               display: "flex",
               alignItems: "center",
-              paddingLeft: 22,
-              ...font(23, 500, { color: C.ink, letterSpacing: 0 }),
+              gap: 16,
+              ...font(27, 600, { color: C.ink, letterSpacing: "-0.015em" }),
               opacity: clamp(p * 1.5),
               transform: `translateX(${(1 - p) * 40}px)`,
             }}
           >
+            <span style={{ width: 10, height: 10, borderRadius: 5, background: C.magenta, flex: "none" }} />
             {s}
+            <span style={{ position: "absolute", left: 0, bottom: 0, height: 1.5, width: `${p * 100}%`, background: C.line }} />
           </div>
         );
       })}
 
-      {/* SIREC */}
+      {/* SIREC: logotipo y texto sobre un filete, sin caja */}
       {(() => {
         const p = ramp(frame, cSirec - 10, 26, EASE.out);
         return (
-          <div
-            style={{
-              position: "absolute",
-              left: 120,
-              top: 922,
-              width: 1680,
-              height: 110,
-              borderRadius: 16,
-              border: "2px dashed #2AB5C8",
-              background: "rgba(255,255,255,0.8)",
-              display: "flex",
-              alignItems: "center",
-              gap: 30,
-              padding: "0 30px",
-              opacity: clamp(p * 1.5),
-              transform: `translateY(${(1 - p) * 30}px)`,
-            }}
-          >
-            <Img src={staticFile("brand/sirec.png")} style={{ height: 78, width: "auto", mixBlendMode: "multiply" }} />
-            <div style={{ flex: 1 }}>
-              <div style={{ ...font(16, 600, { color: C.mute, letterSpacing: "0.2em", textTransform: "uppercase" }) }}>{PLATAFORMA.sirec.label}</div>
-              <div style={{ marginTop: 6, ...font(31, 500, { letterSpacing: "-0.02em" }) }}>{PLATAFORMA.sirec.t}</div>
-              <div style={{ marginTop: 4, ...font(21, 400, { color: C.ink2, letterSpacing: 0 }) }}>
-                {PLATAFORMA.sirec.d} {PLATAFORMA.sirec.n}
+          <div style={{ position: "absolute", left: 120, top: 932, width: 1680, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 30}px)` }}>
+            <div style={{ position: "absolute", left: 0, top: 0, height: 2, width: `${p * 100}%`, background: C.ink }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 36, paddingTop: 18 }}>
+              <Img src={staticFile("brand/sirec.png")} style={{ height: 70, width: "auto", mixBlendMode: "multiply" }} />
+              <div style={{ flex: 1 }}>
+                <div style={{ ...font(32, 600, { letterSpacing: "-0.025em" }) }}>{PLATAFORMA.sirec.t}</div>
+                <div style={{ marginTop: 4, ...font(22, 400, { color: C.ink2, letterSpacing: 0 }) }}>
+                  {PLATAFORMA.sirec.d} {PLATAFORMA.sirec.n}
+                </div>
               </div>
             </div>
           </div>

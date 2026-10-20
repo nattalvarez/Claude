@@ -48,7 +48,7 @@ export const S11PorSector: React.FC = () => {
       <Chrome chapter="10 · Un Digital Brain por sector" start={2} />
 
       <div style={{ opacity: 1 - phase2, transform: `translateY(${-phase2 * 40}px)` }}>
-        <div style={{ position: "absolute", left: 120, top: 128, ...font(92, 400, { letterSpacing: "-0.045em" }) }}>
+        <div style={{ position: "absolute", left: 120, top: 128, ...font(104, 700, { letterSpacing: "-0.05em" }) }}>
           <SyncWords scene={ID} text="Un Digital Brain por sector" from="Un Digital Brain" accent={[3, 4]} lead={3} dur={16} />
         </div>
         <div style={{ position: "absolute", left: 120, top: 262, ...font(32, 400, { color: C.ink2, letterSpacing: "-0.012em" }) }}>
@@ -57,7 +57,7 @@ export const S11PorSector: React.FC = () => {
         {POR_SECTOR.threes.map((s, i) => {
           const st = cThree[i] - 8;
           const p = ramp(frame, st, 26, EASE.out);
-          const x = 120 + i * 580;
+          const x = i * 640;
           return (
             <div key={s.n} style={{ position: "absolute", left: x, top: 372, width: 520, opacity: clamp(p * 1.5) }}>
               <div style={{ transform: `translateY(${(1 - p) * 26}px)` }}>
@@ -81,35 +81,32 @@ export const S11PorSector: React.FC = () => {
       </div>
 
       {/* Un marco, diferentes cerebros */}
-      <div style={{ position: "absolute", left: 120, top: 128, opacity: phase2, transform: `translateY(${(1 - phase2) * 30}px)`, ...font(30, 600, { color: C.magenta, letterSpacing: "0.12em", textTransform: "uppercase" }) }}>
+      <div style={{ position: "absolute", left: 76, top: 120, zIndex: 5, mixBlendMode: "difference" as const, color: "#fff", opacity: phase2, transform: `translateY(${(1 - phase2) * 30}px)`, ...font(26, 600, { color: "#fff", letterSpacing: "0.16em", textTransform: "uppercase" }) }}>
         {POR_SECTOR.frame}
       </div>
       {POR_SECTOR.brains.map((b, i) => {
         const tl = TILE[i];
         const p = ramp(frame, cTile[i], 30, EASE.out);
         const hot = ramp(frame, cT[i] - 4, 12) * (1 - (i < 2 ? ramp(frame, cT[i + 1] - 4, 12) : 0));
-        const x = 120 + i * 580;
+        const x = i * 640;
         return (
           <div
             key={b.a}
             style={{
               position: "absolute",
               left: x,
-              top: 220,
-              width: 520,
-              height: 720,
-              borderRadius: 28,
+              top: 0,
+              width: 640,
+              height: 1080,
               overflow: "hidden",
               background: tl.bg,
-              boxShadow: `0 ${40 + hot * 20}px ${80 + hot * 30}px rgba(40,20,40,${0.22 + hot * 0.14})`,
-              opacity: clamp(p * 1.5) * phase2,
-              transform: `translateY(${(1 - p) * 70 - hot * 12}px) rotate(${(1 - p) * (i - 1) * 2.5}deg) scale(${1 + hot * 0.015})`,
-              border: i === 2 ? `2px solid ${C.line}` : "none",
+              clipPath: `inset(${(1 - p) * 100}% 0 0 0)`,
+              filter: `brightness(${0.9 + hot * 0.1})`,
             }}
           >
             <SilkField
-              width={520}
-              height={720}
+              width={640}
+              height={1080}
               time={t + i * 3}
               order={0.55 + i * 0.2}
               lines={70}
@@ -124,9 +121,9 @@ export const S11PorSector: React.FC = () => {
               alpha={tl.ink === "dark" ? 0.75 : 0.55}
               style={{ position: "absolute", left: 0, top: 0, WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 34%, transparent 60%)", maskImage: "linear-gradient(180deg, #000 0%, #000 34%, transparent 60%)" }}
             />
-            <div style={{ position: "absolute", left: 44, right: 40, bottom: 48 }}>
-              <div style={{ ...font(62, 400, { color: tl.ink === "dark" ? "#FF4DA6" : C.magenta, letterSpacing: "-0.04em", lineHeight: 1 }) }}>{b.a}</div>
-              <div style={{ ...font(62, 400, { color: tl.fg, letterSpacing: "-0.04em", lineHeight: 1.05 }) }}>Digital Brain</div>
+            <div style={{ position: "absolute", left: 76, right: 60, bottom: 84 }}>
+              <div style={{ ...font(92, 700, { color: tl.ink === "dark" ? "#FF4DA6" : C.magenta, letterSpacing: "-0.05em", lineHeight: 1 }) }}>{b.a}</div>
+              <div style={{ ...font(92, 700, { color: tl.fg, letterSpacing: "-0.05em", lineHeight: 1.02 }) }}>Digital Brain</div>
               <div style={{ marginTop: 18, ...font(25, 500, { color: tl.ink === "dark" ? "#FF4DA6" : C.magenta, letterSpacing: 0 }) }}>{b.t}</div>
               <div style={{ marginTop: 12, ...font(22, 400, { color: tl.sub, letterSpacing: 0, lineHeight: 1.36 }) }}>{b.d}</div>
             </div>

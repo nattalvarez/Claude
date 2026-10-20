@@ -66,7 +66,7 @@ export const S10Especializacion: React.FC = () => {
         />
         <div style={{ position: "absolute", left: 44, bottom: 40, ...font(24, 600, { color: "rgba(255,255,255,0.7)", letterSpacing: "0.2em", textTransform: "uppercase" }) }}>Digital Brain</div>
       </div>
-      <div style={{ position: "absolute", left: 120, top: 190, ...font(142, 400, { letterSpacing: "-0.05em", lineHeight: 1 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 190, ...font(142, 700, { letterSpacing: "-0.05em", lineHeight: 1 }) }}>
         <CharSettle text="Especialización" start={cue(ID, "Especialización") - 2} seed={9} mess={0.6} />
       </div>
       <div style={{ position: "absolute", left: 124, top: 372, ...font(54, 400, { color: C.magenta, letterSpacing: "-0.03em" }) }}>

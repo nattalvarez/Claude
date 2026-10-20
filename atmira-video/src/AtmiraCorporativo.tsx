@@ -4,7 +4,8 @@ import { TransitionSeries, type TransitionTiming } from "@remotion/transitions";
 import timeline from "./data/timeline.json";
 import { PRESENTATIONS } from "./transitions/presentations";
 import { EASE } from "./theme";
-import { audioFile, hasAudio } from "./lib/tl";
+import { audioFile, hasAudio, TOTAL_FRAMES, sceneById } from "./lib/tl";
+import { ProgressLine } from "./components/Kinetic";
 import { S01Apertura } from "./scenes/S01Apertura";
 import { S02Modernizar } from "./scenes/S02Modernizar";
 import { S03Agentica } from "./scenes/S03Agentica";
@@ -77,6 +78,8 @@ export const AtmiraCorporativo: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: "#fff" }}>
       <TransitionSeries>{items}</TransitionSeries>
+      {/* línea de progreso del vídeo: se retira cuando arranca el clímax del cierre */}
+      <ProgressLine total={TOTAL_FRAMES} hideFrom={sceneById("cierre").start + 120} />
       {/* Música y efectos originales (sintetizados desde el montaje; ver scripts/synth_music.py) */}
       <Audio src={staticFile("audio/music.mp3")} volume={0.9} />
       {/* Locución: un Audio por bloque, colocado en su frame exacto */}

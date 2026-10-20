@@ -4,7 +4,8 @@ import { Backdrop, Finish } from "../components/Stage";
 import { SilkField } from "../components/SilkField";
 import { Chrome } from "../components/Chrome";
 import { Karaoke, SyncWords } from "../components/Sync";
-import { Eyebrow, Rule, font } from "../components/Type";
+import { font } from "../components/Type";
+import { Flood } from "../components/Kinetic";
 import { C, EASE, FONT } from "../theme";
 import { clamp, ramp, rampOut } from "../lib/anim";
 import { cue, cueEnd, voiceEnd, voiceStart } from "../lib/tl";
@@ -72,7 +73,7 @@ export const S02Modernizar: React.FC = () => {
           transformOrigin: "left top",
           transform: `scale(${statScale})`,
           opacity: 1 - statExit,
-          ...font(104, 400, { letterSpacing: "-0.035em", lineHeight: 1.04 }),
+          ...font(104, 600, { letterSpacing: "-0.04em", lineHeight: 1.04 }),
         }}
       >
         <SyncWords
@@ -95,33 +96,37 @@ export const S02Modernizar: React.FC = () => {
         accent={[]}
       />
 
-      {/* Qué gana el negocio */}
-      <div style={{ position: "absolute", left: 120, top: 262, opacity: phase3 * (1 - phase4 * 0.7) }}>
-        <Eyebrow start={cQue - 6}>{MODERNIZAR.gainsLabel}</Eyebrow>
-      </div>
-      {MODERNIZAR.gains.map((g, i) => {
-        const x = 120 + i * 430;
-        const s = cGain[i] - 8;
-        const p = ramp(frame, s, 24, EASE.out);
-        const dim = phase4 * 0.62;
-        return (
-          <div key={i} style={{ position: "absolute", left: x, top: 330 - phase4 * 30, width: 390, opacity: clamp(p * 1.5) * (1 - dim) }}>
-            <Rule start={s} width={390} color={C.magenta} thickness={3} dur={22} />
-            <div style={{ transform: `translateY(${(1 - p) * 26}px)`, filter: `blur(${(1 - p) * 5}px)` }}>
-              <div style={{ marginTop: 22, ...font(20, 600, { color: C.magenta, letterSpacing: "0.16em" }) }}>{String(i + 1).padStart(2, "0")}</div>
-              <div style={{ marginTop: 10, ...font(44, 500, { letterSpacing: "-0.028em", lineHeight: 1.08 }) }}>{g.t}</div>
-              <div style={{ marginTop: 18, ...font(25, 400, { color: C.ink2, lineHeight: 1.38, letterSpacing: "0" }) }}>{g.d}</div>
+      {/* Qué gana el negocio: el lienzo se vuelve magenta y las cuatro ideas entran como palabras gigantes */}
+      <Flood start={cQue - 16} end={cInn - 22} from={[1500, 760]} to={[400, 200]} inDur={34} outDur={28}>
+        <div style={{ position: "absolute", left: 120, top: 112, ...font(22, 600, { color: "rgba(255,255,255,0.78)", letterSpacing: "0.2em", textTransform: "uppercase" }) }}>
+          {MODERNIZAR.gainsLabel}
+        </div>
+        {MODERNIZAR.gains.map((g, i) => {
+          const s0 = cGain[i] - 8;
+          const p = ramp(frame, s0, 24, EASE.out);
+          const nextOn = i + 1 < cGain.length ? ramp(frame, cGain[i + 1] - 8, 20, EASE.out) : 0;
+          return (
+            <div key={i} style={{ position: "absolute", left: 120, top: 200 + i * 190, width: 1680, height: 170 }}>
+              <div style={{ overflow: "hidden", paddingBottom: "0.12em", width: 1250 }}>
+                <div style={{ transform: `translateY(${(1 - p) * 105}%)`, opacity: clamp(p * 2), ...font(96, 700, { color: "#fff", letterSpacing: "-0.045em", lineHeight: 1.04 }) , filter: "none" }}>
+                  <span style={{ color: `rgba(255,255,255,${1 - nextOn * 0.5})` }}>{g.t}</span>
+                </div>
+              </div>
+              <div style={{ position: "absolute", left: 1270, top: 14, width: 440, opacity: clamp(p * 1.6) * (1 - nextOn * 0.45), transform: `translateY(${(1 - p) * 16}px)`, ...font(25, 400, { color: "rgba(255,255,255,0.9)", lineHeight: 1.36, letterSpacing: 0 }) }}>
+                {g.d}
+              </div>
+              <div style={{ position: "absolute", left: 0, bottom: 0, width: 1680 * ramp(frame, s0 + 6, 30, EASE.inOut), height: 2, background: "rgba(255,255,255,0.35)" }} />
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </Flood>
 
       {/* Cita de cierre */}
-      <div style={{ position: "absolute", left: 120, top: 690, width: 1560, opacity: phase4 }}>
-        <div style={{ ...font(58, 600, { color: C.magenta, letterSpacing: "-0.03em" }) }}>
+      <div style={{ position: "absolute", left: 120, top: 250, width: 1620, opacity: phase4 }}>
+        <div style={{ ...font(148, 700, { color: C.magenta, letterSpacing: "-0.05em", lineHeight: 1.0 }) }}>
           <SyncWords scene={ID} text={MODERNIZAR.pull.t} from="Innovación continua" lead={3} />
         </div>
-        <div style={{ marginTop: 12, ...font(50, 400, { letterSpacing: "-0.028em", lineHeight: 1.12 }) }}>
+        <div style={{ marginTop: 26, ...font(70, 500, { letterSpacing: "-0.035em", lineHeight: 1.1 }) }}>
           <SyncWords scene={ID} text={MODERNIZAR.pull.d} from="la base para crecer" lead={3} />
         </div>
       </div>

@@ -5,6 +5,7 @@ import { SilkField } from "../components/SilkField";
 import { Chrome } from "../components/Chrome";
 import { SyncWords } from "../components/Sync";
 import { Rule, font } from "../components/Type";
+import { GhostNum } from "../components/Kinetic";
 import { C, EASE } from "../theme";
 import { clamp, hash, ramp } from "../lib/anim";
 import { cue } from "../lib/tl";
@@ -72,9 +73,8 @@ const IlloModules: React.FC<{ start: number }> = ({ start }) => {
               width: c.w * U + (c.w - 1) * G,
               height: c.h * U * 0.88 + (c.h - 1) * G,
               borderRadius: 10,
-              background: hot ? C.magenta : i % 2 ? C.paper2 : "#fff",
-              border: hot ? "none" : `1.5px solid ${C.line}`,
-              boxShadow: hot ? "0 14px 30px rgba(225,3,122,0.28)" : "0 8px 20px rgba(30,20,40,0.06)",
+              background: hot ? C.magenta : i % 2 ? C.magentaSoft : C.line,
+              border: "none",
               opacity: clamp(p * 1.6),
               transform: `rotate(${(1 - p) * (hash(i) - 0.5) * 30}deg)`,
             }}
@@ -133,7 +133,7 @@ export const S03Agentica: React.FC = () => {
       />
       <Chrome chapter="02 · Arquitectura agéntica" start={2} />
 
-      <div style={{ position: "absolute", left: X0, top: 150, width: 1500, ...font(86, 400, { letterSpacing: "-0.04em", lineHeight: 1.03 }) }}>
+      <div style={{ position: "absolute", left: X0, top: 150, width: 1500, ...font(92, 600, { letterSpacing: "-0.045em", lineHeight: 1.03 }) }}>
         <SyncWords
           scene={ID}
           text="Modernizar permite evolucionar hacia una arquitectura agéntica"
@@ -154,14 +154,15 @@ export const S03Agentica: React.FC = () => {
         const Illo = illos[i];
         return (
           <div key={i} style={{ position: "absolute", left: x, top: 540, width: COL_W, opacity: clamp(p * 1.4) }}>
-            <div style={{ borderRadius: 18, background: "rgba(255,255,255,0.72)", border: `1.5px solid ${C.line}`, overflow: "hidden", transform: `translateY(${(1 - p) * 30}px)` }}>
+            <GhostNum n={s.n} x={-14} y={-52} size={250} opacity={p} />
+            <div style={{ position: "relative", transform: `translateY(${(1 - p) * 30}px)` }}>
               <Illo start={st + 10} />
             </div>
             <Rule start={st + 8} width={COL_W} color={C.magenta} thickness={3} dur={24} style={{ marginTop: 26 }} />
             <div style={{ transform: `translateY(${(1 - p) * 22}px)` }}>
               <div style={{ marginTop: 18, display: "flex", alignItems: "baseline", gap: 18 }}>
                 <span style={{ ...font(22, 600, { color: C.magenta, letterSpacing: "0.14em" }) }}>{s.n}</span>
-                <span style={{ ...font(42, 500, { letterSpacing: "-0.03em" }) }}>{s.t}</span>
+                <span style={{ ...font(44, 600, { letterSpacing: "-0.035em" }) }}>{s.t}</span>
               </div>
               <div style={{ marginTop: 12, ...font(26, 400, { color: C.ink2, lineHeight: 1.36, letterSpacing: "0" }) }}>{s.d}</div>
             </div>
