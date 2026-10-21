@@ -5,7 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT="${1:-out/atmira-corporativo-v7.mp4}"
 TOTAL=$(node -e 'console.log(JSON.parse(require("fs").readFileSync("src/data/timeline.json","utf8")).total)')
-N=4
+N=16
 STEP=$(( (TOTAL + N - 1) / N ))
 mkdir -p out/seg
 : > out/seg/list.txt
