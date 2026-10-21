@@ -17,7 +17,8 @@ export const S07Donde: React.FC = () => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
   const cLead = cue(ID, "Transformamos");
-  const cRows = [cue(ID, "legacy"), cue(ID, "core financiero"), cue(ID, "SIREC"), cue(ID, "cloud"), cue(ID, "diseño por dominios"), cue(ID, "ingeniería")];
+  // cada fila se enciende cuando la voz empieza a nombrar ese frente
+  const cRows = [cue(ID, "el legacy", 0), cue(ID, "financiero"), cue(ID, "ciclo de riesgo"), cue(ID, "arquitecturas cloud"), cue(ID, "diseño por dominios"), cue(ID, "ingeniería")];
   const cSup = cue(ID, "Los agentes ejecutan");
   const end = voiceEnd(ID);
 
@@ -77,8 +78,8 @@ export const S07Donde: React.FC = () => {
             <div style={{ position: "absolute", inset: 0, borderLeft: `4px solid rgba(225,3,122,${a})` }} />
             <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 2, background: C.line, transformOrigin: "left", transform: `scaleX(${ramp(frame, cRows[i] - 12, 26, EASE.inOut)})` }} />
             <div style={{ position: "absolute", left: 24, top: 26, transform: `translateY(${(1 - p) * 20}px)`, ...font(30, 500, { color: C.magenta, letterSpacing: "0.02em" }) }}>{it.n}</div>
-            <div style={{ position: "absolute", left: 100, top: 20, width: 340, transform: `translateY(${(1 - p) * 20}px)`, opacity: 0.5 + 0.5 * lit, ...font(32, 500, { letterSpacing: "-0.025em", lineHeight: 1.1 }) }}>{it.t}</div>
-            <div style={{ position: "absolute", left: 470, top: 20, width: 520, transform: `translateY(${(1 - p) * 20}px)`, opacity: 0.55 + 0.45 * lit, ...font(21, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.34 }) }}>{it.d}</div>
+            <div style={{ position: "absolute", left: 96, top: 18, width: 400, transform: `translateY(${(1 - p) * 20}px)`, opacity: 0.5 + 0.5 * lit, ...font(29, 500, { letterSpacing: "-0.025em", lineHeight: 1.1 }) }}>{it.t}</div>
+            <div style={{ position: "absolute", left: 510, top: 20, width: 480, transform: `translateY(${(1 - p) * 20}px)`, opacity: 0.55 + 0.45 * lit, ...font(21, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.34 }) }}>{it.d}</div>
           </div>
         );
       })}

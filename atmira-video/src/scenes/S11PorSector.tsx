@@ -57,12 +57,12 @@ export const S11PorSector: React.FC = () => {
         {POR_SECTOR.threes.map((s, i) => {
           const st = cThree[i] - 8;
           const p = ramp(frame, st, 26, EASE.out);
-          const x = i * 640;
+          const x = 120 + i * 580;
           return (
-            <div key={s.n} style={{ position: "absolute", left: x, top: 372, width: 520, opacity: clamp(p * 1.5) }}>
+            <div key={s.n} style={{ position: "absolute", left: x, top: 372, width: 500, opacity: clamp(p * 1.5) }}>
               <div style={{ transform: `translateY(${(1 - p) * 26}px)` }}>
                 <div style={{ ...font(150, 300, { color: "transparent", letterSpacing: "-0.05em", lineHeight: 1 }), WebkitTextStroke: `2.5px ${C.magenta}` }}>{s.n}</div>
-                <Rule start={st + 8} width={520} color={C.ink} thickness={2} style={{ marginTop: 10 }} />
+                <Rule start={st + 8} width={500} color={C.ink} thickness={2} style={{ marginTop: 10 }} />
                 <div style={{ marginTop: 22, ...font(42, 500, { letterSpacing: "-0.03em", lineHeight: 1.1 }) }}>{s.t}</div>
                 <div style={{ marginTop: 12, ...font(26, 400, { color: C.mute, letterSpacing: 0 }) }}>{s.d}</div>
               </div>
@@ -81,7 +81,7 @@ export const S11PorSector: React.FC = () => {
       </div>
 
       {/* Un marco, diferentes cerebros */}
-      <div style={{ position: "absolute", left: 76, top: 120, zIndex: 5, mixBlendMode: "difference" as const, color: "#fff", opacity: phase2, transform: `translateY(${(1 - phase2) * 30}px)`, ...font(26, 600, { color: "#fff", letterSpacing: "0.16em", textTransform: "uppercase" }) }}>
+      <div style={{ position: "absolute", left: 120, top: 120, zIndex: 5, mixBlendMode: "difference" as const, color: "#fff", opacity: phase2, transform: `translateY(${(1 - phase2) * 30}px)`, ...font(26, 600, { color: "#fff", letterSpacing: "0.16em", textTransform: "uppercase" }) }}>
         {POR_SECTOR.frame}
       </div>
       {POR_SECTOR.brains.map((b, i) => {
@@ -121,9 +121,9 @@ export const S11PorSector: React.FC = () => {
               alpha={tl.ink === "dark" ? 0.75 : 0.55}
               style={{ position: "absolute", left: 0, top: 0, WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 34%, transparent 60%)", maskImage: "linear-gradient(180deg, #000 0%, #000 34%, transparent 60%)" }}
             />
-            <div style={{ position: "absolute", left: 76, right: 60, bottom: 84 }}>
-              <div style={{ ...font(92, 700, { color: tl.ink === "dark" ? "#FF4DA6" : C.magenta, letterSpacing: "-0.05em", lineHeight: 1 }) }}>{b.a}</div>
-              <div style={{ ...font(92, 700, { color: tl.fg, letterSpacing: "-0.05em", lineHeight: 1.02 }) }}>Digital Brain</div>
+            <div style={{ position: "absolute", left: 112, right: 40, bottom: 84 }}>
+              <div style={{ ...font(84, 700, { color: tl.ink === "dark" ? "#FF4DA6" : C.magenta, letterSpacing: "-0.05em", lineHeight: 1 }) }}>{b.a}</div>
+              <div style={{ ...font(84, 700, { color: tl.fg, letterSpacing: "-0.05em", lineHeight: 1.02 }) }}>Digital Brain</div>
               <div style={{ marginTop: 18, ...font(25, 500, { color: tl.ink === "dark" ? "#FF4DA6" : C.magenta, letterSpacing: 0 }) }}>{b.t}</div>
               <div style={{ marginTop: 12, ...font(22, 400, { color: tl.sub, letterSpacing: 0, lineHeight: 1.36 }) }}>{b.d}</div>
             </div>

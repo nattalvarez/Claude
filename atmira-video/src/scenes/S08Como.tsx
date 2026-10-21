@@ -44,7 +44,7 @@ export const S08Como: React.FC = () => {
       <Backdrop tone="light" />
       <Chrome chapter="07 · Agent Factory · cómo" start={2} />
 
-      <div style={{ position: "absolute", left: 120, top: 96, ...font(62, 600, { letterSpacing: "-0.04em" }), opacity: clamp(ramp(frame, 4, 24) * 1.4), transform: `translateY(${(1 - ramp(frame, 4, 24)) * 20}px)` }}>
+      <div style={{ position: "absolute", left: 120, top: 96, ...font(62, 400, { letterSpacing: "-0.04em" }), opacity: clamp(ramp(frame, 4, 24) * 1.4), transform: `translateY(${(1 - ramp(frame, 4, 24)) * 20}px)` }}>
         {COMO.title[0]} <span style={{ color: C.magenta }}>{COMO.title[1]}</span>
       </div>
       <div style={{ position: "absolute", left: 120, top: 186, width: 1560, opacity: clamp(ramp(frame, 12, 24) * 1.4), ...font(25, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.36 }) }}>
@@ -58,14 +58,14 @@ export const S08Como: React.FC = () => {
           left: 120,
           top: 272,
           width: 1680,
-          height: 2,
-          background: C.magenta,
+          height: 566,
+          borderRadius: 26,
+          background: C.magentaMist,
           opacity: base,
-          transformOrigin: "left",
-          transform: `scaleX(${base})`,
+          transform: `scale(${0.985 + base * 0.015})`,
         }}
       />
-      <div style={{ position: "absolute", left: 120, top: 296, opacity: base, ...font(36, 600, { letterSpacing: "-0.03em" }) }}>{COMO.factory}</div>
+      <div style={{ position: "absolute", left: 156, top: 292, opacity: base, ...font(36, 400, { letterSpacing: "-0.03em" }) }}>{COMO.factory}</div>
 
       {/* método: especificación versionada → repositorio y CI/CD → aprobación humana */}
       {specOut > 0.001 && (
@@ -86,9 +86,9 @@ export const S08Como: React.FC = () => {
                   top: y,
                   width: 400,
                   height: 236,
-                  borderRadius: 8,
-                  background: C.paper,
-                  border: `2px solid ${k === 2 ? C.magenta : C.ink}`,
+                  borderRadius: 14,
+                  background: "#fff",
+                  boxShadow: "0 14px 36px rgba(80,20,50,0.10)",
                   padding: "24px 28px",
                   opacity: clamp(p * 1.6),
                   transform: `translateY(${(1 - p) * 40}px)`,
@@ -130,8 +130,9 @@ export const S08Como: React.FC = () => {
                         display: "flex",
                         alignItems: "center",
                         borderRadius: 36,
-                        background: C.paper,
+                        background: "#fff",
                         border: `3px solid ${C.magenta}`,
+                        boxShadow: "0 10px 26px rgba(80,20,50,0.10)",
                         opacity: clamp(a * 1.6),
                         transform: `scale(${0.8 + 0.2 * a})`,
                         ...font(30, 500, { letterSpacing: "-0.02em" }),
@@ -185,11 +186,13 @@ export const S08Como: React.FC = () => {
                   style={{
                     marginTop: 12,
                     height: 56,
-                    borderBottom: `1.5px solid ${C.line}`,
+                    borderRadius: 10,
+                    background: "#fff",
+                    boxShadow: "0 6px 18px rgba(80,20,50,0.07)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    padding: "0 6px 0 0",
+                    padding: "0 20px",
                     ...font(23, 400, { letterSpacing: 0 }),
                     opacity: clamp(q * 1.6),
                     transform: `translateX(${(1 - q) * -24}px)`,
@@ -256,17 +259,19 @@ export const S08Como: React.FC = () => {
                 top: 876,
                 width: 1120,
                 height: 78,
-                borderTop: `2px solid ${C.magenta}`,
+                borderRadius: 8,
+                background: C.magenta,
+                color: "#fff",
                 display: "flex",
                 alignItems: "center",
-                padding: "0 4px",
+                padding: "0 30px",
                 gap: 18,
                 opacity: clamp(p * 1.5),
                 transform: `translateY(${(1 - p) * 24}px)`,
-                ...font(20, 400, { color: C.ink, letterSpacing: 0, lineHeight: 1.3 }),
+                ...font(20, 400, { color: "#fff", letterSpacing: 0, lineHeight: 1.3 }),
               }}
             >
-              <b style={{ fontSize: 24, fontWeight: 800, color: C.magenta, letterSpacing: "0.03em", textTransform: "uppercase" }}>{COMO.brain.l}</b>
+              <b style={{ fontSize: 24, fontWeight: 800, letterSpacing: "0.03em", textTransform: "uppercase" }}>{COMO.brain.l}</b>
               <span>{COMO.brain.d}</span>
             </div>
           </>

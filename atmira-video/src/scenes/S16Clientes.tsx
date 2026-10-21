@@ -21,7 +21,7 @@ const GROUPS: number[][] = [
   [2, 3, 19, 33, 38, 40, 41, 42, 69, 74, 27, 28, 43],
   [24, 25, 29, 35, 44, 54, 55, 59, 60, 62, 77],
 ];
-const GLEN = 78; // frames por secuencia
+const GLEN = 34; // frames por secuencia (6 × 34: el muro termina antes de la transición)
 const COLS = 5;
 const CELLW = 330;
 const CELLH = 180;
@@ -34,7 +34,9 @@ export const S16Clientes: React.FC = () => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
   const end = voiceEnd(ID);
-  const t0 = Math.max(end - 24, 64);
+  void end;
+  // el muro arranca con «Estas son algunas…» para que la voz acompañe las primeras secuencias
+  const t0 = Math.max(cue(ID, "Estas son") - 14, 40);
 
   return (
     <AbsoluteFill>

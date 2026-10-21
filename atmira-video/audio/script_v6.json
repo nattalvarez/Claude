@@ -98,7 +98,7 @@
   {
    "id": "b05_1",
    "voice": "F",
-   "text": "Lo hacemos con un enfoque de plataforma: servicios y soluciones que conectan tus sistemas con tu arquitectura objetivo. En el centro, ModernIzA, con tres capas.",
+   "text": "Lo hacemos con un enfoque de plataforma: servicios y soluciones que conectan tus sistemas con tu arquitectura objetivo. En el centro, Moderniza, con tres capas.",
    "block": "b05_plataforma"
   },
   {
@@ -122,7 +122,7 @@
   {
    "id": "b05_5",
    "voice": "F",
-   "text": "Además, SIREC: inteligencia aplicada al ciclo de riesgo de crédito, con más de quince clientes en Europa y Latinoamérica.",
+   "text": "Además, Sírec: inteligencia aplicada al ciclo de riesgo de crédito, con más de quince clientes en Europa y Latinoamérica.",
    "block": "b05_plataforma"
   },
   {
@@ -146,7 +146,7 @@
   {
    "id": "b07_2",
    "voice": "M",
-   "text": "Seis frentes: el legacy y el core financiero y asegurador, conviviendo con Temenos, Mambu o SISnet mientras se migra; el ciclo de riesgo de crédito con SIREC; las arquitecturas cloud; el diseño por dominios y eventos; y la ingeniería y automatización continua.",
+   "text": "Seis frentes: el legacy y el core financiero y asegurador, conviviendo con Temenos, Mambu o SISnet mientras se migra; el ciclo de riesgo de crédito con Sírec; las arquitecturas cloud; el diseño por dominios y eventos; y la ingeniería y automatización continua.",
    "block": "b07_donde"
   },
   {
@@ -242,7 +242,7 @@
   {
    "id": "b11_2",
    "voice": "F",
-   "text": "Tres capas de conocimiento: los segmentos de cliente; los dominios de negocio, desde Credit Risk and Collections con SIREC hasta Core and Payments; y la tecnología y arquitectura, del core legacy a las APIs y Open Finance.",
+   "text": "Tres capas de conocimiento: los segmentos de cliente; los dominios de negocio, desde Credit Risk and Collections con Sírec hasta Core and Payments; y la tecnología y arquitectura, del core legacy a las APIs y Open Finance.",
    "block": "b11_banking"
   },
   {
@@ -495,5 +495,9 @@
     "b17_3"
    ]
   }
- ]
+ ],
+ "pronunciation": {
+  "SIREC": "se envía como «Sírec» (acento en la primera sílaba, SÍ-rec); en pantalla se mantiene SIREC",
+  "ModernIzA": "se envía como «Moderniza»; en pantalla, la grafía oficial / logotipo"
+ }
 }

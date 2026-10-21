@@ -5,7 +5,6 @@ import { SilkField } from "../components/SilkField";
 import { Chrome } from "../components/Chrome";
 import { SyncWords } from "../components/Sync";
 import { Rule, font } from "../components/Type";
-import { GhostNum } from "../components/Kinetic";
 import { C, EASE } from "../theme";
 import { clamp, hash, ramp } from "../lib/anim";
 import { cue } from "../lib/tl";
@@ -154,7 +153,6 @@ export const S03Agentica: React.FC = () => {
         const Illo = illos[i];
         return (
           <div key={i} style={{ position: "absolute", left: x, top: 540, width: COL_W, opacity: clamp(p * 1.4) }}>
-            <GhostNum n={s.n} x={-14} y={-52} size={250} opacity={p} />
             <div style={{ position: "relative", transform: `translateY(${(1 - p) * 30}px)` }}>
               <Illo start={st + 10} />
             </div>

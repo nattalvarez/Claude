@@ -1,6 +1,6 @@
 {
  "fps": 25,
- "note": "Par\u00e1metros de montaje. lead = frames desde el inicio de la escena hasta que arranca la voz (incluye la transici\u00f3n de entrada). tail = frames de respiraci\u00f3n tras la voz. min = duraci\u00f3n m\u00ednima si la imagen necesita m\u00e1s tiempo que la voz.",
+ "note": "Parámetros de montaje. lead = frames desde el inicio de la escena hasta que arranca la voz (incluye la transición de entrada). tail = frames de respiración tras la voz. min = duración mínima si la imagen necesita más tiempo que la voz.",
  "scenes": [
   {
    "id": "apertura",
@@ -251,8 +251,8 @@
     7
    ],
    "lead": 28,
-   "tail": 32,
-   "min": 600,
+   "tail": 24,
+   "min": 322,
    "out": {
     "kind": "push",
     "frames": 18
