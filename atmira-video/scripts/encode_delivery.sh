@@ -8,4 +8,4 @@ ffmpeg -y -i out/seg/video.mp4 -i out/seg/audio.wav -map 0:v -map 1:a \
   -vf "scale=in_range=full:out_range=tv:flags=lanczos,format=yuv420p" \
   -c:v libx264 -preset medium -crf 25 -maxrate 3M -bufsize 6M \
   -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 \
-  -af volume=-1dB -c:a aac -b:a 192k -movflags +faststart entrega/atmira-corporativo-v8.mp4
+  -af volume=-1dB -c:a aac -b:a 192k -movflags +faststart entrega/atmira-corporativo-v9.mp4

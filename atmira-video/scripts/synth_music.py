@@ -304,28 +304,42 @@ def put_kick(t, amp=0.9):
 
 
 # ───────────────────────── base rítmica por escena (rejilla propia, bar 1 = corte) ─────────────────────────
+# el corte musical cae en mitad del solape de la transición visual; cada escena = nº entero de compases
+cuts = [0.0] + [((scenes[i + 1]["start"]) + (scenes[i]["start"] + scenes[i]["duration"])) / 2 / FPS for i in range(len(scenes) - 1)] + [END]
+gbar = 0  # contador global de compases: la progresión armónica continúa a través de los cortes
 for si, sc in enumerate(scenes):
     sid = sc["id"]
-    s0 = sc["start"] / FPS
-    s1 = (sc["start"] + sc["duration"]) / FPS
+    s0 = cuts[si]
+    s1 = cuts[si + 1]
     if sid == "cierre":
         s1 = W1S
+        beat_s = BEAT  # el cierre conserva 124 bpm: el clímax está compuesto a mano
+    else:
+        n_bars = max(2, round((s1 - s0) * BPM / 240.0))
+        beat_s = (s1 - s0) / (4 * n_bars)
+        while 60.0 / beat_s > 136:
+            n_bars -= 1
+            beat_s = (s1 - s0) / (4 * n_bars)
+        while 60.0 / beat_s < 112:
+            n_bars += 1
+            beat_s = (s1 - s0) / (4 * n_bars)
+    bar_s = beat_s * 4
+    s16_s = beat_s / 4
     lvl = SCENE_LEVEL.get(sid, 0.6)
     prog = DARK if sid in DARK_SCENES else LIGHT
     t = s0
-    bar = 0
-    # impacto de entrada (corte = tiempo 1): bombo + golpe grave suave + platillo corto
+        # platillo suave en el corte (el ritmo no se interrumpe: el compás sigue sin saltos)
     if si > 0:
-        add(SFX_L, SFX_R, s0 - 0.01, boom(1.6, 0.16 + 0.1 * lvl), 0.0)
-        add(DRM_L, DRM_R, s0 - 0.01, hat(0.35, 0.16), 0.0)
+        add(DRM_L, DRM_R, s0, hat(0.5, 0.12), 0.0)
     while t < s1 - 0.08:
+        bar = gbar
         root, chord = prog[bar % 4]
-        end_bar = min(t + BAR, s1)
+        end_bar = min(t + bar_s, s1)
         intro = sid == "apertura" and t < 3.2
         # ── percusión
         if not intro:
             for b in range(4):
-                tb = t + b * BEAT
+                tb = t + b * beat_s
                 if tb >= s1 - 0.05:
                     break
                 if lvl >= 0.5 or b % 2 == 0:
@@ -333,25 +347,25 @@ for si, sc in enumerate(scenes):
                 if lvl >= 0.5 and b % 2 == 1:
                     add(DRM_L, DRM_R, tb, clap(0.62 + 0.14 * lvl), 0.05)
                 # hats: contratiempo (+ semicorcheas a partir de energía alta)
-                th = tb + BEAT / 2
+                th = tb + beat_s / 2
                 if th < s1 - 0.05:
                     add(DRM_L, DRM_R, th, hat(0.16 if lvl >= 0.6 else 0.06, 0.26 if lvl >= 0.6 else 0.18), 0.25)
                 if lvl >= 0.72:
                     for q in (1, 3):
-                        tq = tb + q * S16
+                        tq = tb + q * s16_s
                         if tq < s1 - 0.05:
                             add(DRM_L, DRM_R, tq, hat(0.035, 0.08 + 0.03 * (q == 3)), -0.2)
         # ── bajo a contratiempo (sidechain lo hace «respirar»)
         if lvl >= 0.4 and not intro:
             for k in range(4):
-                tn = t + k * BEAT + BEAT / 2
+                tn = t + k * beat_s + beat_s / 2
                 if tn < s1 - 0.12:
                     f = mid(root + 12 + (12 if (k == 3 and lvl >= 0.75) else 0))
-                    add(MUS_L, MUS_R, tn, sub(f, BEAT * 0.46, 0.34 * (0.7 + 0.3 * lvl)), 0.0)
+                    add(MUS_L, MUS_R, tn, sub(f, beat_s * 0.46, 0.34 * (0.7 + 0.3 * lvl)), 0.0)
         # ── stabs sincopados
         if lvl >= 0.5 and not intro:
             for st_ in (3, 6, 11):
-                ts = t + st_ * S16
+                ts = t + st_ * s16_s
                 if ts < s1 - 0.1:
                     fr = [mid(m) for m in chord]
                     add(MUS_L, MUS_R, ts, stab(fr, 0.34, 0.085 * (0.6 + 0.5 * lvl)), pan=-0.3 if st_ == 6 else 0.3)
@@ -361,32 +375,28 @@ for si, sc in enumerate(scenes):
             pat = [0, 2, 1, 3, 2, 4, 3, 1, 0, 2, 1, 3, 4, 3, 2, 1]
             step = 1 if lvl >= 0.72 else 2
             for k in range(0, 16, step):
-                ta = t + k * S16
+                ta = t + k * s16_s
                 if ta < s1 - 0.1:
                     add(MUS_L, MUS_R, ta, pluck(mid(up[pat[k] % len(up)]), 0.5, 0.075 * (0.55 + 0.6 * lvl) * (1.25 if k % 4 == 0 else 0.8)), pan=-0.65 + 1.3 * ((k // step) % 5) / 4)
         # ── melodía (frases de 4 compases: compases 3-4)
         if lvl >= 0.7 and bar % 4 in (2, 3) and not intro:
             hi = [m + 24 for m in chord]
-            for st_, ni, dd in ((0, 2, 5 * S16), (6, 3, 3 * S16), (10, 1, 6 * S16)):
-                tl_ = t + st_ * S16
+            for st_, ni, dd in ((0, 2, 5 * s16_s), (6, 3, 3 * s16_s), (10, 1, 6 * s16_s)):
+                tl_ = t + st_ * s16_s
                 if tl_ < s1 - 0.15:
                     add(MUS_L, MUS_R, tl_, lead(mid(hi[ni % 4]), dd, 0.075), pan=0.15)
         # ── pad de fondo (más presente cuando hay menos ritmo)
         dur_p = end_bar - t
         for i, m in enumerate(chord):
             add(MUS_L, MUS_R, t, pad(mid(m - 12), dur_p, (0.05 if lvl >= 0.5 else 0.085) * (0.8 + 0.4 * lvl)), pan=-0.5 + 0.3 * i)
-        t += BAR
-        bar += 1
-    # redoble + riser que empujan al corte (último compás de la escena)
+        t += bar_s
+        gbar += 1
+    # relleno suave: el último pulso de la escena (semicorcheas con crescendo) y un soplo de ruido
     if sc["out"] and sid != "cierre":
-        tr = s1 - 1.7
-        steps = 12
-        for k in range(steps):
-            f = k / (steps - 1)
-            tk = tr + (1.5 * (f ** 0.8))
-            if tk < s1 - 0.02:
-                add(DRM_L, DRM_R, tk, snare_hit(0.1 + 0.2 * f, 190 + 120 * f), 0.0)
-        add(SFX_L, SFX_R, tr, whoosh(1.7, 300, 8500, 0.14, 1.8), 0.0)
+        for k in range(4):
+            tk = s1 - beat_s + k * s16_s
+            add(DRM_L, DRM_R, tk, snare_hit(0.07 + 0.05 * k, 190 + 40 * k), 0.0)
+        add(SFX_L, SFX_R, s1 - bar_s, whoosh(bar_s, 400, 7000, 0.06, 1.6), 0.0)
 
 # ───────────────────────── cierre cinematográfico ─────────────────────────
 tc0 = t_cierre
