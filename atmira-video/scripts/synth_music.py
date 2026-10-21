@@ -3,7 +3,9 @@
 Banda sonora original (sintetizada, sin muestras ni licencias de terceros) + efectos, derivada del montaje:
 
   - lee src/data/timeline.json y src/data/audio.json (tiempos reales de la locución)
-  - cama armónica por escena (pad + púas + bajo), energía distinta por bloque
+  - base rítmica electrónica a 124 bpm (referida al vídeo original, ≈124 bpm): bombo a negro, palmas, hats, bajo a contratiempo
+    con sidechain, stabs y arpegio con eco; la rejilla se reinicia en cada escena para que el corte caiga en el tiempo 1
+  - energía distinta por escena, redobles + riser antes de cada corte e impacto al entrar
   - ducking automático bajo la voz (la voz siempre en primer plano)
   - whooshes por tipo de transición, carillón en el logotipo, golpes en cada cifra
   - cierre: riser → impacto sincronizado con "es tuya" → resolución luminosa en el logotipo → cola
@@ -30,8 +32,10 @@ rng = np.random.default_rng(20261020)  # determinista
 
 L = np.zeros(N, np.float32)
 R = np.zeros(N, np.float32)
-MUS_L = np.zeros(N, np.float32)
+MUS_L = np.zeros(N, np.float32)  # armonía/bajo/arpegio (sidechain)
 MUS_R = np.zeros(N, np.float32)
+DRM_L = np.zeros(N, np.float32)  # percusión
+DRM_R = np.zeros(N, np.float32)
 SFX_L = np.zeros(N, np.float32)
 SFX_R = np.zeros(N, np.float32)
 
@@ -157,28 +161,105 @@ def boom(dur=3.2, amp=0.5):
     return (x * np.minimum(1, t / 0.004) * amp).astype(np.float32)
 
 
-# ───────────────────────── plan armónico ─────────────────────────
-CH = {
-    "Fmaj9": [41, 53, 57, 60, 64, 67],
-    "Am9": [45, 57, 60, 64, 67, 71],
-    "Dm9": [38, 50, 53, 57, 60, 64],
-    "Bbmaj9": [46, 58, 62, 65, 69, 72],
-    "Gm9": [43, 55, 58, 62, 65, 69],
-    "A7sus": [45, 52, 57, 62, 64, 67],
-    "Cadd9": [36, 48, 52, 55, 62, 67],
-}
-LIGHT = ["Fmaj9", "Am9", "Dm9", "Bbmaj9"]
-DARK = ["Dm9", "Bbmaj9", "Gm9", "A7sus"]
-SCENE_LEVEL = {
-    "apertura": 0.35, "modernizar": 0.5, "agentica": 0.55, "transformacion": 0.8, "plataforma": 0.5, "agentfactory": 0.6,
-    "donde": 0.55, "como": 0.55, "quien": 0.5, "especializacion": 0.55, "porsector": 0.6, "banking": 0.45, "insurance": 0.45,
-    "smart": 0.55, "casos": 0.55, "clientes": 0.5, "cifras": 0.7, "cierre": 0.0,
-}
-DARK_SCENES = {"banking", "insurance"}
 
-BPM = 92.0
+# ───────────────────────── percusión y sintes (v8) ─────────────────────────
+def noise(n):
+    return rng.standard_normal(n).astype(np.float32)
+
+
+def hp(x, fc):
+    from scipy.signal import butter, sosfilt
+
+    return sosfilt(butter(2, fc, btype="high", fs=SR, output="sos"), x).astype(np.float32)
+
+
+def bp(x, f0, f1):
+    from scipy.signal import butter, sosfilt
+
+    return sosfilt(butter(2, [f0, f1], btype="band", fs=SR, output="sos"), x).astype(np.float32)
+
+
+def kick2(amp=0.9):
+    n = int(0.46 * SR)
+    t = np.arange(n) / SR
+    f = 52 + 120 * np.exp(-t * 34)
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    body_ = np.sin(ph) * np.exp(-t * 8.5)
+    click = hp(noise(n), 2500) * np.exp(-t * 400) * 0.35
+    return (np.tanh(1.7 * (body_ + click)) * amp).astype(np.float32)
+
+
+def clap(amp=0.5):
+    n = int(0.3 * SR)
+    t = np.arange(n) / SR
+    x = bp(noise(n), 900, 3200)
+    e = np.zeros(n)
+    for k, d in enumerate((0.0, 0.011, 0.022)):
+        m = t >= d
+        e[m] += np.exp(-(t[m] - d) * 120) * (0.6 if k < 2 else 1.0)
+    e += np.exp(-t * 20) * 0.35
+    return (x * e * amp * 1.6).astype(np.float32)
+
+
+def hat(dur=0.05, amp=0.2):
+    n = int(max(dur * 6, 0.06) * SR)
+    t = np.arange(n) / SR
+    x = hp(noise(n), 7000)
+    return (x * np.exp(-t / dur * 3.2) * amp).astype(np.float32)
+
+
+def snare_hit(amp=0.3, tone=190):
+    n = int(0.2 * SR)
+    t = np.arange(n) / SR
+    x = hp(noise(n), 1500) * np.exp(-t * 26) + np.sin(2 * np.pi * tone * t) * np.exp(-t * 30) * 0.6
+    return (x * amp).astype(np.float32)
+
+
+def sub(freq, dur, amp=0.3):
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    x = np.sin(2 * np.pi * freq * t) + 0.45 * np.sin(2 * np.pi * freq * 2 * t) + 0.22 * np.sin(2 * np.pi * freq * 3 * t) * np.exp(-t * 8)
+    e = np.minimum(1, t / 0.006) * np.exp(-t * 2.2) * np.clip((dur - t) / 0.03, 0, 1)
+    return (np.tanh(1.5 * x * e) * amp).astype(np.float32)
+
+
+def stab(freqs, dur=0.3, amp=0.07):
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    x = np.zeros(n)
+    for f in freqs:
+        for det in (-0.004, 0.0, 0.004):
+            for h in range(1, 9):
+                x += np.sin(2 * np.pi * f * (1 + det) * h * t + h * 0.7) / h * np.exp(-t * (h - 1) * 1.7)
+    return (x * np.exp(-t * 7) * np.minimum(1, t / 0.003) * np.clip((dur - t) / 0.02, 0, 1) * amp).astype(np.float32)
+
+
+def lead(freq, dur=0.5, amp=0.06):
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    vib = 1 + 0.004 * np.sin(2 * np.pi * 5.2 * t) * np.minimum(1, t / 0.3)
+    ph = 2 * np.pi * freq * np.cumsum(vib) / SR
+    x = sum(np.sin(h * ph) / h for h in range(1, 10)) + 0.6 * sum(np.sin(h * ph * 1.006) / h for h in range(1, 7))
+    e = np.minimum(1, t / 0.012) * np.exp(-t * 1.3) * np.clip((dur - t) / 0.06, 0, 1)
+    return (np.tanh(0.9 * x) * e * amp).astype(np.float32)
+
+
+# ───────────────────────── plan armónico ─────────────────────────
+MUSIC_GAIN = 0.42  # música ≈ 7–9 dB por debajo de la voz mientras habla
+BPM = 124.0  # tempo medido en el vídeo original (≈ 124 bpm)
 BEAT = 60.0 / BPM
 BAR = BEAT * 4
+S16 = BEAT / 4
+
+# (raíz del bajo, tríada/novena en octavas medias)
+LIGHT = [(33, [57, 60, 64, 67]), (29, [53, 57, 60, 64]), (36, [55, 60, 64, 67]), (31, [55, 59, 62, 66])]  # Am9 · Fmaj9 · Cadd9 · G6
+DARK = [(26, [50, 53, 57, 60]), (34, [53, 58, 62, 65]), (29, [53, 57, 60, 64]), (36, [55, 60, 64, 67])]  # Dm7 · Bbmaj7 · Fmaj9 · C
+SCENE_LEVEL = {
+    "apertura": 0.3, "modernizar": 0.62, "agentica": 0.66, "transformacion": 0.9, "plataforma": 0.7, "agentfactory": 0.74,
+    "donde": 0.68, "como": 0.7, "quien": 0.66, "especializacion": 0.72, "porsector": 0.76, "banking": 0.62, "insurance": 0.62,
+    "smart": 0.7, "casos": 0.68, "clientes": 0.7, "cifras": 0.92, "cierre": 0.8,
+}
+DARK_SCENES = {"banking", "insurance"}
 
 scenes = TL["scenes"]
 cierre = next(s for s in scenes if s["id"] == "cierre")
@@ -209,94 +290,147 @@ tu = word_t(w17, "tuya") or (AU["blocks"]["b17_cierre"]["dur"] * 0.75)
 at = word_t(w17, "atmira") or (AU["blocks"]["b17_cierre"]["dur"] - 0.6)
 c_tu = round((v17["from"] + tu * FPS))
 c_at = max(round(v17["from"] + at * FPS), c_tu + 14)
-W1S = (t_cierre * FPS + c_tu - 26) / FPS  # inicio del frente magenta
+W1S = (t_cierre * FPS + c_tu - 26) / FPS  # inicio del haz de luz / apertura
 W2S = (t_cierre * FPS + c_tu + 14) / FPS
 LOGO = (t_cierre * FPS + c_at - 12) / FPS
 END = TL["total"] / FPS
 
-# ───────────────────────── cama musical por escena ─────────────────────────
-bar_idx = 0
-t = 0.0
-while t < TOTAL:
-    # escena activa
-    sc = None
-    for s in scenes:
-        if s["start"] / FPS <= t < (s["start"] + s["duration"]) / FPS:
-            sc = s
-            break
-    sid = sc["id"] if sc else "cierre"
-    if sid == "cierre" and t >= W1S - 1.0:
-        break  # el cierre lo compone el bloque especial
-    lvl = SCENE_LEVEL.get(sid, 0.5)
+KICKS = []  # instantes de bombo (para el sidechain)
+
+
+def put_kick(t, amp=0.9):
+    add(DRM_L, DRM_R, t, kick2(amp), 0.0)
+    KICKS.append(t)
+
+
+# ───────────────────────── base rítmica por escena (rejilla propia, bar 1 = corte) ─────────────────────────
+for si, sc in enumerate(scenes):
+    sid = sc["id"]
+    s0 = sc["start"] / FPS
+    s1 = (sc["start"] + sc["duration"]) / FPS
+    if sid == "cierre":
+        s1 = W1S
+    lvl = SCENE_LEVEL.get(sid, 0.6)
     prog = DARK if sid in DARK_SCENES else LIGHT
-    chord = CH[prog[(bar_idx // 2) % 4]]
-    first_in_chord = bar_idx % 2 == 0
-    if first_in_chord:
-        dur = BAR * 2
+    t = s0
+    bar = 0
+    # impacto de entrada (corte = tiempo 1): bombo + golpe grave suave + platillo corto
+    if si > 0:
+        add(SFX_L, SFX_R, s0 - 0.01, boom(1.6, 0.16 + 0.1 * lvl), 0.0)
+        add(DRM_L, DRM_R, s0 - 0.01, hat(0.35, 0.16), 0.0)
+    while t < s1 - 0.08:
+        root, chord = prog[bar % 4]
+        end_bar = min(t + BAR, s1)
+        intro = sid == "apertura" and t < 3.2
+        # ── percusión
+        if not intro:
+            for b in range(4):
+                tb = t + b * BEAT
+                if tb >= s1 - 0.05:
+                    break
+                if lvl >= 0.5 or b % 2 == 0:
+                    put_kick(tb, 0.8 if lvl >= 0.5 else 0.5)
+                if lvl >= 0.5 and b % 2 == 1:
+                    add(DRM_L, DRM_R, tb, clap(0.62 + 0.14 * lvl), 0.05)
+                # hats: contratiempo (+ semicorcheas a partir de energía alta)
+                th = tb + BEAT / 2
+                if th < s1 - 0.05:
+                    add(DRM_L, DRM_R, th, hat(0.16 if lvl >= 0.6 else 0.06, 0.26 if lvl >= 0.6 else 0.18), 0.25)
+                if lvl >= 0.72:
+                    for q in (1, 3):
+                        tq = tb + q * S16
+                        if tq < s1 - 0.05:
+                            add(DRM_L, DRM_R, tq, hat(0.035, 0.08 + 0.03 * (q == 3)), -0.2)
+        # ── bajo a contratiempo (sidechain lo hace «respirar»)
+        if lvl >= 0.4 and not intro:
+            for k in range(4):
+                tn = t + k * BEAT + BEAT / 2
+                if tn < s1 - 0.12:
+                    f = mid(root + 12 + (12 if (k == 3 and lvl >= 0.75) else 0))
+                    add(MUS_L, MUS_R, tn, sub(f, BEAT * 0.46, 0.34 * (0.7 + 0.3 * lvl)), 0.0)
+        # ── stabs sincopados
+        if lvl >= 0.5 and not intro:
+            for st_ in (3, 6, 11):
+                ts = t + st_ * S16
+                if ts < s1 - 0.1:
+                    fr = [mid(m) for m in chord]
+                    add(MUS_L, MUS_R, ts, stab(fr, 0.34, 0.085 * (0.6 + 0.5 * lvl)), pan=-0.3 if st_ == 6 else 0.3)
+        # ── arpegio (con eco)
+        if lvl >= 0.55 and not intro:
+            up = [m + 12 for m in chord] + [chord[0] + 24]
+            pat = [0, 2, 1, 3, 2, 4, 3, 1, 0, 2, 1, 3, 4, 3, 2, 1]
+            step = 1 if lvl >= 0.72 else 2
+            for k in range(0, 16, step):
+                ta = t + k * S16
+                if ta < s1 - 0.1:
+                    add(MUS_L, MUS_R, ta, pluck(mid(up[pat[k] % len(up)]), 0.5, 0.075 * (0.55 + 0.6 * lvl) * (1.25 if k % 4 == 0 else 0.8)), pan=-0.65 + 1.3 * ((k // step) % 5) / 4)
+        # ── melodía (frases de 4 compases: compases 3-4)
+        if lvl >= 0.7 and bar % 4 in (2, 3) and not intro:
+            hi = [m + 24 for m in chord]
+            for st_, ni, dd in ((0, 2, 5 * S16), (6, 3, 3 * S16), (10, 1, 6 * S16)):
+                tl_ = t + st_ * S16
+                if tl_ < s1 - 0.15:
+                    add(MUS_L, MUS_R, tl_, lead(mid(hi[ni % 4]), dd, 0.075), pan=0.15)
+        # ── pad de fondo (más presente cuando hay menos ritmo)
+        dur_p = end_bar - t
         for i, m in enumerate(chord):
-            amp = 0.075 if i else 0.11
-            add(MUS_L, MUS_R, t, pad(mid(m), dur, amp * (0.8 + 0.4 * lvl)), pan=(-0.5 + 0.2 * i) % 1 - 0.3)
-        add(MUS_L, MUS_R, t, bass(mid(chord[0] - 12 if chord[0] > 40 else chord[0]), BAR * 2 - 0.2, 0.17 * (0.5 + lvl)), 0.0)
-    # púas
-    if lvl > 0.3:
-        up = [m + 12 for m in chord[2:]]
-        pat = [0, 2, 1, 3, 2, 4, 3, 1] if lvl < 0.7 else [0, 1, 2, 3, 4, 3, 2, 1]
-        for k in range(8):
-            if lvl < 0.45 and k % 2:
-                continue
-            m = up[pat[k] % len(up)]
-            add(MUS_L, MUS_R, t + k * BEAT / 2, pluck(mid(m), 0.8, 0.045 * (0.5 + lvl)), pan=-0.6 + 1.2 * ((k + bar_idx) % 4) / 3)
-    # pulso suave
-    if lvl >= 0.6:
-        for b in (0, 2) if lvl < 0.75 else (0, 1, 2, 3):
-            add(MUS_L, MUS_R, t + b * BEAT, kick(0.12 * lvl), 0.0)
-    t += BAR
-    bar_idx += 1
+            add(MUS_L, MUS_R, t, pad(mid(m - 12), dur_p, (0.05 if lvl >= 0.5 else 0.085) * (0.8 + 0.4 * lvl)), pan=-0.5 + 0.3 * i)
+        t += BAR
+        bar += 1
+    # redoble + riser que empujan al corte (último compás de la escena)
+    if sc["out"] and sid != "cierre":
+        tr = s1 - 1.7
+        steps = 12
+        for k in range(steps):
+            f = k / (steps - 1)
+            tk = tr + (1.5 * (f ** 0.8))
+            if tk < s1 - 0.02:
+                add(DRM_L, DRM_R, tk, snare_hit(0.1 + 0.2 * f, 190 + 120 * f), 0.0)
+        add(SFX_L, SFX_R, tr, whoosh(1.7, 300, 8500, 0.14, 1.8), 0.0)
 
 # ───────────────────────── cierre cinematográfico ─────────────────────────
 tc0 = t_cierre
 span = W1S - tc0
-# riser: ruido ascendente + glissando de pad + pulso que se acelera
+# riser + redoble acelerado hacia el haz de luz
 add(SFX_L, SFX_R, tc0 + 0.2, whoosh(span - 0.1, 160, 9000, 0.34, 1.6), -0.2)
 add(SFX_L, SFX_R, tc0 + 0.2, whoosh(span - 0.1, 220, 7000, 0.22, 1.2), 0.3)
 nglide = int((span + 0.4) * SR)
 tg = np.arange(nglide) / SR
 fg = 110 * 2 ** (2.2 * (tg / (span + 0.4)) ** 1.6)
-gl = np.sin(2 * np.pi * np.cumsum(fg) / SR) * (tg / (span + 0.4)) ** 2 * 0.07
+gl = np.sin(2 * np.pi * np.cumsum(fg) / SR) * (tg / (span + 0.4)) ** 2 * 0.08
 add(MUS_L, MUS_R, tc0, gl.astype(np.float32), 0.0)
-# drone bajo creciente
-add(MUS_L, MUS_R, tc0, bass(mid(38), span + 0.6, 0.22), 0.0)
-add(MUS_L, MUS_R, tc0, pad(mid(50), span + 0.2, 0.09), -0.3)
-add(MUS_L, MUS_R, tc0, pad(mid(57), span + 0.2, 0.07), 0.3)
-# pulso creciente (corcheas → semicorcheas)
-tt = tc0 + 0.3
-step = BEAT
-while tt < W1S - 0.05:
-    f = (tt - tc0) / span
-    add(MUS_L, MUS_R, tt, kick(0.10 + 0.14 * f), 0.0)
-    m = [62, 65, 69, 72, 74][int(f * 9) % 5] + 12
-    add(MUS_L, MUS_R, tt, pluck(mid(m), 0.6, 0.05 + 0.05 * f), -0.5 + 1.0 * (int(tt * 7) % 3) / 2)
-    step = BEAT * (1.0 - 0.55 * f)
-    tt += step
-# impacto en el inicio del frente magenta
+tt = W1S - 3.2
+while tt < W1S - 0.04:
+    f = (tt - (W1S - 3.2)) / 3.2
+    add(DRM_L, DRM_R, tt, snare_hit(0.1 + 0.28 * f, 200 + 140 * f), 0.0)
+    tt += BEAT / 2 * (1.0 - 0.7 * f) + 0.025
+# impacto: golpe grave + bombo + palma en el inicio del haz de luz
 add(SFX_L, SFX_R, W1S - 0.02, boom(3.6, 0.62), 0.0)
 add(SFX_L, SFX_R, W1S - 0.02, whoosh(1.4, 6000, 300, 0.38, 0.6), 0.0)
+put_kick(W1S, 1.0)
+add(DRM_L, DRM_R, W1S, clap(0.7), 0.0)
+# dos compases de ritmo pleno mientras se abre la rendija y avanza el barrido
+for b in range(1, 8):
+    tb = W1S + b * BEAT
+    put_kick(tb, 0.9 - 0.06 * b)
+    if b % 2 == 1:
+        add(DRM_L, DRM_R, tb, clap(0.5 - 0.04 * b), 0.05)
+    add(DRM_L, DRM_R, tb + BEAT / 2, hat(0.12, 0.18), 0.25)
 # armonía luminosa que resuelve: F6/9 hasta el final
 res = [41, 53, 57, 60, 64, 67, 72]
 for i, m in enumerate(res):
     add(MUS_L, MUS_R, W1S, pad(mid(m), END - W1S - 0.4, 0.1 if i else 0.14, 0.7), pan=-0.4 + 0.13 * i)
 add(MUS_L, MUS_R, W1S, bass(mid(29), END - W1S - 0.8, 0.26), 0.0)
 # arpegio brillante en la expansión
-for k in range(14):
+for k in range(16):
     m = [72, 76, 79, 84, 81, 76, 79][k % 7]
-    add(MUS_L, MUS_R, W1S + 0.3 + k * BEAT / 2, pluck(mid(m), 1.0, 0.06 * (1 - k / 22)), pan=-0.7 + 1.4 * (k % 5) / 4)
+    add(MUS_L, MUS_R, W1S + 0.3 + k * BEAT / 2, pluck(mid(m), 1.0, 0.065 * (1 - k / 26)), pan=-0.7 + 1.4 * (k % 5) / 4)
 # carillón en la aparición del logotipo
 for i, m in enumerate([84, 88, 91, 96]):
     add(SFX_L, SFX_R, LOGO + i * 0.09, bell(mid(m), 5.0, 0.085), pan=-0.5 + 0.33 * i)
 add(SFX_L, SFX_R, W2S, whoosh(1.8, 400, 5200, 0.2, 0.9), 0.0)
 
 # ───────────────────────── logo de apertura ─────────────────────────
-ap = next(s for s in scenes if s["id"] == "apertura")
 add(SFX_L, SFX_R, 0.9, whoosh(1.7, 300, 6000, 0.22, 0.9), 0.0)
 for i, m in enumerate([79, 84, 88]):
     add(SFX_L, SFX_R, 2.55 + i * 0.1, bell(mid(m), 4.0, 0.075), pan=-0.3 + 0.3 * i)
@@ -322,7 +456,7 @@ for s in scenes:
     d = o["frames"] / FPS + 0.35
     add(SFX_L, SFX_R, t0 - 0.12, whoosh(d, f0, f1, a, sh), pan=0.0 if o["kind"] != "slide" else 0.3)
 
-# golpes suaves en cada cifra
+# golpes en cada cifra
 cf = next(s for s in scenes if s["id"] == "cifras")
 bw = AU["blocks"]["b16_cifras"]["words"]
 for needle in ("veinte", "ochocientos", "setenta", "cuarenta", "dos", "siete"):
@@ -330,10 +464,22 @@ for needle in ("veinte", "ochocientos", "setenta", "cuarenta", "dos", "siete"):
     if w is None:
         continue
     tt = (cf["start"] + cf["voice"][0]["from"]) / FPS + w - 0.1
-    add(SFX_L, SFX_R, tt, kick(0.22), 0.0)
-    add(SFX_L, SFX_R, tt, bell(mid(84), 1.4, 0.035), 0.0)
+    add(SFX_L, SFX_R, tt, boom(1.2, 0.22), 0.0)
+    add(SFX_L, SFX_R, tt, bell(mid(84), 1.4, 0.04), 0.0)
 
-# ───────────────────────── ducking bajo la voz ─────────────────────────
+# ───────────────────────── sidechain (bombo) y ducking bajo la voz ─────────────────────────
+t_ax = np.arange(N) / SR
+dip = np.zeros(N, np.float32)
+dl = int(0.3 * SR)
+env_dip = (np.exp(-np.arange(dl) / SR / 0.11) * np.minimum(1, np.arange(dl) / (0.004 * SR))).astype(np.float32)
+for kt in KICKS:
+    i0 = int(kt * SR)
+    if i0 >= N:
+        continue
+    m = min(dl, N - i0)
+    dip[i0 : i0 + m] = np.maximum(dip[i0 : i0 + m], env_dip[:m])
+sc_gain = 1 - 0.55 * dip  # armonía/bajo se hunden bajo cada bombo
+
 HOP = 0.01
 nh = int(TOTAL / HOP) + 2
 voice = np.zeros(nh, np.float32)
@@ -347,23 +493,28 @@ for s in scenes:
             a_ = int((t0 + w["s"] - 0.05) / HOP)
             e_ = int((t0 + w["e"] + 0.18) / HOP)
             voice[max(0, a_) : min(nh, e_)] = 1.0
-# suavizado: ataque rápido, suelta lenta
 sm = np.zeros(nh, np.float32)
 acc = 0.0
 for i in range(nh):
     tgt = voice[i]
     acc += (tgt - acc) * (0.35 if tgt > acc else 0.03)
     sm[i] = acc
-duck_db = 8.0
-gain_h = 10 ** (-(duck_db * sm) / 20)
 idx = np.minimum((np.arange(N) / SR / HOP).astype(int), nh - 1)
-gain = gain_h[idx]
-# durante el cierre la ducción es menor (clímax)
+g_h = 10 ** (-(9.0 * sm[idx]) / 20)  # armonía: −9 dB con voz
+g_d = 10 ** (-(5.0 * sm[idx]) / 20)  # percusión: −5 dB con voz (el ritmo sigue vivo)
 cl = (np.arange(N) / SR) >= W1S - 0.3
-gain = np.where(cl, 1 - (1 - gain) * 0.45, gain)
+g_h = np.where(cl, 1 - (1 - g_h) * 0.45, g_h)
+g_d = np.where(cl, 1 - (1 - g_d) * 0.45, g_d)
 
-L = MUS_L * gain + SFX_L
-R = MUS_R * gain + SFX_R
+# eco en el arpegio (corchea con puntillo) sobre el bus de armonía
+dly = int(BEAT * 0.75 * SR)
+for rep, gn in ((1, 0.42), (2, 0.18)):
+    o = dly * rep
+    MUS_L[o:] += MUS_L[:-o] * gn * 0.5
+    MUS_R[o:] += MUS_R[:-o] * gn * 0.5
+
+L = MUS_L * g_h * sc_gain + DRM_L * g_d + SFX_L
+R = MUS_R * g_h * sc_gain + DRM_R * g_d + SFX_R
 
 # ───────────────────────── final: cola natural, sin cortes ─────────────────────────
 fade = np.ones(N, np.float32)
@@ -373,26 +524,28 @@ fade[i0:] = np.clip(1 - (np.arange(N - i0) / SR) / (TOTAL - tail0), 0, 1) ** 2
 L *= fade
 R *= fade
 
-# reverb sencillo (convolución con cola exponencial) para dar espacio
-def reverb(x, wet=0.22, dur=2.4):
+
+def reverb(x, wet=0.16, dur=2.0):
     from scipy.signal import fftconvolve
 
     n = int(dur * SR)
     tt = np.arange(n) / SR
-    ir = rng.standard_normal(n) * np.exp(-tt * 2.6)
-    ir = lowpass(ir.astype(np.float32), 5200)
+    ir = rng.standard_normal(n) * np.exp(-tt * 3.2)
+    ir = lowpass(ir.astype(np.float32), 5000)
     ir /= np.sqrt((ir ** 2).sum()) + 1e-9
     return x + wet * fftconvolve(x, ir)[: len(x)].astype(np.float32)
 
 
 L = reverb(L)
-R = reverb(R, 0.22, 2.7)
+R = reverb(R, 0.16, 2.2)
 
-# normalización: pico por debajo de -2 dBFS y nivel de cama razonable
+# nivel de referencia: la música sola ≈ −13 LUFS (con la voz encima, el vídeo queda ≈ −16 LUFS como el original)
 peak = max(np.abs(L).max(), np.abs(R).max(), 1e-6)
-g = 0.78 / peak
+g = 0.95 / peak
 L *= g
 R *= g
+L = np.tanh(L * 1.15) / np.tanh(1.15) * MUSIC_GAIN
+R = np.tanh(R * 1.15) / np.tanh(1.15) * MUSIC_GAIN
 
 st = np.stack([L, R], axis=1)
 pcm = (np.clip(st, -1, 1) * 32767).astype(np.int16)
@@ -406,4 +559,4 @@ out = ROOT / "public" / "audio" / "music.mp3"
 out.parent.mkdir(parents=True, exist_ok=True)
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(tmp), "-c:a", "libmp3lame", "-q:a", "2", str(out)], check=True)
 tmp.unlink()
-print(f"música → {out}  ({TOTAL:.1f}s)  clímax {W1S:.2f}s · logotipo {LOGO:.2f}s")
+print(f"música → {out}  ({TOTAL:.1f}s)  {BPM:.0f} bpm · clímax {W1S:.2f}s · logotipo {LOGO:.2f}s")

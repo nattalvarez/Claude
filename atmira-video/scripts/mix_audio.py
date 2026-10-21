@@ -21,7 +21,7 @@ for sc in tl["scenes"]:
         labels.append(f"[v{k}]")
         k += 1
 total = tl["total"] / FPS
-fc = ";".join(chains) + ";" + "".join(labels) + f"amix=inputs={len(labels)}:normalize=0:duration=longest,atrim=0:{total:.3f}[out]"
+fc = ";".join(chains) + ";" + "".join(labels) + f"amix=inputs={len(labels)}:normalize=0:duration=longest,atrim=0:{total:.3f},volume=2.5dB,alimiter=limit=0.93:level=false[out]"
 os.makedirs(f"{R}/out/seg", exist_ok=True)
 subprocess.run(["ffmpeg", "-y", "-v", "error", *inputs, "-filter_complex", fc, "-map", "[out]", "-c:a", "pcm_s16le", "-ar", "48000", f"{R}/out/seg/audio.wav"], check=True)
 print("OK", total, "s")

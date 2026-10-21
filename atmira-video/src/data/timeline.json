@@ -1,17 +1,17 @@
 {
  "fps": 25,
- "total": 11864,
+ "total": 12098,
  "scenes": [
   {
    "id": "apertura",
    "index": 0,
    "start": 0,
-   "duration": 307,
+   "duration": 302,
    "voice": [
     {
      "id": "b01_apertura",
      "from": 80,
-     "frames": 181,
+     "frames": 176,
      "real": true,
      "estimated": false
     }
@@ -25,13 +25,13 @@
   {
    "id": "modernizar",
    "index": 1,
-   "start": 293,
-   "duration": 927,
+   "start": 288,
+   "duration": 940,
    "voice": [
     {
      "id": "b02_modernizar",
      "from": 30,
-     "frames": 853,
+     "frames": 866,
      "real": true,
      "estimated": false
     }
@@ -45,13 +45,13 @@
   {
    "id": "agentica",
    "index": 2,
-   "start": 1198,
-   "duration": 684,
+   "start": 1206,
+   "duration": 690,
    "voice": [
     {
      "id": "b03_agentica",
      "from": 34,
-     "frames": 606,
+     "frames": 612,
      "real": true,
      "estimated": false
     }
@@ -65,13 +65,13 @@
   {
    "id": "transformacion",
    "index": 3,
-   "start": 1862,
-   "duration": 261,
+   "start": 1876,
+   "duration": 268,
    "voice": [
     {
      "id": "b04_beneficios",
      "from": 30,
-     "frames": 161,
+     "frames": 168,
      "real": true,
      "estimated": false
     }
@@ -85,13 +85,13 @@
   {
    "id": "plataforma",
    "index": 4,
-   "start": 2103,
-   "duration": 1203,
+   "start": 2124,
+   "duration": 1191,
    "voice": [
     {
      "id": "b05_plataforma",
      "from": 34,
-     "frames": 1117,
+     "frames": 1105,
      "real": true,
      "estimated": false
     }
@@ -105,13 +105,13 @@
   {
    "id": "agentfactory",
    "index": 5,
-   "start": 3284,
-   "duration": 615,
+   "start": 3293,
+   "duration": 612,
    "voice": [
     {
      "id": "b06_agentfactory",
      "from": 34,
-     "frames": 549,
+     "frames": 546,
      "real": true,
      "estimated": false
     }
@@ -125,13 +125,13 @@
   {
    "id": "donde",
    "index": 6,
-   "start": 3879,
-   "duration": 895,
+   "start": 3885,
+   "duration": 900,
    "voice": [
     {
      "id": "b07_donde",
      "from": 32,
-     "frames": 815,
+     "frames": 820,
      "real": true,
      "estimated": false
     }
@@ -145,13 +145,13 @@
   {
    "id": "como",
    "index": 7,
-   "start": 4756,
-   "duration": 884,
+   "start": 4767,
+   "duration": 892,
    "voice": [
     {
      "id": "b08_como",
      "from": 30,
-     "frames": 798,
+     "frames": 806,
      "real": true,
      "estimated": false
     }
@@ -165,13 +165,13 @@
   {
    "id": "quien",
    "index": 8,
-   "start": 5622,
-   "duration": 602,
+   "start": 5641,
+   "duration": 608,
    "voice": [
     {
      "id": "b09_quien",
      "from": 30,
-     "frames": 516,
+     "frames": 522,
      "real": true,
      "estimated": false
     }
@@ -185,13 +185,13 @@
   {
    "id": "especializacion",
    "index": 9,
-   "start": 6200,
-   "duration": 542,
+   "start": 6225,
+   "duration": 546,
    "voice": [
     {
      "id": "b10a_especializacion",
      "from": 36,
-     "frames": 462,
+     "frames": 466,
      "real": true,
      "estimated": false
     }
@@ -205,7 +205,7 @@
   {
    "id": "porsector",
    "index": 10,
-   "start": 6724,
+   "start": 6753,
    "duration": 664,
    "voice": [
     {
@@ -225,13 +225,13 @@
   {
    "id": "banking",
    "index": 11,
-   "start": 7366,
-   "duration": 872,
+   "start": 7395,
+   "duration": 876,
    "voice": [
     {
      "id": "b11_banking",
      "from": 34,
-     "frames": 758,
+     "frames": 762,
      "real": true,
      "estimated": false
     }
@@ -245,13 +245,13 @@
   {
    "id": "insurance",
    "index": 12,
-   "start": 8218,
-   "duration": 703,
+   "start": 8251,
+   "duration": 697,
    "voice": [
     {
      "id": "b12_insurance",
      "from": 32,
-     "frames": 591,
+     "frames": 585,
      "real": true,
      "estimated": false
     }
@@ -265,13 +265,13 @@
   {
    "id": "smart",
    "index": 13,
-   "start": 8901,
-   "duration": 630,
+   "start": 8928,
+   "duration": 637,
    "voice": [
     {
      "id": "b13_smart",
      "from": 32,
-     "frames": 522,
+     "frames": 529,
      "real": true,
      "estimated": false
     }
@@ -285,13 +285,13 @@
   {
    "id": "casos",
    "index": 14,
-   "start": 9509,
-   "duration": 1168,
+   "start": 9543,
+   "duration": 1167,
    "voice": [
     {
      "id": "b14_casos",
      "from": 30,
-     "frames": 1090,
+     "frames": 1089,
      "real": true,
      "estimated": false
     }
@@ -305,13 +305,13 @@
   {
    "id": "clientes",
    "index": 15,
-   "start": 10661,
-   "duration": 322,
+   "start": 10694,
+   "duration": 524,
    "voice": [
     {
      "id": "b15_clientes",
      "from": 28,
-     "frames": 159,
+     "frames": 452,
      "real": true,
      "estimated": false
     }
@@ -325,13 +325,13 @@
   {
    "id": "cifras",
    "index": 16,
-   "start": 10965,
-   "duration": 489,
+   "start": 11200,
+   "duration": 488,
    "voice": [
     {
      "id": "b16_cifras",
      "from": 30,
-     "frames": 409,
+     "frames": 408,
      "real": true,
      "estimated": false
     }
@@ -345,13 +345,13 @@
   {
    "id": "cierre",
    "index": 17,
-   "start": 11424,
+   "start": 11658,
    "duration": 440,
    "voice": [
     {
      "id": "b17_cierre",
      "from": 70,
-     "frames": 214,
+     "frames": 219,
      "real": true,
      "estimated": false
     }

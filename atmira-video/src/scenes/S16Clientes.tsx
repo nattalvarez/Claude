@@ -21,7 +21,7 @@ const GROUPS: number[][] = [
   [2, 3, 19, 33, 38, 40, 41, 42, 69, 74, 27, 28, 43],
   [24, 25, 29, 35, 44, 54, 55, 59, 60, 62, 77],
 ];
-const GLEN = 34; // frames por secuencia (6 × 34: el muro termina antes de la transición)
+const GLEN = 44; // frames por secuencia (6 × 44 ≈ 10,5 s: el muro acompaña a la voz hasta el final)
 const COLS = 5;
 const CELLW = 330;
 const CELLH = 180;
@@ -35,8 +35,15 @@ export const S16Clientes: React.FC = () => {
   const t = frame / fps;
   const end = voiceEnd(ID);
   void end;
-  // el muro arranca con «Estas son algunas…» para que la voz acompañe las primeras secuencias
-  const t0 = Math.max(cue(ID, "Estas son") - 14, 40);
+  // 1) mercado: «Nuestro mercado es España, con expansión en Europa y Latinoamérica»
+  const MARKETS = [
+    { w: "España", tag: "Mercado principal", at: cue(ID, "España") },
+    { w: "Europa", tag: "Expansión", at: cue(ID, "Europa") },
+    { w: "Latinoamérica", tag: "Expansión", at: cue(ID, "Latinoamérica") },
+  ];
+  // 2) el muro de logos arranca con «Banca, seguros, retail y servicios…» y sigue hasta el final de la voz
+  const t0 = cue(ID, "Banca") + 10;
+  const compress = ramp(frame, t0 - 14, 30, EASE.inOut);
 
   return (
     <AbsoluteFill>
@@ -59,13 +66,32 @@ export const S16Clientes: React.FC = () => {
         </MaskLine>
       </div>
 
+      {/* mercado: de gran titular a línea de contexto cuando entran los logotipos */}
+      <div style={{ position: "absolute", left: 120, top: 270 + (206 - 270) * compress, transformOrigin: "left top", transform: `scale(${1 - 0.7 * compress})`, display: "flex", alignItems: "flex-start", gap: 56 }}>
+        {MARKETS.map((m, i) => {
+          const p = ramp(frame, m.at - 10, 26, EASE.out);
+          return (
+            <React.Fragment key={m.w}>
+              {i > 0 && (
+                <div style={{ marginTop: 92, opacity: clamp(p * 1.6), transform: `translateX(${(1 - p) * -18}px)`, ...font(72, 300, { color: C.magenta, letterSpacing: "-0.02em" }) }}>→</div>
+              )}
+              <div style={{ opacity: clamp(p * 1.4), transform: `translateY(${(1 - p) * 34}px)` }}>
+                <div style={{ height: 30, opacity: 1 - compress, ...font(21, 700, { color: C.magenta, letterSpacing: "0.2em", textTransform: "uppercase" }) }}>{m.tag}</div>
+                <div style={{ ...font(i === 0 ? 150 : 112, 700, { letterSpacing: "-0.05em", lineHeight: 1.0 }), marginTop: i === 0 ? 0 : 38 }}>{m.w}</div>
+                <div style={{ marginTop: 14, height: i === 0 ? 5 : 3, width: `${ramp(frame, m.at - 4, 34, EASE.inOut) * 100}%`, background: C.magenta, opacity: i === 0 ? 1 : 0.7 }} />
+              </div>
+            </React.Fragment>
+          );
+        })}
+      </div>
+
       {GROUPS.map((g, gi) => {
         const s = t0 + gi * GLEN;
         const out = s + GLEN - 20;
         if (frame < s - 4 || frame > s + GLEN + 40) return null;
         const rows = Math.ceil(g.length / COLS);
         return (
-          <div key={gi} style={{ position: "absolute", left: 120, top: 300, width: COLS * CELLW, height: rows * CELLH }}>
+          <div key={gi} style={{ position: "absolute", left: 120, top: 330, width: COLS * CELLW, height: rows * CELLH }}>
             {g.map((n, k) => {
               const e = (manifest as { file: string; w: number; h: number }[])[n - 1];
               const col = k % COLS;

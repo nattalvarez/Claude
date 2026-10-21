@@ -14,8 +14,9 @@ import { CIERRE } from "../data/content";
  * CIERRE CINEMATOGRÁFICO
  * A  acumulación: planos y hilos de las escenas anteriores convergen en perspectiva.
  * B  mensaje: aparece, palabra a palabra, con la voz.
- * C  clímax: un frente orgánico magenta nace en el punto de convergencia y lo invade todo; tras él, el blanco de marca.
- *    El logotipo se revela sobre el propio frente (blanco sobre magenta → magenta sobre blanco).
+ * C  clímax: los hilos convergen en un haz de luz horizontal que se abre como una rendija y revela el magenta de marca;
+ *    después un barrido diagonal de filo luminoso deja paso al blanco. Todo con bordes limpios (nada de manchas orgánicas).
+ *    El logotipo se revela sobre el propio magenta (blanco sobre magenta → magenta sobre blanco).
  * D  firma: el logotipo oficial queda centrado, sin adornos.
  * E  pausa: el movimiento se calma y el mensaje permanece.
  */
@@ -23,17 +24,7 @@ const ID = "cierre";
 const CX = 960;
 const CY = 436;
 
-/** polígono orgánico (px) de radio R alrededor del punto de convergencia */
-const blob = (R: number, phase: number) => {
-  const N = 96;
-  const pts: string[] = [];
-  for (let i = 0; i < N; i++) {
-    const a = (i / N) * Math.PI * 2;
-    const wob = 1 + 0.1 * Math.sin(a * 5 + phase) + 0.06 * Math.sin(a * 9 - phase * 1.3) + 0.035 * Math.sin(a * 14 + phase * 0.6);
-    pts.push(`${(CX + Math.cos(a) * R * wob).toFixed(1)}px ${(CY + Math.sin(a) * R * wob * 0.92).toFixed(1)}px`);
-  }
-  return pts.join(",");
-};
+const SK = 150; // inclinación (px) del filo del barrido
 
 type PlaneSpec = {
   w: number;
@@ -127,8 +118,9 @@ export const S18Cierre: React.FC = () => {
   const w1 = ramp(frame, w1s, 58, EASE.inOut);
   const w2s = cTu + 14;
   const w2 = ramp(frame, w2s, Math.max(64, cAtm - w2s + 30), EASE.inOut);
-  const R1 = w1 * 1560;
-  const R2 = w2 * 1560;
+  const beam = ramp(frame, w1s - 24, 24, EASE.out) * (1 - ramp(frame, w1s + 36, 14));
+  const open1 = (1 - w1) * 50; // % que queda cerrado arriba y abajo
+  const edge = -SK - 40 + w2 * (W + 2 * SK + 80); // posición x del filo del barrido
   const reveal = ramp(frame, cAtm - 12, 30, EASE.inOut);
   const leave = ramp(frame, w1s - 6, 26, EASE.in); // planos fuera
   const textOut = ramp(frame, w1s + 4, 16, EASE.in);
@@ -140,7 +132,6 @@ export const S18Cierre: React.FC = () => {
   const order = 0.12 + 0.88 * ramp(frame, 20, w1s, EASE.inOut);
   const scale = 1 + 0.07 * ramp(frame, 0, w1s + 10, EASE.soft) - 0.07 * ramp(frame, w1s + 10, 60, EASE.out);
 
-  const phase = frame * 0.045;
   const logoW = 760;
   const logoH = logoW / LOGO_RATIO;
   const logoStyle: React.CSSProperties = {
@@ -201,7 +192,7 @@ export const S18Cierre: React.FC = () => {
 
       {/* C — frente magenta (con hilos blancos y logotipo blanco) */}
       {w1 > 0.001 && (
-        <AbsoluteFill style={{ clipPath: `polygon(${blob(R1, phase)})` }}>
+        <AbsoluteFill style={{ clipPath: `inset(${open1}% 0 ${open1}% 0)` }}>
           <AbsoluteFill style={{ background: `radial-gradient(1200px 900px at ${CX}px ${CY}px, #FF3A9E 0%, ${C.magenta} 38%, ${C.magentaDeep} 100%)` }} />
           <SilkField
             time={t + 12}
@@ -221,22 +212,27 @@ export const S18Cierre: React.FC = () => {
           </div>
         </AbsoluteFill>
       )}
-      {/* borde luminoso del frente */}
-      {w1 > 0.001 && w1 < 0.999 && (
-        <svg width={W} height={H} style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none" }}>
-          <polygon points={blob(R1, phase).replace(/px/g, "").split(",").map((p) => p.trim()).join(" ")} fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth={3} style={{ filter: "blur(2px)" }} />
-        </svg>
+      {/* haz de luz: los hilos convergen en una línea que se abre como una rendija */}
+      {beam > 0.002 && (
+        <div style={{ position: "absolute", left: W / 2 - (beam * W) / 2, width: beam * W, top: H / 2 - 2, height: 4, background: "#fff", opacity: Math.min(1, beam * 1.6), boxShadow: "0 0 36px 8px rgba(255,58,158,0.85), 0 0 120px 30px rgba(255,58,158,0.45)" }} />
       )}
-
+      {w1 > 0.001 && w1 < 0.999 && (
+        <>
+          <div style={{ position: "absolute", left: 0, width: W, top: H / 2 - (1 - open1 / 50) * (H / 2) - 2, height: 4, background: "#fff", boxShadow: "0 0 28px 6px rgba(255,58,158,0.8)" }} />
+          <div style={{ position: "absolute", left: 0, width: W, top: H / 2 + (1 - open1 / 50) * (H / 2) - 2, height: 4, background: "#fff", boxShadow: "0 0 28px 6px rgba(255,58,158,0.8)" }} />
+        </>
+      )}
+      {/* filo luminoso del barrido hacia el blanco */}
       {w2 > 0.001 && w2 < 0.999 && (
         <svg width={W} height={H} style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none" }}>
-          <polygon points={blob(R2, phase * 1.1 + 1).replace(/px/g, "").split(",").map((p) => p.trim()).join(" ")} fill="none" stroke={C.magenta} strokeWidth={4} style={{ filter: "blur(1.5px)" }} />
+          <line x1={edge + SK} y1={0} x2={edge - SK} y2={H} stroke={C.magenta} strokeWidth={5} style={{ filter: "drop-shadow(0 0 14px rgba(240,39,143,0.9))" }} />
+          <line x1={edge + SK + 14} y1={0} x2={edge - SK + 14} y2={H} stroke="#fff" strokeWidth={2} opacity={0.9} />
         </svg>
       )}
 
       {/* C→D — blanco de marca (con logotipo magenta, mensaje final y firma) */}
       {w2 > 0.001 && (
-        <AbsoluteFill style={{ clipPath: `polygon(${blob(R2, phase * 1.1 + 1)})` }}>
+        <AbsoluteFill style={{ clipPath: `polygon(0px 0px, ${edge + SK}px 0px, ${edge - SK}px ${H}px, 0px ${H}px)` }}>
           <Backdrop tone="light" />
           <SilkField
             time={t + 40}

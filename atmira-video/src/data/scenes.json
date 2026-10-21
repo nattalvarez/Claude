@@ -251,8 +251,8 @@
     7
    ],
    "lead": 28,
-   "tail": 24,
-   "min": 322,
+   "tail": 44,
+   "min": 300,
    "out": {
     "kind": "push",
     "frames": 18
