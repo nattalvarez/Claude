@@ -11,8 +11,8 @@ import { cue } from "../lib/tl";
 import { ESPECIALIZACION } from "../data/content";
 
 const ID = "especializacion";
-const PW = 640;
-const PH = 800;
+const PW = 700;
+const PH = 1080;
 
 export const S10Especializacion: React.FC = () => {
   const frame = useCurrentFrame();
@@ -34,15 +34,13 @@ export const S10Especializacion: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          left: 1920 - 120 - PW,
-          top: 140,
+          left: 1920 - PW,
+          top: 0,
           width: PW,
           height: PH,
-          borderRadius: 30,
           overflow: "hidden",
           background: `linear-gradient(165deg, #2c2c31 0%, ${C.charcoal} 55%, ${C.plumDeep} 130%)`,
-          boxShadow: "0 60px 120px rgba(40,10,30,0.35)",
-          clipPath: `inset(${(1 - open) * 50}% 0 ${(1 - open) * 50}% 0 round 30px)`,
+          clipPath: `inset(${(1 - open) * 50}% 0 ${(1 - open) * 50}% 0)`,
           opacity: clamp(open * 2),
         }}
       >

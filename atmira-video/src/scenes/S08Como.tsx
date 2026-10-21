@@ -58,14 +58,14 @@ export const S08Como: React.FC = () => {
           left: 120,
           top: 272,
           width: 1680,
-          height: 566,
-          borderRadius: 26,
-          background: C.magentaMist,
+          height: 2,
+          background: C.magenta,
           opacity: base,
-          transform: `scale(${0.985 + base * 0.015})`,
+          transformOrigin: "left",
+          transform: `scaleX(${base})`,
         }}
       />
-      <div style={{ position: "absolute", left: 156, top: 292, opacity: base, ...font(36, 400, { letterSpacing: "-0.03em" }) }}>{COMO.factory}</div>
+      <div style={{ position: "absolute", left: 120, top: 296, opacity: base, ...font(36, 600, { letterSpacing: "-0.03em" }) }}>{COMO.factory}</div>
 
       {/* método: especificación versionada → repositorio y CI/CD → aprobación humana */}
       {specOut > 0.001 && (
@@ -86,9 +86,9 @@ export const S08Como: React.FC = () => {
                   top: y,
                   width: 400,
                   height: 236,
-                  borderRadius: 14,
-                  background: "#fff",
-                  boxShadow: "0 14px 36px rgba(80,20,50,0.10)",
+                  borderRadius: 8,
+                  background: C.paper,
+                  border: `2px solid ${k === 2 ? C.magenta : C.ink}`,
                   padding: "24px 28px",
                   opacity: clamp(p * 1.6),
                   transform: `translateY(${(1 - p) * 40}px)`,
@@ -130,9 +130,8 @@ export const S08Como: React.FC = () => {
                         display: "flex",
                         alignItems: "center",
                         borderRadius: 36,
-                        background: "#fff",
+                        background: C.paper,
                         border: `3px solid ${C.magenta}`,
-                        boxShadow: "0 10px 26px rgba(80,20,50,0.10)",
                         opacity: clamp(a * 1.6),
                         transform: `scale(${0.8 + 0.2 * a})`,
                         ...font(30, 500, { letterSpacing: "-0.02em" }),
@@ -186,13 +185,11 @@ export const S08Como: React.FC = () => {
                   style={{
                     marginTop: 12,
                     height: 56,
-                    borderRadius: 10,
-                    background: "#fff",
-                    boxShadow: "0 6px 18px rgba(80,20,50,0.07)",
+                    borderBottom: `1.5px solid ${C.line}`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    padding: "0 20px",
+                    padding: "0 6px 0 0",
                     ...font(23, 400, { letterSpacing: 0 }),
                     opacity: clamp(q * 1.6),
                     transform: `translateX(${(1 - q) * -24}px)`,
@@ -259,19 +256,17 @@ export const S08Como: React.FC = () => {
                 top: 876,
                 width: 1120,
                 height: 78,
-                borderRadius: 8,
-                background: C.magenta,
-                color: "#fff",
+                borderTop: `2px solid ${C.magenta}`,
                 display: "flex",
                 alignItems: "center",
-                padding: "0 30px",
+                padding: "0 4px",
                 gap: 18,
                 opacity: clamp(p * 1.5),
                 transform: `translateY(${(1 - p) * 24}px)`,
-                ...font(20, 400, { color: "#fff", letterSpacing: 0, lineHeight: 1.3 }),
+                ...font(20, 400, { color: C.ink, letterSpacing: 0, lineHeight: 1.3 }),
               }}
             >
-              <b style={{ fontSize: 24, fontWeight: 800, letterSpacing: "0.03em", textTransform: "uppercase" }}>{COMO.brain.l}</b>
+              <b style={{ fontSize: 24, fontWeight: 800, color: C.magenta, letterSpacing: "0.03em", textTransform: "uppercase" }}>{COMO.brain.l}</b>
               <span>{COMO.brain.d}</span>
             </div>
           </>

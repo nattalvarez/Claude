@@ -2,7 +2,7 @@
 
 Rediseño integral del vídeo corporativo de atmira: **1920×1080 · 25 fps · 7:48**, locución en español de España generada con ElevenLabs, música original sintetizada y cierre cinematográfico. Todo es código (Remotion 4 + React): textos, tiempos y recursos son editables.
 
-> Entregable final: **`entrega/atmira-corporativo-v5.mp4`** (H.264, yuv420p, AAC, 77 MB). El original no se ha tocado.
+> Entregable final: **`entrega/atmira-corporativo-v6.mp4`** (H.264, yuv420p, AAC, 77 MB). El original no se ha tocado.
 
 ## Contenido del proyecto
 ```
@@ -43,7 +43,7 @@ npm run typecheck
 ```bash
 npm run render                      # un solo render (≈ 60-100 min a 4 hilos)
 bash scripts/render_segments.sh     # recomendado: 4 tramos reanudables + audio + máster (≈ 1,7 GB, out/)
-bash scripts/encode_delivery.sh     # entrega ligera: entrega/atmira-corporativo-v5.mp4 (≈ 77 MB, yuv420p TV)
+bash scripts/encode_delivery.sh     # entrega ligera: entrega/atmira-corporativo-v6.mp4 (≈ 77 MB, yuv420p TV)
 npm run preview                     # versión 50 % para revisar ritmo
 node scripts/frames.mjs AtmiraCorporativo out/chk cierre:439,banking:120 0.5   # fotogramas sueltos (escena:frame)
 ```
