@@ -74,7 +74,7 @@ export const S07Donde: React.FC = () => {
         const y = 214 + i * 128;
         return (
           <div key={it.n} style={{ position: "absolute", left: 790, top: y, width: 1010, height: 120, opacity: clamp(p * 1.5) }}>
-            <div style={{ position: "absolute", inset: 0, background: `linear-gradient(90deg, rgba(225,3,122,${0.1 * a}) 0%, rgba(225,3,122,0) 100%)`, borderLeft: `4px solid rgba(225,3,122,${a})`, borderRadius: 4 }} />
+            <div style={{ position: "absolute", inset: 0, borderLeft: `4px solid rgba(225,3,122,${a})` }} />
             <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 2, background: C.line, transformOrigin: "left", transform: `scaleX(${ramp(frame, cRows[i] - 12, 26, EASE.inOut)})` }} />
             <div style={{ position: "absolute", left: 24, top: 26, transform: `translateY(${(1 - p) * 20}px)`, ...font(30, 500, { color: C.magenta, letterSpacing: "0.02em" }) }}>{it.n}</div>
             <div style={{ position: "absolute", left: 100, top: 20, width: 340, transform: `translateY(${(1 - p) * 20}px)`, opacity: 0.5 + 0.5 * lit, ...font(32, 500, { letterSpacing: "-0.025em", lineHeight: 1.1 }) }}>{it.t}</div>

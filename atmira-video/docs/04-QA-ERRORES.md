@@ -47,3 +47,34 @@ Nota técnica: el máster de Remotion pesa 1,7 GB (crf 17 + grano) y sale en `yu
 - **Escucha.** No puedo oír audio. Acento peninsular, naturalidad, pronunciación de «ModernIzA»/«SIREC», y el equilibrio voz/música percibido quedan sin comprobar por oído. Solo hay medidas objetivas.
 - Scribe transcribe el audio generado y coincide con el texto, pero eso no demuestra la calidad de la pronunciación.
 - `scripts/generate_voice.mjs` (ruta con clave API) no se ha ejecutado.
+
+
+---
+
+# v6 · Rediseño «sin cajas» (una sola voz)
+
+Petición: parecerse más al vídeo de referencia (menos «presentación»), manteniendo el ritmo y el diseño propios, y quitar las cajas alrededor de los textos. La locución sigue siendo **una sola voz** (Alejandro Castellanos, la misma de v5; el intento de doble voz quedó pendiente por falta de créditos, ver `05-V6-PENDIENTE.md`).
+
+## Cambios
+- **Sin cajas**: se eliminaron tarjetas, contenedores tintados, paneles redondeados y sombras en Agéntica, Dos beneficios (ahora dos medias pantallas a sangre), Plataforma, Cómo, Quién, Un Digital Brain por sector (tres bandas verticales), Experiencia (índice en banda lateral) y Especialización (portal a sangre). El texto va abierto, con filetes y numerales.
+- **Más cinético**: titulares con peso 600–700; «Qué gana el negocio» como plano magenta a pantalla completa con las cuatro ideas en palabras gigantes; «Innovación continua» a 148 px.
+- **Capas de sector**: Banking, Insurance y Smart muestran una capa cada vez (antes un muro de texto de 12 epígrafes); mientras suena la presentación del cerebro el texto se lee con resaltado palabra a palabra.
+- **Línea de progreso** del vídeo abajo (como la referencia); se retira en el clímax del cierre.
+- Componentes nuevos: `src/components/Kinetic.tsx`.
+
+## Errores detectados en la revisión del MP4 v6 y corregidos
+| Error | Corrección |
+|---|---|
+| Insurance: el texto de presentación se veía casi negro sobre fondo ciruela (el resaltado mezclaba colores `rgba()` como hex) | Colores hex (`#6A4B5E` → `#FFF`) |
+| Dónde aceleramos: la fila activa aún llevaba una «caja» rosa | Solo barra lateral |
+Se re-renderizaron solo esos dos tramos (fotogramas 3700–4599 y 7900–8619) y se empalmaron (`scripts/splice_fixes.sh`).
+
+## Verificación del MP4 v6 (`entrega/atmira-corporativo-v6.mp4`)
+| Comprobación | Resultado |
+|---|---|
+| Formato | H.264, 1920×1080, 25 fps, yuv420p rango TV, AAC 48 kHz, ≈ 75 MB |
+| Duración / fotogramas | 468,04 s · 11.701 fotogramas |
+| Sonoridad | −18,6 LUFS (LRA 2,2) · pico real −1,2 dBFS · sin silencios > 1,5 s · sin fotogramas negros |
+| Imagen quieta ≥ 3,3 s | 6 casos de 3,4–4,4 s (82,6 · 163,6 · 166,9 · 183,6 · 211,3 · 221,6 s), todos reposos con la voz hablando |
+| Revisión visual | 54 fotogramas (14 %, 50 %, 90 % de cada una de las 18 escenas) en 3 hojas de contacto |
+| No verificado | Audio no escuchado (igual que en v5); transiciones no revisadas una a una |

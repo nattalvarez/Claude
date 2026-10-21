@@ -62,7 +62,7 @@ export const S13Insurance: React.FC = () => {
         exitAt={cRow[0] - 26}
         style={{ position: "absolute", left: 124, top: 380, width: 1480, ...font(60, 500, { color: "#fff", letterSpacing: "-0.032em", lineHeight: 1.2 }) }}
         on="#fff"
-        dim="rgba(255,255,255,0.28)"
+        dim="#6A4B5E"
         accent={[]}
       />
 
