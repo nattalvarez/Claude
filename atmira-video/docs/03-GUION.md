@@ -4,7 +4,7 @@ Texto **exactamente igual** al enviado a ElevenLabs (`audio/script.json`, fuente
 
 ## Voz y parámetros
 
-> **v8: doble voz.** Alejandro Castellanos (M, `WWVK6dYMrl0ZHnHT7cRj`) y Carmen – Bold and Magnetic (F, `iHGx33VgO2KQ1Fdw6noG`, con `[confident]`; en v7 era Francesca Dari `S7bOxFEwwuJG764dSujP`), modelo `eleven_v4`; 57 tramos en `audio/script_v8.json` (reparto por frase y voz). «SIREC» se envía como «Sírec» y «ModernIzA» como «Moderniza». Lo que sigue describe la voz única de v5/v6.
+> **v9: doble voz.** Alejandro Castellanos (M, `WWVK6dYMrl0ZHnHT7cRj`) y Natalia – Direct and Polished (F, `jQrhxsqzG6CPKo3ll0w9`, castellano, con `[confident]`; en v8 Carmen `iHGx33VgO2KQ1Fdw6noG` y en v7 Francesca Dari `S7bOxFEwwuJG764dSujP`), modelo `eleven_v4`; 58 tramos en `audio/script_v9.json` (reparto por frase y voz). «SIREC» se envía como «Sírec» y «ModernIzA» como «Moderniza». Lo que sigue describe la voz única de v5/v6.
 
 | Parámetro | Valor |
 |---|---|
