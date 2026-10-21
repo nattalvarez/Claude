@@ -37,9 +37,9 @@ export const S16Clientes: React.FC = () => {
   void end;
   // 1) mercado: «Nuestro mercado es España, con expansión en Europa y Latinoamérica»
   const MARKETS = [
-    { w: "España", tag: "Mercado principal", at: cue(ID, "España") },
-    { w: "Europa", tag: "Expansión", at: cue(ID, "Europa") },
-    { w: "Latinoamérica", tag: "Expansión", at: cue(ID, "Latinoamérica") },
+    { w: "España", tag: "Mercado principal", sub: "Con bancos y aseguradoras, en su modernización", at: cue(ID, "España") },
+    { w: "Europa", tag: "Expansión", sub: "El mismo método", at: cue(ID, "Europa") },
+    { w: "Latinoamérica", tag: "Expansión", sub: "La misma capa agéntica", at: cue(ID, "Latinoamérica") },
   ];
   // 2) el muro de logos arranca con «Banca, seguros, retail y servicios…» y sigue hasta el final de la voz
   const t0 = cue(ID, "Banca") + 10;
@@ -67,18 +67,19 @@ export const S16Clientes: React.FC = () => {
       </div>
 
       {/* mercado: de gran titular a línea de contexto cuando entran los logotipos */}
-      <div style={{ position: "absolute", left: 120, top: 270 + (206 - 270) * compress, transformOrigin: "left top", transform: `scale(${1 - 0.7 * compress})`, display: "flex", alignItems: "flex-start", gap: 56 }}>
+      <div style={{ position: "absolute", left: 120, top: 270 + (206 - 270) * compress, transformOrigin: "left top", transform: `scale(${1 - 0.7 * compress})`, display: "flex", alignItems: "flex-start", gap: 36, width: 1680 }}>
         {MARKETS.map((m, i) => {
           const p = ramp(frame, m.at - 10, 26, EASE.out);
           return (
             <React.Fragment key={m.w}>
               {i > 0 && (
-                <div style={{ marginTop: 92, opacity: clamp(p * 1.6), transform: `translateX(${(1 - p) * -18}px)`, ...font(72, 300, { color: C.magenta, letterSpacing: "-0.02em" }) }}>→</div>
+                <div style={{ marginTop: 70, opacity: clamp(p * 1.6), transform: `translateX(${(1 - p) * -18}px)`, ...font(56, 300, { color: C.magenta, letterSpacing: "-0.02em" }) }}>→</div>
               )}
               <div style={{ opacity: clamp(p * 1.4), transform: `translateY(${(1 - p) * 34}px)` }}>
                 <div style={{ height: 30, opacity: 1 - compress, ...font(21, 700, { color: C.magenta, letterSpacing: "0.2em", textTransform: "uppercase" }) }}>{m.tag}</div>
-                <div style={{ ...font(i === 0 ? 150 : 112, 700, { letterSpacing: "-0.05em", lineHeight: 1.0 }), marginTop: i === 0 ? 0 : 38 }}>{m.w}</div>
+                <div style={{ ...font(i === 0 ? 124 : 92, 700, { letterSpacing: "-0.05em", lineHeight: 1.0 }), marginTop: i === 0 ? 0 : 32 }}>{m.w}</div>
                 <div style={{ marginTop: 14, height: i === 0 ? 5 : 3, width: `${ramp(frame, m.at - 4, 34, EASE.inOut) * 100}%`, background: C.magenta, opacity: i === 0 ? 1 : 0.7 }} />
+                <div style={{ width: 0, minWidth: "100%", marginTop: 16, opacity: ramp(frame, m.at + 4, 26) * (1 - compress), transform: `translateY(${(1 - ramp(frame, m.at + 4, 26, EASE.out)) * 12}px)`, ...font(26, 400, { color: C.ink2, letterSpacing: "-0.01em", lineHeight: 1.3 }) }}>{m.sub}</div>
               </div>
             </React.Fragment>
           );

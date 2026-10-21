@@ -1,0 +1,526 @@
+{
+ "voices": {
+  "M": {
+   "name": "Alejandro Castellanos",
+   "voice_id": "WWVK6dYMrl0ZHnHT7cRj"
+  },
+  "F": {
+   "name": "Natalia - Direct and Polished",
+   "voice_id": "jQrhxsqzG6CPKo3ll0w9",
+   "tag": "[confident]",
+   "accent": "es-peninsular (etiqueta ElevenLabs; castellano)"
+  }
+ },
+ "model": "eleven_v4",
+ "segments": [
+  {
+   "id": "b01_1",
+   "voice": "F",
+   "text": "atmira. No hacemos todo. Hacemos esto.",
+   "block": "b01_apertura"
+  },
+  {
+   "id": "b01_2",
+   "voice": "M",
+   "text": "Modernizamos y aceleramos los servicios financieros.",
+   "block": "b01_apertura"
+  },
+  {
+   "id": "b02_1",
+   "voice": "F",
+   "text": "Modernizar es renovar lo que sostiene el negocio, dominio a dominio y de forma continua.",
+   "block": "b02_modernizar"
+  },
+  {
+   "id": "b02_2",
+   "voice": "M",
+   "text": "Es convertir la tecnología en valor de negocio cada día: una transformación controlada, liderada por la arquitectura, que preserva el conocimiento crítico del negocio mientras reduce la deuda técnica.",
+   "block": "b02_modernizar"
+  },
+  {
+   "id": "b02_3",
+   "voice": "F",
+   "text": "¿Qué gana el negocio?",
+   "block": "b02_modernizar"
+  },
+  {
+   "id": "b02_4",
+   "voice": "M",
+   "text": "Velocidad. Conocimiento que se queda. Cumplimiento como ventaja. Y datos listos para la IA.",
+   "block": "b02_modernizar"
+  },
+  {
+   "id": "b02_5",
+   "voice": "F",
+   "text": "Innovación continua: la base para crecer, cumplir con el regulador e incorporar IA en cada dominio.",
+   "block": "b02_modernizar"
+  },
+  {
+   "id": "b03_1",
+   "voice": "F",
+   "text": "Modernizar permite evolucionar hacia una arquitectura agéntica: el paso que conecta los sistemas actuales con la arquitectura objetivo, en tres movimientos.",
+   "block": "b03_agentica"
+  },
+  {
+   "id": "b03_2",
+   "voice": "M",
+   "text": "Simplifica el presente, reduciendo la complejidad de los sistemas legacy.",
+   "block": "b03_agentica"
+  },
+  {
+   "id": "b03_3",
+   "voice": "F",
+   "text": "Habilita el futuro, con arquitecturas modulares y agénticas que aceleran la innovación.",
+   "block": "b03_agentica"
+  },
+  {
+   "id": "b03_4",
+   "voice": "M",
+   "text": "Y genera valor medible, con gobierno y control regulatorio.",
+   "block": "b03_agentica"
+  },
+  {
+   "id": "b04_1",
+   "voice": "F",
+   "text": "Un enfoque que aporta dos beneficios al negocio.",
+   "block": "b04_beneficios"
+  },
+  {
+   "id": "b04_2",
+   "voice": "M",
+   "text": "Aceleración.",
+   "block": "b04_beneficios"
+  },
+  {
+   "id": "b04_3",
+   "voice": "F",
+   "text": "Y especialización.",
+   "block": "b04_beneficios"
+  },
+  {
+   "id": "b05_1",
+   "voice": "F",
+   "text": "Lo hacemos con un enfoque de plataforma: servicios y soluciones que conectan tus sistemas con tu arquitectura objetivo. En el centro, Moderniza, con tres capas.",
+   "block": "b05_plataforma"
+  },
+  {
+   "id": "b05_2",
+   "voice": "M",
+   "text": "Aceleración, con la Agent Factory: agentes que analizan, deciden, construyen y operan, con una persona que aprueba en cada fase.",
+   "block": "b05_plataforma"
+  },
+  {
+   "id": "b05_3",
+   "voice": "F",
+   "text": "Especialización, con el Digital Brain: el conocimiento de cada sector, preservado y ampliado con cada proyecto.",
+   "block": "b05_plataforma"
+  },
+  {
+   "id": "b05_4",
+   "voice": "M",
+   "text": "Y gobierno: AI Steering fija dirección y límites, y los Guardrails ponen puntos de control sobre lo que hacen los agentes.",
+   "block": "b05_plataforma"
+  },
+  {
+   "id": "b05_5",
+   "voice": "F",
+   "text": "Además, Sírec: inteligencia aplicada al ciclo de riesgo de crédito, con más de quince clientes en Europa y Latinoamérica.",
+   "block": "b05_plataforma"
+  },
+  {
+   "id": "b06_1",
+   "voice": "F",
+   "text": "Aceleración, habilitada por la Agent Factory. No convertimos código: transformamos cómo se construye software.",
+   "block": "b06_agentfactory"
+  },
+  {
+   "id": "b06_2",
+   "voice": "M",
+   "text": "La Agent Factory industrializa la modernización del software, con la arquitectura como guía, agentes que aceleran la ejecución y personas que gobiernan las decisiones. Una capacidad escalable, que forma parte de tu capa agéntica.",
+   "block": "b06_agentfactory"
+  },
+  {
+   "id": "b07_1",
+   "voice": "F",
+   "text": "¿Dónde aceleramos? Eficientamos e industrializamos. Transformamos los sistemas críticos en arquitecturas modernas, flexibles y escalables, sin interrumpir el negocio.",
+   "block": "b07_donde"
+  },
+  {
+   "id": "b07_2",
+   "voice": "M",
+   "text": "Seis frentes: el legacy y el core financiero y asegurador, conviviendo con Temenos, Mambu o SISnet mientras se migra; el ciclo de riesgo de crédito con Sírec; las arquitecturas cloud; el diseño por dominios y eventos; y la ingeniería y automatización continua.",
+   "block": "b07_donde"
+  },
+  {
+   "id": "b07_3",
+   "voice": "F",
+   "text": "Los agentes ejecutan; la arquitectura marca el camino.",
+   "block": "b07_donde"
+  },
+  {
+   "id": "b08_1",
+   "voice": "F",
+   "text": "¿Cómo aceleramos? Con el mismo método en todos los frentes: Spec-Driven Development.",
+   "block": "b08_como"
+  },
+  {
+   "id": "b08_2",
+   "voice": "M",
+   "text": "Cada cambio avanza sobre especificaciones versionadas en tus repositorios y en tu CI/CD, con una aprobación humana antes de cada fase.",
+   "block": "b08_como"
+  },
+  {
+   "id": "b08_3",
+   "voice": "F",
+   "text": "Analiza. Decide.",
+   "block": "b08_como"
+  },
+  {
+   "id": "b08_4",
+   "voice": "M",
+   "text": "Construye. Opera.",
+   "block": "b08_como"
+  },
+  {
+   "id": "b08_5",
+   "voice": "F",
+   "text": "Un arnés de orquestación asigna tareas, versiona artefactos y deja traza de cada paso.",
+   "block": "b08_como"
+  },
+  {
+   "id": "b08_6",
+   "voice": "M",
+   "text": "El Digital Brain aporta contexto y consolida lo aprendido, y los Guardrails acotan el perímetro.",
+   "block": "b08_como"
+  },
+  {
+   "id": "b09_1",
+   "voice": "F",
+   "text": "¿Y quién acelera? Agentes expertos en cada fase: familias de agentes de negocio y de tecnología que cubren Analiza, Decide, Construye y Opera, dentro de un arnés que delimita el perímetro.",
+   "block": "b09_quien"
+  },
+  {
+   "id": "b09_2",
+   "voice": "M",
+   "text": "Los agentes proponen, generan y dejan evidencia trazable.",
+   "block": "b09_quien"
+  },
+  {
+   "id": "b09_3",
+   "voice": "F",
+   "text": "Las personas deciden en cada punto de aprobación.",
+   "block": "b09_quien"
+  },
+  {
+   "id": "b10a_1",
+   "voice": "M",
+   "text": "Especialización, habilitada por el Digital Brain.",
+   "block": "b10a_especializacion"
+  },
+  {
+   "id": "b10a_2",
+   "voice": "F",
+   "text": "El conocimiento del negocio es lo que convierte la tecnología en resultados. El Digital Brain lo hace posible: reúne el conocimiento de cada dominio de negocio y el conocimiento tecnológico aplicado a él, para modernizar dominio a dominio.",
+   "block": "b10a_especializacion"
+  },
+  {
+   "id": "b10b_1",
+   "voice": "M",
+   "text": "Un Digital Brain por sector. Cada uno reúne tres tipos de conocimiento: a quién servimos, qué hace el negocio, y con qué tecnología y arquitectura funciona.",
+   "block": "b10b_porsector"
+  },
+  {
+   "id": "b10b_2",
+   "voice": "F",
+   "text": "Crece con cada proyecto, y es la base para acelerar con IA la modernización de cada dominio. Un marco, diferentes cerebros: Banking, Insurance y Smart Digital Brain.",
+   "block": "b10b_porsector"
+  },
+  {
+   "id": "b11_1",
+   "voice": "M",
+   "text": "Banking Digital Brain: el cerebro de la banca agéntica. Activamos la banca agéntica modernizando con IA los dominios de negocio del banco: del core al recobro inteligente y a la relación con el cliente, en retail, privada y corporativa.",
+   "block": "b11_banking"
+  },
+  {
+   "id": "b11_2",
+   "voice": "F",
+   "text": "Tres capas de conocimiento: los segmentos de cliente; los dominios de negocio, desde Credit Risk and Collections con Sírec hasta Core and Payments; y la tecnología y arquitectura, del core legacy a las APIs y Open Finance.",
+   "block": "b11_banking"
+  },
+  {
+   "id": "b12_1",
+   "voice": "F",
+   "text": "Insurance Digital Brain: el cerebro de los seguros inteligentes. Activamos los seguros inteligentes modernizando con IA los dominios de negocio de la aseguradora: del core a la suscripción, los siniestros y la distribución, en vida, generales y salud.",
+   "block": "b12_insurance"
+  },
+  {
+   "id": "b12_2",
+   "voice": "M",
+   "text": "Con capas normativas y de país, como Solvencia II, RGPD y DORA, sobre el core asegurador.",
+   "block": "b12_insurance"
+  },
+  {
+   "id": "b13_1",
+   "voice": "M",
+   "text": "Smart Digital Brains: brains en construcción.",
+   "block": "b13_smart"
+  },
+  {
+   "id": "b13_2",
+   "voice": "F",
+   "text": "Llevamos nuestra capacidad tecnológica a otros sectores y, con cada cliente, sumamos conocimiento para que evolucionen a Digital Brains propios.",
+   "block": "b13_smart"
+  },
+  {
+   "id": "b13_3",
+   "voice": "M",
+   "text": "Retail y servicios. Industria, energía y utilities. Turismo, transporte y educación.",
+   "block": "b13_smart"
+  },
+  {
+   "id": "b14_1",
+   "voice": "F",
+   "text": "Experiencia en servicios financieros, con proyectos reales.",
+   "block": "b14_casos"
+  },
+  {
+   "id": "b14_2",
+   "voice": "M",
+   "text": "Asisa: un portal del mediador sobre SISnet 360. MoraBanc: crédito lombardo digital en banca privada. Mutua Madrileña: asesoramiento digital con cumplimiento.",
+   "block": "b14_casos"
+  },
+  {
+   "id": "b14_3",
+   "voice": "F",
+   "text": "BBVA: lending corporativo global, con IA agéntica. AXA: suscripción multirramo al ritmo del producto. Sabadell: recobro conversacional con agentes humanizados.",
+   "block": "b14_casos"
+  },
+  {
+   "id": "b14_4",
+   "voice": "M",
+   "text": "CaixaBank: APIs gobernadas, base para evolucionar. Mapfre: microservicios industrializados con IA y SDD. Y Aegon: una capa agéntica sobre el core legacy.",
+   "block": "b14_casos"
+  },
+  {
+   "id": "b15_1",
+   "voice": "F",
+   "text": "Relaciones duraderas con nuestros clientes.",
+   "block": "b15_clientes"
+  },
+  {
+   "id": "b15_2",
+   "voice": "M",
+   "text": "Nuestro mercado principal es España: aquí acompañamos a bancos y aseguradoras en su modernización.",
+   "block": "b15_clientes"
+  },
+  {
+   "id": "b15_3",
+   "voice": "F",
+   "text": "Y desde España nos expandimos por Europa y Latinoamérica, llevando el mismo método y la misma capa agéntica.",
+   "block": "b15_clientes"
+  },
+  {
+   "id": "b15_4",
+   "voice": "M",
+   "text": "Banca, seguros, retail y servicios: estas son algunas de las compañías con las que trabajamos.",
+   "block": "b15_clientes"
+  },
+  {
+   "id": "b15_5",
+   "voice": "F",
+   "text": "Compañías que ya modernizan y aceleran con atmira.",
+   "block": "b15_clientes"
+  },
+  {
+   "id": "b16_1",
+   "voice": "F",
+   "text": "atmira en cifras.",
+   "block": "b16_cifras"
+  },
+  {
+   "id": "b16_2",
+   "voice": "M",
+   "text": "Veinte años. Ochocientos veinte especialistas. Setenta millones de euros de cifra de negocio.",
+   "block": "b16_cifras"
+  },
+  {
+   "id": "b16_3",
+   "voice": "F",
+   "text": "Más de cuarenta clientes activos. Dos sedes centrales, en Europa y Latinoamérica. Y más de siete hubs.",
+   "block": "b16_cifras"
+  },
+  {
+   "id": "b17_1",
+   "voice": "M",
+   "text": "Modernizamos y aceleramos los servicios financieros.",
+   "block": "b17_cierre"
+  },
+  {
+   "id": "b17_2",
+   "voice": "F",
+   "text": "Y la capa agéntica que construimos contigo es tuya.",
+   "block": "b17_cierre"
+  },
+  {
+   "id": "b17_3",
+   "voice": "M",
+   "text": "atmira.",
+   "block": "b17_cierre"
+  }
+ ],
+ "blocks": [
+  {
+   "id": "b01_apertura",
+   "segs": [
+    "b01_1",
+    "b01_2"
+   ]
+  },
+  {
+   "id": "b02_modernizar",
+   "segs": [
+    "b02_1",
+    "b02_2",
+    "b02_3",
+    "b02_4",
+    "b02_5"
+   ]
+  },
+  {
+   "id": "b03_agentica",
+   "segs": [
+    "b03_1",
+    "b03_2",
+    "b03_3",
+    "b03_4"
+   ]
+  },
+  {
+   "id": "b04_beneficios",
+   "segs": [
+    "b04_1",
+    "b04_2",
+    "b04_3"
+   ]
+  },
+  {
+   "id": "b05_plataforma",
+   "segs": [
+    "b05_1",
+    "b05_2",
+    "b05_3",
+    "b05_4",
+    "b05_5"
+   ]
+  },
+  {
+   "id": "b06_agentfactory",
+   "segs": [
+    "b06_1",
+    "b06_2"
+   ]
+  },
+  {
+   "id": "b07_donde",
+   "segs": [
+    "b07_1",
+    "b07_2",
+    "b07_3"
+   ]
+  },
+  {
+   "id": "b08_como",
+   "segs": [
+    "b08_1",
+    "b08_2",
+    "b08_3",
+    "b08_4",
+    "b08_5",
+    "b08_6"
+   ]
+  },
+  {
+   "id": "b09_quien",
+   "segs": [
+    "b09_1",
+    "b09_2",
+    "b09_3"
+   ]
+  },
+  {
+   "id": "b10a_especializacion",
+   "segs": [
+    "b10a_1",
+    "b10a_2"
+   ]
+  },
+  {
+   "id": "b10b_porsector",
+   "segs": [
+    "b10b_1",
+    "b10b_2"
+   ]
+  },
+  {
+   "id": "b11_banking",
+   "segs": [
+    "b11_1",
+    "b11_2"
+   ]
+  },
+  {
+   "id": "b12_insurance",
+   "segs": [
+    "b12_1",
+    "b12_2"
+   ]
+  },
+  {
+   "id": "b13_smart",
+   "segs": [
+    "b13_1",
+    "b13_2",
+    "b13_3"
+   ]
+  },
+  {
+   "id": "b14_casos",
+   "segs": [
+    "b14_1",
+    "b14_2",
+    "b14_3",
+    "b14_4"
+   ]
+  },
+  {
+   "id": "b15_clientes",
+   "segs": [
+    "b15_1",
+    "b15_2",
+    "b15_3",
+    "b15_4",
+    "b15_5"
+   ]
+  },
+  {
+   "id": "b16_cifras",
+   "segs": [
+    "b16_1",
+    "b16_2",
+    "b16_3"
+   ]
+  },
+  {
+   "id": "b17_cierre",
+   "segs": [
+    "b17_1",
+    "b17_2",
+    "b17_3"
+   ]
+  }
+ ],
+ "pronunciation": {
+  "SIREC": "se envía como «Sírec» (acento en la primera sílaba, SÍ-rec); en pantalla se mantiene SIREC",
+  "ModernIzA": "se envía como «Moderniza»; en pantalla, la grafía oficial / logotipo"
+ }
+}
