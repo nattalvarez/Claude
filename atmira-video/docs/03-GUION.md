@@ -4,6 +4,8 @@ Texto **exactamente igual** al enviado a ElevenLabs (`audio/script.json`, fuente
 
 ## Voz y parámetros
 
+> **v7: doble voz.** Alejandro Castellanos (M, `WWVK6dYMrl0ZHnHT7cRj`) y Francesca Dari (F, `S7bOxFEwwuJG764dSujP`), modelo `eleven_v4`; 56 tramos en `audio/script_v6.json` (reparto por frase y voz). «SIREC» se envía como «Sírec» y «ModernIzA» como «Moderniza». Lo que sigue describe la voz única de v5/v6.
+
 | Parámetro | Valor |
 |---|---|
 | Voz | Alejandro Castellanos (`WWVK6dYMrl0ZHnHT7cRj`), tomada de `creative_list_voices` (etiqueta de acento: español peninsular) |

@@ -78,3 +78,29 @@ Se re-renderizaron solo esos dos tramos (fotogramas 3700–4599 y 7900–8619) y
 | Imagen quieta ≥ 3,3 s | 6 casos de 3,4–4,4 s (82,6 · 163,6 · 166,9 · 183,6 · 211,3 · 221,6 s), todos reposos con la voz hablando |
 | Revisión visual | 54 fotogramas (14 %, 50 %, 90 % de cada una de las 18 escenas) en 3 hojas de contacto |
 | No verificado | Audio no escuchado (igual que en v5); transiciones no revisadas una a una |
+
+## v7 · Doble voz y correcciones de escenas
+| Error / petición | Corrección |
+|---|---|
+| Fantasmas numéricos en «Modernizar permite evolucionar» (el 2 quedaba tapado) | Eliminados |
+| «Beneficios al negocio» sin el diseño de planos 3D | Restaurado el de v5 |
+| Plataforma: palabra «Moderniza» en texto, cuadrado del logo SIREC, esquema muy en bloque | Logotipo ModernIzA, logo SIREC sin cuadrado en caja propia, esquema con acordeón que sigue a la voz y conductos animados |
+| Dónde aceleramos: lo resaltado no coincidía con la voz | Filas ligadas a las palabras de la voz (`cue`); columna de títulos ensanchada |
+| Cómo / Quién aceleramos: dispersos, agentes de negocio y tecnología no convivían | De nuevo en cajas; ambas familias en pantalla a la vez |
+| Un Digital Brain por sector: columnas 01/02/03 cortadas por la izquierda | Columnas desde x = 120 px (margen común) |
+| Insurance: voz desincronizada | Pantalla en el mismo orden que la voz (core → suscripción → siniestros → distribución → vida/generales/salud → capas normativas → core asegurador); texto del resaltado que salía azul (`#fff` de 3 dígitos mal interpretado) y segmento que desbordaba por la derecha |
+| Clientes: cortado y sin voz | Muro de logos arranca con «Estas son…», 6 secuencias de 34 fotogramas, escena 322 fotogramas; tras la voz (≈ 7 s) quedan ≈ 6 s de logos con solo música |
+| Locución | Dos voces (Alejandro / Francesca), 56 tramos, `scripts/build_audio_v6.mjs` (alineado guion↔Scribe, −18 LUFS por tramo, huecos 0,2–0,45 s) |
+| «SIREC» con el acento en la 2ª sílaba | El texto enviado al TTS es «Sírec» (SÍ-rec); en pantalla sigue «SIREC». **No oído**: Scribe lo transcribe «CREC», conviene confirmarlo de oído |
+
+Notas de proceso: el contenedor se reinició varias veces y mató renders largos; el render pasa a 16 tramos reanudables (`render_segments.sh`, escribe `part_*` y renombra al acabar) y el audio se mezcla con `scripts/mix_audio.py` (música ×0,9 + bloques de voz en su fotograma; diferencia RMS con el audio de Remotion 2·10⁻⁵) en lugar de renderizar 11.864 fotogramas solo para el audio. La transcripción Scribe de los 56 tramos concatenados costó ≈ 2.670 créditos.
+
+## Verificación del MP4 v7 (`entrega/atmira-corporativo-v7.mp4`)
+| Comprobación | Resultado |
+|---|---|
+| Formato | H.264, 1920×1080, 25 fps, yuv420p rango TV, AAC 48 kHz, ≈ 77 MB |
+| Duración / fotogramas | 474,56 s · 11.864 fotogramas |
+| Sonoridad | −18,7 LUFS (LRA 2,5) · pico real −1,9 dBFS · sin silencios > 2,5 s |
+| Imagen quieta ≥ 4 s | ≈ 8 casos de 4–5,7 s (p. ej. 85,0 · 160,0 · 170,6 · 191,3 · 220,6 s), reposos con la voz hablando |
+| Revisión visual | 54 fotogramas (22 %, 55 %, 85 % de cada escena) en 3 hojas de contacto: sin cortes de margen ni texto ilegible |
+| No verificado | Audio no escuchado (pronunciación de «Sírec», entonación y pausas entre voces); transiciones no revisadas una a una |

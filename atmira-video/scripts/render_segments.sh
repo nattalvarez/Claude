@@ -13,7 +13,8 @@ for i in $(seq 0 $((N-1))); do
   A=$((i*STEP)); B=$(( (i+1)*STEP - 1 )); [ $B -ge $TOTAL ] && B=$((TOTAL-1))
   F=out/seg/v$i.mp4
   if [ ! -s "$F" ]; then
-    npx remotion render src/index.ts AtmiraCorporativo "$F" --codec=h264 --crf=17 --pixel-format=yuv420p --muted --concurrency=4 --frames=$A-$B --overwrite
+    npx remotion render src/index.ts AtmiraCorporativo "out/seg/part_v$i.mp4" --codec=h264 --crf=17 --pixel-format=yuv420p --muted --concurrency=4 --frames=$A-$B --overwrite
+    mv "out/seg/part_v$i.mp4" "$F"
   fi
   echo "file 'v$i.mp4'" >> out/seg/list.txt
 done
