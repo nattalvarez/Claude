@@ -104,3 +104,24 @@ Notas de proceso: el contenedor se reinició varias veces y mató renders largos
 | Imagen quieta ≥ 4 s | ≈ 8 casos de 4–5,7 s (p. ej. 85,0 · 160,0 · 170,6 · 191,3 · 220,6 s), reposos con la voz hablando |
 | Revisión visual | 54 fotogramas (22 %, 55 %, 85 % de cada escena) en 3 hojas de contacto: sin cortes de margen ni texto ilegible |
 | No verificado | Audio no escuchado (pronunciación de «Sírec», entonación y pausas entre voces); transiciones no revisadas una a una |
+
+## v8 · Voz femenina, música, Clientes y cierre
+| Petición | Cambio |
+|---|---|
+| Voz femenina poco dinámica y sin fuerza | Francesca Dari → **Carmen – Bold and Magnetic** (`iHGx33VgO2KQ1Fdw6noG`, es-peninsular, «punchy, charismatic») con la etiqueta de dirección `[confident]` al inicio de cada tramo (no se pronuncia: 3,12 s con etiqueta frente a 3,20 s sin ella). Se regeneraron los 30 tramos femeninos; los masculinos (Alejandro) no cambian. La elección es por la descripción de la voz y por mediciones básicas (rango dinámico de la frase de prueba); **no se ha podido escuchar** |
+| Música más «cañera», estilo de la primera referencia | `scripts/synth_music.py` reescrito: 124 bpm (tempo medido en el vídeo original, pulso de bombo con fuerza 0,71 en la referencia), bombo a negro, palmas en 2 y 4, hats a contratiempo, bajo a contratiempo con sidechain, stabs, arpegio con eco, melodía en frases de 4 compases, redoble + riser antes de cada corte e impacto al entrar; rejilla reiniciada en cada escena. Voz 9 dB por encima de la música mientras habla (música −9 dB armonía / −5 dB percusión bajo la voz). Mezcla final −16,7 LUFS (referencia −16,0) |
+| Clientes: logos muy rápidos y poca explicación | Locución ampliada: «Nuestro mercado es España, con expansión en Europa y Latinoamérica» + «Banca, seguros, retail y servicios: estas son algunas de las compañías con las que trabajamos» + «Compañías que ya modernizan y aceleran con atmira». Pantalla: España → Europa → Latinoamérica en grande, sincronizado con la voz, que luego se reduce a línea de contexto; 6 secuencias de logos de 44 fotogramas (antes 34) durante la locución. Escena de 21 s (antes 13) |
+| Final con transición «de pintura» | Clímax del cierre rehecho: haz de luz horizontal que se abre como rendija (magenta con logo blanco) y barrido diagonal con filo luminoso hacia el blanco de marca; sin formas orgánicas |
+
+Notas de proceso: transcripción de los tramos nuevos con Scribe sobre cada nodo TTS (0 créditos; devuelve el texto con alineación, incluida la etiqueta como pseudo-palabra de 0–0,17 s que se descarta); el montaje (`scripts/build_audio_v8.mjs`) mezcla los tramos nuevos (`audio/raw_v8`) con los masculinos de v7 (`audio/raw_v6`). Gasto de créditos de voz en esta ronda ≈ 3.900 (audiciones incluidas).
+
+## Verificación del MP4 v8 (`entrega/atmira-corporativo-v8.mp4`)
+| Comprobación | Resultado |
+|---|---|
+| Formato | H.264, 1920×1080, 25 fps, yuv420p rango TV, AAC 48 kHz, ≈ 78,5 MB |
+| Duración / fotogramas | 483,92 s · 12.098 fotogramas |
+| Sonoridad | −16,8 LUFS (LRA 3,0; referencia original −15,9) · pico real −1,4 dBFS · sin silencios > 2 s |
+| Voz sobre música | voz ≈ 9 dB por encima de la música mientras habla (medido en la mezcla sin limitador) |
+| Imagen quieta ≥ 4,5 s | 7 casos de 4,7–10 s, todos con la voz hablando; el más largo (236,8 s, 10 s) es el final de «Quién acelera» con todas las cajas en pantalla |
+| Revisión visual | 54 fotogramas (25 %, 60 %, 88 % de cada escena) en 3 hojas de contacto: sin cortes de margen ni solapes salvo los cruces de transición esperados |
+| No verificado | **Audio no escuchado** (voz nueva, pronunciación de «Sírec», pausas entre voces, mezcla con la música); transiciones no revisadas una a una |
