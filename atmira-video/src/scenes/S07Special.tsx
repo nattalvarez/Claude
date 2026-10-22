@@ -42,7 +42,7 @@ const TitleA: React.FC = () => {
   const frame = useCurrentFrame();
   const glow = 0.5 + Math.sin(frame / 12) * 0.2;
   return (
-    <SceneShell mode="dark" seed={30} footage={<Footage id="19630" tone="dark" scrim="left" zoom={1.14} />}>
+    <SceneShell mode="dark" seed={30} footage={<Footage id="4407" tone="dark" scrim="left" zoom={1.14} />}>
       <NeuralField opacity={0.45} hubs />
       <AbsoluteFill style={{ paddingLeft: 130, justifyContent: "center" }}>
         <Eyebrow delay={2} style={{ marginBottom: 20 }}>
@@ -71,21 +71,21 @@ const BRAINS = [
   {
     a: "Banking",
     tag: "El cerebro de la banca agéntica",
-    clip: "38481" as const,
+    clip: "308" as const,
     items: ["Credit Risk & Collections", "Customer & Onboarding", "Corporate & Structured Lending", "Core & Payments"],
     dashed: false,
   },
   {
     a: "Insurance",
     tag: "El cerebro de los seguros inteligentes",
-    clip: "48394" as const,
+    clip: "5015" as const,
     items: ["Underwriting & Pricing", "Claims & Benefits", "Distribution & Customer", "Capas normativas y de país"],
     dashed: false,
   },
   {
     a: "Smart",
     tag: "Brains en construcción, multi industria",
-    clip: "31029" as const,
+    clip: "49875" as const,
     items: ["Retail & Servicios", "Industria, Energía y Utilities", "Turismo, Transporte & Educación"],
     dashed: true,
   },

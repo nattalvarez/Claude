@@ -40,7 +40,7 @@ const Finale: React.FC = () => {
   const breathe = 1 + Math.sin(frame / 24) * 0.012;
   const contact = ramp(frame, 225, 241, 0, 1);
   return (
-    <SceneShell mode="dark" seed={61} exit={false} footage={<Footage id="34980" tone="dark" scrim="left" zoom={1.1} />}>
+    <SceneShell mode="dark" seed={61} exit={false} footage={<Footage id="41375" tone="dark" scrim="left" zoom={1.1} />}>
       <div style={{ position: "absolute", left: 130, top: 90, opacity: logoP, transform: `translateY(${(1 - logoP) * -24}px) scale(${breathe})`, transformOrigin: "left top" }}>
         <Logo width={330} tint="white" />
       </div>

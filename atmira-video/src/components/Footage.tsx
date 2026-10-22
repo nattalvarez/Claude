@@ -16,14 +16,16 @@ export const Footage: React.FC<{
   opacity?: number;
   startFrom?: number;
   zoom?: number;
+  from?: number;
+  origin?: string;
   scrim?: "left" | "full" | "bottom" | "none";
   style?: React.CSSProperties;
-}> = ({ id, tone = "dark", opacity = 1, startFrom = 0, zoom = 1.08, scrim = "full", style }) => {
+}> = ({ id, tone = "dark", opacity = 1, startFrom = 0, zoom = 1.08, from = 1, origin = "50% 50%", scrim = "full", style }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const clipFrames = (clips as Record<string, { frames: number }>)[id].frames;
   const t = interpolate(frame, [0, durationInFrames], [0, 1], { easing: theme.ease.inOut });
-  const scale = 1 + (zoom - 1) * t;
+  const scale = from + (zoom - from) * t;
   const usable = clipFrames - startFrom;
 
   const video = (
@@ -55,7 +57,7 @@ export const Footage: React.FC<{
         ...style,
       }}
     >
-      <AbsoluteFill style={{ transform: `scale(${scale})` }}>
+      <AbsoluteFill style={{ transform: `scale(${scale})`, transformOrigin: origin }}>
         {durationInFrames > usable ? <Loop durationInFrames={usable}>{video}</Loop> : video}
       </AbsoluteFill>
       {tone === "dark" && (

@@ -88,7 +88,7 @@ const HacemosEsto: React.FC = () => {
   const p = useSpring(2, theme.spring.slam);
   const under = ramp(frame, 24, 44, 0, 100, theme.ease.inOut);
   return (
-    <SceneShell mode="dark" seed={2} exit={false} footage={<Footage id="30468" tone="dark" scrim="bottom" zoom={1.14} />}>
+    <SceneShell mode="dark" seed={2} exit={false} footage={<Footage id="4308" tone="dark" scrim="bottom" zoom={1.14} />}>
       <AbsoluteFill style={{ justifyContent: "center", paddingLeft: 150 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 40 }}>
           <MaskLine delay={2} style={{ fontFamily: theme.fonts.display, fontWeight: 800, fontSize: 250, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>

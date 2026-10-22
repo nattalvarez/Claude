@@ -182,12 +182,12 @@ const DataSpark: React.FC<{ c: ReturnType<typeof colorsFor> }> = ({ c }) => {
   );
 };
 
-type Gain = { n: string; title: string; text: string; mode: Mode; clip: "4240" | "8813" | "13218" | "26776"; Viz?: React.FC<{ c: ReturnType<typeof colorsFor> }> };
+type Gain = { n: string; title: string; text: string; mode: Mode; clip: "4240" | "261" | "30010" | "50748"; Viz?: React.FC<{ c: ReturnType<typeof colorsFor> }> };
 const GAINS: Gain[] = [
   { n: "01", title: "*Velocidad*", text: "Cada producto nuevo y cada cambio llegan antes a los clientes.", mode: "dark", clip: "4240" },
-  { n: "02", title: "Conocimiento que *se queda*", text: "Queda ordenado en un Digital Brain, accesible a toda la organización.", mode: "magenta", clip: "8813" },
-  { n: "03", title: "Cumplimiento como *ventaja*", text: "Trazabilidad de serie para DORA, AI Act y supervisor.", mode: "dark", clip: "13218", Viz: Shield },
-  { n: "04", title: "Datos listos para la *IA*", text: "La base para que analítica y agentes aporten valor.", mode: "dark", clip: "26776" },
+  { n: "02", title: "Conocimiento que *se queda*", text: "Queda ordenado en un Digital Brain, accesible a toda la organización.", mode: "magenta", clip: "261" },
+  { n: "03", title: "Cumplimiento como *ventaja*", text: "Trazabilidad de serie para DORA, AI Act y supervisor.", mode: "dark", clip: "30010", Viz: Shield },
+  { n: "04", title: "Datos listos para la *IA*", text: "La base para que analítica y agentes aporten valor.", mode: "dark", clip: "50748" },
 ];
 
 const GainScene: React.FC<{ g: Gain; i: number }> = ({ g, i }) => {
@@ -196,7 +196,7 @@ const GainScene: React.FC<{ g: Gain; i: number }> = ({ g, i }) => {
   const vizP = useSpring(4, theme.spring.smooth);
   const num = ramp(frame, 0, 14, 0, 1);
   return (
-    <SceneShell mode={g.mode} seed={5 + i} footage={<Footage id={g.clip} tone={g.mode === "magenta" ? "magenta" : "dark"} scrim={g.mode === "magenta" ? "left" : "left"} zoom={1.1} />}>
+    <SceneShell mode={g.mode} seed={5 + i} footage={<Footage id={g.clip} tone={g.mode === "magenta" ? "magenta" : "dark"} scrim="left" zoom={g.clip === "50748" ? 1.3 : 1.1} from={g.clip === "50748" ? 1.2 : 1} origin={g.clip === "50748" ? "0% 0%" : "50% 50%"} />}>
       <div
         style={{
           position: "absolute",

@@ -151,8 +151,8 @@ export const Moves: React.FC = () => {
       seed={9}
       footage={
         <>
-          <Footage id="23282" tone="dark" scrim="full" opacity={0.95 * (1 - ramp(frame, SWITCH[1] - 6, SWITCH[1] + 24, 0, 1))} zoom={1.1} />
-          <Footage id="14143" tone="dark" scrim="full" opacity={0.95 * ramp(frame, SWITCH[1] - 6, SWITCH[1] + 24, 0, 1)} zoom={1.1} />
+          <Footage id="99786" tone="dark" scrim="full" opacity={0.45 * (1 - ramp(frame, SWITCH[1] - 6, SWITCH[1] + 24, 0, 1))} zoom={1.1} />
+          <Footage id="51214" tone="dark" scrim="full" opacity={0.95 * ramp(frame, SWITCH[1] - 6, SWITCH[1] + 24, 0, 1)} zoom={1.1} />
         </>
       }
     >

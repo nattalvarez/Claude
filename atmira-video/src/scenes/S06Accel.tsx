@@ -10,7 +10,7 @@ const TitleA: React.FC = () => {
   const frame = useCurrentFrame();
   const glow = 0.5 + Math.sin(frame / 12) * 0.2;
   return (
-    <SceneShell mode="dark" seed={20} footage={<Footage id="22966" tone="dark" scrim="left" zoom={1.12} />}>
+    <SceneShell mode="dark" seed={20} footage={<Footage id="29991" tone="dark" scrim="left" zoom={1.12} />}>
       <AbsoluteFill style={{ paddingLeft: 130, justifyContent: "center" }}>
         <Eyebrow delay={2} style={{ marginBottom: 20 }}>
           Capacidad 01
@@ -52,7 +52,7 @@ const Pipeline: React.FC = () => {
   const packetX = X0 + packetT * (4 * COL_W + 3 * GAP);
   const LINE_Y = 718;
   return (
-    <SceneShell mode="dark" seed={21} footage={<Footage id="46635" tone="dark" scrim="full" opacity={0.75} />}>
+    <SceneShell mode="dark" seed={21} footage={<Footage id="221" tone="dark" scrim="full" opacity={0.75} />}>
       <div style={{ position: "absolute", left: 130, top: 66 }}>
         <Words text="Cómo aceleramos: *cada cambio, trazado*" size={70} per={2.5} />
       </div>
@@ -233,7 +233,7 @@ const Sirec: React.FC = () => {
   const frame = useCurrentFrame();
   const card = useSpring(0, theme.spring.bouncy);
   return (
-    <SceneShell mode="dark" seed={23} footage={<Footage id="47016" tone="dark" scrim="left" opacity={1} />}>
+    <SceneShell mode="dark" seed={23} footage={<Footage id="42648" tone="dark" scrim="left" opacity={1} />}>
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", gap: 90, paddingBottom: 20 }}>
         <div
           style={{

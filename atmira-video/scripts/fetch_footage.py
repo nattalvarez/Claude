@@ -2,14 +2,15 @@
 
     python3 scripts/fetch_footage.py
 
-Writes public/footage/<id>.mp4 and src/footage.json (frame counts). Mixkit Stock Video Free License:
-free for commercial use, no attribution required — see CREDITS.md for the clip list.
+Writes public/footage/<id>.mp4 and src/footage.json (frame counts). Mixkit Stock Video Free License
+(each clip verified on its Mixkit page: "for commercial or personal use"). Do NOT add clips under the
+"Mixkit Restricted License" — that one is personal use only. See CREDITS.md.
 """
 import json, os, subprocess, tempfile, concurrent.futures as cf
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 OUT = os.path.join(ROOT, "public", "footage")
-IDS = [49878, 30468, 4170, 4010, 4240, 8813, 13218, 26776, 23282, 14143, 4168, 22966, 46635, 41656, 47016, 19630, 38481, 48394, 31029, 4809, 49846, 34980]
+IDS = [49878, 4308, 4170, 4010, 4240, 261, 30010, 50748, 99786, 51214, 4168, 29991, 221, 41656, 42648, 4407, 308, 5015, 49875, 4809, 49846, 41375]
 os.makedirs(OUT, exist_ok=True)
 
 
