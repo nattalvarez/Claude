@@ -16,7 +16,7 @@ export const BrainItem: React.FC<{
   hColor?: string;
   noDesc?: boolean;
   style?: React.CSSProperties;
-}> = ({ h, d, start, dark = false, hSize = 22, dSize = 19, hWeight = 500, hColor, noDesc = false, style }) => {
+}> = ({ h, d, start, dark = false, hSize = 22, dSize = 19, hWeight = 500, hColor, noDesc = true, style }) => {
   const frame = useCurrentFrame();
   const p = ramp(frame, start, 24, EASE.out);
   return (

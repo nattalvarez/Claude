@@ -62,38 +62,28 @@ export const Lines: React.FC<{
   </div>
 );
 
-/** Palabras que entran con opacidad + desplazamiento + desenfoque, escalonadas. */
+/** Frase que entra de una vez (opacidad + desplazamiento + desenfoque); `stagger` se conserva por compatibilidad. */
 export const Words: React.FC<{
   text: string;
   start: number;
   stagger?: number;
   dur?: number;
   style?: React.CSSProperties;
-  /** índices de palabra resaltadas (color alterno) */
+  /** índices de palabra resaltadas (color alterno, serif cursiva) */
   accent?: number[];
   accentColor?: string;
-}> = ({ text, start, stagger = 3, dur = 20, style, accent = [], accentColor = C.magenta }) => {
+}> = ({ text, start, dur = 24, style, accent = [], accentColor = C.magenta }) => {
   const frame = useCurrentFrame();
   const words = text.split(" ");
+  const p = ramp(frame, start, dur, EASE.out);
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", columnGap: "0.28em", ...style }}>
-      {words.map((w, i) => {
-        const p = ramp(frame, start + i * stagger, dur, EASE.out);
-        return (
-          <span
-            key={i}
-            style={{
-              display: "inline-block",
-              opacity: clamp(p * 1.5),
-              transform: `translateY(${(1 - p) * 0.5}em)`,
-              filter: `blur(${(1 - p) * 6}px)`,
-              color: accent.includes(i) ? accentColor : undefined,
-            }}
-          >
-            {w}
-          </span>
-        );
-      })}
+    <div style={{ opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 0.35}em)`, filter: `blur(${(1 - p) * 7}px)`, ...style }}>
+      {words.map((w, i) => (
+        <span key={i} style={accent.includes(i) ? { color: accentColor, fontFamily: FONT.serif, fontStyle: "italic", fontWeight: 500 } : undefined}>
+          {w}
+          {i < words.length - 1 ? " " : ""}
+        </span>
+      ))}
     </div>
   );
 };

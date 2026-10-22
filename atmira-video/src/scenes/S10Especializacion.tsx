@@ -45,7 +45,7 @@ export const S10Especializacion: React.FC = () => {
           opacity: clamp(open * 2),
         }}
       >
-        <StockVideo name="especializacion" rate={0.7} brightness={0.6} opacity={0.9} />
+        <StockVideo name="especializacion" rate={0.7} brightness={0.8} veil={0.3} vignette={0.45} drift={1.12} driftFrames={600} />
         <SilkField
           width={PW}
           height={PH}
@@ -76,10 +76,10 @@ export const S10Especializacion: React.FC = () => {
       </div>
       <Karaoke
         scene={ID}
-        text={ESPECIALIZACION.body}
+        text="El conocimiento del negocio convierte la tecnología en resultados."
         from="El conocimiento"
         appear={cBody - 8}
-        style={{ position: "absolute", left: 124, top: 540, width: 940, ...font(35, 400, { letterSpacing: "-0.018em", lineHeight: 1.34 }) }}
+        style={{ position: "absolute", left: 124, top: 560, width: 940, ...font(54, 500, { letterSpacing: "-0.035em", lineHeight: 1.14 }) }}
         on={C.ink}
         dim="#CCCBD1"
         accent={[]}

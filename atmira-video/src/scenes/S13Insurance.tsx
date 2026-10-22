@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
+import { StockVideo } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Logo } from "../components/Logo";
 import { MaskLine, font } from "../components/Type";
@@ -39,6 +40,8 @@ export const S13Insurance: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="plum" />
+      <StockVideo name="tile_insurance" rate={0.75} brightness={0.8} veil={0.5} vignette={0.6} drift={1.1} driftFrames={900} opacity={0.9} />
+      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(10,9,18,0.7) 0%, rgba(10,9,18,0.35) 100%)" }} />
       <SilkField
         time={t + 8}
         order={0.35 + 0.65 * ramp(frame, 0, 380, EASE.inOut)}
@@ -96,8 +99,7 @@ export const S13Insurance: React.FC = () => {
                 return (
                   <div key={it.h} style={{ width: 520, position: "relative", paddingLeft: 24, opacity: clamp(p * 1.5) * (0.62 + 0.38 * Math.max(l, ramp(frame, cAmbStart - 6, 12) * 0.2)), transform: `translateY(${(1 - p) * 18}px)` }}>
                     <div style={{ position: "absolute", left: 0, top: 4, width: 4, height: 128 * p, background: C.magenta, opacity: 0.35 + 0.65 * l }} />
-                    <div style={{ ...font(34, 600, { color: "#FF4DA6", letterSpacing: "-0.028em", lineHeight: 1.1 }) }}>{it.h}</div>
-                    <div style={{ marginTop: 6, ...font(19, 400, { color: "rgba(255,255,255,0.88)", letterSpacing: 0, lineHeight: 1.32 }) }}>{it.d}</div>
+                    <div style={{ ...font(46, 600, { color: "#FF4DA6", letterSpacing: "-0.028em", lineHeight: 1.1 }) }}>{it.h}</div>
                   </div>
                 );
               })}
@@ -118,8 +120,7 @@ export const S13Insurance: React.FC = () => {
                 return (
                   <div key={it.h} style={{ position: "relative", paddingLeft: 24, opacity: clamp(p * 1.5) * (0.62 + 0.38 * Math.max(l, k === 3 ? 1 : 0)), transform: `translateX(${(1 - p) * -24}px)` }}>
                     <div style={{ position: "absolute", left: 0, top: 4, width: 4, height: 96 * p, background: C.magenta, opacity: 0.35 + 0.65 * l }} />
-                    <div style={{ ...font(32, 600, { color: "#FF4DA6", letterSpacing: "-0.028em", lineHeight: 1.1 }) }}>{it.h}</div>
-                    <div style={{ marginTop: 5, ...font(19, 400, { color: "rgba(255,255,255,0.9)", letterSpacing: 0, lineHeight: 1.3 }) }}>{it.d}</div>
+                    <div style={{ ...font(44, 600, { color: "#FF4DA6", letterSpacing: "-0.028em", lineHeight: 1.1 }) }}>{it.h}</div>
                   </div>
                 );
               })}
@@ -138,7 +139,7 @@ export const S13Insurance: React.FC = () => {
           </div>
           <div style={{ position: "absolute", left: 520, top: 4, width: 1160, display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 64, rowGap: 38 }}>
             {techCol.items.map((it, k) => (
-              <BrainItem key={it.h} h={it.h} d={it.d} dark start={cTechIt[k] - 8} hSize={34} hWeight={600} dSize={22} />
+              <BrainItem key={it.h} h={it.h} d={it.d} dark start={cTechIt[k] - 8} hSize={50} hWeight={600} dSize={22} />
             ))}
           </div>
         </div>

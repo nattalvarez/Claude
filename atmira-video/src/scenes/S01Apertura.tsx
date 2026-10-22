@@ -1,16 +1,17 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { Backdrop, Finish } from "../components/Stage";
-import { StockVideo } from "../components/Stock";
+import { Finish } from "../components/Stage";
 import { SilkField } from "../components/SilkField";
+import { StockVideo } from "../components/Stock";
 import { Logo, LOGO_RATIO } from "../components/Logo";
-import { CharSettle, MaskLine, SpeedWord, Words, font } from "../components/Type";
-import { C, EASE, FPS } from "../theme";
-import { clamp, ramp } from "../lib/anim";
+import { MaskLine, font } from "../components/Type";
+import { C, EASE, FONT } from "../theme";
+import { ramp } from "../lib/anim";
 import { cue } from "../lib/tl";
-import { OPENING } from "../data/content";
 
 const ID = "apertura";
+
+const serif = (color: string): React.CSSProperties => ({ color, fontFamily: FONT.serif, fontStyle: "italic", fontWeight: 500, letterSpacing: "-0.01em" });
 
 export const S01Apertura: React.FC = () => {
   const frame = useCurrentFrame();
@@ -23,13 +24,15 @@ export const S01Apertura: React.FC = () => {
   const cAcel = cue(ID, "aceleramos");
   const cServ = cue(ID, "los servicios");
 
-  // 1) Los hilos barren el encuadre mientras se peinan (complejidad → orden)
+  // 1) los hilos barren el encuadre mientras se peinan (complejidad → orden)
   const draw = ramp(frame, 0, 58, EASE.soft);
   const order = ramp(frame, 6, 120, EASE.inOut);
   const dolly = ramp(frame, 0, 200, EASE.soft);
   const glide = ramp(frame, 62, 36, EASE.inOut); // el logo viaja a su sitio mientras suena «atmira»
+  // 2) del plano nocturno al plano diurno de la torre cuando llega «Modernizamos»
+  const xf = ramp(frame, cModer - 22, 30, EASE.inOut);
+  const textA = 1 - xf;
 
-  // 2) Revelado del logotipo siguiendo el frente de los hilos
   const reveal = ramp(frame, 26, 40, EASE.inOut);
   const logoBlur = (1 - ramp(frame, 26, 44, EASE.out)) * 16;
   const bigW = 820;
@@ -38,15 +41,14 @@ export const S01Apertura: React.FC = () => {
   const lx = 960 - bigW / 2 + (120 - (960 - bigW / 2)) * glide;
   const ly = 540 - bigW / LOGO_RATIO / 2 + (92 - (540 - bigW / LOGO_RATIO / 2)) * glide;
 
-  // 3) la cámara se desplaza al fondo derecho cuando entra el texto
   const camX = interpolate(dolly, [0, 1], [7, 2.2]);
   const camZ = interpolate(dolly, [0, 1], [-26, -15.5]);
 
   return (
-    <AbsoluteFill>
-      <Backdrop tone="dark" />
-      <StockVideo name="apertura" rate={0.8} brightness={0.9} contrast={1.15} opacity={1} scale={1.06} />
-      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(12,12,15,0.82) 0%, rgba(12,12,15,0.55) 55%, rgba(12,12,15,0.25) 100%)" }} />
+    <AbsoluteFill style={{ background: "#0b0a12" }}>
+      <StockVideo name="apertura_a" rate={0.85} brightness={0.8} veil={0.3} vignette={0.55} drift={1.1} driftFrames={260} opacity={1 - xf} />
+      <StockVideo name="apertura_b" rate={0.7} brightness={0.85} veil={0.32} vignette={0.5} drift={1.1} driftFrames={300} opacity={xf} />
+      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(8,7,16,0.78) 0%, rgba(8,7,16,0.42) 55%, rgba(8,7,16,0.1) 100%)" }} />
       <SilkField
         time={t + 4}
         order={order}
@@ -56,10 +58,9 @@ export const S01Apertura: React.FC = () => {
         cam={{ pos: [camX, 1.6, camZ], target: [1.4, -0.7, 0], fov: 40, roll: 0.14 - 0.06 * dolly }}
         alpha={0.95}
         style={{
-          opacity: 0.55 + 0.45 * glide,
-          // tras presentar la marca, los hilos se retiran hacia la derecha y dejan limpio el texto
-          WebkitMaskImage: `linear-gradient(90deg, transparent ${glide * 38}%, #000 ${glide * 38 + 26}%)`,
-          maskImage: `linear-gradient(90deg, transparent ${glide * 38}%, #000 ${glide * 38 + 26}%)`,
+          opacity: (0.55 + 0.45 * glide) * (1 - 0.75 * xf),
+          WebkitMaskImage: `linear-gradient(90deg, transparent ${glide * 58}%, #000 ${glide * 58 + 24}%)`,
+          maskImage: `linear-gradient(90deg, transparent ${glide * 58}%, #000 ${glide * 58 + 24}%)`,
         }}
       />
 
@@ -76,30 +77,30 @@ export const S01Apertura: React.FC = () => {
           transformOrigin: "left center",
         }}
       >
-        <Logo width={w} />
+        <Logo width={w} tone="white" />
       </div>
 
-      {/* mensaje */}
-      <div style={{ position: "absolute", left: 120, top: 318 }}>
-        <MaskLine start={cNo} dur={24} style={font(40, 400, { color: "#E6E6EA", letterSpacing: "-0.01em" })}>
+      {/* «No hacemos todo. Hacemos esto.» */}
+      <div style={{ position: "absolute", left: 120, top: 330, opacity: textA }}>
+        <MaskLine start={cNo} dur={26} style={font(44, 400, { color: "#E9E8EF", letterSpacing: "-0.01em" })}>
           No hacemos todo.
         </MaskLine>
-        <MaskLine start={cEsto} dur={24} style={font(40, 400, { color: "#E6E6EA", letterSpacing: "-0.01em", marginTop: 8 })}>
-          Hacemos <span style={{ color: C.magenta, fontWeight: 500 }}>esto.</span>
+        <MaskLine start={cEsto - 2} dur={28} style={font(170, 700, { color: "#FFFFFF", letterSpacing: "-0.05em", lineHeight: 1.04, marginTop: 6 })}>
+          Hacemos <span style={serif(C.magenta)}>esto.</span>
         </MaskLine>
       </div>
 
-      <div style={{ position: "absolute", left: 120, top: 520, ...font(168, 700, { color: C.magenta, lineHeight: 1.02 }) }}>
-        <div style={{ height: 176 }}>
-          <CharSettle text="Modernizamos" start={cModer - 6} seed={11} />
-        </div>
-        <div style={{ height: 176 }}>
-          <span style={{ opacity: clamp(ramp(frame, cModer + 6, 10) * 2), color: C.magenta }}>y </span>
-          <SpeedWord text="aceleramos" start={cAcel - 4} dur={26} />
-        </div>
-        <div style={{ marginTop: 14 }}>
-          <Words text="los servicios financieros" start={cServ - 2} stagger={4} dur={22} style={font(88, 600, { color: "#FFFFFF", letterSpacing: "-0.03em" })} />
-        </div>
+      {/* «Modernizamos y aceleramos los servicios financieros» */}
+      <div style={{ position: "absolute", left: 120, top: 330, opacity: xf }}>
+        <MaskLine start={cModer - 6} dur={28} style={font(150, 700, { color: "#FFFFFF", letterSpacing: "-0.05em", lineHeight: 1.04 })}>
+          Modernizamos
+        </MaskLine>
+        <MaskLine start={cAcel - 8} dur={28} style={font(150, 700, { color: "#FFFFFF", letterSpacing: "-0.05em", lineHeight: 1.04 })}>
+          y <span style={{ ...serif(C.magenta), fontSize: 168 }}>aceleramos</span>
+        </MaskLine>
+        <MaskLine start={cServ - 4} dur={26} style={font(66, 500, { color: "#FFFFFF", letterSpacing: "-0.03em", marginTop: 22 })}>
+          los servicios financieros
+        </MaskLine>
       </div>
       <Finish tone="dark" />
     </AbsoluteFill>

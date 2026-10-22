@@ -26,7 +26,8 @@ export const C = {
 } as const;
 
 export const FONT = {
-  sans: "'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+  sans: "'Roboto Variable', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif",
+  serif: "'Roboto Variable', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif",
 } as const;
 
 /** Curvas de aceleración. Nada es lineal. */

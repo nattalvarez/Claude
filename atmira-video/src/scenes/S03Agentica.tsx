@@ -142,10 +142,6 @@ export const S03Agentica: React.FC = () => {
         />
       </div>
 
-      <div style={{ position: "absolute", left: X0, top: 410, width: 1250, ...font(32, 400, { color: C.ink2, letterSpacing: "-0.012em", lineHeight: 1.3 }) }}>
-        <SyncWords scene={ID} text={AGENTICA.lead} from="el paso" lead={3} dur={14} style={{ columnGap: "0.25em" }} />
-      </div>
-
       {AGENTICA.steps.map((s, i) => {
         const x = X0 + i * (COL_W + GAP);
         const st = cStep[i] - 10;
@@ -160,9 +156,8 @@ export const S03Agentica: React.FC = () => {
             <div style={{ transform: `translateY(${(1 - p) * 22}px)` }}>
               <div style={{ marginTop: 18, display: "flex", alignItems: "baseline", gap: 18 }}>
                 <span style={{ ...font(22, 600, { color: C.magenta, letterSpacing: "0.14em" }) }}>{s.n}</span>
-                <span style={{ ...font(44, 600, { letterSpacing: "-0.035em" }) }}>{s.t}</span>
+                <span style={{ ...font(58, 600, { letterSpacing: "-0.04em", lineHeight: 1.05 }) }}>{s.t}</span>
               </div>
-              <div style={{ marginTop: 12, ...font(26, 400, { color: C.ink2, lineHeight: 1.36, letterSpacing: "0" }) }}>{s.d}</div>
             </div>
           </div>
         );

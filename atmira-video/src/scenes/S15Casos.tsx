@@ -15,7 +15,7 @@ const NAMES = ["Asisa", "MoraBanc", "Mutua Madrileña", "BBVA", "AXA", "Sabadell
 const LOGO_SCALE = 1.75;
 
 const PANEL = [
-  { bg: C.magenta, pal: "dark" as const },
+  { bg: `linear-gradient(160deg, #2c2c32 0%, #1b1b20 60%, #121215 100%)`, pal: "dark" as const },
   { bg: `linear-gradient(160deg, #3a3a3f 0%, ${C.charcoal} 60%, #121214 100%)`, pal: "dark" as const },
   { bg: `linear-gradient(160deg, #2a2a30 0%, #1a1a1e 60%, #101013 100%)`, pal: "dark" as const },
 ];
@@ -119,8 +119,7 @@ export const S15Casos: React.FC = () => {
             <div style={{ marginTop: 28, height: 128, display: "flex", alignItems: "center", filter: `blur(${(1 - p) * 8}px)` }}>
               <Img src={staticFile(`cases/${it.id}.png`)} style={{ width: lw, height: lh }} />
             </div>
-            <div style={{ marginTop: 28, ...font(52, 600, { letterSpacing: "-0.04em", lineHeight: 1.1, width: 940 }) }}>{it.h}</div>
-            <div style={{ marginTop: 22, ...font(29, 400, { color: C.ink2, letterSpacing: "-0.005em", lineHeight: 1.38, width: 900 }) }}>{it.d}</div>
+            <div style={{ marginTop: 28, ...font(64, 600, { letterSpacing: "-0.04em", lineHeight: 1.08, width: 960 }) }}>{it.h}</div>
           </div>
         );
       })}

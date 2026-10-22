@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
+import { StockVideo } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Chrome } from "../components/Chrome";
 import { MaskLine, font } from "../components/Type";
@@ -48,6 +49,7 @@ export const S16Clientes: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="light" />
+      <StockVideo name="clientes" rate={0.6} brightness={1} saturate={0.7} blur={6} wash={0.84} drift={1.1} driftFrames={900} />
       <SilkField
         time={t + 21}
         order={1}

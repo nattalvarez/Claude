@@ -20,11 +20,11 @@ const HW = 640;
 const RX = 1420;
 const RW = 380;
 const TOP = 410;
-const ROW = 62;
+const ROW = 124;
 const HUB_Y = 360;
 const HUB_H = 520;
-const COLLAPSED = 70;
-const EXTRA = 128;
+const COLLAPSED = 118;
+const EXTRA = 0;
 
 /** Punto de una curva cúbica (para los pulsos que viajan por los conductos). */
 const bez = (p0: [number, number], p1: [number, number], p2: [number, number], p3: [number, number], t: number): [number, number] => {
@@ -52,7 +52,9 @@ export const S05Plataforma: React.FC = () => {
   };
 
   const hubP = ramp(frame, cHub - 14, 28, EASE.out);
-  const hubCY = HUB_Y + 120;
+  const SYS = [PLATAFORMA.systems[0], PLATAFORMA.systems[1], PLATAFORMA.systems[2]];
+  const TGT = [PLATAFORMA.target[0], PLATAFORMA.target[1], PLATAFORMA.target[5]];
+  const hubCY = HUB_Y + 260;
 
   // paneles de capas (acordeón): la capa nombrada se abre, las demás se pliegan
   const layerY: number[] = [];
@@ -64,7 +66,7 @@ export const S05Plataforma: React.FC = () => {
     return h;
   });
 
-  const sysY = (i: number) => TOP + i * ROW + 26;
+  const sysY = (i: number) => TOP + 60 + i * ROW + 38;
   const pulse = (i: number, speed: number, off: number) => (((frame * speed) / 100 + i * off) % 1 + 1) % 1;
 
   return (
@@ -87,17 +89,17 @@ export const S05Plataforma: React.FC = () => {
       />
       <Chrome chapter="04 · Plataforma" start={2} />
 
-      <div style={{ position: "absolute", left: 120, top: 100, width: 1600, ...font(56, 600, { letterSpacing: "-0.04em", lineHeight: 1.08 }) }}>
+      <div style={{ position: "absolute", left: 120, top: 100, width: 1600, ...font(76, 600, { letterSpacing: "-0.04em", lineHeight: 1.06 }) }}>
         <SyncWords scene={ID} text="Ofrecemos un enfoque de plataforma:" from="Lo hacemos" lead={2} style={{ display: "none" }} />
-        <div style={{ opacity: ramp(frame, 8, 22, EASE.out), transform: `translateY(${(1 - ramp(frame, 8, 22, EASE.out)) * 22}px)` }}>{PLATAFORMA.title[0]}</div>
+        <div style={{ opacity: ramp(frame, 8, 22, EASE.out), transform: `translateY(${(1 - ramp(frame, 8, 22, EASE.out)) * 22}px)` }}>Un enfoque de plataforma:</div>
         <div style={{ color: C.magenta, opacity: ramp(frame, 14, 22, EASE.out), transform: `translateY(${(1 - ramp(frame, 14, 22, EASE.out)) * 22}px)` }}>
-          {PLATAFORMA.title[1]} {PLATAFORMA.title[2]}
+          tus sistemas, tu arquitectura objetivo.
         </div>
       </div>
 
       {/* conductos animados: sistemas → plataforma → arquitectura objetivo */}
       <svg width={1920} height={1080} style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none" }}>
-        {PLATAFORMA.systems.map((_, i) => {
+        {SYS.map((_, i) => {
           const p0: [number, number] = [LX + LW + 6, sysY(i)];
           const p3: [number, number] = [HX - 4, hubCY];
           const p1: [number, number] = [p0[0] + 60, p0[1]];
@@ -113,7 +115,7 @@ export const S05Plataforma: React.FC = () => {
             </g>
           );
         })}
-        {PLATAFORMA.target.map((_, i) => {
+        {TGT.map((_, i) => {
           const p0: [number, number] = [HX + HW + 4, hubCY];
           const p3: [number, number] = [RX - 6, sysY(i)];
           const p1: [number, number] = [p0[0] + 50, p0[1]];
@@ -135,7 +137,7 @@ export const S05Plataforma: React.FC = () => {
       <div style={{ position: "absolute", left: LX, top: 360 }}>
         <Eyebrow start={cSys - 8} color={C.ink}>{PLATAFORMA.systemsLabel}</Eyebrow>
       </div>
-      {PLATAFORMA.systems.map((s, i) => {
+      {SYS.map((s, i) => {
         const p = ramp(frame, cSys - 4 + i * 5, 22, EASE.out);
         return (
           <div
@@ -143,15 +145,15 @@ export const S05Plataforma: React.FC = () => {
             style={{
               position: "absolute",
               left: LX,
-              top: TOP + i * ROW,
+              top: TOP + 60 + i * ROW,
               width: LW,
-              height: 52,
+              height: 76,
               borderRadius: 10,
               background: "#EFEEF1",
               display: "flex",
               alignItems: "center",
               paddingLeft: 20,
-              ...font(23, 500, { color: C.ink2, letterSpacing: 0 }),
+              ...font(30, 500, { color: C.ink2, letterSpacing: "-0.01em" }),
               opacity: clamp(p * 1.5),
               transform: `translateX(${(1 - p) * -50}px)`,
             }}
@@ -202,11 +204,10 @@ export const S05Plataforma: React.FC = () => {
               padding: "0 26px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "baseline", gap: 18, height: COLLAPSED, paddingTop: 16 }}>
-              <span style={{ ...font(34, 600, { color: fg, letterSpacing: "-0.035em" }) }}>{l.t}</span>
-              <span style={{ ...font(20, 600, { color: i === 1 ? "rgba(255,255,255,0.88)" : C.magenta, letterSpacing: 0 }) }}>{l.s}</span>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 18, height: COLLAPSED, paddingTop: 34 }}>
+              <span style={{ ...font(46, 600, { color: fg, letterSpacing: "-0.035em" }) }}>{l.t}</span>
+              <span style={{ ...font(24, 600, { color: i === 1 ? "rgba(255,255,255,0.88)" : C.magenta, letterSpacing: 0 }) }}>{l.s}</span>
             </div>
-            <div style={{ opacity: clamp(h * 1.4), transform: `translateY(${(1 - h) * 10}px)`, ...font(21, 400, { color: i === 1 ? "rgba(255,255,255,0.95)" : C.ink2, letterSpacing: 0, lineHeight: 1.3 }) }}>{l.d}</div>
           </div>
         );
       })}
@@ -215,7 +216,7 @@ export const S05Plataforma: React.FC = () => {
       <div style={{ position: "absolute", left: RX, top: 360 }}>
         <Eyebrow start={cObj - 10}>{PLATAFORMA.targetLabel}</Eyebrow>
       </div>
-      {PLATAFORMA.target.map((s, i) => {
+      {TGT.map((s, i) => {
         const p = ramp(frame, cObj - 6 + i * 5, 22, EASE.out);
         return (
           <div
@@ -223,16 +224,16 @@ export const S05Plataforma: React.FC = () => {
             style={{
               position: "absolute",
               left: RX,
-              top: TOP + i * ROW,
+              top: TOP + 60 + i * ROW,
               width: RW,
-              height: 52,
+              height: 76,
               borderRadius: 10,
               border: `2px solid ${C.magenta}`,
               background: "#fff",
               display: "flex",
               alignItems: "center",
               paddingLeft: 20,
-              ...font(23, 600, { color: C.ink, letterSpacing: 0 }),
+              ...font(30, 600, { color: C.ink, letterSpacing: "-0.01em" }),
               opacity: clamp(p * 1.5),
               transform: `translateX(${(1 - p) * 60}px)`,
             }}
@@ -266,11 +267,7 @@ export const S05Plataforma: React.FC = () => {
           >
             <Img src={staticFile("brand/sirec.png")} style={{ height: 84, width: "auto" }} />
             <div style={{ flex: 1 }}>
-              <div style={{ ...font(16, 600, { color: C.mute, letterSpacing: "0.2em", textTransform: "uppercase" }) }}>{PLATAFORMA.sirec.label}</div>
-              <div style={{ marginTop: 6, ...font(31, 600, { letterSpacing: "-0.025em" }) }}>{PLATAFORMA.sirec.t}</div>
-              <div style={{ marginTop: 4, ...font(21, 400, { color: C.ink2, letterSpacing: 0 }) }}>
-                {PLATAFORMA.sirec.d} {PLATAFORMA.sirec.n}
-              </div>
+              <div style={{ ...font(42, 600, { letterSpacing: "-0.03em" }) }}>{PLATAFORMA.sirec.t}</div>
             </div>
           </div>
         );

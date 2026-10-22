@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
+import { StockVideo } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Chrome } from "../components/Chrome";
 import { Karaoke } from "../components/Sync";
@@ -60,7 +61,8 @@ export const S14Smart: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <Backdrop tone="mist" />
+      <Backdrop tone="light" />
+      <StockVideo name="tile_smart" rate={0.7} brightness={1} saturate={0.7} wash={0.91} drift={1.08} driftFrames={900} />
       <SilkField
         time={t + 2}
         order={0.7}
@@ -106,7 +108,7 @@ export const S14Smart: React.FC = () => {
             <Rule start={st + 8} width={1680} color={C.ink} thickness={2.5} style={{ marginTop: 14 }} />
             <div style={{ marginTop: 22, display: "flex", gap: 60 }}>
               {col.items.map((it, k) => (
-                <BrainItem key={it.h} h={it.h} d={it.d} start={cSec[k] - 10} hSize={36} hWeight={600} dSize={21} hColor={C.ink} style={{ width: 520 }} />
+                <BrainItem key={it.h} h={it.h} d={it.d} start={cSec[k] - 10} hSize={46} hWeight={600} dSize={21} hColor={C.ink} style={{ width: 520 }} />
               ))}
             </div>
           </div>
@@ -121,11 +123,11 @@ export const S14Smart: React.FC = () => {
         return (
           <div key={col.n} style={{ position: "absolute", left: 124, top: 726 + r * 112, width: 1650, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 20}px)` }}>
             <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <span style={{ ...font(20, 700, { color: C.magenta, letterSpacing: "0.16em" }) }}>{col.n}</span>
-              <span style={{ ...font(20, 700, { color: C.ink, letterSpacing: "0.16em", textTransform: "uppercase" }) }}>{col.t}</span>
+              <span style={{ ...font(24, 700, { color: C.magenta, letterSpacing: "0.16em" }) }}>{col.n}</span>
+              <span style={{ ...font(24, 700, { color: C.ink, letterSpacing: "0.16em", textTransform: "uppercase" }) }}>{col.t}</span>
               <span style={{ height: 2, width: 520 * p, background: C.line }} />
             </div>
-            <div style={{ marginTop: 10, ...font(30, 500, { letterSpacing: "-0.015em", lineHeight: 1.25, color: C.ink2 }) }}>
+            <div style={{ marginTop: 10, ...font(38, 500, { letterSpacing: "-0.02em", lineHeight: 1.25, color: C.ink }) }}>
               {col.items.map((it, k) => (
                 <span key={it.h}>
                   {k > 0 && <span style={{ color: C.magenta, padding: "0 0.5em" }}>·</span>}

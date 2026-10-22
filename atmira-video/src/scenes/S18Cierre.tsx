@@ -151,7 +151,7 @@ export const S18Cierre: React.FC = () => {
     <AbsoluteFill>
       {/* fondo oscuro de acumulación */}
       <Backdrop tone="plum" />
-      <StockVideo name="cierre" rate={0.8} brightness={0.8} opacity={1 - 0.5 * leave} />
+      <StockVideo name="cierre" rate={0.7} brightness={0.7} veil={0.4} vignette={0.6} drift={1.12} driftFrames={600} opacity={1 - 0.5 * leave} />
       <AbsoluteFill style={{ transform: `scale(${scale})`, transformOrigin: `${CX}px ${CY}px` }}>
         <SilkField
           time={t + 30}
@@ -195,7 +195,7 @@ export const S18Cierre: React.FC = () => {
       {/* C — frente magenta (con hilos blancos y logotipo blanco) */}
       {w1 > 0.001 && (
         <AbsoluteFill style={{ clipPath: `inset(${open1}% 0 ${open1}% 0)` }}>
-          <StockVideo name="cierre" rate={0.8} brightness={1.0} contrast={1.2} />
+          <StockVideo name="cierre" rate={0.7} brightness={1.0} veil={0.12} vignette={0.35} drift={1.12} driftFrames={600} />
           <AbsoluteFill style={{ background: "rgba(10,10,12,0.32)" }} />
           <SilkField
             time={t + 12}
@@ -236,12 +236,14 @@ export const S18Cierre: React.FC = () => {
       {/* C→D — blanco de marca (con logotipo magenta, mensaje final y firma) */}
       {w2 > 0.001 && (
         <AbsoluteFill style={{ clipPath: `polygon(0px 0px, ${edge + SK}px 0px, ${edge - SK}px ${H}px, 0px ${H}px)` }}>
-          <Backdrop tone="light" />
+          <StockVideo name="cierre" rate={0.6} brightness={0.95} veil={0.28} vignette={0.55} drift={1.14} driftFrames={400} />
+          <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(8,7,16,0.15) 0%, rgba(8,7,16,0.55) 100%)" }} />
           <SilkField
             time={t + 40}
             order={1}
             draw={ramp(frame, w2s + 30, 90, EASE.soft)}
             lines={90}
+            palette="dark"
             seed={141}
             fills={8}
             blurNear={0}
@@ -252,20 +254,20 @@ export const S18Cierre: React.FC = () => {
             style={{ top: 250, opacity: settle, WebkitMaskImage: "linear-gradient(180deg, transparent 0%, #000 22%)", maskImage: "linear-gradient(180deg, transparent 0%, #000 22%)" }}
           />
           <div style={logoStyle}>
-            <Logo width={logoW} tone="magenta" />
+            <Logo width={logoW} tone="white" />
           </div>
-          <div style={{ position: "absolute", left: 160, width: 1600, top: 660, textAlign: "center", ...font(46, 400, { color: C.ink, letterSpacing: "-0.03em", lineHeight: 1.2 }), opacity: fin(0), transform: `translateY(${(1 - fin(0)) * 20}px)` }}>
+          <div style={{ position: "absolute", left: 160, width: 1600, top: 660, textAlign: "center", ...font(46, 400, { color: "#FFFFFF", letterSpacing: "-0.03em", lineHeight: 1.2 }), opacity: fin(0), transform: `translateY(${(1 - fin(0)) * 20}px)` }}>
             Modernizamos y aceleramos los servicios financieros.
           </div>
-          <div style={{ position: "absolute", left: 160, width: 1600, top: 724, textAlign: "center", ...font(46, 400, { color: C.magenta, letterSpacing: "-0.03em", lineHeight: 1.2 }), opacity: fin(10), transform: `translateY(${(1 - fin(10)) * 20}px)` }}>
+          <div style={{ position: "absolute", left: 160, width: 1600, top: 724, textAlign: "center", ...font(46, 400, { color: "#FF4DA6", letterSpacing: "-0.03em", lineHeight: 1.2 }), opacity: fin(10), transform: `translateY(${(1 - fin(10)) * 20}px)` }}>
             {CIERRE.l2}
           </div>
-          <div style={{ position: "absolute", left: 0, width: W, top: 830, textAlign: "center", ...font(26, 500, { color: C.mute, letterSpacing: "0.22em", textTransform: "uppercase" }), opacity: fin(26) }}>
+          <div style={{ position: "absolute", left: 0, width: W, top: 830, textAlign: "center", ...font(26, 500, { color: "#E3E2EA", letterSpacing: "0.22em", textTransform: "uppercase" }), opacity: fin(26) }}>
             {CIERRE.web}
           </div>
         </AbsoluteFill>
       )}
-      <Finish tone={w2 > 0.6 ? "light" : "plum"} grain={0.045} />
+      <Finish tone="plum" grain={0.045} />
     </AbsoluteFill>
   );
 };

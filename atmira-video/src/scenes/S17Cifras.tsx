@@ -20,7 +20,7 @@ export const S17Cifras: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="dark" />
-      <StockVideo name="cifras" rate={0.7} brightness={0.72} contrast={1.25} opacity={1} />
+      <StockVideo name="cifras" rate={0.6} brightness={0.85} veil={0.3} vignette={0.55} drift={1.1} driftFrames={500} />
       <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(10,10,12,0.78) 0%, rgba(10,10,12,0.5) 100%)" }} />
       <SilkField
         time={t + 4}

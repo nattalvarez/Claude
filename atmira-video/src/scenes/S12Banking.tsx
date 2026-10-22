@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
+import { StockVideo } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Logo } from "../components/Logo";
 import { MaskLine, Rule, font } from "../components/Type";
@@ -38,6 +39,8 @@ export const S12Banking: React.FC = () => {
 
       {/* panel de marca */}
       <div style={{ position: "absolute", left: 0, top: 0, width: 560, height: 1080, overflow: "hidden", transform: `translateX(${(1 - panel) * -560}px)`, background: `linear-gradient(170deg, #3a3a3a 0%, ${C.panel} 45%, #141416 100%)` }}>
+        <StockVideo name="tile_banking" rate={0.8} brightness={0.8} veil={0.38} vignette={0.5} drift={1.12} driftFrames={700} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(10,9,18,0.2) 0%, rgba(10,9,18,0.72) 70%)" }} />
         <SilkField
           width={560}
           height={1080}
@@ -106,9 +109,9 @@ export const S12Banking: React.FC = () => {
               <span style={{ ...font(60, 700, { letterSpacing: "-0.045em", lineHeight: 1 }) }}>{col.t}</span>
             </div>
             <Rule start={st + 4} width={1110} color={C.ink} thickness={2.5} style={{ marginTop: 26 }} />
-            <div style={{ marginTop: 34, display: "flex", flexDirection: "column", gap: 26 }}>
+            <div style={{ marginTop: 34, display: "flex", flexDirection: "column", gap: 40 }}>
               {col.items.map((it, k) => (
-                <BrainItem key={it.h} h={it.h} d={it.d} start={st + 12 + k * 10} hSize={38} hWeight={600} dSize={24} hColor={C.ink} />
+                <BrainItem key={it.h} h={it.h} d={it.d} start={st + 12 + k * 10} hSize={54} hWeight={600} dSize={24} hColor={C.ink} />
               ))}
             </div>
           </div>

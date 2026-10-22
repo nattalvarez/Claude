@@ -35,7 +35,7 @@ export const S11PorSector: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="dark" />
-      <StockVideo name="sector" rate={0.6} brightness={0.95} contrast={1.15} opacity={1 - phase2} />
+      <StockVideo name="sector" rate={0.6} brightness={0.9} veil={0.3} vignette={0.5} drift={1.1} driftFrames={600} opacity={1 - phase2} />
       <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(12,12,15,0.72) 0%, rgba(12,12,15,0.38) 100%)", opacity: 1 - phase2 }} />
       <SilkField
         time={t + 15}
@@ -55,9 +55,6 @@ export const S11PorSector: React.FC = () => {
         <div style={{ position: "absolute", left: 120, top: 128, ...font(104, 700, { color: "#FFFFFF", letterSpacing: "-0.05em" }) }}>
           <SyncWords scene={ID} text="Un Digital Brain por sector" from="Un Digital Brain" accent={[3, 4]} lead={3} dur={16} />
         </div>
-        <div style={{ position: "absolute", left: 120, top: 262, ...font(32, 400, { color: "#E6E6EA", letterSpacing: "-0.012em" }) }}>
-          <MaskText start={cue(ID, "Cada uno") - 4}>{POR_SECTOR.lead}</MaskText>
-        </div>
         {POR_SECTOR.threes.map((s, i) => {
           const st = cThree[i] - 8;
           const p = ramp(frame, st, 26, EASE.out);
@@ -67,21 +64,11 @@ export const S11PorSector: React.FC = () => {
               <div style={{ transform: `translateY(${(1 - p) * 26}px)` }}>
                 <div style={{ ...font(150, 300, { color: "transparent", letterSpacing: "-0.05em", lineHeight: 1 }), WebkitTextStroke: `2.5px ${C.magenta}` }}>{s.n}</div>
                 <Rule start={st + 8} width={500} color="#FFFFFF" thickness={2} style={{ marginTop: 10 }} />
-                <div style={{ marginTop: 22, ...font(42, 500, { color: "#FFFFFF", letterSpacing: "-0.03em", lineHeight: 1.1 }) }}>{s.t}</div>
-                <div style={{ marginTop: 12, ...font(26, 400, { color: "#B9B9C2", letterSpacing: 0 }) }}>{s.d}</div>
+                <div style={{ marginTop: 22, ...font(52, 600, { color: "#FFFFFF", letterSpacing: "-0.035em", lineHeight: 1.08 }) }}>{s.t}</div>
               </div>
             </div>
           );
         })}
-        <Karaoke
-          scene={ID}
-          text={POR_SECTOR.tail}
-          from="Crece con cada proyecto"
-          appear={cCrece - 10}
-          style={{ position: "absolute", left: 120, top: 800, width: 1500, ...font(36, 400, { letterSpacing: "-0.02em", lineHeight: 1.3 }) }}
-          on="#FFFFFF"
-          dim="#66666E"
-        />
       </div>
 
       {/* Un marco, diferentes cerebros */}
@@ -129,7 +116,6 @@ export const S11PorSector: React.FC = () => {
               <div style={{ ...font(84, 700, { color: tl.ink === "dark" ? "#FF4DA6" : C.magenta, letterSpacing: "-0.05em", lineHeight: 1 }) }}>{b.a}</div>
               <div style={{ ...font(84, 700, { color: tl.fg, letterSpacing: "-0.05em", lineHeight: 1.02 }) }}>Digital Brain</div>
               <div style={{ marginTop: 18, ...font(25, 500, { color: tl.ink === "dark" ? "#FF4DA6" : C.magenta, letterSpacing: 0 }) }}>{b.t}</div>
-              <div style={{ marginTop: 12, ...font(22, 400, { color: tl.sub, letterSpacing: 0, lineHeight: 1.36 }) }}>{b.d}</div>
             </div>
           </div>
         );

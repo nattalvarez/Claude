@@ -25,7 +25,7 @@ export const S06AgentFactory: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="dark" />
-      <StockVideo name="aceleracion" rate={0.8} brightness={1.0} contrast={1.2} opacity={1} />
+      <StockVideo name="aceleracion" rate={0.75} brightness={0.9} veil={0.3} vignette={0.55} drift={1.1} driftFrames={700} />
       <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(12,12,15,0.9) 0%, rgba(12,12,15,0.62) 50%, rgba(12,12,15,0.05) 100%)" }} />
       {/* a la derecha, la seda se abre como una fábrica de hilos; la cámara avanza lentamente */}
       <SilkField
@@ -56,38 +56,14 @@ export const S06AgentFactory: React.FC = () => {
           habilitada por la Agent Factory
         </MaskLine>
       </div>
-      <div style={{ position: "absolute", left: 124, top: 560, ...font(34, 400, { color: "#E6E6EA", letterSpacing: "-0.012em" }) }}>
-        <MaskLine start={cue(ID, "habilitada") + 10} dur={26}>
-          {AGENT_FACTORY.lead}
-        </MaskLine>
-      </div>
-
       <Karaoke
         scene={ID}
         text={AGENT_FACTORY.l1}
         from="No convertimos"
         appear={cNo - 8}
-        style={{ position: "absolute", left: 124, top: 700, width: 1400, ...font(36, 500, { letterSpacing: "-0.025em", lineHeight: 1.2 }) }}
+        style={{ position: "absolute", left: 124, top: 640, width: 1300, ...font(62, 500, { letterSpacing: "-0.035em", lineHeight: 1.12 }) }}
         on="#FFFFFF"
         dim="#6A6A72"
-      />
-      <Karaoke
-        scene={ID}
-        text={AGENT_FACTORY.l2}
-        from="La Agent Factory"
-        appear={cLa - 8}
-        style={{ position: "absolute", left: 124, top: 776, width: 1000, ...font(28, 400, { letterSpacing: "-0.005em", lineHeight: 1.36 }) }}
-        on="#E6E6EA"
-        dim="#64646C"
-      />
-      <Karaoke
-        scene={ID}
-        text={AGENT_FACTORY.l3}
-        from="Una capacidad"
-        appear={cUna - 8}
-        style={{ position: "absolute", left: 124, top: 934, width: 1000, ...font(28, 500, { letterSpacing: "-0.005em" }) }}
-        on="#FF4DA6"
-        dim="#6B3A55"
       />
       <Finish tone="dark" />
     </AbsoluteFill>
