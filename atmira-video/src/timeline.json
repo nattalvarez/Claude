@@ -1,0 +1,48 @@
+{
+  "total": 3015,
+  "scenes": {
+    "hook": { "from": 0, "dur": 120 },
+    "title": { "from": 120, "dur": 150 },
+    "modernizar": { "from": 270, "dur": 420 },
+    "moves": { "from": 690, "dur": 300 },
+    "platform": { "from": 990, "dur": 270 },
+    "accel": { "from": 1260, "dur": 540 },
+    "special": { "from": 1800, "dur": 450 },
+    "cases": { "from": 2250, "dur": 180 },
+    "clients": { "from": 2430, "dur": 150 },
+    "close": { "from": 2580, "dur": 435 }
+  },
+  "cuts": [
+    { "at": 45, "kind": "flash" },
+    { "at": 120, "kind": "slices" },
+    { "at": 270, "kind": "wipeDark" },
+    { "at": 450, "kind": "flash" },
+    { "at": 480, "kind": "wipeDark" },
+    { "at": 540, "kind": "flash" },
+    { "at": 600, "kind": "wipeDark" },
+    { "at": 690, "kind": "slicesDark" },
+    { "at": 990, "kind": "wipe" },
+    { "at": 1260, "kind": "wipeDark" },
+    { "at": 1425, "kind": "slicesDark" },
+    { "at": 1545, "kind": "wipeDark" },
+    { "at": 1620, "kind": "flash" },
+    { "at": 1800, "kind": "slicesDark" },
+    { "at": 1980, "kind": "wipeDark" },
+    { "at": 2250, "kind": "wipeDark" },
+    { "at": 2430, "kind": "wipe" },
+    { "at": 2580, "kind": "slicesDark" },
+    { "at": 2700, "kind": "wipe" }
+  ],
+  "vo": [
+    { "src": "vo/s01.mp3", "at": 3, "dur": 81 },
+    { "src": "vo/s02.mp3", "at": 126, "dur": 107 },
+    { "src": "vo/s03.mp3", "at": 279, "dur": 398 },
+    { "src": "vo/s04.mp3", "at": 699, "dur": 290 },
+    { "src": "vo/s05.mp3", "at": 999, "dur": 229 },
+    { "src": "vo/s06.mp3", "at": 1269, "dur": 506 },
+    { "src": "vo/s07.mp3", "at": 1809, "dur": 410 },
+    { "src": "vo/s08.mp3", "at": 2259, "dur": 134 },
+    { "src": "vo/s09.mp3", "at": 2439, "dur": 105 },
+    { "src": "vo/s10.mp3", "at": 2589, "dur": 316 }
+  ]
+}

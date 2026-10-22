@@ -54,7 +54,7 @@ const Slam: React.FC<{ word: string; at: number; struck?: boolean; strikeAt?: nu
 
 const NoTodo: React.FC = () => {
   const frame = useCurrentFrame();
-  const out = ramp(frame, 74, 88, 0, 1, theme.ease.in);
+  const out = ramp(frame, 36, 44, 0, 1, theme.ease.in);
   return (
     <SceneShell mode="dark" seed={1} exit={false}>
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
@@ -73,9 +73,9 @@ const NoTodo: React.FC = () => {
             filter: `blur(${out * 14}px)`,
           }}
         >
-          <Slam word="No" at={6} />
-          <Slam word="hacemos" at={ BEAT + 6 } />
-          <Slam word="todo." at={ BEAT * 2 + 6 } struck strikeAt={BEAT * 3 + 8} />
+          <Slam word="No" at={2} />
+          <Slam word="hacemos" at={9} />
+          <Slam word="todo." at={19} struck strikeAt={30} />
         </div>
       </AbsoluteFill>
     </SceneShell>
@@ -85,7 +85,7 @@ const NoTodo: React.FC = () => {
 const HacemosEsto: React.FC = () => {
   const frame = useCurrentFrame();
   const p = useSpring(2, theme.spring.slam);
-  const under = ramp(frame, 22, 46, 0, 100, theme.ease.inOut);
+  const under = ramp(frame, 24, 44, 0, 100, theme.ease.inOut);
   const mode: Mode = "light";
   return (
     <SceneShell mode={mode} seed={2} exit={false}>
@@ -103,7 +103,7 @@ const HacemosEsto: React.FC = () => {
             Hacemos
           </MaskLine>
           <div style={{ position: "relative" }}>
-            <MaskLine delay={9} style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 330, color: theme.colors.hero, lineHeight: 0.9 }}>
+            <MaskLine delay={14} style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 330, color: theme.colors.hero, lineHeight: 0.9 }}>
               esto.
             </MaskLine>
             <div
@@ -126,10 +126,10 @@ const HacemosEsto: React.FC = () => {
 
 export const Hook: React.FC = () => (
   <>
-    <Sequence from={0} durationInFrames={BEAT * 6}>
+    <Sequence from={0} durationInFrames={BEAT * 3}>
       <NoTodo />
     </Sequence>
-    <Sequence from={BEAT * 6} durationInFrames={BEAT * 6}>
+    <Sequence from={BEAT * 3} durationInFrames={BEAT * 5}>
       <HacemosEsto />
     </Sequence>
   </>

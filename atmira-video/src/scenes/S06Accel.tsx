@@ -24,8 +24,8 @@ const TitleA: React.FC = () => {
           </span>
         </MaskLine>
         <div style={{ marginTop: 70 }}>
-          <Words text="No convertimos código." size={58} weight={500} per={3} delay={BEAT * 2.4} style={{ color: theme.colors.textDim }} />
-          <Words text="Transformamos *cómo se construye* software." size={58} weight={700} per={3} delay={BEAT * 3.2} emScale={1.14} style={{ marginTop: 6 }} />
+          <Words text="No convertimos código." size={58} weight={500} per={3} delay={40} style={{ color: theme.colors.textDim }} />
+          <Words text="Transformamos *cómo se construye* software." size={58} weight={700} per={3} delay={92} emScale={1.14} style={{ marginTop: 6 }} />
         </div>
       </AbsoluteFill>
     </SceneShell>
@@ -47,7 +47,7 @@ const colX = (i: number) => X0 + i * (COL_W + GAP);
 
 const Pipeline: React.FC = () => {
   const frame = useCurrentFrame();
-  const packetT = ramp(frame, 40, 150, 0, 1, theme.ease.inOut);
+  const packetT = ramp(frame, 12, 108, 0, 1, theme.ease.inOut);
   const packetX = X0 + packetT * (4 * COL_W + 3 * GAP);
   const LINE_Y = 718;
   return (
@@ -55,14 +55,14 @@ const Pipeline: React.FC = () => {
       <div style={{ position: "absolute", left: 130, top: 66 }}>
         <Words text="Cómo aceleramos: *cada cambio, trazado*" size={70} per={2.5} />
       </div>
-      <Pop delay={20} from="left" style={{ position: "absolute", left: 130, top: 150 }}>
+      <Pop delay={8} from="left" style={{ position: "absolute", left: 130, top: 150 }}>
         <div style={{ fontFamily: theme.fonts.body, fontWeight: 700, fontSize: 22, letterSpacing: "0.16em", textTransform: "uppercase", padding: "9px 24px", borderRadius: 100, border: `2px solid ${theme.colors.hero}`, color: "#fff", background: "rgba(230,0,126,0.16)" }}>
           Spec-Driven Development
         </div>
       </Pop>
 
       {/* guardrails ribbon */}
-      <Pop delay={14} style={{ position: "absolute", left: X0, top: 236, width: 4 * COL_W + 3 * GAP }}>
+      <Pop delay={4} style={{ position: "absolute", left: X0, top: 236, width: 4 * COL_W + 3 * GAP }}>
         <div style={{ height: 54, borderRadius: 12, border: `1.5px solid ${theme.colors.line}`, display: "flex", alignItems: "center", padding: "0 24px", gap: 20, fontFamily: theme.fonts.body, fontSize: 21, color: theme.colors.textDim }}>
           <b style={{ color: "#fff", letterSpacing: "0.18em" }}>GUARDRAILS</b>
           identidad · sandboxing · control de salidas · pasarela MCP · secretos · model proxy · kill switch
@@ -72,7 +72,7 @@ const Pipeline: React.FC = () => {
       {PHASES.map((ph, i) => {
         const lit = interpolate(packetX, [colX(i) - 80, colX(i) + 60, colX(i) + COL_W + 40, colX(i) + COL_W + 200], [0, 1, 1, 0.55], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
         return (
-          <Pop key={i} delay={22 + i * 5} style={{ position: "absolute", left: colX(i), top: 312, width: COL_W }}>
+          <Pop key={i} delay={6 + i * 3} style={{ position: "absolute", left: colX(i), top: 312, width: COL_W }}>
             <div
               style={{
                 height: 330,
@@ -104,7 +104,7 @@ const Pipeline: React.FC = () => {
         const passed = packetX > gx;
         const flash = interpolate(packetX, [gx - 30, gx, gx + 70], [0, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
         return (
-          <Pop key={i} delay={34 + i * 5} style={{ position: "absolute", left: gx - 120, top: LINE_Y - 22, width: 240 }}>
+          <Pop key={i} delay={12 + i * 3} style={{ position: "absolute", left: gx - 120, top: LINE_Y - 22, width: 240 }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
               <div style={{ width: 40, height: 40, transform: `rotate(45deg) scale(${1 + flash * 0.35})`, background: passed ? theme.colors.hero : theme.colors.bg, border: `3px solid ${passed ? theme.colors.hero : "#fff"}`, boxShadow: flash > 0.2 ? `0 0 ${34 * flash}px ${theme.colors.hero}` : "none" }} />
               <div style={{ marginTop: 22, fontFamily: theme.fonts.body, fontWeight: 600, fontSize: 21, color: "#fff", opacity: passed ? 1 : 0.55, textAlign: "center" }}>{ph.gate}</div>
@@ -122,18 +122,18 @@ const Pipeline: React.FC = () => {
           borderRadius: 28,
           background: "#fff",
           boxShadow: `0 0 30px 8px ${theme.colors.hero}`,
-          opacity: ramp(frame, 38, 46, 0, 1) * (1 - ramp(frame, 150, 158, 0, 1)),
+          opacity: ramp(frame, 10, 16, 0, 1) * (1 - ramp(frame, 108, 114, 0, 1)),
         }}
       />
 
       {/* digital brain ribbon */}
-      <Pop delay={44} style={{ position: "absolute", left: X0, top: 872, width: 4 * COL_W + 3 * GAP }}>
+      <Pop delay={16} style={{ position: "absolute", left: X0, top: 872, width: 4 * COL_W + 3 * GAP }}>
         <div style={{ height: 76, borderRadius: 14, background: theme.colors.hero, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 34px", fontFamily: theme.fonts.body, color: "#fff" }}>
           <span><b style={{ letterSpacing: "0.18em", fontSize: 24 }}>DIGITAL BRAIN</b> <span style={{ fontSize: 22, opacity: 0.9, marginLeft: 16 }}>ontología del dominio · memoria compartida · estándares del cliente</span></span>
           <span style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 32 }}>aporta contexto · consolida lo aprendido</span>
         </div>
       </Pop>
-      <Body delay={BEAT * 8} size={26} style={{ position: "absolute", left: X0, top: 972, color: "#fff" }} dim={false}>
+      <Body delay={70} size={26} style={{ position: "absolute", left: X0, top: 972, color: "#fff" }} dim={false}>
         <span style={{ color: theme.colors.textDim }}>Los agentes generan y prueban. </span>Las personas aprueban en cada gate.
       </Body>
     </SceneShell>
@@ -160,7 +160,7 @@ const PG = 18;
 
 const Agents: React.FC = () => {
   const frame = useCurrentFrame();
-  const scan = ramp(frame, 26, 96, 0, 1, theme.ease.inOut);
+  const scan = ramp(frame, 6, 56, 0, 1, theme.ease.inOut);
   const rows: [string, string, string[][], number][] = [
     ["Agentes de negocio", "Saben del dominio", BIZ, 296],
     ["Agentes de tecnología", "Saben de la tecnología", TECH, 598],
@@ -171,19 +171,19 @@ const Agents: React.FC = () => {
         <Words text="Quién acelera: *agentes expertos* en cada fase" size={68} per={2.5} />
       </div>
       {["Analiza", "Decide", "Construye", "Opera"].map((p, i) => (
-        <Pop key={p} delay={10 + i * 3} style={{ position: "absolute", left: PX0 + i * (PW + PG), top: 232, width: PW }}>
+        <Pop key={p} delay={2 + i * 2} style={{ position: "absolute", left: PX0 + i * (PW + PG), top: 232, width: PW }}>
           <div style={{ fontFamily: theme.fonts.display, fontWeight: 700, fontSize: 36, letterSpacing: "-0.03em", color: "#fff", borderBottom: `3px solid ${theme.colors.hero}`, paddingBottom: 10 }}>{p}</div>
         </Pop>
       ))}
       {rows.map(([title, sub, data, y], ri) => (
         <React.Fragment key={title}>
-          <Pop delay={14 + ri * 8} from="left" style={{ position: "absolute", left: 130, top: y, width: 310 }}>
+          <Pop delay={3 + ri * 4} from="left" style={{ position: "absolute", left: 130, top: y, width: 310 }}>
             <div style={{ fontFamily: theme.fonts.display, fontWeight: 800, fontSize: 40, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1.05 }}>{title}</div>
             <div style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 32, color: theme.colors.hero, marginTop: 8 }}>{sub}</div>
           </Pop>
           {data.map((col, ci) =>
             col.map((name, k) => {
-              const delay = 18 + ri * 10 + ci * 4 + k * 2;
+              const delay = 5 + ri * 6 + ci * 2 + k;
               const cellX = PX0 + ci * (PW + PG);
               const hit = interpolate(scan * (PX0 + 4 * (PW + PG)) + 0, [cellX - 40, cellX + 60, cellX + PW + 60], [0, 1, 0.0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
               return (
@@ -213,7 +213,7 @@ const Agents: React.FC = () => {
           )}
         </React.Fragment>
       ))}
-      <Pop delay={BEAT * 5} style={{ position: "absolute", left: 130, right: 130, top: 880 }}>
+      <Pop delay={32} style={{ position: "absolute", left: 130, right: 130, top: 880 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 28, borderTop: `1px solid ${theme.colors.line}`, paddingTop: 30 }}>
           <span style={{ fontFamily: theme.fonts.body, fontWeight: 700, fontSize: 22, letterSpacing: "0.2em", color: theme.colors.hero }}>HUMAN-IN-THE-LOOP</span>
           <span style={{ fontFamily: theme.fonts.display, fontWeight: 700, fontSize: 46, letterSpacing: "-0.03em", color: "#fff" }}>
@@ -255,13 +255,13 @@ const Sirec: React.FC = () => {
             Solución de la plataforma
           </Eyebrow>
           <Words text="Inteligencia aplicada al ciclo de *riesgo de crédito*" size={66} mode="light" per={2.5} delay={6} lineHeight={1.05} />
-          <Body mode="light" delay={22} size={30} style={{ marginTop: 26 }}>
+          <Body mode="light" delay={44} size={30} style={{ marginTop: 26 }}>
             Anticipación, seguimiento y recobro orquestados con agentes propios y de terceros.
           </Body>
-          <Pop delay={26} from="left" style={{ marginTop: 30 }}>
+          <Pop delay={56} from="left" style={{ marginTop: 30 }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: 18 }}>
               <span style={{ fontFamily: theme.fonts.display, fontWeight: 800, fontSize: 118, letterSpacing: "-0.05em", color: theme.colors.hero, lineHeight: 1 }}>
-                +<Counter to={15} delay={26} />
+                +<Counter to={15} delay={56} />
               </span>
               <span style={{ fontFamily: theme.fonts.body, fontWeight: 600, fontSize: 28, color: theme.colors.ink }}>clientes en Europa y Latinoamérica</span>
             </div>
@@ -274,16 +274,16 @@ const Sirec: React.FC = () => {
 
 export const Accel: React.FC = () => (
   <>
-    <Sequence from={0} durationInFrames={BAR * 2}>
+    <Sequence from={0} durationInFrames={165}>
       <TitleA />
     </Sequence>
-    <Sequence from={BAR * 2} durationInFrames={BAR * 3}>
+    <Sequence from={165} durationInFrames={120}>
       <Pipeline />
     </Sequence>
-    <Sequence from={BAR * 5} durationInFrames={BAR * 2}>
+    <Sequence from={285} durationInFrames={75}>
       <Agents />
     </Sequence>
-    <Sequence from={BAR * 7} durationInFrames={BAR}>
+    <Sequence from={360} durationInFrames={180}>
       <Sirec />
     </Sequence>
   </>

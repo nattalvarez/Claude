@@ -85,7 +85,7 @@ const Row: React.FC<{
 export const Platform: React.FC = () => {
   const frame = useCurrentFrame();
   const boxP = useSpring(34, theme.spring.smooth);
-  const cap = ramp(frame, BEAT * 10 + 4, BEAT * 10 + 18, 0, 1);
+  const cap = ramp(frame, 96, 110, 0, 1);
   return (
     <SceneShell mode="light" seed={11}>
       <div style={{ position: "absolute", left: 110, top: 70 }}>
@@ -125,9 +125,9 @@ export const Platform: React.FC = () => {
           background: "rgba(230,0,126,0.04)",
         }}
       />
-      <Row y={TOP + 12} h={150} delay={40} label="Aceleración" sub="Agent Factory" text="Agentes que analizan, deciden, construyen y operan, con una persona que aprueba en cada fase." variant="white" glowAt={BEAT * 8} />
-      <Row y={TOP + 12 + 164} h={150} delay={48} label="Especialización" sub="Digital Brain" text="El conocimiento del negocio de cada sector, preservado y ampliado con cada proyecto." variant="hero" glowAt={BEAT * 9} />
-      <Row y={TOP + 12 + 328} h={150} delay={56} label="Gobierno" sub="AI Steering · Guardrails" text="Dirección, límites y puntos de control sobre lo que hacen los agentes." variant="grey" glowAt={BEAT * 10} />
+      <Row y={TOP + 12} h={150} delay={40} label="Aceleración" sub="Agent Factory" text="Agentes que analizan, deciden, construyen y operan, con una persona que aprueba en cada fase." variant="white" glowAt={100} />
+      <Row y={TOP + 12 + 164} h={150} delay={48} label="Especialización" sub="Digital Brain" text="El conocimiento del negocio de cada sector, preservado y ampliado con cada proyecto." variant="hero" glowAt={168} />
+      <Row y={TOP + 12 + 328} h={150} delay={56} label="Gobierno" sub="AI Steering · Guardrails" text="Dirección, límites y puntos de control sobre lo que hacen los agentes." variant="grey" glowAt={215} />
 
       <Eyebrow mode="light" delay={64} size={20} style={{ position: "absolute", left: RX, top: TOP - 52, color: theme.colors.inkDim }}>
         Arquitectura objetivo

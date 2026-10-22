@@ -57,59 +57,9 @@ const TitleA: React.FC = () => {
           </span>
         </MaskLine>
         <div style={{ marginTop: 64, maxWidth: 1300 }}>
-          <Words text="El conocimiento del negocio es lo que convierte la tecnología en *resultados.*" size={52} weight={600} per={2.5} delay={BEAT * 2.6} lineHeight={1.08} />
+          <Words text="El conocimiento del negocio es lo que convierte la tecnología en *resultados.*" size={52} weight={600} per={2.5} delay={50} lineHeight={1.08} />
         </div>
       </AbsoluteFill>
-    </SceneShell>
-  );
-};
-
-/* ------------------------------------------------------------------ B: the triad */
-
-const TRIAD = [
-  { n: "01", q: "A quién", t: "Segmentos de cliente" },
-  { n: "02", q: "Qué", t: "Dominios de negocio" },
-  { n: "03", q: "Cómo", t: "Tecnología y arquitectura" },
-];
-
-const Triad: React.FC = () => {
-  const frame = useCurrentFrame();
-  const active = Math.min(2, Math.floor(Math.max(0, frame - 26) / 20));
-  return (
-    <SceneShell mode="dark" seed={31}>
-      <NeuralField n={40} opacity={0.6} />
-      <div style={{ position: "absolute", left: 130, top: 84 }}>
-        <Words text="Cada Digital Brain reúne *tres tipos* de conocimiento" size={74} per={2.5} maxWidth={1500} lineHeight={1.05} />
-      </div>
-      <div style={{ position: "absolute", left: 130, right: 130, top: 430, display: "flex", gap: 40 }}>
-        {TRIAD.map((c, i) => {
-          const on = active === i;
-          return (
-            <Pop key={i} delay={10 + i * 6} dist={60} style={{ flex: 1 }}>
-              <div
-                style={{
-                  borderRadius: 28,
-                  padding: "40px 44px",
-                  height: 380,
-                  boxSizing: "border-box",
-                  background: on ? theme.colors.hero : "rgba(255,255,255,0.07)",
-                  border: `2px solid ${on ? theme.colors.hero : theme.colors.line}`,
-                  boxShadow: on ? `0 30px 80px -20px ${theme.colors.hero}` : "none",
-                  backdropFilter: "blur(6px)",
-                  transform: `translateY(${on ? -12 : 0}px)`,
-                }}
-              >
-                <div style={{ fontFamily: theme.fonts.display, fontWeight: 800, fontSize: 40, color: on ? "#fff" : theme.colors.hero, letterSpacing: "-0.03em" }}>{c.n}</div>
-                <div style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 112, lineHeight: 1, color: "#fff", margin: "30px 0 14px" }}>{c.q}</div>
-                <div style={{ fontFamily: theme.fonts.display, fontWeight: 700, fontSize: 44, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1.05 }}>{c.t}</div>
-              </div>
-            </Pop>
-          );
-        })}
-      </div>
-      <Body delay={BEAT * 4} size={32} style={{ position: "absolute", left: 130, top: 880 }}>
-        Crece con cada proyecto y es la base para acelerar con IA la modernización de cada dominio.
-      </Body>
     </SceneShell>
   );
 };
@@ -139,7 +89,7 @@ const BRAINS = [
 
 const Brains: React.FC = () => {
   const frame = useCurrentFrame();
-  const foot = ramp(frame, BEAT * 11, BEAT * 11 + 14, 0, 1);
+  const foot = ramp(frame, 150, 164, 0, 1);
   return (
     <SceneShell mode="dark" seed={32}>
       <div style={{ position: "absolute", left: 130, top: 70 }}>
@@ -147,7 +97,7 @@ const Brains: React.FC = () => {
       </div>
       <div style={{ position: "absolute", left: 130, right: 130, top: 232, display: "flex", gap: 34 }}>
         {BRAINS.map((b, i) => (
-          <Pop key={b.a} delay={10 + i * 7} dist={70} style={{ flex: 1 }}>
+          <Pop key={b.a} delay={70 + i * 14} dist={70} style={{ flex: 1 }}>
             <div
               style={{
                 height: 600,
@@ -165,7 +115,7 @@ const Brains: React.FC = () => {
               <div style={{ fontFamily: theme.fonts.display, fontWeight: 600, fontSize: 46, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1.05 }}>Digital Brain{b.dashed ? "s" : ""}</div>
               <div style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 34, color: theme.colors.textDim, margin: "16px 0 34px", lineHeight: 1.1 }}>{b.tag}</div>
               {b.items.map((it, k) => {
-                const d = 44 + i * 6 + k * 7;
+                const d = 92 + i * 10 + k * 8;
                 const p = ramp(frame, d, d + 12, 0, 1);
                 return (
                   <div
@@ -203,13 +153,10 @@ const Brains: React.FC = () => {
 
 export const Special: React.FC = () => (
   <>
-    <Sequence from={0} durationInFrames={BAR * 2}>
+    <Sequence from={0} durationInFrames={180}>
       <TitleA />
     </Sequence>
-    <Sequence from={BAR * 2} durationInFrames={BAR * 1.5}>
-      <Triad />
-    </Sequence>
-    <Sequence from={BAR * 3.5} durationInFrames={BAR * 3.5}>
+    <Sequence from={180} durationInFrames={270}>
       <Brains />
     </Sequence>
   </>

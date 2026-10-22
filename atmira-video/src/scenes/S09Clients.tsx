@@ -24,10 +24,10 @@ export const Clients: React.FC = () => {
       <div style={{ position: "absolute", left: 130, top: 70 }}>
         <Words text="Relaciones duraderas con *nuestros clientes*" size={72} mode="light" per={2.5} maxWidth={1100} lineHeight={1.02} />
       </div>
-      <Pop delay={14} from="right" style={{ position: "absolute", right: 130, top: 66 }}>
+      <Pop delay={50} from="right" style={{ position: "absolute", right: 130, top: 66 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 18 }}>
           <span style={{ fontFamily: theme.fonts.display, fontWeight: 800, fontSize: 150, letterSpacing: "-0.055em", color: theme.colors.hero, lineHeight: 1 }}>
-            +<Counter to={40} delay={14} />
+            +<Counter to={40} delay={50} />
           </span>
           <span style={{ fontFamily: theme.fonts.display, fontWeight: 600, fontSize: 34, color: theme.colors.ink, lineHeight: 1.05, letterSpacing: "-0.02em" }}>
             clientes

@@ -1,6 +1,9 @@
 import React from "react";
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
-import { BAR, theme } from "../theme";
+import { SCENES, theme } from "../theme";
+
+// each gain lands on its spoken word: 6s, 7s, 9s, 11s into the scene
+const GAIN_AT = [180, 210, 270, 330];
 import { Body, Eyebrow, Mode, Pop, SceneShell, Words, colorsFor, ramp, rand, useSpring } from "../components/kit";
 
 /* ---------------------------------------------------------------- intro */
@@ -51,12 +54,12 @@ const Intro: React.FC = () => (
       <Words
         text="Modernizar es renovar lo que sostiene el negocio, *dominio a dominio* y de forma continua."
         size={96}
-        per={3}
-        delay={4}
+        per={9}
+        delay={8}
         maxWidth={1180}
         lineHeight={1.06}
       />
-      <Body delay={74} size={34} maxWidth={1000} style={{ marginTop: 44 }}>
+      <Body delay={140} size={34} maxWidth={1000} style={{ marginTop: 44 }}>
         Una transformación controlada, liderada por la arquitectura: preserva el conocimiento crítico del negocio y reduce la deuda técnica.
       </Body>
     </AbsoluteFill>
@@ -233,11 +236,11 @@ const GainScene: React.FC<{ g: Gain; i: number }> = ({ g, i }) => {
 
 export const Modernizar: React.FC = () => (
   <>
-    <Sequence from={0} durationInFrames={BAR * 2}>
+    <Sequence from={0} durationInFrames={GAIN_AT[0]}>
       <Intro />
     </Sequence>
     {GAINS.map((g, i) => (
-      <Sequence key={i} from={BAR * (2 + i)} durationInFrames={BAR}>
+      <Sequence key={i} from={GAIN_AT[i]} durationInFrames={(GAIN_AT[i + 1] ?? SCENES.modernizar.dur) - GAIN_AT[i]}>
         <GainScene g={g} i={i} />
       </Sequence>
     ))}

@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
-import { SCENES, BAR } from "./theme";
+import { SCENES } from "./theme";
+import timeline from "./timeline.json";
 import { Grain, Vignette } from "./components/kit";
 import { Cuts, CutDef } from "./components/Cuts";
 import { Hook } from "./scenes/S01Hook";
@@ -16,30 +17,19 @@ import { Close } from "./scenes/S10Close";
 
 const S = SCENES;
 
-// Every cut is on a bar line (scene boundaries + in-scene beat changes).
-export const CUTS: CutDef[] = [
-  { at: S.hook.from + BAR * 1.5, kind: "flash" },
-  { at: S.title.from, kind: "slices" },
-  { at: S.modernizar.from, kind: "wipeDark" },
-  // S3 intro → four gains (each one bar)
-  { at: S.modernizar.from + BAR * 2, kind: "flash" },
-  { at: S.modernizar.from + BAR * 3, kind: "wipeDark" },
-  { at: S.modernizar.from + BAR * 4, kind: "flash" },
-  { at: S.modernizar.from + BAR * 5, kind: "wipeDark" },
-  { at: S.moves.from, kind: "slicesDark" },
-  { at: S.platform.from, kind: "wipe" },
-  { at: S.accel.from, kind: "wipeDark" },
-  { at: S.accel.from + BAR * 2, kind: "slicesDark" },
-  { at: S.accel.from + BAR * 5, kind: "wipeDark" },
-  { at: S.accel.from + BAR * 7, kind: "flash" },
-  { at: S.special.from, kind: "slicesDark" },
-  { at: S.special.from + BAR * 2, kind: "wipeDark" },
-  { at: S.special.from + BAR * 3.5, kind: "slicesDark" },
-  { at: S.cases.from, kind: "wipeDark" },
-  { at: S.clients.from, kind: "wipe" },
-  { at: S.close.from, kind: "slicesDark" },
-  { at: S.close.from + BAR * 3, kind: "wipe" },
-];
+export const CUTS = timeline.cuts as CutDef[];
+
+// Voice-over windows (frames) — the music bed ducks while the narrator speaks.
+const VO = timeline.vo;
+const MUSIC = 0.62;
+const DUCKED = 0.3;
+const musicVolume = (f: number) => {
+  let d = 0;
+  for (const v of VO) {
+    d = Math.max(d, Math.min(1, Math.max(0, Math.min((f - (v.at - 8)) / 10, (v.at + v.dur + 12 - f) / 14))));
+  }
+  return MUSIC + (DUCKED - MUSIC) * d;
+};
 
 export const Film: React.FC = () => (
   <AbsoluteFill style={{ background: "#000" }}>
@@ -53,7 +43,13 @@ export const Film: React.FC = () => (
     <Sequence from={S.cases.from} durationInFrames={S.cases.dur}><Cases /></Sequence>
     <Sequence from={S.clients.from} durationInFrames={S.clients.dur}><Clients /></Sequence>
     <Sequence from={S.close.from} durationInFrames={S.close.dur}><Close /></Sequence>
-    <Audio src={staticFile("sfx/soundtrack.mp3")} volume={0.7} />
+    <Audio src={staticFile("sfx/music.mp3")} volume={musicVolume} />
+    <Audio src={staticFile("sfx/fx.mp3")} volume={0.55} />
+    {VO.map((v) => (
+      <Sequence key={v.src} from={v.at} durationInFrames={v.dur}>
+        <Audio src={staticFile(v.src)} volume={1} />
+      </Sequence>
+    ))}
     <Cuts cuts={CUTS} />
     <Grain />
     <Vignette />

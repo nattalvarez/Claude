@@ -1,7 +1,7 @@
-"""Synthesises the film's soundtrack (music bed + SFX) deterministically with numpy.
+"""Synthesises the film's music bed and SFX (two stems) deterministically with numpy.
 
 120 BPM, 30 fps -> 1 beat = 15 frames, 1 bar = 60 frames. Cuts are on bar lines.
-Output: public/sfx/soundtrack.wav (stereo, 44.1 kHz).
+Output: public/sfx/music.mp3 + public/sfx/fx.mp3. Timing comes from src/timeline.json.
 """
 import numpy as np, wave, os, subprocess
 
@@ -10,8 +10,11 @@ FPS = 30
 BPM = 120
 BEAT = 60 / BPM
 BAR = BEAT * 4
-BARS = 49
-DUR = BARS * BAR + 1.5
+import json
+TL = json.load(open(os.path.join(os.path.dirname(__file__), "..", "src", "timeline.json")))
+TOTAL_S = TL["total"] / FPS
+BARS = int(np.ceil(TOTAL_S / BAR))
+DUR = TOTAL_S + 1.0
 N = int(DUR * SR)
 rng = np.random.default_rng(7)
 
@@ -173,18 +176,33 @@ def sec(frame):
 
 
 # ---------------------------------------------------------------- arrangement
-# energy per bar (0 = drone, 5 = peak)
-energy = [0, 1, 2, 2, 2, 2]           # bars 0-5
-energy += [3, 3, 4, 4, 4, 4]          # 6-11 modernizar
-energy += [3, 3, 3, 3]                # 12-15 moves
-energy += [3, 3, 4, 3]                # 16-19 platform
-energy += [3, 3, 4, 4, 4, 4, 5, 4]    # 20-27 accel
-energy += [3, 3, 4, 4, 4, 4, 4]       # 28-34 special
-energy += [4, 4, 4, 5]                # 35-38 cases
-energy += [3, 3, 3]                   # 39-41 clients
-energy += [5, 5, 5]                   # 42-44 stats
-energy += [2, 2, 2, 1]                # 45-48 finale
-assert len(energy) == BARS
+SC = {k: (v["from"] / FPS, (v["from"] + v["dur"]) / FPS) for k, v in TL["scenes"].items()}
+
+
+def energy_at(t):
+    """0 = drone … 5 = peak, from the scene the bar starts in."""
+    def rel(name):
+        return t - SC[name][0]
+    if t < SC["title"][0]:
+        return 0 if t < 1.5 else 1
+    for name, (a, b) in SC.items():
+        if a <= t < b:
+            r = t - a
+            return {
+                "title": 2,
+                "modernizar": 3 if r < 6 else 4,
+                "moves": 3,
+                "platform": 3,
+                "accel": 3 if r < 5.5 else (4 if r < 12 else 5),
+                "special": 3 if r < 6 else 4,
+                "cases": 4,
+                "clients": 3,
+                "close": 5 if r < 4 else 2,
+            }.get(name, 3)
+    return 1
+
+
+energy = [energy_at(bar * BAR) for bar in range(BARS)]
 
 CH = [  # chord roots + triad (midi)
     (33, [57, 60, 64]),   # Am
@@ -198,20 +216,17 @@ for bar in range(BARS):
     e = energy[bar]
     b0 = bar * BAR
     root, tri = CH[bar % 4]
-    # pad: one chord per bar, overlapping tail
     if e >= 1 or bar == 0:
         for m in tri + [tri[0] + 12]:
             add("pad", pad_note(mtof(m), BAR + 0.8), b0, 0.12 + 0.11 * e, pan=rng.uniform(-0.5, 0.5))
     if bar == 0:
         add("pad", pad_note(mtof(33), BAR * 2), 0, 0.22)
-    # bass
     if e >= 2:
-        for k in range(8):  # 8th-note pulse with octave jump
+        for k in range(8):
             f = mtof(root + (12 if k % 4 == 3 else 0))
             if e == 2 and k % 2 == 1:
                 continue
             add("bass", bass_note(f, BEAT / 2 * 0.9), b0 + k * BEAT / 2, 1.0 if k % 2 == 0 else 0.7)
-    # drums
     for beat in range(4):
         tb = b0 + beat * BEAT
         if e >= 2 or (e == 1 and beat == 0):
@@ -224,72 +239,61 @@ for bar in range(BARS):
         if e >= 4:
             for s16 in (0.25, 0.75):
                 add("drums", hat(), tb + BEAT * s16, 0.45 + 0.2 * (s16 == 0.75), pan=-0.3)
-    # arp
     if e >= 3:
         notes = [tri[0] + 12, tri[1] + 12, tri[2] + 12, tri[1] + 24, tri[2] + 12, tri[1] + 12, tri[0] + 24, tri[2] + 12]
         step = BEAT / 2 if e == 3 else BEAT / 4
-        n_steps = int(BAR / step)
-        for k in range(n_steps):
-            m = notes[k % len(notes)]
-            add("arp", pluck(mtof(m)), b0 + k * step, 0.55 + 0.1 * (k % 4 == 0), pan=-0.4 if k % 2 else 0.4)
+        for k in range(int(BAR / step)):
+            add("arp", pluck(mtof(notes[k % len(notes)])), b0 + k * step, 0.55 + 0.1 * (k % 4 == 0), pan=-0.4 if k % 2 else 0.4)
 
-# pre-cut fills: snare rolls in the bar before the biggest cuts
-for bar in (11, 19, 27, 34, 38, 44):
+# snare rolls into the biggest section changes
+for name in ("modernizar", "accel", "special", "cases", "close"):
+    t0 = SC[name][0]
     for k in range(8):
-        add("drums", snare(0.1), (bar + 1) * BAR - BEAT * 2 + k * BEAT / 4, 0.25 + 0.09 * k)
+        add("drums", snare(0.1), t0 - BEAT * 2 + k * BEAT / 4, 0.25 + 0.09 * k)
 
-# ---- hook (bars 0-1.5): slams + riser + boom at the flash
-for f in (6, 21, 36):
-    add("fx", impact(0.9), sec(f), 0.55)
-    add("fx", tick(), sec(f), 1.0)
-add("fx", riser(1.0), sec(56), 0.9)
-add("fx", reverse_cym(0.8), sec(66), 0.6)
-add("fx", impact(), sec(90), 1.0)
-add("fx", shimmer(1.6), sec(92), 0.8)
+# ---- hook: three slams, riser, boom on the flash
+for f in (2, 9, 19):
+    add("fx", impact(0.9), f / FPS, 0.5)
+    add("fx", tick(), f / FPS, 1.0)
+add("fx", riser(1.3), 0.12, 0.8)
+add("fx", reverse_cym(0.6), 0.9, 0.6)
 
-# ---- cuts: (frame, kind) mirrored from src/Film.tsx
-CUTS = [
-    (90, "flash"), (180, "slices"), (360, "wipe"), (480, "flash"), (540, "wipe"), (600, "flash"),
-    (660, "wipe"), (720, "slices"), (960, "wipe"), (1200, "wipe"), (1320, "slices"), (1500, "wipe"),
-    (1620, "flash"), (1680, "slices"), (1800, "wipe"), (1890, "slices"), (2100, "wipe"), (2340, "wipe"),
-    (2520, "slices"), (2700, "wipe"),
-]
-for f, kind in CUTS:
-    t = sec(f)
-    if f == 90:
-        continue
-    if kind == "wipe":
+# ---- cuts
+for c in TL["cuts"]:
+    f, kind = c["at"], c["kind"]
+    t = f / FPS
+    if kind.startswith("wipe"):
         add("fx", whoosh(0.5), t - 0.3, 0.9, pan=-0.2)
-    elif kind == "slices":
+    elif kind.startswith("slices"):
         for k in range(6):
             add("fx", tick(0.05), t - 0.3 + k * 0.03, 0.7, pan=-0.6 + k * 0.24)
         add("fx", whoosh(0.4), t - 0.25, 0.7, pan=0.2)
     else:
         add("fx", reverse_cym(0.5), t - 0.5, 0.7)
-    add("fx", impact(1.2 if f >= 2500 else 0.9), t, 0.8 if kind != "flash" else 0.9)
+    add("fx", impact(1.2 if f >= 2500 else 0.9), t, 0.9 if kind == "flash" else 0.8)
+    if f == 45:
+        add("fx", shimmer(1.6), t + 0.05, 0.8)
 
-# risers into the big section changes
-for f in (360, 1200, 1680, 2520):
-    add("fx", riser(2.0 - 0.01, 0.9), sec(f) - 2.0, 0.8)
+for name in ("modernizar", "accel", "special", "close"):
+    add("fx", riser(2.0, 0.9), SC[name][0] - 2.0, 0.8)
 
-# counters tick (stats scene + clients +40 + SIREC +15)
+# counters: stats scene, +40 clients, SIREC +15
 for i in range(6):
-    start = sec(2520 + 4 + i * 5)
+    start = SC["close"][0] + (4 + i * 5) / FPS
     for k in range(14):
         add("fx", tick(), start + k * 0.045, 0.5, pan=-0.5 + i * 0.2)
 for k in range(12):
-    add("fx", tick(), sec(2340 + 14) + k * 0.05, 0.4)
+    add("fx", tick(), SC["clients"][0] + 50 / FPS + k * 0.05, 0.4)
 for k in range(8):
-    add("fx", tick(), sec(1620 + 26) + k * 0.05, 0.4)
+    add("fx", tick(), SC["accel"][0] / 1 + (360 + 56) / FPS + k * 0.05, 0.4)
 
-# logo wall shimmer + finale resolve
-add("fx", shimmer(1.4), sec(2340 + 75), 0.7)
-add("fx", shimmer(2.5), sec(2700 + 30), 0.9)
-add("fx", shimmer(3.0), sec(2700 + 120), 0.8)
+add("fx", shimmer(1.4), SC["clients"][0] + 2.5, 0.7)
+add("fx", shimmer(2.5), SC["close"][0] + 120 / FPS + 1.0, 0.9)
+add("fx", shimmer(3.0), SC["close"][0] + 120 / FPS + 4.0, 0.8)
 
-# ---- ending: sustained Am chord, fade
+# ---- ending: sustained Am chord
 for m in (45, 57, 60, 64, 69):
-    add("pad", pad_note(mtof(m), 5.5), 48 * BAR - 0.5, 0.9)
+    add("pad", pad_note(mtof(m), 5.5), TOTAL_S - 5.5, 0.9)
 
 # ------------------------------------------------------------------- mixing
 def sidechain(sig_pair, strength=0.55, rel=0.22):
@@ -319,38 +323,38 @@ def reverb(sig, wet=0.3, length=2.2):
     return outs
 
 
-pad = sidechain(bus["pad"], 0.5)
+pad = reverb(sidechain(bus["pad"], 0.5), wet=0.12)
 arp = reverb(sidechain(bus["arp"], 0.35), wet=0.18)
-pad = reverb(pad, wet=0.12)
 bass = sidechain(bus["bass"], 0.7, 0.2)
 fx = reverb(bus["fx"], wet=0.1)
 drums = bus["drums"]
 
-mix_l = pad[0] * 0.9 + arp[0] * 0.75 + bass[0] * 0.95 + drums[0] * 0.85 + fx[0] * 0.8
-mix_r = pad[1] * 0.9 + arp[1] * 0.75 + bass[1] * 0.95 + drums[1] * 0.85 + fx[1] * 0.8
-
-# global dynamics: gentle intro swell + ending fade
 t = np.arange(N) / SR
-g = np.ones(N)
-g *= np.clip(t / 0.4, 0, 1)
-end = BARS * BAR - 1.5
-g *= np.clip((end + 1.5 - t) / 2.5, 0, 1)
-mix = np.stack([mix_l * g, mix_r * g], axis=1)
-mix = np.tanh(mix * 0.9) / 0.9
-mix = mix / np.max(np.abs(mix)) * 0.89
-pcm = (mix * 32767).astype("<i2")
+fade = np.clip(t / 0.4, 0, 1) * np.clip((TOTAL_S - t) / 3.0, 0, 1)
 
 out = os.path.join(os.path.dirname(__file__), "..", "public", "sfx")
 os.makedirs(out, exist_ok=True)
-wav = os.path.join(out, "soundtrack.wav")
-with wave.open(wav, "wb") as w:
-    w.setnchannels(2)
-    w.setsampwidth(2)
-    w.setframerate(SR)
-    w.writeframes(pcm.tobytes())
-subprocess.run(
-    ["ffmpeg", "-y", "-loglevel", "error", "-i", wav, "-af", "alimiter=limit=0.9", "-c:a", "libmp3lame", "-b:a", "256k", os.path.join(out, "soundtrack.mp3")],
-    check=True,
+
+
+def export(name, l, r, peak):
+    mix = np.stack([l * fade, r * fade], axis=1)
+    mix = np.tanh(mix * 0.9) / 0.9
+    mix = mix / np.max(np.abs(mix)) * peak
+    wav = os.path.join(out, name + ".wav")
+    with wave.open(wav, "wb") as w:
+        w.setnchannels(2)
+        w.setsampwidth(2)
+        w.setframerate(SR)
+        w.writeframes((mix * 32767).astype("<i2").tobytes())
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, "-af", "alimiter=limit=0.9", "-c:a", "libmp3lame", "-b:a", "224k", os.path.join(out, name + ".mp3")], check=True)
+    os.remove(wav)
+
+
+export(
+    "music",
+    pad[0] * 0.9 + arp[0] * 0.75 + bass[0] * 0.95 + drums[0] * 0.85,
+    pad[1] * 0.9 + arp[1] * 0.75 + bass[1] * 0.95 + drums[1] * 0.85,
+    0.89,
 )
-os.remove(wav)
-print("ok", DUR)
+export("fx", fx[0], fx[1], 0.89)
+print("ok", DUR, BARS, energy)

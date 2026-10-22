@@ -59,7 +59,7 @@ const STAGES = [
   { n: "02", title: "Habilita el futuro", text: "Evoluciona hacia arquitecturas modulares y agénticas que aceleren la innovación." },
   { n: "03", title: "Genera valor medible", text: "Mejora la eficiencia, agilidad y rendimiento, con gobierno y control regulatorio." },
 ];
-const SWITCH = [BEAT * 6, BEAT * 10]; // stage 1 -> 2 at f90, 2 -> 3 at f150
+const SWITCH = [195, 240]; // follows the narration: "Habilitas el futuro" at 6.5s, "Generas valor" at 8s
 
 const Field: React.FC = () => {
   const frame = useCurrentFrame();
@@ -142,7 +142,7 @@ export const Moves: React.FC = () => {
   const frame = useCurrentFrame();
   const stage = frame < SWITCH[0] ? 0 : frame < SWITCH[1] ? 1 : 2;
   const colW = 540;
-  const lineFill = ramp(frame, 30, 30 + 60, 0, 1, theme.ease.inOut) * 0 + (stage === 0 ? ramp(frame, 40, SWITCH[0], 0.05, 0.33) : stage === 1 ? ramp(frame, SWITCH[0], SWITCH[1], 0.33, 0.66) : ramp(frame, SWITCH[1], 235, 0.66, 1));
+  const lineFill = ramp(frame, 30, 30 + 60, 0, 1, theme.ease.inOut) * 0 + (stage === 0 ? ramp(frame, 40, SWITCH[0], 0.05, 0.33) : stage === 1 ? ramp(frame, SWITCH[0], SWITCH[1], 0.33, 0.66) : ramp(frame, SWITCH[1], 290, 0.66, 1));
   const tagFor = (s: number) => ramp(frame, s === 0 ? 20 : SWITCH[s - 1] + 4, s === 0 ? 34 : SWITCH[s - 1] + 14, 0, 1) * (stage === s ? 1 : 0);
   return (
     <SceneShell mode="dark" seed={9}>

@@ -42,18 +42,8 @@ export const theme = {
   },
 } as const;
 
-// Scene timeline (frames @30fps, every scene starts on a bar line)
-export const SCENES = {
-  hook: { from: 0, dur: BAR * 3 },
-  title: { from: BAR * 3, dur: BAR * 3 },
-  modernizar: { from: BAR * 6, dur: BAR * 6 },
-  moves: { from: BAR * 12, dur: BAR * 4 },
-  platform: { from: BAR * 16, dur: BAR * 4 },
-  accel: { from: BAR * 20, dur: BAR * 8 },
-  special: { from: BAR * 28, dur: BAR * 7 },
-  cases: { from: BAR * 35, dur: BAR * 4 },
-  clients: { from: BAR * 39, dur: BAR * 3 },
-  close: { from: BAR * 42, dur: BAR * 7 },
-} as const;
+// Scene timeline lives in timeline.json (shared with the audio script), frames @30fps.
+import timeline from "./timeline.json";
 
-export const TOTAL = BAR * 49; // 2940 frames = 98s
+export const SCENES = timeline.scenes;
+export const TOTAL = timeline.total;

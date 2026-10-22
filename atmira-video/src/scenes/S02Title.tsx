@@ -63,19 +63,19 @@ export const Title: React.FC = () => {
         <Eyebrow mode="light" delay={BEAT * 0.5} style={{ marginBottom: 34 }}>
           Banca · Seguros
         </Eyebrow>
-        <MaskLine delay={4} style={{ ...hero, fontSize: 152, color: theme.colors.hero }}>
+        <MaskLine delay={6} style={{ ...hero, fontSize: 152, color: theme.colors.hero }}>
           Modernizamos
         </MaskLine>
-        <MaskLine delay={9} style={{ ...hero, fontSize: 152, color: theme.colors.hero }}>
+        <MaskLine delay={32} style={{ ...hero, fontSize: 152, color: theme.colors.hero }}>
           y{" "}
           <span style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontWeight: 400, letterSpacing: "-0.01em", fontSize: 178 }}>
             aceleramos
           </span>
         </MaskLine>
-        <MaskLine delay={16} style={{ ...hero, fontSize: 100, color: theme.colors.ink, marginTop: 22 }}>
+        <MaskLine delay={62} style={{ ...hero, fontSize: 100, color: theme.colors.ink, marginTop: 22 }}>
           los servicios financieros
         </MaskLine>
-        <DrawLine delay={BEAT * 2} width={420} color={theme.colors.ink} thickness={3} style={{ marginTop: 46 }} />
+        <DrawLine delay={100} width={420} color={theme.colors.ink} thickness={3} style={{ marginTop: 46 }} />
       </AbsoluteFill>
     </SceneShell>
   );

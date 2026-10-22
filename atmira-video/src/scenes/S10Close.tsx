@@ -37,7 +37,7 @@ const Finale: React.FC = () => {
   const frame = useCurrentFrame();
   const logoP = useSpring(0, theme.spring.smooth);
   const breathe = 1 + Math.sin(frame / 24) * 0.012;
-  const contact = ramp(frame, BEAT * 8, BEAT * 8 + 16, 0, 1);
+  const contact = ramp(frame, 225, 241, 0, 1);
   return (
     <SceneShell mode="light" seed={61} exit={false}>
       <AbsoluteFill style={{ overflow: "hidden" }}>
@@ -47,10 +47,10 @@ const Finale: React.FC = () => {
         <Logo width={330} />
       </div>
       <AbsoluteFill style={{ paddingLeft: 130, justifyContent: "center", paddingTop: 70 }}>
-        <Words text="Modernizamos y aceleramos los servicios financieros." size={100} mode="light" per={2.5} delay={4} maxWidth={1500} lineHeight={1.03} />
+        <Words text="Modernizamos y aceleramos los servicios financieros." size={100} mode="light" per={2.5} delay={0} maxWidth={1500} lineHeight={1.03} />
         <div style={{ height: 40 }} />
-        <Words text="Y la capa agéntica que construimos contigo *es tuya.*" size={64} mode="light" weight={600} per={2.5} delay={BEAT * 4} maxWidth={1300} lineHeight={1.08} emScale={1.2} />
-        <DrawLine delay={BEAT * 7} width={420} color={theme.colors.ink} thickness={3} style={{ marginTop: 54 }} />
+        <Words text="Y la capa agéntica que construimos contigo *es tuya.*" size={64} mode="light" weight={600} per={6} delay={93} maxWidth={1300} lineHeight={1.08} emScale={1.2} />
+        <DrawLine delay={200} width={420} color={theme.colors.ink} thickness={3} style={{ marginTop: 54 }} />
         <div style={{ marginTop: 28, opacity: contact, transform: `translateY(${(1 - contact) * 14}px)`, fontFamily: theme.fonts.body, fontWeight: 600, fontSize: 32, letterSpacing: "0.04em", color: theme.colors.ink }}>
           atmira.com <span style={{ color: theme.colors.hero, margin: "0 14px" }}>·</span> Madrid <span style={{ color: theme.colors.hero, margin: "0 14px" }}>·</span> Barcelona
         </div>
@@ -61,10 +61,10 @@ const Finale: React.FC = () => {
 
 export const Close: React.FC = () => (
   <>
-    <Sequence from={0} durationInFrames={BAR * 3}>
+    <Sequence from={0} durationInFrames={120}>
       <Stats />
     </Sequence>
-    <Sequence from={BAR * 3} durationInFrames={BAR * 4}>
+    <Sequence from={120} durationInFrames={315}>
       <Finale />
     </Sequence>
   </>
