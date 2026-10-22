@@ -23,7 +23,7 @@ export const S11PorSector: React.FC = () => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
 
-  const cThree = [cue(ID, "a quién servimos"), cue(ID, "qué hace el negocio"), cue(ID, "con qué tecnología")];
+  const cThree = [cue(ID, "el sector"), cue(ID, "los ámbitos de negocio"), cue(ID, "la tecnología")];
   const cCrece = cue(ID, "Crece con cada proyecto");
   const cMarco = cue(ID, "Un marco");
   const cT = [cue(ID, "Banking"), cue(ID, "Insurance"), cue(ID, "Smart")];

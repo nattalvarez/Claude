@@ -171,17 +171,17 @@ export const ESPECIALIZACION = {
 
 export const POR_SECTOR = {
   title: ["Un Digital Brain", "por sector"],
-  lead: "Cada Digital Brain reúne tres tipos de conocimiento del sector:",
+  lead: "Cada Digital Brain reúne tres capas de conocimiento:",
   threes: [
-    { n: "01", t: "A quién servimos", d: "segmentos de cliente" },
-    { n: "02", t: "Qué hace el negocio", d: "dominios" },
-    { n: "03", t: "Con qué tecnología y arquitectura funciona", d: "sistemas y arquitectura" },
+    { n: "01", t: "El sector", d: "a quién servimos" },
+    { n: "02", t: "Los ámbitos de negocio", d: "qué hace el negocio" },
+    { n: "03", t: "Tecnología y arquitectura", d: "con qué sistemas funciona" },
   ],
   tail: "Crece con cada proyecto y es la base para acelerar con IA la modernización de cada dominio.",
   frame: "Un marco, diferentes cerebros:",
   brains: [
-    { a: "Banking", t: "El cerebro de la banca agéntica", d: "Activamos la banca agéntica modernizando con IA los dominios de negocio del banco: del core al recobro inteligente y a la relación con el cliente, en retail, privada y corporativa." },
-    { a: "Insurance", t: "El cerebro de los seguros inteligentes", d: "Activamos los seguros inteligentes modernizando con IA los dominios de negocio de la aseguradora: del core a la suscripción, los siniestros y la distribución, en vida, generales y salud." },
+    { a: "Banking", t: "El cerebro de la banca agéntica", d: "Activamos la banca agéntica modernizando con IA el negocio del banco, de punta a punta." },
+    { a: "Insurance", t: "El cerebro de los seguros inteligentes", d: "Activamos los seguros inteligentes modernizando con IA el negocio de la aseguradora, de punta a punta." },
     { a: "Smart", t: "Brains en construcción multi industria", d: "Llevamos nuestra capacidad tecnológica a otros sectores y, con cada cliente, sumamos conocimiento para que evolucionen a Digital Brains propios." },
   ],
 };
@@ -193,12 +193,12 @@ export const BANKING: Brain = {
   accent: "Banking",
   name: "Digital Brain",
   tagline: "El cerebro de la banca agéntica.",
-  intro: "Activamos la banca agéntica modernizando con IA los dominios de negocio del banco: del core al recobro inteligente y a la relación con el cliente, en retail, privada y corporativa.",
-  legend: ["A quién · segmento", "Qué · dominios de negocio", "Cómo · tecnología y arquitectura"],
+  intro: "Activamos la banca agéntica modernizando con IA el negocio del banco, de punta a punta.",
+  legend: ["01 · Sector", "02 · Ámbitos de negocio", "03 · Tecnología y arquitectura"],
   cols: [
     {
       n: "01",
-      t: "Segmento de cliente",
+      t: "Sector",
       items: [
         { h: "Banca retail", d: "Contratación y relación omnicanal: mismo contexto de cliente en oficina, app y contact center, con APIs gobernadas y capacidad IA en el canal." },
         { h: "Banca privada", d: "Asesoramiento apoyado en el dato del cliente: propensión, contexto y propuesta preparados antes de la conversación." },
@@ -207,7 +207,7 @@ export const BANKING: Brain = {
     },
     {
       n: "02",
-      t: "Dominios de negocio",
+      t: "Ámbitos de negocio",
       items: [
         { h: "Credit Risk & Collections", d: "Recobro inteligente con SIREC: agentes que anticipan comportamientos, definen estrategias y ejecutan la siguiente mejor acción." },
         { h: "Customer & Onboarding", d: "Alta, contratación y gestión del cliente, integrando identidad, cumplimiento y operaciones de forma fluida y contextual." },
@@ -232,12 +232,12 @@ export const INSURANCE: Brain = {
   accent: "Insurance",
   name: "Digital Brain",
   tagline: "El cerebro de los seguros inteligentes.",
-  intro: "Activamos los seguros inteligentes modernizando con IA los dominios de negocio de la aseguradora: del core a la suscripción, los siniestros y la distribución, en vida, generales y salud.",
-  legend: ["A quién · segmento", "Qué · dominios de negocio", "Cómo · tecnología y arquitectura"],
+  intro: "Activamos los seguros inteligentes modernizando con IA el negocio de la aseguradora, de punta a punta.",
+  legend: ["01 · Sector", "02 · Ámbitos de negocio", "03 · Tecnología y arquitectura"],
   cols: [
     {
       n: "01",
-      t: "Segmento de negocio",
+      t: "Sector",
       items: [
         { h: "Vida y pensiones", d: "Asesoramiento basado en dato para contratación, gestión de cartera y prestaciones con el contexto del cliente compartido entre mediador y compañía." },
         { h: "Generales: autos, hogar y empresas", d: "Tarificación, emisión y siniestros de extremo a extremo en el canal que prefiera el cliente, con IA y trazabilidad de cada decisión." },
@@ -246,7 +246,7 @@ export const INSURANCE: Brain = {
     },
     {
       n: "02",
-      t: "Dominios de negocio",
+      t: "Ámbitos de negocio",
       items: [
         { h: "Underwriting & Pricing", d: "Suscripción y tarificación con agentes que valoran riesgo, contexto y propensión antes de la oferta." },
         { h: "Claims & Benefits", d: "Siniestros y prestaciones de extremo a extremo: apertura, valoración, detección de fraude y pago, con agentes que priorizan y control humano donde importa." },
@@ -271,7 +271,7 @@ export const SMART: Brain = {
   accent: "Smart",
   name: "Digital Brains",
   tagline: "Brains en construcción: llevamos nuestra capacidad tecnológica a otros sectores y, con cada cliente, sumamos conocimiento para que evolucionen a Digital Brains propios.",
-  legend: ["A quién · Sector", "Qué · ámbitos de solución", "Cómo · tecnología y arquitectura"],
+  legend: ["01 · Sector", "02 · Ámbitos de solución", "03 · Tecnología y arquitectura"],
   cols: [
     {
       n: "01",
@@ -308,7 +308,7 @@ export const SMART: Brain = {
 export const CASOS = {
   title: ["Experiencia en", "servicios financieros"],
   eyebrow: "Proyectos reales",
-  cols: ["Segmento de cliente", "Dominios de negocio", "Tecnología y arquitectura"],
+  cols: ["Sector", "Ámbitos de negocio", "Tecnología y arquitectura"],
   items: [
     { id: "asisa", col: 0, logoH: 56, h: "Distribución aseguradora multicompañía", d: "Portal del Mediador para Salud, Vida y Decesos en España y Portugal sobre SISnet 360. El legacy queda migrado y la mediación opera sobre un único ecosistema preparado para crecer." },
     { id: "morabanc", col: 0, logoH: 44, h: "Crédito lombardo digital en banca privada", d: "Gestión integral del crédito, digitalizada y automatizada, para que el tiempo del banquero vaya a la relación con el cliente." },

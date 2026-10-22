@@ -4,7 +4,7 @@ Texto **exactamente igual** al enviado a ElevenLabs (`audio/script.json`, fuente
 
 ## Voz y parámetros
 
-> **v9: doble voz.** Alejandro Castellanos (M, `WWVK6dYMrl0ZHnHT7cRj`) y Natalia – Direct and Polished (F, `jQrhxsqzG6CPKo3ll0w9`, castellano, con `[confident]`; en v8 Carmen `iHGx33VgO2KQ1Fdw6noG` y en v7 Francesca Dari `S7bOxFEwwuJG764dSujP`), modelo `eleven_v4`; 58 tramos en `audio/script_v9.json` (reparto por frase y voz). «SIREC» se envía como «Sírec» y «ModernIzA» como «Moderniza». Lo que sigue describe la voz única de v5/v6.
+> **v10: mismo reparto de voces que v9; Digital Brain locutados en orden sector → ámbitos → tecnología (guion en `audio/script_v10.json`, 58 tramos + 2 nuevos).** **v9: doble voz.** Alejandro Castellanos (M, `WWVK6dYMrl0ZHnHT7cRj`) y Natalia – Direct and Polished (F, `jQrhxsqzG6CPKo3ll0w9`, castellano, con `[confident]`; en v8 Carmen `iHGx33VgO2KQ1Fdw6noG` y en v7 Francesca Dari `S7bOxFEwwuJG764dSujP`), modelo `eleven_v4`; 58 tramos en `audio/script_v9.json` (reparto por frase y voz). «SIREC» se envía como «Sírec» y «ModernIzA» como «Moderniza». Lo que sigue describe la voz única de v5/v6.
 
 | Parámetro | Valor |
 |---|---|

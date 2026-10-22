@@ -16,5 +16,5 @@ for f in "${FIXES[@]}"; do
 done
 piece $n -ss $(python3 -c "print($pos/25)") -i out/seg/video.mp4
 ffmpeg -y -v error -f concat -safe 0 -i out/seg/splice.txt -c copy out/seg/vfinal.mp4
-ffmpeg -y -v error -i out/seg/vfinal.mp4 -i out/seg/audio.wav -map 0:v -map 1:a -c:v copy -af volume=-1dB -c:a aac -b:a 192k -movflags +faststart entrega/atmira-corporativo-v9.mp4
+ffmpeg -y -v error -i out/seg/vfinal.mp4 -i out/seg/audio.wav -map 0:v -map 1:a -c:v copy -af volume=-1dB -c:a aac -b:a 192k -movflags +faststart entrega/atmira-corporativo-v10.mp4
 echo SPLICED

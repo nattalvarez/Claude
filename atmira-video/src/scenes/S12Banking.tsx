@@ -21,7 +21,7 @@ export const S12Banking: React.FC = () => {
   const t = frame / fps;
   const b = BANKING;
 
-  const cCol = [cue(ID, "Tres capas"), cue(ID, "dominios de negocio", 1), cue(ID, "tecnología y arquitectura")];
+  const cCol = [cue(ID, "Primero"), cue(ID, "Después"), cue(ID, "Y por último")];
   const cTag = cue(ID, "Banking");
   const end = voiceEnd(ID);
   const panel = ramp(frame, 0, 34, EASE.out);
