@@ -41,7 +41,7 @@ const Finale: React.FC = () => {
   return (
     <SceneShell mode="light" seed={61} exit={false}>
       <AbsoluteFill style={{ overflow: "hidden" }}>
-        <KenBurns src="brand/gradient.jpg" zoomTo={1.12} origin="100% 100%" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "multiply" }} />
+        <KenBurns src="brand/gradient.jpg" zoomTo={1.12} panX={0} origin="100% 100%" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "multiply" }} />
       </AbsoluteFill>
       <div style={{ position: "absolute", left: 130, top: 90, opacity: logoP, transform: `translateY(${(1 - logoP) * -24}px) scale(${breathe})`, transformOrigin: "left top" }}>
         <Logo width={330} />

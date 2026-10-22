@@ -92,9 +92,8 @@ const HacemosEsto: React.FC = () => {
       <AbsoluteFill style={{ overflow: "hidden" }}>
         <KenBurns
           src="brand/gradient.jpg"
-          zoomTo={1.12}
+          zoomTo={1.12} panX={0}
           origin="100% 100%"
-          panX={-20}
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "multiply" }}
         />
       </AbsoluteFill>

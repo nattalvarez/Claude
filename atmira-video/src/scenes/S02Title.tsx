@@ -51,7 +51,7 @@ export const Title: React.FC = () => {
         />
         <KenBurns
           src="brand/gradient.jpg"
-          zoomTo={1.1}
+          zoomTo={1.1} panX={0}
           origin="100% 100%"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "multiply", opacity: 0.85 }}
         />
