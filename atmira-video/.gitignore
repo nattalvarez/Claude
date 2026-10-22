@@ -10,4 +10,4 @@ out/render*.log
 public/footage/
 out/raw/
 out/atmira-film-footage.mp4
-!out/atmira-film-final.mp4
+out/atmira-film-final.mp4
