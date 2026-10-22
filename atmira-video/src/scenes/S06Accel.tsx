@@ -1,3 +1,4 @@
+import { Footage } from "../components/Footage";
 import React from "react";
 import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { BAR, BEAT, theme } from "../theme";
@@ -9,7 +10,7 @@ const TitleA: React.FC = () => {
   const frame = useCurrentFrame();
   const glow = 0.5 + Math.sin(frame / 12) * 0.2;
   return (
-    <SceneShell mode="dark" seed={20}>
+    <SceneShell mode="dark" seed={20} footage={<Footage id="22966" tone="dark" scrim="left" zoom={1.12} />}>
       <AbsoluteFill style={{ paddingLeft: 130, justifyContent: "center" }}>
         <Eyebrow delay={2} style={{ marginBottom: 20 }}>
           Capacidad 01
@@ -51,7 +52,7 @@ const Pipeline: React.FC = () => {
   const packetX = X0 + packetT * (4 * COL_W + 3 * GAP);
   const LINE_Y = 718;
   return (
-    <SceneShell mode="dark" seed={21}>
+    <SceneShell mode="dark" seed={21} footage={<Footage id="46635" tone="dark" scrim="full" opacity={0.75} />}>
       <div style={{ position: "absolute", left: 130, top: 66 }}>
         <Words text="Cómo aceleramos: *cada cambio, trazado*" size={70} per={2.5} />
       </div>
@@ -166,7 +167,7 @@ const Agents: React.FC = () => {
     ["Agentes de tecnología", "Saben de la tecnología", TECH, 598],
   ];
   return (
-    <SceneShell mode="dark" seed={22}>
+    <SceneShell mode="dark" seed={22} footage={<Footage id="41656" tone="dark" scrim="full" opacity={0.7} />}>
       <div style={{ position: "absolute", left: 130, top: 66 }}>
         <Words text="Quién acelera: *agentes expertos* en cada fase" size={68} per={2.5} />
       </div>
@@ -232,7 +233,7 @@ const Sirec: React.FC = () => {
   const frame = useCurrentFrame();
   const card = useSpring(0, theme.spring.bouncy);
   return (
-    <SceneShell mode="light" seed={23}>
+    <SceneShell mode="dark" seed={23} footage={<Footage id="47016" tone="dark" scrim="left" opacity={1} />}>
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", gap: 90, paddingBottom: 20 }}>
         <div
           style={{
@@ -251,11 +252,11 @@ const Sirec: React.FC = () => {
           <Img src={staticFile("brand/sirec.png")} style={{ width: 330, transform: `translateY(${Math.sin(frame / 14) * 5}px)` }} />
         </div>
         <div style={{ width: 880 }}>
-          <Eyebrow mode="light" delay={6} style={{ marginBottom: 18 }}>
+          <Eyebrow mode="dark" delay={6} style={{ marginBottom: 18 }}>
             Solución de la plataforma
           </Eyebrow>
-          <Words text="Inteligencia aplicada al ciclo de *riesgo de crédito*" size={66} mode="light" per={2.5} delay={6} lineHeight={1.05} />
-          <Body mode="light" delay={44} size={30} style={{ marginTop: 26 }}>
+          <Words text="Inteligencia aplicada al ciclo de *riesgo de crédito*" size={66} mode="dark" per={2.5} delay={6} lineHeight={1.05} />
+          <Body mode="dark" delay={44} size={30} style={{ marginTop: 26 }}>
             Anticipación, seguimiento y recobro orquestados con agentes propios y de terceros.
           </Body>
           <Pop delay={56} from="left" style={{ marginTop: 30 }}>

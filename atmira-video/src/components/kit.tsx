@@ -151,7 +151,8 @@ export const SceneShell: React.FC<{
   seed?: number;
   children: React.ReactNode;
   exit?: boolean;
-}> = ({ mode, seed, children, exit = true }) => {
+  footage?: React.ReactNode;
+}> = ({ mode, seed, children, exit = true, footage }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const exitP = useExit(8);
@@ -160,6 +161,7 @@ export const SceneShell: React.FC<{
   return (
     <AbsoluteFill>
       <Bg mode={mode} seed={seed} />
+      {footage}
       <AbsoluteFill
         style={{
           transform: `scale(${scale * (exit ? 1 + (1 - exitP) * 0.03 : 1)})`,

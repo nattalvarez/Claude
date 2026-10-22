@@ -1,3 +1,4 @@
+import { Footage } from "../components/Footage";
 import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { BEAT, theme } from "../theme";
@@ -145,7 +146,16 @@ export const Moves: React.FC = () => {
   const lineFill = ramp(frame, 30, 30 + 60, 0, 1, theme.ease.inOut) * 0 + (stage === 0 ? ramp(frame, 40, SWITCH[0], 0.05, 0.33) : stage === 1 ? ramp(frame, SWITCH[0], SWITCH[1], 0.33, 0.66) : ramp(frame, SWITCH[1], 290, 0.66, 1));
   const tagFor = (s: number) => ramp(frame, s === 0 ? 20 : SWITCH[s - 1] + 4, s === 0 ? 34 : SWITCH[s - 1] + 14, 0, 1) * (stage === s ? 1 : 0);
   return (
-    <SceneShell mode="dark" seed={9}>
+    <SceneShell
+      mode="dark"
+      seed={9}
+      footage={
+        <>
+          <Footage id="23282" tone="dark" scrim="full" opacity={0.95 * (1 - ramp(frame, SWITCH[1] - 6, SWITCH[1] + 24, 0, 1))} zoom={1.1} />
+          <Footage id="14143" tone="dark" scrim="full" opacity={0.95 * ramp(frame, SWITCH[1] - 6, SWITCH[1] + 24, 0, 1)} zoom={1.1} />
+        </>
+      }
+    >
       <Field />
       <Tag text="LEGACY · MONOLITOS · INTEGRACIÓN PUNTO A PUNTO" w={tagFor(0)} />
       <Tag text="ARQUITECTURA MODULAR · DOMINIOS · APIs" w={tagFor(1)} />

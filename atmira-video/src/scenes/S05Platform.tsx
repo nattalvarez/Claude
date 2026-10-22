@@ -1,3 +1,4 @@
+import { Footage } from "../components/Footage";
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { BEAT, theme } from "../theme";
@@ -87,7 +88,7 @@ export const Platform: React.FC = () => {
   const boxP = useSpring(34, theme.spring.smooth);
   const cap = ramp(frame, 96, 110, 0, 1);
   return (
-    <SceneShell mode="light" seed={11}>
+    <SceneShell mode="light" seed={11} footage={<Footage id="4168" tone="light" scrim="none" opacity={0.22} zoom={1.1} />}>
       <div style={{ position: "absolute", left: 110, top: 70 }}>
         <Words text="Una plataforma. Dos *capacidades.*" size={84} mode="light" per={3} lineHeight={1.0} />
       </div>

@@ -1,3 +1,4 @@
+import { Footage } from "../components/Footage";
 import React from "react";
 import { Img, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { BEAT, theme } from "../theme";
@@ -20,7 +21,7 @@ export const Clients: React.FC = () => {
   const shine = ramp(frame, BEAT * 5, BEAT * 5 + 40, -0.1, 1.2, theme.ease.inOut);
   const panel = ramp(frame, 6, 22, 0, 1);
   return (
-    <SceneShell mode="light" seed={50}>
+    <SceneShell mode="light" seed={50} footage={<Footage id="4170" tone="light" scrim="none" opacity={0.16} />}>
       <div style={{ position: "absolute", left: 130, top: 70 }}>
         <Words text="Relaciones duraderas con *nuestros clientes*" size={72} mode="light" per={2.5} maxWidth={1100} lineHeight={1.02} />
       </div>

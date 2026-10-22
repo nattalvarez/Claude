@@ -1,3 +1,4 @@
+import { Footage } from "../components/Footage";
 import React from "react";
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
 import { BAR, BEAT, theme } from "../theme";
@@ -41,8 +42,8 @@ const TitleA: React.FC = () => {
   const frame = useCurrentFrame();
   const glow = 0.5 + Math.sin(frame / 12) * 0.2;
   return (
-    <SceneShell mode="dark" seed={30}>
-      <NeuralField opacity={0.85} hubs />
+    <SceneShell mode="dark" seed={30} footage={<Footage id="19630" tone="dark" scrim="left" zoom={1.14} />}>
+      <NeuralField opacity={0.45} hubs />
       <AbsoluteFill style={{ paddingLeft: 130, justifyContent: "center" }}>
         <Eyebrow delay={2} style={{ marginBottom: 20 }}>
           Capacidad 02
@@ -70,18 +71,21 @@ const BRAINS = [
   {
     a: "Banking",
     tag: "El cerebro de la banca agéntica",
+    clip: "38481" as const,
     items: ["Credit Risk & Collections", "Customer & Onboarding", "Corporate & Structured Lending", "Core & Payments"],
     dashed: false,
   },
   {
     a: "Insurance",
     tag: "El cerebro de los seguros inteligentes",
+    clip: "48394" as const,
     items: ["Underwriting & Pricing", "Claims & Benefits", "Distribution & Customer", "Capas normativas y de país"],
     dashed: false,
   },
   {
     a: "Smart",
     tag: "Brains en construcción, multi industria",
+    clip: "31029" as const,
     items: ["Retail & Servicios", "Industria, Energía y Utilities", "Turismo, Transporte & Educación"],
     dashed: true,
   },
@@ -91,7 +95,7 @@ const Brains: React.FC = () => {
   const frame = useCurrentFrame();
   const foot = ramp(frame, 150, 164, 0, 1);
   return (
-    <SceneShell mode="dark" seed={32}>
+    <SceneShell mode="dark" seed={32} footage={<Footage id="49846" tone="dark" scrim="full" opacity={0.7} />}>
       <div style={{ position: "absolute", left: 130, top: 70 }}>
         <Words text="Un marco, *diferentes cerebros.*" size={78} per={3} />
       </div>
@@ -100,7 +104,7 @@ const Brains: React.FC = () => {
           <Pop key={b.a} delay={70 + i * 14} dist={70} style={{ flex: 1 }}>
             <div
               style={{
-                height: 600,
+                height: 650,
                 borderRadius: 28,
                 padding: "40px 40px",
                 boxSizing: "border-box",
@@ -110,10 +114,13 @@ const Brains: React.FC = () => {
                 overflow: "hidden",
               }}
             >
-              {!b.dashed && <div style={{ position: "absolute", left: 0, top: 0, right: 0, height: 8, background: theme.colors.hero }} />}
+              <div style={{ position: "relative", height: 190, margin: "-40px -40px 26px", overflow: "hidden" }}>
+                <Footage id={b.clip} tone="dark" scrim="bottom" zoom={1.12} />
+              </div>
+              {!b.dashed && <div style={{ position: "absolute", left: 0, top: 0, right: 0, height: 8, background: theme.colors.hero, zIndex: 2 }} />}
               <div style={{ fontFamily: theme.fonts.display, fontWeight: 800, fontSize: 70, letterSpacing: "-0.045em", color: b.dashed ? "#fff" : theme.colors.hero, lineHeight: 1 }}>{b.a}</div>
               <div style={{ fontFamily: theme.fonts.display, fontWeight: 600, fontSize: 46, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1.05 }}>Digital Brain{b.dashed ? "s" : ""}</div>
-              <div style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 34, color: theme.colors.textDim, margin: "16px 0 34px", lineHeight: 1.1 }}>{b.tag}</div>
+              <div style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 34, color: theme.colors.textDim, margin: "14px 0 22px", lineHeight: 1.1 }}>{b.tag}</div>
               {b.items.map((it, k) => {
                 const d = 92 + i * 10 + k * 8;
                 const p = ramp(frame, d, d + 12, 0, 1);
@@ -128,7 +135,7 @@ const Brains: React.FC = () => {
                       fontWeight: 600,
                       fontSize: 27,
                       color: "#fff",
-                      padding: "17px 0",
+                      padding: "13px 0",
                       borderTop: `1px solid ${theme.colors.line}`,
                       opacity: p,
                       transform: `translateX(${(1 - p) * 30}px)`,

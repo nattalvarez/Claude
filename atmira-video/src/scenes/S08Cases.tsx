@@ -1,3 +1,4 @@
+import { Footage } from "../components/Footage";
 import React from "react";
 import { Img, staticFile, useCurrentFrame } from "remotion";
 import { BEAT, theme } from "../theme";
@@ -34,7 +35,7 @@ export const Cases: React.FC = () => {
   const frame = useCurrentFrame();
   const sweep = frame < BEAT * 6 ? -1 : Math.floor((frame - BEAT * 6) / 9) % 9;
   return (
-    <SceneShell mode="dark" seed={40}>
+    <SceneShell mode="dark" seed={40} footage={<Footage id="4809" tone="dark" scrim="full" opacity={0.6} />}>
       <div style={{ position: "absolute", left: 130, top: 60 }}>
         <Words text="Proyectos reales, *sin experimentos.*" size={80} per={3} />
       </div>

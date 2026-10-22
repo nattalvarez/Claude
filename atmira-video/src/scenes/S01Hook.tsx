@@ -1,3 +1,4 @@
+import { Footage } from "../components/Footage";
 import React from "react";
 import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { Mode, MaskLine, SceneShell, Words, ramp, rand, useSpring } from "../components/kit";
@@ -56,7 +57,7 @@ const NoTodo: React.FC = () => {
   const frame = useCurrentFrame();
   const out = ramp(frame, 36, 44, 0, 1, theme.ease.in);
   return (
-    <SceneShell mode="dark" seed={1} exit={false}>
+    <SceneShell mode="dark" seed={1} exit={false} footage={<Footage id="49878" tone="dark" scrim="full" zoom={1.12} />}>
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
         <div
           style={{
@@ -86,37 +87,18 @@ const HacemosEsto: React.FC = () => {
   const frame = useCurrentFrame();
   const p = useSpring(2, theme.spring.slam);
   const under = ramp(frame, 24, 44, 0, 100, theme.ease.inOut);
-  const mode: Mode = "light";
   return (
-    <SceneShell mode={mode} seed={2} exit={false}>
-      <AbsoluteFill style={{ overflow: "hidden" }}>
-        <KenBurns
-          src="brand/gradient.jpg"
-          zoomTo={1.12} panX={0}
-          origin="100% 100%"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "multiply" }}
-        />
-      </AbsoluteFill>
+    <SceneShell mode="dark" seed={2} exit={false} footage={<Footage id="30468" tone="dark" scrim="bottom" zoom={1.14} />}>
       <AbsoluteFill style={{ justifyContent: "center", paddingLeft: 150 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 40 }}>
-          <MaskLine delay={2} style={{ fontFamily: theme.fonts.display, fontWeight: 800, fontSize: 250, letterSpacing: "-0.05em", color: theme.colors.ink, lineHeight: 1 }}>
+          <MaskLine delay={2} style={{ fontFamily: theme.fonts.display, fontWeight: 800, fontSize: 250, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>
             Hacemos
           </MaskLine>
           <div style={{ position: "relative" }}>
-            <MaskLine delay={14} style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 330, color: theme.colors.hero, lineHeight: 0.9 }}>
+            <MaskLine delay={14} style={{ fontFamily: theme.fonts.serif, fontStyle: "italic", fontSize: 330, color: "#fff", lineHeight: 0.9 }}>
               esto.
             </MaskLine>
-            <div
-              style={{
-                position: "absolute",
-                left: 6,
-                bottom: 18,
-                height: 10,
-                width: `${under}%`,
-                background: theme.colors.hero,
-                opacity: p,
-              }}
-            />
+            <div style={{ position: "absolute", left: 6, bottom: 18, height: 12, width: `${under}%`, background: theme.colors.hero, boxShadow: `0 0 40px ${theme.colors.hero}`, opacity: p }} />
           </div>
         </div>
       </AbsoluteFill>

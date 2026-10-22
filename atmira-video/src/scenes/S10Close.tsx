@@ -1,3 +1,4 @@
+import { Footage } from "../components/Footage";
 import React from "react";
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
 import { BAR, BEAT, theme } from "../theme";
@@ -14,7 +15,7 @@ const STATS = [
 ];
 
 const Stats: React.FC = () => (
-  <SceneShell mode="dark" seed={60}>
+  <SceneShell mode="dark" seed={60} footage={<Footage id="49846" tone="dark" scrim="full" opacity={0.9} startFrom={60} />}>
     <Eyebrow delay={2} style={{ position: "absolute", left: 130, top: 90 }}>
       Atmira en cifras
     </Eyebrow>
@@ -39,19 +40,16 @@ const Finale: React.FC = () => {
   const breathe = 1 + Math.sin(frame / 24) * 0.012;
   const contact = ramp(frame, 225, 241, 0, 1);
   return (
-    <SceneShell mode="light" seed={61} exit={false}>
-      <AbsoluteFill style={{ overflow: "hidden" }}>
-        <KenBurns src="brand/gradient.jpg" zoomTo={1.12} panX={0} origin="100% 100%" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "multiply" }} />
-      </AbsoluteFill>
+    <SceneShell mode="dark" seed={61} exit={false} footage={<Footage id="34980" tone="dark" scrim="left" zoom={1.1} />}>
       <div style={{ position: "absolute", left: 130, top: 90, opacity: logoP, transform: `translateY(${(1 - logoP) * -24}px) scale(${breathe})`, transformOrigin: "left top" }}>
-        <Logo width={330} />
+        <Logo width={330} tint="white" />
       </div>
       <AbsoluteFill style={{ paddingLeft: 130, justifyContent: "center", paddingTop: 70 }}>
-        <Words text="Modernizamos y aceleramos los servicios financieros." size={100} mode="light" per={2.5} delay={0} maxWidth={1500} lineHeight={1.03} />
+        <Words text="Modernizamos y aceleramos los servicios financieros." size={100} mode="dark" per={2.5} delay={0} maxWidth={1500} lineHeight={1.03} />
         <div style={{ height: 40 }} />
-        <Words text="Y la capa agéntica que construimos contigo *es tuya.*" size={64} mode="light" weight={600} per={6} delay={93} maxWidth={1300} lineHeight={1.08} emScale={1.2} />
-        <DrawLine delay={200} width={420} color={theme.colors.ink} thickness={3} style={{ marginTop: 54 }} />
-        <div style={{ marginTop: 28, opacity: contact, transform: `translateY(${(1 - contact) * 14}px)`, fontFamily: theme.fonts.body, fontWeight: 600, fontSize: 32, letterSpacing: "0.04em", color: theme.colors.ink }}>
+        <Words text="Y la capa agéntica que construimos contigo *es tuya.*" size={64} mode="dark" weight={600} per={6} delay={93} maxWidth={1300} lineHeight={1.08} emScale={1.2} />
+        <DrawLine delay={200} width={420} color="#fff" thickness={3} style={{ marginTop: 54 }} />
+        <div style={{ marginTop: 28, opacity: contact, transform: `translateY(${(1 - contact) * 14}px)`, fontFamily: theme.fonts.body, fontWeight: 600, fontSize: 32, letterSpacing: "0.04em", color: "#fff" }}>
           atmira.com <span style={{ color: theme.colors.hero, margin: "0 14px" }}>·</span> Madrid <span style={{ color: theme.colors.hero, margin: "0 14px" }}>·</span> Barcelona
         </div>
       </AbsoluteFill>

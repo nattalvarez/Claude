@@ -7,3 +7,6 @@ out/atmira-film-v1.mp4
 out/atmira-film.mp4
 out/atmira-film-vo.mp4
 out/render*.log
+public/footage/
+out/raw/
+out/atmira-film-footage.mp4
