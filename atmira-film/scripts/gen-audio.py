@@ -2,7 +2,7 @@
 """Atmira film audio generator (numpy + stdlib only; ffmpeg via subprocess).
 
 Writes into public/audio/:  music.wav, sfx.wav, mix.wav, music.mp3
-Reads: src/data/timing.json, public/audio/vo_take1.mp3
+Reads: src/data/timing.json (cuts/sections/sfx/vo) and the VO mp3 named there (vo.file)
 Run:   python3 -I scripts/gen-audio.py
 """
 import json, math, os, re, subprocess, sys, time, wave
@@ -21,6 +21,17 @@ STEP = SR // 8           # one 16th at 120 BPM = 6000 samples
 rng = np.random.default_rng(20240607)
 TIMING = json.load(open(os.path.join(ROOT, 'src', 'data', 'timing.json')))
 T0 = time.time()
+
+# --- timeline: every boundary below comes from timing.json (sections / cuts / vo / sfx) ---
+SEC = TIMING['sections']
+assert len(SEC) == 10, 'expected the 10-section energy arc'
+T_B, T_C, T_D, T_E, T_F, T_G, T_H, T_I, T_J = [SEC[i]['from'] for i in range(1, 10)]
+#  A 0..T_B tension | B sparse | C groove A | D groove A+clap | E half-energy | F groove B
+#  G drop | H driving | I break | J bloom (impact at T_J)
+VO_FILE = TIMING['vo']['file']
+VO_START = TIMING['vo'].get('startsAt', TIMING['offset'])
+VO_END = TIMING['vo']['endsAt']
+FADE_START = 44.0         # music fades to true silence between FADE_START and 48.000
 
 
 def log(*a):
@@ -329,12 +340,29 @@ CHORDS = {
                   arp=[57, 60, 64, 65, 69, 72, 76, 77, 81, 84]),
 }
 NAMES4 = ['Am', 'F', 'C', 'G']
-CH = [(2.0 * i, 2.0 * i + 2.0, NAMES4[i % 4]) for i in range(10)]
-CH += [(20.0, 21.0, 'G'),
-       (21.0, 23.0, 'Am'), (23.0, 25.0, 'F'), (25.0, 27.0, 'C'), (27.0, 29.5, 'G'),
-       (29.5, 30.5, 'Am'), (30.5, 31.5, 'F'), (31.5, 32.0, 'G'),
-       (32.0, 34.0, 'Am'), (34.0, 36.0, 'F'), (36.0, 38.0, 'C'), (38.0, 39.5, 'G'),
-       (39.5, 41.5, 'Cadd9'), (41.5, 43.5, 'Fmaj7'), (43.5, 45.5, 'Cadd9'), (45.5, 48.0, 'Fmaj7')]
+
+
+def _cycle(t0, t1, turnaround=False):
+    """Am-F-C-G in 2 s bars from t0 to t1. Remainder rule: turnaround=True -> a short leftover becomes a G
+    (dominant into the cut); otherwise a last chord shorter than 3 s simply holds until t1."""
+    out = []; t = t0; k = 0
+    while t < t1 - 1e-9:
+        rem = t1 - t
+        if turnaround:
+            if rem < 2.0 - 1e-9:
+                out.append((t, t1, 'G')); break
+            end = t + 2.0
+        else:
+            end = t + 2.0 if rem >= 3.0 else t1
+        out.append((t, end, NAMES4[k % 4])); t = end; k += 1
+    return out
+
+
+CH = _cycle(0.0, T_F, turnaround=True)                                      # bars from the top, G turnaround into groove B
+CH += _cycle(T_F, T_G)                                     # groove B: Am F C G
+CH += [(T_G, T_G + 1.0, 'Am'), (T_G + 1.0, T_G + 2.0, 'F'), (T_G + 2.0, T_H, 'G')]   # drop
+CH += _cycle(T_H, T_J)                                     # driving: Am F C, G held until the bloom
+CH += [(T_J, T_J + 2, 'Cadd9'), (T_J + 2, T_J + 4, 'Fmaj7'), (T_J + 4, T_J + 6, 'Cadd9'), (T_J + 6, 48.0, 'Fmaj7')]
 
 
 def chord_at(t):
@@ -344,9 +372,13 @@ def chord_at(t):
     return CH[-1][2]
 
 
-SECTIONS = [('A', 0.0, 1.2), ('B', 1.2, 3.5), ('C', 3.5, 10.0), ('D', 10.0, 15.5), ('E', 15.5, 21.0),
-            ('F', 21.0, 29.0), ('P', 29.0, 29.5), ('G', 29.5, 32.0), ('H', 32.0, 39.0),
-            ('I', 39.0, 39.5), ('J', 39.5, 48.0)]
+_L = 'ABCDEFGHIJ'
+SECTIONS = []
+for _i, _s in enumerate(SEC):
+    if _L[_i] == 'F':       # last half-second of groove B = pre-drop roll 'P'
+        SECTIONS += [('F', _s['from'], _s['to'] - 0.5), ('P', _s['to'] - 0.5, _s['to'])]
+    else:
+        SECTIONS.append((_L[_i], _s['from'], _s['to']))
 
 
 def sec_at(t):
@@ -385,22 +417,22 @@ def render_music():
         t = beat * 0.5
         s = sec_at(t)
         if s == 'B':
-            if t in (2.0, 3.0):
+            if t >= T_B + 0.5 and beat % 2 == 0:
                 kick(t, 0.6, 'soft')
         elif s in ('C', 'D', 'F', 'H'):
             kick(t, 1.0)
-            if s == 'H' and t < 38.0 and (beat % 4 == 3):
+            if s == 'H' and t < T_I - 0.5 and (beat % 4 == 3):
                 kick(t + 0.25, 0.6)
         elif s == 'E':
             kick(t, 0.45, 'soft')
         elif s == 'G':
-            kick(t, 1.3 if t == 29.5 else 1.15, 'heavy')
-            if t > 29.5 and beat % 2 == 1:
+            kick(t, 1.15, 'heavy')
+            if beat % 2 == 1:
                 kick(t + 0.375, 0.7)
         elif s == 'J':
-            vel = {39.5: 1.3, 40.0: .65, 40.5: .5, 41.0: .4, 41.5: .3}.get(t)
+            vel = {0.0: 1.3, 0.5: .65, 1.0: .5, 1.5: .4, 2.0: .3}.get(round(t - T_J, 3))
             if vel:
-                kick(t, vel, 'heavy' if t == 39.5 else 'hard')
+                kick(t, vel, 'heavy' if t == T_J else 'hard')
     for s16 in range(384):
         t = s16 * 0.125
         sec = sec_at(t)
@@ -411,8 +443,8 @@ def render_music():
             elif sec == 'G':
                 drums.add(CL, t, 1.0, 0.0, send=0.3)
                 drums.add(SN, t, 0.35, 0.0, send=0.2)
-            elif sec == 'J' and t in (40.5, 41.5):
-                drums.add(CL, t, 0.4 if t == 40.5 else 0.25, 0.0, send=0.35)
+            elif sec == 'J' and round(t - T_J, 3) in (1.5, 2.5):
+                drums.add(CL, t, 0.4 if round(t - T_J, 3) == 1.5 else 0.25, 0.0, send=0.35)
         hv = None; op = False
         if sec == 'C':
             hv = 0.55 if b % 4 == 2 else None
@@ -427,8 +459,8 @@ def render_music():
         elif sec == 'G':
             if b % 4 == 2:
                 hv = 0.6; op = True
-        elif sec == 'J' and t < 42.0:
-            hv = 0.3 * (1.0 - (t - 39.5) / 3.0) if b % 4 == 2 else None
+        elif sec == 'J' and t < T_J + 2.5:
+            hv = 0.3 * (1.0 - (t - T_J) / 3.0) if b % 4 == 2 else None
         if hv:
             drums.add(HO if op else HC, t, hv * 0.5, 0.25 if (s16 % 2) else -0.25, send=0.06)
 
@@ -436,31 +468,32 @@ def render_music():
         for i in range(n):
             v = v0 + (v1 - v0) * (i / max(1, n - 1)) ** 1.4
             drums.add(SN, t0 + i * dt, v, 0.0, send=0.25)
-    roll(9.5, 4, 0.125, 0.35, 0.75)
-    roll(20.5, 8, 0.0625, 0.3, 0.9)
-    roll(29.0, 8, 0.0625, 0.3, 1.0)
-    roll(38.5, 8, 0.0625, 0.3, 0.9)
+    roll(T_D - 0.5, 4, 0.125, 0.35, 0.75)
+    roll(T_F - 0.5, 8, 0.0625, 0.3, 0.9)
+    roll(T_G - 0.5, 8, 0.0625, 0.3, 1.0)
+    roll(T_I - 0.5, 8, 0.0625, 0.3, 0.9)
     # crashes / impacts
-    fx.add(CR_S, 10.0, 0.5, 0.2, send=0.2)
-    fx.add(CR, 21.0, 0.75, -0.1, send=0.25)
-    fx.add(CR, 29.5, 0.85, 0.0, send=0.3)
-    fx.add(CR_S, 32.0, 0.6, 0.0, send=0.25)
-    fx.add(CR_BIG, 39.5, 0.7, 0.0, send=0.35)
-    fx.add(sub_boom(1.0, 80, 34, 0.45), 1.2, 0.5)
-    fx.add(sub_boom(1.6, 80, 33, 0.7), 21.0, 0.55)
-    fx.add(sub_boom(2.0, 80, 31, 0.9), 29.5, 0.7)
-    fx.add(sub_boom(4.0, 90, 32.7, 1.6), 39.5, 0.65)
-    kick(1.2, 0.7, 'soft', sc=False)
-    kick(21.0, 1.0)
+    fx.add(CR_S, T_D, 0.5, 0.2, send=0.2)
+    fx.add(CR, T_F, 0.75, -0.1, send=0.25)
+    fx.add(CR, T_G, 0.85, 0.0, send=0.3)
+    fx.add(CR_S, T_H, 0.6, 0.0, send=0.25)
+    fx.add(CR_BIG, T_J, 0.7, 0.0, send=0.35)
+    fx.add(sub_boom(1.0, 80, 34, 0.45), T_B, 0.5)
+    fx.add(sub_boom(1.6, 80, 33, 0.7), T_F, 0.55)
+    fx.add(sub_boom(2.0, 80, 31, 0.9), T_G, 0.7)
+    fx.add(sub_boom(4.0, 90, 32.7, 1.6), T_J, 0.65)
+    kick(T_B, 0.7, 'soft', sc=False)
+    kick(T_F, 1.0)
+    kick(T_G, 1.3, 'heavy')      # drop pickup (off-beat 8th), then heavy kicks on the beats
     log('music: risers')
-    fx.add(noise_riser(1.2, 300, 8000, 2.2), 0.0, 0.35, send=0.1)
-    fx.add(noise_riser(2.0, 400, 9000, 2.0), 19.0, 0.45, send=0.12)
-    fx.add(noise_riser(0.5, 500, 8000, 1.8), 29.0, 0.4, send=0.1)
-    fx.add(noise_riser(1.5, 400, 10000, 2.2), 37.5, 0.5, send=0.12)
+    fx.add(noise_riser(T_B, 300, 8000, 2.2), 0.0, 0.35, send=0.1)
+    fx.add(noise_riser(2.0, 400, 9000, 2.0), T_F - 2.0, 0.45, send=0.12)
+    fx.add(noise_riser(0.5, 500, 8000, 1.8), T_G - 0.5, 0.4, send=0.1)
+    fx.add(noise_riser(1.5, 400, 10000, 2.2), T_I - 1.5, 0.5, send=0.12)
     rv = make_crash(1.0, 0.25, 3500.0)[::-1].copy()
-    fx.add(rv * np.linspace(0.2, 1.0, len(rv)) ** 2, 38.5, 0.7, send=0.3)
-    fx.add(rv, 9.0, 0.35, send=0.2)
-    fx.add(rv, 14.5, 0.25, send=0.2)
+    fx.add(rv * np.linspace(0.2, 1.0, len(rv)) ** 2, T_J - 1.0, 0.7, send=0.3)
+    fx.add(rv, T_D - 1.0, 0.35, send=0.2)
+    fx.add(rv, T_E - 1.0, 0.25, send=0.2)
 
     log('music: sidechain curves')
     duck = np.ones(N)
@@ -481,7 +514,7 @@ def render_music():
         sec = sec_at(t); b = s16 % 16
         ch = CHORDS[chord_at(t)]['root']
         if sec == 'B':
-            if b % 4 == 0 and t >= 1.2:
+            if b % 4 == 0 and t >= T_B:
                 notes.append((t, 0.2, ch, 0.7, True))
         elif sec in ('C', 'D') and b in pat_A:
             v, o = pat_A[b]; notes.append((t, 0.2, ch + o, v, False))
@@ -491,11 +524,12 @@ def render_music():
             notes.append((t, 0.2, ch + (12 if b in (6, 14) else 0), 1.0 if b % 4 == 0 else .75, False))
         elif sec == 'H' and b % 2 == 0:
             notes.append((t, 0.2, ch + (12 if b in (6, 14) else 0), 1.0 if b % 4 == 0 else .7, False))
-    for t in [15.5] + [float(x) for x in range(16, 21)]:
-        notes.append((t, 0.45 if t == 15.5 else 0.93, CHORDS[chord_at(t)]['root'], 0.5, True))
+    t = T_E
+    while t < T_F - 0.1:       # half-energy: sustained sub, one note per second
+        notes.append((t, min(0.93, T_F - t - 0.03), CHORDS[chord_at(t)]['root'], 0.5, True)); t += 1.0
     for a, b_, n_ in CH:
-        if a >= 39.5:
-            notes.append((a, min(b_ - a, 2.0) * 0.98, CHORDS[n_]['root'], 0.9 if a < 43 else 0.7, True))
+        if a >= T_J:
+            notes.append((a, min(b_ - a, 2.0) * 0.98, CHORDS[n_]['root'], 0.9 if a < T_J + 3.5 else 0.7, True))
     sub = np.zeros(N); sawr = np.zeros(N); cutoff = np.full(N, 300.0)
     for (t, d, m, v, so) in notes:
         i = t2i(t); n = int((d + 0.06) * SR)
@@ -518,25 +552,27 @@ def render_music():
     log('music: pad')
     padL = np.zeros(N); padR = np.zeros(N)
     for (a, b_, name) in CH:
-        atk = 1.0 if a == 0.0 else (0.5 if 15.5 <= a < 21 else (0.06 if (a >= 39.5 or a == 29.5) else 0.14))
-        rel = 1.3 if a >= 39.5 else 0.7
+        atk = 1.0 if a == 0.0 else (0.5 if T_E <= a < T_F else (0.06 if (a >= T_J or a == T_G) else 0.14))
+        rel = 1.3 if a >= T_J else 0.7
         i = t2i(a); n = int((b_ - a + rel) * SR); e = min(N, i + n); n = e - i
         tt = np.arange(n) / SR
         env = smooth(tt / atk) * np.where(tt < (b_ - a), 1.0, smooth(1 - (tt - (b_ - a)) / rel))
-        wide = 1.6 if 15.5 <= a < 21 else 1.0
+        wide = 1.6 if T_E <= a < T_F else 1.0
         for m in CHORDS[name]['pad']:
             f = float(mtof(m))
             for (dc, side) in ((-9 * wide, 0), (3 * wide, 0), (9 * wide, 1), (-3 * wide, 1)):
                 v = saw(f * 2 ** (dc / 1200.0), n, phase=rng.random()) * env
                 tgt = padL if side == 0 else padR
                 tgt[i:e] += v
-    pad_fc = auto([(0, 250), (1.15, 1700), (1.25, 1100), (3.5, 1400), (10, 1900), (15.4, 1800), (15.6, 2600),
-                   (19, 2600), (21, 3600), (29.0, 3200), (29.49, 700), (29.5, 3800), (32, 3000), (32.01, 2400),
-                   (37.5, 5000), (39.0, 6000), (39.49, 500), (39.5, 5200), (44, 4500), (48, 3200)], True)
+    pad_fc = auto([(0, 250), (T_B - .05, 1700), (T_B + .05, 1100), (T_C, 1400), (T_D, 1900), (T_E - .1, 1800),
+                   (T_E + .1, 2600), (T_F - 2, 2600), (T_F, 3600), (T_G - .5, 3200), (T_G - .01, 700), (T_G, 3800),
+                   (T_H, 3000), (T_H + .01, 2400), (T_I - 1.5, 5000), (T_I, 6000), (T_J - .01, 500), (T_J, 5200),
+                   (T_J + 4.5, 4500), (48, 3200)], True)
     padL = svf(padL, pad_fc, 0.8, 'lp'); padR = svf(padR, pad_fc, 0.8, 'lp')
-    pad_lvl = auto([(0, .2), (1.19, .6), (1.2, .62), (3.5, .62), (10, .62), (15.4, .62), (15.5, .52), (19, .6),
-                    (20.99, .6), (21, .85), (28.9, .85), (29.0, .55), (29.49, .5), (29.5, 1.1), (31.9, 1.0),
-                    (32, .75), (38.9, .75), (39.0, .4), (39.49, .35), (39.5, .85), (44, .7), (48, .6)])
+    pad_lvl = auto([(0, .2), (T_B - .01, .6), (T_B, .62), (T_C, .62), (T_D, .62), (T_E - .1, .62), (T_E, .52),
+                    (T_F - 2, .6), (T_F - .01, .6), (T_F, .85), (T_G - .6, .85), (T_G - .5, .55), (T_G - .01, .5),
+                    (T_G, 1.1), (T_H - .1, 1.0), (T_H, .75), (T_I - .1, .75), (T_I, .4), (T_J - .01, .35),
+                    (T_J, .85), (T_J + 4.5, .7), (48, .6)])
     pad_norm = 0.16 / np.sqrt(0.5 * (np.mean(padL ** 2) + np.mean(padR ** 2)) + 1e-12)
     padL *= pad_norm * pad_lvl * duck ** 0.9
     padR *= pad_norm * pad_lvl * duck ** 0.9
@@ -555,7 +591,7 @@ def render_music():
         tones = CHORDS[chord_at(t)]['arp']
         av = acc16[b % 4]
         if sec == 'A':
-            u = t / 1.2
+            u = t / T_B
             arp_notes.append((t, pent_up[s16 % len(pent_up)] + 12, 0.10 + 0.8 * u ** 1.5,
                               500 + 5500 * u ** 2, 2500, 0.12, 0.2))
         elif sec == 'B':
@@ -571,16 +607,16 @@ def render_music():
         elif sec == 'F':
             arp_notes.append((t, tones[P2[b]] + 12, av * 1.5, 3000, 7000, .08, .5))
         elif sec == 'H':
-            u = (t - 32.0) / 7.0
+            u = (t - T_H) / (T_I - T_H)
             arp_notes.append((t, tones[PD[b]] + 12, av * 1.2 * (0.75 + 0.3 * u), 2000 + 4500 * u, 6000, .08, .45))
         elif sec == 'J' and b % 2 == 0:
-            fade = 1.0 - 0.55 * min(1.0, (t - 39.5) / 5.0)
+            fade = 1.0 - 0.55 * min(1.0, (t - T_J) / 5.0)
             arp_notes.append((t, tones[PJ[b]], {0: .8, 2: .5, 4: .7, 6: .5, 8: .8, 10: .5, 12: .7, 14: .5}[b] * fade * 1.2,
                               4000, 6000, .15, .2))
     for i in range(8):   # pre-drop and pre-bloom rising 32nd-note runs
         u = (i + 1) / 8.0
-        arp_notes.append((29.0 + i * 0.0625, [67, 71, 74, 79, 83, 86, 91, 95][i], .3 + .7 * u, 2500 + 5000 * u, 3000, .08, .3))
-        arp_notes.append((39.0 + i * 0.0625, [64, 67, 69, 72, 74, 76, 79, 81][i] + 12, .25 + .7 * u, 2000 + 6000 * u, 3000, .07, .3))
+        arp_notes.append((T_G - 0.5 + i * 0.0625, [67, 71, 74, 79, 83, 86, 91, 95][i], .3 + .7 * u, 2500 + 5000 * u, 3000, .08, .3))
+        arp_notes.append((T_I + i * 0.0625, [64, 67, 69, 72, 74, 76, 79, 81][i] + 12, .25 + .7 * u, 2000 + 6000 * u, 3000, .07, .3))
     arp_notes.sort()
     raw = np.zeros(N); cut = np.full(N, 800.0)
     for k, (t, m, v, c0, amt, tau, sq) in enumerate(arp_notes):
@@ -608,7 +644,7 @@ def render_music():
         echo[sh:, (k + 1) % 2] += arp[:N - sh] * (0.42 ** k) * 1.6
     for c in range(2):
         echo[:, c] = fft_filter(echo[:, c], lp=5200, hp=300, order=1)
-    echo_amt = auto([(0, .5), (15.4, .5), (15.5, 1.3), (20.9, 1.3), (21.0, .6), (39.4, .6), (39.5, 1.1), (48, 1.1)])
+    echo_amt = auto([(0, .5), (T_E - .1, .5), (T_E, 1.3), (T_F - .1, 1.3), (T_F, .6), (T_J - .1, .6), (T_J, 1.1), (48, 1.1)])
     echo *= echo_amt[:, None]
 
     log('music: mix + reverb')
@@ -616,15 +652,17 @@ def render_music():
     R = padR + bass + arp * 0.8 + echo[:, 1] + drums.s[:, 1] + fx.s[:, 1]
     send = pad_mono * 0.55 + arp * 0.35 + (echo[:, 0] + echo[:, 1]) * 0.15 + drums.rv * 0.6 + fx.rv * 0.8
     wet = reverb(send, rt60=2.6)
-    wet *= auto([(0, 1.0), (15.5, 1.0), (15.6, 1.4), (21.0, 1.0), (39.5, 1.3), (44, 1.5), (48, 1.5)])[:, None]
+    wet *= auto([(0, 1.0), (T_E, 1.0), (T_E + .1, 1.4), (T_F, 1.0), (T_J, 1.3), (T_J + 4.5, 1.5), (48, 1.5)])[:, None]
     L += wet[:, 0]; R += wet[:, 1]
     if os.environ.get('ATMIRA_STEMS'):
         np.savez(os.path.join(SCR, 'stems.npz'), pad=padL, bass=bass, arp=arp, echo=echo[:, 0], drums=drums.s[:, 0],
                  fx=fx.s[:, 0], wet=wet[:, 0])
     st = np.stack([L, R], axis=1)
     # section-level energy macro (contrast between sections), applied before the soft clipper
-    macro = auto([(0, 1.0), (3.49, 1.0), (3.5, .9), (9.99, .9), (10, .95), (15.49, .95), (15.5, .78), (20.99, .78),
-                  (21, 1.1), (28.99, 1.1), (29.5, 1.2), (31.99, 1.2), (32, 1.0), (38.99, 1.0), (39.0, .85), (39.49, .85), (39.5, 1.3), (42, 1.25), (44, 1.1), (48, 1.0)])
+    macro = auto([(0, 1.0), (T_C - .01, 1.0), (T_C, .9), (T_D - .01, .9), (T_D, .95), (T_E - .01, .95), (T_E, .78),
+                  (T_F - .01, .78), (T_F, 1.1), (T_G - .01, 1.1), (T_G, 1.2), (T_H - .01, 1.2), (T_H, 1.0),
+                  (T_I - .01, 1.0), (T_I, .85), (T_J - .01, .85), (T_J, 1.3), (T_J + 2.5, 1.25), (T_J + 4.5, 1.1),
+                  (48, 1.0)])
     st *= macro[:, None]
     for c in range(2):
         st[:, c] = fft_filter(st[:, c], hp=28, order=2)
@@ -632,8 +670,8 @@ def render_music():
     st = np.tanh(st / pk * 1.25) / np.tanh(1.25)
     tt = np.arange(N) / SR
     fade = np.ones(N)
-    m = tt >= 44.0
-    fade[m] = np.cos(0.5 * np.pi * (tt[m] - 44.0) / 4.0) ** 2
+    m = tt >= FADE_START
+    fade[m] = np.cos(0.5 * np.pi * (tt[m] - FADE_START) / (48.0 - FADE_START)) ** 2
     fi = int(0.01 * SR)
     fade[:fi] *= np.linspace(0, 1, fi)
     fade[-1] = 0.0
@@ -814,10 +852,10 @@ def ffmpeg(*args):
 
 
 def render_mix(music, sfx):
-    vo_wav = os.path.join(SCR, 'vo_take1_48k.wav')
-    ffmpeg('-i', os.path.join(ROOT, TIMING['vo']['file']), '-ac', '1', '-ar', str(SR), '-c:a', 'pcm_s16le', vo_wav)
+    vo_wav = os.path.join(SCR, os.path.splitext(os.path.basename(VO_FILE))[0] + '_48k.wav')
+    ffmpeg('-i', os.path.join(ROOT, VO_FILE), '-ac', '1', '-ar', str(SR), '-c:a', 'pcm_s16le', vo_wav)
     vo = fft_filter(read_wav_mono(vo_wav), hp=70, order=2)
-    off = t2i(TIMING['offset'])
+    off = t2i(VO_START)
     VO = np.zeros(N)
     n = min(len(vo), N - off)
     VO[off:off + n] = vo[:n]
@@ -834,13 +872,13 @@ def render_mix(music, sfx):
         cur = a * cur + (1 - a) * pres[i]
         ps[i] = cur
     tf = (np.arange(nf) + 0.5) * 0.02
-    depth = np.interp(tf, [0, 29.2, 29.5, 31.8, 32.2, 48], [7.5, 7.5, 5.0, 5.0, 7.5, 7.5])
+    depth = np.interp(tf, [0, T_G - .3, T_G, T_H - .2, T_H + .2, 48], [7.5, 7.5, 5.0, 5.0, 7.5, 7.5])
     duck_s = 10 ** (np.interp(np.arange(N) / SR, tf, -depth * ps) / 20.0)
     smask = np.repeat(fdb > -40.0, FR)
     smask = np.concatenate([smask, np.zeros(N - len(smask), bool)])
     vo_rms = math.sqrt(np.mean(VO[smask] ** 2))
     # logo-tail 'shine': music lifts a further 5 dB once the VO has finished
-    shine = 10 ** (np.interp(np.arange(N) / SR, [0, 43.2, 43.8, 48], [0, 0, 5.0, 5.0]) / 20.0)
+    shine = 10 ** (np.interp(np.arange(N) / SR, [0, VO_END, VO_END + 0.6, 48], [0, 0, 5.0, 5.0]) / 20.0)
     md = music * (duck_s * shine)[:, None]
     g_mus = (vo_rms * 10 ** (-15.0 / 20)) / math.sqrt(np.mean(md[smask] ** 2))
     act = np.abs(sfx).max(axis=1) > 1e-4
@@ -850,8 +888,8 @@ def render_mix(music, sfx):
     mix = md * g_mus + sfx * g_sfx + VO[:, None]
     mix[-1, :] = 0.0
     # speech vs gap statistics for the ducked music
-    gap = ~smask; gap[:t2i(1.2)] = False; gap[t2i(43.4):] = False
-    for nm, msk in (('speech', smask), ('gaps 1.2-43.4', gap)):
+    gap = ~smask; gap[:t2i(VO_START)] = False; gap[t2i(VO_END):] = False
+    for nm, msk in (('speech', smask), ('gaps in VO span', gap)):
         log('mix: music in %s: ducked %.1f dB rms, un-ducked %.1f dB rms, mean duck %.1f dB' % (
             nm, 10 * np.log10(np.mean((md[msk] * g_mus) ** 2)), 10 * np.log10(np.mean((music[msk] * g_mus) ** 2)),
             20 * np.log10(np.mean(duck_s[msk]))))

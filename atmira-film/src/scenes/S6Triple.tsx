@@ -3,55 +3,48 @@ import { AbsoluteFill } from "remotion";
 import { theme } from "../theme";
 import { Scene, useGT, useExit } from "../components/Scene";
 import { SceneStack } from "../components/Layers";
-import { lerp, prog, spr } from "../lib/anim";
+import { Footage } from "../components/Footage";
+import { prog } from "../lib/anim";
 import { alpha } from "../lib/color";
-import { vo } from "../timing";
+import { SCENES, vw } from "../timing";
 
 const c = theme.colors;
 const F = theme.fonts;
+const S = SCENES.s6.start;
 
 const ROWS = [
-  { n: "01", word: "Potencia", at: vo(28.42), desc: "tu negocio con agentes IA, propios o de terceros" },
-  { n: "02", word: "Integra", at: vo(29.38), desc: "agentes en el ciclo de recobro, con agilidad y garantías" },
-  { n: "03", word: "Orquesta", at: vo(30.22), desc: "cada decisión alineada con los objetivos de negocio" },
+  { n: "01", word: "Potencia", at: vw("potencia"), desc: "tu negocio con agentes IA, propios o de terceros" },
+  { n: "02", word: "Integra", at: vw("integra", 1), desc: "agentes en el ciclo de recobro, con agilidad y garantías" },
+  { n: "03", word: "Orquesta", at: vw("orquesta", 1), desc: "cada decisión alineada con los objetivos de negocio" },
 ];
 const TOP = [168, 440, 712];
 
 const Row: React.FC<{ r: (typeof ROWS)[number]; i: number }> = ({ r, i }) => {
   const gt = useGT();
   const ex = useExit(0.22);
-  const p = spr(gt, r.at, theme.spring.slam, 2);
+  const p = prog(gt, r.at - 0.1, 0.5, theme.ease.out);
   const nextAt = ROWS[i + 1]?.at ?? 99;
   const dim = prog(gt, nextAt, 0.25, theme.ease.out) * 0.62; // earlier words recede
-  const flash = Math.max(0, 1 - (gt - r.at) / 0.55);
-  const bar = prog(gt, r.at - 0.05, 0.4, theme.ease.out);
-  const d = spr(gt, r.at + 0.12, theme.spring.smooth, 0);
-  const ghost = prog(gt, 29.5 + i * 0.12, 0.5, theme.ease.out);
+  const bar = prog(gt, r.at - 0.1, 0.45, theme.ease.out);
+  const d = prog(gt, r.at + 0.1, 0.6, theme.ease.out);
+  const ghost = prog(gt, S + i * 0.12, 0.5, theme.ease.out);
+  const wordStyle: React.CSSProperties = { fontFamily: F.sans, fontWeight: 700, fontSize: 178, letterSpacing: "-0.045em", lineHeight: 1.05, whiteSpace: "nowrap" };
   return (
     <div style={{ position: "absolute", left: 120, right: 120, top: TOP[i], height: 240, opacity: (1 - dim) * (1 - ex), transform: `translateY(${-ex * 24}px)` }}>
       <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 2, background: alpha(c.ice, 0.28) }}>
-        <div style={{ height: "100%", width: `${bar * 100}%`, background: c.ice, boxShadow: `0 0 ${24 * flash}px ${c.white}` }} />
+        <div style={{ height: "100%", width: `${bar * 100}%`, background: c.ice }} />
       </div>
       <div style={{ position: "absolute", left: 0, top: 30, fontFamily: F.mono, fontSize: 24, fontWeight: 600, letterSpacing: "0.2em", color: alpha(c.ice, 0.85), opacity: Math.min(1, p * 2) }}>{r.n}</div>
-      <div
-        style={{
-          position: "absolute", left: 0, top: 56, fontFamily: F.sans, fontWeight: 700, fontSize: 178, letterSpacing: "-0.045em", lineHeight: 1, whiteSpace: "nowrap",
-          color: "transparent", WebkitTextStroke: `2px ${alpha(c.ice, 0.3)}`, opacity: (1 - Math.min(1, p * 3)) * ghost,
-        }}
-      >
-        {r.word}.
+      {/* outline "ghost" of the word that is still to come */}
+      <div style={{ position: "absolute", left: 0, top: 56, ...wordStyle, color: "transparent", WebkitTextStroke: `2px ${alpha(c.ice, 0.3)}`, opacity: (1 - Math.min(1, p * 4)) * ghost }}>{r.word}.</div>
+      {/* the word itself: masked slide-up, sharp all the way */}
+      <div style={{ position: "absolute", left: 0, top: 56, clipPath: "inset(-0.1em -0.1em -0.1em -0.1em)" }}>
+        <div style={{ ...wordStyle, color: "#fff", transform: `translateY(${(1 - p) * 120}%)` }}>
+          {r.word}
+          <span style={{ color: c.turq }}>.</span>
+        </div>
       </div>
-      <div
-        style={{
-          position: "absolute", left: 0, top: 56, fontFamily: F.sans, fontWeight: 700, fontSize: 178, letterSpacing: "-0.045em", lineHeight: 1, color: "#fff",
-          opacity: Math.min(1, p * 1.8), transform: `translateX(${lerp(p, -260, 0)}px) scale(${lerp(p, 1.1, 1)})`, filter: `blur(${lerp(Math.min(1, p), 22, 0)}px)`,
-          textShadow: `0 0 ${60 * flash}px ${alpha(c.white, 0.6)}`, whiteSpace: "nowrap",
-        }}
-      >
-        {r.word}
-        <span style={{ color: c.turq }}>.</span>
-      </div>
-      <div style={{ position: "absolute", left: 1030, top: 84, width: 700, fontFamily: F.sans, fontWeight: 500, fontSize: 42, lineHeight: 1.18, letterSpacing: "-0.015em", color: c.ice, opacity: d, transform: `translateX(${lerp(d, 50, 0)}px)` }}>
+      <div style={{ position: "absolute", left: 1030, top: 84, width: 700, fontFamily: F.sans, fontWeight: 500, fontSize: 42, lineHeight: 1.18, letterSpacing: "-0.015em", color: c.ice, opacity: d, transform: `translateX(${(1 - d) * 40}px)` }}>
         {r.desc}
       </div>
     </div>
@@ -73,7 +66,15 @@ const Beams: React.FC = () => {
 
 export const S6Triple: React.FC = () => (
   <Scene id="s6">
-    <SceneStack variant="blue" assets={<Beams />}>
+    <SceneStack
+      variant="blue"
+      assets={
+        <>
+          <Footage src="s6_datacenter.mp4" tint={c.blue} tintOpacity={0.55} dark={0.4} darkColor={c.navy} sat={0.8} contrast={1.1} bright={0.9} zoom={[1.05, 1.14]} opacity={0.5} />
+          <Beams />
+        </>
+      }
+    >
       {ROWS.map((r, i) => (
         <Row key={i} r={r} i={i} />
       ))}

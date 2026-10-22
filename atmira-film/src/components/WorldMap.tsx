@@ -3,20 +3,21 @@ import { theme } from "../theme";
 import { useGT, useExit } from "./Scene";
 import { clamp, lerp, prog } from "../lib/anim";
 import map from "../data/worldDots.json";
+import { SCENES, vw } from "../timing";
 
 const c = theme.colors;
 const dots = map.dots as [number, number, number][];
 const A = map.anchors;
 
-export const MAP_START = 15.5;
-export const EUROPE_AT = 16.0;
-export const LATAM_AT = 16.44;
-export const ARCS_AT = 16.95;
+export const MAP_START = SCENES.s4.start;
+export const EUROPE_AT = vw("europa");
+export const LATAM_AT = vw("latinoamerica");
+export const ARCS_AT = LATAM_AT + 0.45;
 
 /** Camera: zooms from the whole world into the Atlantic corridor (Europe + Latin America in frame). */
 export const mapCamera = (gt: number) => {
   const p = prog(gt, MAP_START, 1.9, theme.ease.inOut);
-  const drift = clamp(gt - 17.4, 0, 4) * 0.012;
+  const drift = clamp(gt - (MAP_START + 1.9), 0, 4) * 0.012;
   const s = lerp(p, 1.0, 1.5) + drift;
   const cx = lerp(p, 960, 790);
   const cy = lerp(p, 500, 420);

@@ -1,24 +1,23 @@
 import React from "react";
 import { theme } from "../theme";
 import { useExit, useGT } from "./Scene";
-import { lerp, spr } from "../lib/anim";
+import { prog } from "../lib/anim";
 
-/** Premium entrance: opacity + translate + scale + blur-in, landing on a cue. */
+/** Clean entrance: fade + rise, ease-out only (no blur, no scale pop, no overshoot), landing on a cue. */
 export const Appear: React.FC<{
-  at: number; x?: number; y?: number; from?: number; blur?: number; config?: Record<string, number>;
-  style?: React.CSSProperties; children: React.ReactNode;
-}> = ({ at, x = 0, y = 40, from = 0.95, blur = 10, config = theme.spring.smooth, style, children }) => {
+  at: number; x?: number; y?: number; dur?: number; style?: React.CSSProperties; children: React.ReactNode;
+}> = ({ at, x = 0, y = 36, dur = 0.7, style, children }) => {
   const gt = useGT();
-  const p = spr(gt, at, config, 2);
+  const p = prog(gt, at - 0.06, dur, theme.ease.out);
   return (
-    <div style={{ opacity: Math.min(1, p * 1.6), transform: `translate(${lerp(p, x, 0)}px, ${lerp(p, y, 0)}px) scale(${lerp(p, from, 1)})`, filter: blur ? `blur(${lerp(Math.min(1, p), blur, 0)}px)` : undefined, ...style }}>
+    <div style={{ opacity: Math.min(1, p * 2.2), transform: `translate(${(1 - p) * x}px, ${(1 - p) * y}px)`, ...style }}>
       {children}
     </div>
   );
 };
 
-/** Scene-level exit (faster than entrances): fade + lift in the last ~0.28 s before the cut. */
-export const ExitWrap: React.FC<{ dur?: number; children: React.ReactNode }> = ({ dur = 0.28, children }) => {
+/** Scene-level exit (faster than entrances): fade + small lift in the last ~0.26 s before the cut. */
+export const ExitWrap: React.FC<{ dur?: number; children: React.ReactNode }> = ({ dur = 0.26, children }) => {
   const ex = useExit(dur);
-  return <div style={{ position: "absolute", inset: 0, opacity: 1 - ex, transform: `translateY(${-24 * ex}px) scale(${1 + ex * 0.015})`, filter: `blur(${ex * 6}px)` }}>{children}</div>;
+  return <div style={{ position: "absolute", inset: 0, opacity: 1 - ex, transform: `translateY(${-20 * ex}px)` }}>{children}</div>;
 };

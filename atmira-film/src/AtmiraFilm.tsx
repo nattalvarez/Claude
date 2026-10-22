@@ -8,10 +8,19 @@ import { S5Sirec } from "./scenes/S5Sirec";
 import { S6Triple } from "./scenes/S6Triple";
 import { S7Consultoria } from "./scenes/S7Consultoria";
 import { S8Logo } from "./scenes/S8Logo";
-import { Wipe } from "./components/Wipes";
+import { Wipe, WipeKind } from "./components/Wipes";
 import { theme } from "./theme";
+import { CUTS } from "./timing";
 
-const MIX = "audio/mix.wav";
+const KINDS: { kind: WipeKind; color?: string }[] = [
+  { kind: "bars" },
+  { kind: "slats" },
+  { kind: "iris", color: theme.colors.blue },
+  { kind: "flash" },
+  { kind: "bars" },
+  { kind: "iris", color: theme.colors.navy },
+  { kind: "flash" },
+];
 
 export const AtmiraFilm: React.FC<{ withAudio?: boolean }> = ({ withAudio = true }) => (
   <AbsoluteFill style={{ background: theme.colors.navyDeep }}>
@@ -23,13 +32,9 @@ export const AtmiraFilm: React.FC<{ withAudio?: boolean }> = ({ withAudio = true
     <S6Triple />
     <S7Consultoria />
     <S8Logo />
-    <Wipe at={3.5} kind="bars" />
-    <Wipe at={10.0} kind="slats" />
-    <Wipe at={15.5} kind="iris" color={theme.colors.blue} />
-    <Wipe at={21.0} kind="flash" dur={0.6} />
-    <Wipe at={29.5} kind="bars" />
-    <Wipe at={32.0} kind="iris" color={theme.colors.navy} />
-    <Wipe at={39.5} kind="flash" dur={0.7} />
-    {withAudio ? <Audio src={staticFile(MIX)} /> : null}
+    {CUTS.map((at, i) => (
+      <Wipe key={i} at={at} kind={KINDS[i].kind} color={KINDS[i].color} dur={KINDS[i].kind === "flash" ? 0.5 : 0.42} />
+    ))}
+    {withAudio ? <Audio src={staticFile("audio/mix.wav")} /> : null}
   </AbsoluteFill>
 );
