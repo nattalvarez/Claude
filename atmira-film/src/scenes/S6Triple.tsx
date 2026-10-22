@@ -34,7 +34,6 @@ const Row: React.FC<{ r: (typeof ROWS)[number]; i: number }> = ({ r, i }) => {
       <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 2, background: alpha(c.ice, 0.28) }}>
         <div style={{ height: "100%", width: `${bar * 100}%`, background: c.ice }} />
       </div>
-      <div style={{ position: "absolute", left: 0, top: 30, fontFamily: F.mono, fontSize: 24, fontWeight: 600, letterSpacing: "0.2em", color: alpha(c.ice, 0.85), opacity: Math.min(1, p * 2) }}>{r.n}</div>
       {/* outline "ghost" of the word that is still to come */}
       <div style={{ position: "absolute", left: 0, top: 56, ...wordStyle, color: "transparent", WebkitTextStroke: `2px ${alpha(c.ice, 0.3)}`, opacity: (1 - Math.min(1, p * 4)) * ghost }}>{r.word}.</div>
       {/* the word itself: masked slide-up, sharp all the way */}

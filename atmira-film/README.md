@@ -21,7 +21,7 @@ Cada palabra clave aparece en el instante exacto en que se pronuncia: los tiempo
 
 ## Animación de texto
 Todas las palabras usan un único movimiento limpio: *slide-up con máscara* (sin blur, sin escala, sin rebote), de modo que el texto
-siempre se ve nítido. Entradas de tarjetas/chips: fundido + subida suave con ease-out.
+siempre se ve nítido. Entradas de tarjetas/chips: fundido + subida suave con ease-out. Sin rótulos pequeños en mayúsculas con tracking (aspecto "IA"): solo titulares, cifras y etiquetas en minúscula normal.
 
 ## Estructura
 ```

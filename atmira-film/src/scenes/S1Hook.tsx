@@ -4,7 +4,7 @@ import { theme } from "../theme";
 import { Scene, useGT } from "../components/Scene";
 import { SceneStack } from "../components/Layers";
 import { Footage } from "../components/Footage";
-import { CueText, Eyebrow, Tok } from "../components/CueText";
+import { CueText, Tok } from "../components/CueText";
 import { lerp, prog } from "../lib/anim";
 import { vw } from "../timing";
 
@@ -30,8 +30,7 @@ const Inner: React.FC = () => {
     <AbsoluteFill>
       <div style={{ position: "absolute", top: 0, bottom: 0, left: `${sx}%`, width: 3, background: c.turq, opacity: fade, boxShadow: `0 0 40px 10px ${c.turq}88, -160px 0 120px 20px ${c.turq}22` }} />
       <AbsoluteFill style={{ background: `radial-gradient(ellipse at 30% 35%, ${c.ice}${Math.round(bloom * 60).toString(16).padStart(2, "0")}, transparent 55%)` }} />
-      <Eyebrow text="Servicios financieros" at={0.45} style={{ position: "absolute", left: 124, top: 120 }} />
-      <CueText tokens={TOKENS} size={168} style={{ position: "absolute", left: 120, top: 196, width: 1500, textShadow: "0 8px 50px rgba(8,14,28,0.5)" }} />
+      <CueText tokens={TOKENS} size={168} style={{ position: "absolute", left: 120, top: 170, width: 1500, textShadow: "0 8px 50px rgba(8,14,28,0.5)" }} />
     </AbsoluteFill>
   );
 };

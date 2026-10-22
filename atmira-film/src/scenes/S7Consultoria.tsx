@@ -3,7 +3,7 @@ import { theme } from "../theme";
 import { Scene, useGT, useExit } from "../components/Scene";
 import { SceneStack } from "../components/Layers";
 import { Footage } from "../components/Footage";
-import { CueText, Eyebrow, Tok } from "../components/CueText";
+import { CueText, Tok } from "../components/CueText";
 import { Icon } from "../components/Icons";
 import { prog } from "../lib/anim";
 import { alpha, mix } from "../lib/color";
@@ -61,7 +61,6 @@ const Card: React.FC<{ it: Item; i: number }> = ({ it, i }) => {
         <div style={{ width: 66, height: 66, borderRadius: 20, display: "grid", placeItems: "center", background: mix("#3A5486", c.turq, hotP), color: mix(c.ice, c.navy, hotP) }}>
           <Icon name={it.icon} size={38} stroke={1.8} />
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 21, letterSpacing: "0.18em", color: mix("#7F93B5", c.turq, hotP) }}>{String(i + 1).padStart(2, "0")}</div>
       </div>
       <div style={{ fontFamily: F.sans, fontWeight: 700, fontSize: it.title.length > 16 ? 34 : 40, letterSpacing: "-0.025em", color: "#fff", marginTop: 22, lineHeight: 1.05, whiteSpace: "nowrap" }}>{it.title}</div>
       <div style={{ fontFamily: F.sans, fontWeight: 400, fontSize: 25, color: c.ice, opacity: 0.8, marginTop: 8, lineHeight: 1.2 }}>{it.sub}</div>
@@ -78,9 +77,9 @@ const Journey: React.FC = () => {
   const t = prog(gt, t0, t1 - t0, theme.ease.inOut);
   return (
     <div style={{ position: "absolute", left: 120, right: 120, top: 412, opacity: a * (1 - ex) }}>
-      <div style={{ display: "flex", justifyContent: "space-between", fontFamily: F.mono, fontSize: 21, letterSpacing: "0.24em", fontWeight: 600, marginBottom: 14 }}>
-        <span style={{ color: mix(c.ice, c.turq, 1 - t) }}>PROCESO</span>
-        <span style={{ color: mix(c.ice, c.turq, t) }}>PLATAFORMA</span>
+      <div style={{ display: "flex", justifyContent: "space-between", fontFamily: F.sans, fontSize: 28, fontWeight: 600, marginBottom: 14 }}>
+        <span style={{ color: mix(c.ice, c.turq, 1 - t) }}>Proceso</span>
+        <span style={{ color: mix(c.ice, c.turq, t) }}>Plataforma</span>
       </div>
       <div style={{ position: "relative", height: 3, background: alpha(c.ice, 0.2) }}>
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${t * 100}%`, background: c.turq }} />
@@ -93,9 +92,8 @@ const Journey: React.FC = () => {
 export const S7Consultoria: React.FC = () => (
   <Scene id="s7">
     <SceneStack variant="dark" assets={<Footage src="s7_window_team.mp4" tint={c.blue} tintOpacity={0.8} dark={0.68} scrimLeft={0.5} blur={2} sat={0.9} zoom={[1.0, 1.1]} />}>
-      <Eyebrow text="Consultoría" at={S + 0.25} style={{ position: "absolute", left: 124, top: 96 }} />
-      <CueText tokens={P1} size={100} exitAt={vw("proceso", 0, -1) - 0.3} style={{ position: "absolute", left: 120, top: 152, width: 1500 }} />
-      <CueText tokens={P2} size={100} style={{ position: "absolute", left: 120, top: 152, width: 1500 }} />
+      <CueText tokens={P1} size={100} exitAt={vw("proceso", 0, -1) - 0.3} style={{ position: "absolute", left: 120, top: 128, width: 1500 }} />
+      <CueText tokens={P2} size={100} style={{ position: "absolute", left: 120, top: 128, width: 1500 }} />
       <Journey />
       {ITEMS.map((it, i) => (
         <Card key={i} it={it} i={i} />

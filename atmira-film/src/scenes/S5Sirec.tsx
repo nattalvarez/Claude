@@ -5,7 +5,6 @@ import { Scene, useGT, useSceneTimes } from "../components/Scene";
 import { SceneStack } from "../components/Layers";
 import { Footage } from "../components/Footage";
 import { Appear, ExitWrap } from "../components/Appear";
-import { Eyebrow } from "../components/CueText";
 import { AtmiraLogo, SirecLogo, SirecMark } from "../components/Brand";
 import { Icon } from "../components/Icons";
 import { Grid } from "../components/Grid";
@@ -76,7 +75,7 @@ const Link: React.FC<{ top: number; h: number; at: number; dark?: boolean }> = (
 
 const Step: React.FC<{ n: string; label: string; at: number; top: number }> = ({ n, label, at, top }) => (
   <Appear at={at} x={-36} y={0} style={{ position: "absolute", left: 124, top, display: "flex", alignItems: "center", gap: 26 }}>
-    <div style={{ width: 66, height: 66, borderRadius: 33, background: c.blue, display: "grid", placeItems: "center", color: "#fff", fontFamily: F.mono, fontWeight: 600, fontSize: 24, boxShadow: `0 14px 30px -10px ${alpha(c.blue, 0.7)}` }}>{n}</div>
+    <div style={{ width: 66, height: 66, borderRadius: 33, background: c.blue, display: "grid", placeItems: "center", color: "#fff", fontFamily: F.sans, fontWeight: 700, fontSize: 26, boxShadow: `0 14px 30px -10px ${alpha(c.blue, 0.7)}` }}>{n}</div>
     <div style={{ fontFamily: F.sans, fontWeight: 600, fontSize: 50, letterSpacing: "-0.025em", color: c.navy }}>{label}</div>
   </Appear>
 );
@@ -90,7 +89,7 @@ const CycleLoop: React.FC = () => {
       <path d="M0 280 C 120 280 120 280 120 240 L 120 80 C 120 40 120 40 0 40" fill="none" stroke={c.turq} strokeWidth={4} strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - p} />
       {p > 0.98 ? <polygon points="0,40 22,28 22,52" fill={c.turq} /> : null}
       {p > 0.5 ? <circle cx={120} cy={lerp(spin, 240, 80)} r={7} fill={c.navy} opacity={0.8} /> : null}
-      <text x={150} y={168} fontFamily={F.mono} fontSize={22} fontWeight={600} letterSpacing={4} fill={c.blue} opacity={p}>CICLO</text>
+      <text x={150} y={170} fontFamily={F.sans} fontSize={30} fontWeight={600} fill={c.blue} opacity={p}>Ciclo completo</text>
     </svg>
   );
 };
@@ -121,7 +120,6 @@ export const S5Sirec: React.FC = () => (
         <Appear at={S + 0.35} y={-16} style={{ position: "absolute", left: 120, top: 84 }}>
           <AtmiraLogo width={190} tint={c.navy} />
         </Appear>
-        <Eyebrow text="Plataforma" at={S + 0.5} color={c.blue} style={{ position: "absolute", left: 124, top: 236 }} />
         <Appear at={T.sirec} y={28} dur={0.8} style={{ position: "absolute", left: 120, top: 292 }}>
           <SirecLogo width={430} />
         </Appear>
@@ -146,7 +144,7 @@ export const S5Sirec: React.FC = () => (
         </Appear>
         <Link top={334} h={40} at={T.agents - 0.2} />
         <Appear at={T.mcp} y={16} style={{ position: "absolute", left: 1275, top: 374, width: 250 }}>
-          <div style={{ height: 56, borderRadius: 28, background: c.navy, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, fontFamily: F.mono, fontWeight: 600, fontSize: 24, letterSpacing: "0.14em" }}>
+          <div style={{ height: 56, borderRadius: 28, background: c.navy, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, fontFamily: F.sans, fontWeight: 700, fontSize: 26 }}>
             <span style={{ width: 10, height: 10, borderRadius: 5, background: c.turq }} />MCP
           </div>
         </Appear>
@@ -156,7 +154,7 @@ export const S5Sirec: React.FC = () => (
             <div style={{ fontFamily: F.sans, fontWeight: 700, fontSize: 58, letterSpacing: "-0.035em", color: "#fff", lineHeight: 1 }}>
               SIREC Agent <span style={{ fontFamily: F.serif, fontStyle: "italic", fontWeight: 400, color: c.turq, fontSize: 64 }}>Fabric</span>
             </div>
-            <div style={{ fontFamily: F.mono, fontSize: 22, letterSpacing: "0.16em", color: c.ice, opacity: 0.75, margin: "16px 0 26px", textTransform: "uppercase" }}>Orquestación segura de agentes</div>
+            <div style={{ fontFamily: F.sans, fontSize: 28, fontWeight: 500, color: c.ice, opacity: 0.8, margin: "14px 0 26px" }}>Orquestación segura de agentes</div>
             <div style={{ display: "flex", flexWrap: "nowrap", gap: 10 }}>
               <Chip label="Agilidad" at={T.fabric + 0.05} dark />
               <Chip label="Escalabilidad" at={T.fabric + 0.2} dark />
@@ -174,8 +172,8 @@ export const S5Sirec: React.FC = () => (
             <div>
               <div style={{ fontFamily: F.sans, fontWeight: 700, fontSize: 54, letterSpacing: "-0.03em", color: c.navy, lineHeight: 1 }}>SIREC</div>
               <div style={{ fontFamily: F.sans, fontSize: 26, color: c.dimInk, marginTop: 10 }}>Plataforma E2E · Orquestación</div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 10, fontFamily: F.mono, fontSize: 21, fontWeight: 600, letterSpacing: "0.12em", color: c.blue }}>
-                <span style={{ width: 10, height: 10, borderRadius: 5, background: c.turq }} />KPIS DE NEGOCIO
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 10, fontFamily: F.sans, fontSize: 26, fontWeight: 600, color: c.blue }}>
+                <span style={{ width: 10, height: 10, borderRadius: 5, background: c.turq }} />KPIs de negocio
               </div>
             </div>
           </div>

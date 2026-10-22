@@ -54,16 +54,3 @@ export const CueText: React.FC<{
     </div>
   );
 };
-
-/** Mono eyebrow label with a line that draws in (no overshoot). */
-export const Eyebrow: React.FC<{ text: string; at: number; color?: string; lineColor?: string; style?: React.CSSProperties }> = ({ text, at, color = theme.colors.turq, lineColor, style }) => {
-  const gt = useGT();
-  const ex = useExit(0.2);
-  const p = prog(gt, at, 0.6, theme.ease.out);
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 18, opacity: p * (1 - ex), transform: `translateX(${(1 - p) * -24}px)`, ...style }}>
-      <div style={{ width: 54 * p, height: 2, background: lineColor ?? color }} />
-      <span style={{ fontFamily: theme.fonts.mono, fontWeight: 600, fontSize: 24, letterSpacing: "0.28em", color, textTransform: "uppercase" }}>{text}</span>
-    </div>
-  );
-};

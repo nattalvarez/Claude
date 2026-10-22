@@ -3,7 +3,7 @@ import { theme } from "../theme";
 import { Scene, useGT, useExit } from "../components/Scene";
 import { SceneStack } from "../components/Layers";
 import { Footage } from "../components/Footage";
-import { CueText, Eyebrow, Tok } from "../components/CueText";
+import { CueText, Tok } from "../components/CueText";
 import { prog } from "../lib/anim";
 import { mix } from "../lib/color";
 import { SCENES, vw } from "../timing";
@@ -35,7 +35,6 @@ const Col: React.FC<{ s: Stat }> = ({ s }) => {
   const line = prog(gt, s.at - 0.05, 0.7, theme.ease.out);
   return (
     <div style={{ position: "relative", width: 392, opacity: (1 - ex) * Math.min(1, p * 2), transform: `translateY(${(1 - p) * 40 - ex * 22}px)` }}>
-      <div style={{ fontFamily: theme.fonts.mono, fontSize: 22, letterSpacing: "0.2em", color: mix(c.ice, c.turq, hot), opacity: 0.8, marginBottom: 20 }}>{s.idx}</div>
       <div style={{ height: 2, background: c.line, position: "relative", marginBottom: 34 }}>
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${line * 100}%`, background: mix(c.ice, c.turq, hot) }} />
         <div style={{ position: "absolute", left: `${line * 100}%`, top: -5, width: 12, height: 12, borderRadius: 6, marginLeft: -6, background: mix(c.ice, c.turq, hot) }} />
@@ -53,8 +52,7 @@ const Col: React.FC<{ s: Stat }> = ({ s }) => {
 export const S3Cifras: React.FC = () => (
   <Scene id="s3">
     <SceneStack variant="dark" assets={<Footage src="s3_aerial_lights.mp4" tint={c.blue} tintOpacity={0.85} dark={0.5} blur={1.5} zoom={[1.0, 1.12]} sat={0.9} />}>
-      <Eyebrow text="Experiencia que respalda" at={S + 0.1} style={{ position: "absolute", left: 124, top: 130 }} />
-      <CueText tokens={TITLE} size={104} style={{ position: "absolute", left: 120, top: 190 }} />
+      <CueText tokens={TITLE} size={104} style={{ position: "absolute", left: 120, top: 150 }} />
       <div style={{ position: "absolute", left: 120, right: 120, top: 520, display: "flex", justifyContent: "space-between" }}>
         {STATS.map((s, i) => (
           <Col key={i} s={s} />

@@ -4,8 +4,8 @@ import { theme } from "../theme";
 import { Scene, useGT, useExit } from "../components/Scene";
 import { SceneStack } from "../components/Layers";
 import { Footage } from "../components/Footage";
-import { WorldMap, toScreen, EUROPE_AT, LATAM_AT, MAP_START } from "../components/WorldMap";
-import { CueText, Eyebrow, Tok } from "../components/CueText";
+import { WorldMap, toScreen, EUROPE_AT, LATAM_AT } from "../components/WorldMap";
+import { CueText, Tok } from "../components/CueText";
 import { prog } from "../lib/anim";
 import { vw } from "../timing";
 import map from "../data/worldDots.json";
@@ -34,7 +34,7 @@ const Tag: React.FC<{ text: string; at: number; ax: number; ay: number; dx: numb
         <path d={`M${a.x} ${a.y} L${lx} ${ly} L${lx + (side === "r" ? 60 : -60)} ${ly}`} fill="none" stroke={c.white} strokeWidth={2} strokeOpacity={0.85} strokeDasharray={400} strokeDashoffset={400 * (1 - p)} />
       </svg>
       <div style={{ position: "absolute", left: side === "r" ? lx + 78 : undefined, right: side === "l" ? 1920 - lx + 78 : undefined, top: ly - 28, textAlign: side === "r" ? "left" : "right", transform: `translateX(${(1 - p) * (side === "r" ? -20 : 20)}px)` }}>
-        <div style={{ fontFamily: theme.fonts.sans, fontWeight: 700, fontSize: 46, letterSpacing: "0.06em", color: c.white, textTransform: "uppercase", textShadow: "0 4px 24px rgba(8,14,28,0.7)" }}>{text}</div>
+        <div style={{ fontFamily: theme.fonts.sans, fontWeight: 600, fontSize: 52, letterSpacing: "-0.02em", color: c.white, textShadow: "0 4px 24px rgba(8,14,28,0.7)" }}>{text}</div>
       </div>
     </div>
   );
@@ -79,10 +79,9 @@ export const S4Mapa: React.FC = () => (
       }
     >
       <Scrim />
-      <Eyebrow text="Presencia internacional" at={MAP_START + 0.25} style={{ position: "absolute", left: 124, top: 84 }} />
       <Tag text="Europa" at={EUROPE_AT} ax={map.anchors.europe[0]} ay={map.anchors.europe[1]} dx={110} dy={-96} side="r" />
       <Tag text="Latinoamérica" at={LATAM_AT} ax={map.anchors.latam[0]} ay={map.anchors.latam[1]} dx={-120} dy={110} side="l" />
-      <CueText tokens={HEAD} size={92} style={{ position: "absolute", left: 120, top: 140, width: 760 }} />
+      <CueText tokens={HEAD} size={92} style={{ position: "absolute", left: 120, top: 96, width: 760 }} />
       <div style={{ position: "absolute", right: 110, bottom: 96, display: "flex", gap: 26 }}>
         <Stat value={2} label="HQ · Europa y Latam" at={vw("sede") + 0.1} />
         <Stat value={7} prefix="+" label="Hubs" at={vw("siete")} />
