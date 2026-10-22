@@ -23,11 +23,11 @@ export const S13Insurance: React.FC = () => {
   // La voz va en este orden: presentación → «Primero, el sector: vida y pensiones, generales y salud» →
   // «Después, los ámbitos de negocio: suscripción, siniestros y distribución, con capas normativas…» →
   // «Y por último, tecnología y arquitectura: core asegurador, arquitectura de referencia, APIs y el dato».
-  const cSecStart = cue(ID, "Primero");
+  const cSecStart = cue(ID, "Parte del sector");
   const cSeg = [cue(ID, "vida"), cue(ID, "generales"), cue(ID, "salud")];
-  const cAmbStart = cue(ID, "Después");
+  const cAmbStart = cue(ID, "Sobre él");
   const cDom = [cue(ID, "suscripción"), cue(ID, "siniestros"), cue(ID, "distribución"), cue(ID, "capas normativas")];
-  const cTech = cue(ID, "Y por último");
+  const cTech = cue(ID, "Y debajo");
   const cTechIt = [cue(ID, "core asegurador"), cue(ID, "arquitectura de referencia"), cue(ID, "APIs"), cue(ID, "dato")];
   const segCol = b.cols[0];
   const domCol = b.cols[1];

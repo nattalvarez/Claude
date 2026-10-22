@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
+import { StockVideo } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Chrome } from "../components/Chrome";
 import { Karaoke, SyncWords } from "../components/Sync";
@@ -14,8 +15,8 @@ const ID = "porsector";
 
 const TILE = [
   { bg: `linear-gradient(160deg,#3a3a3f 0%, ${C.charcoal} 60%, #131315 100%)`, fg: "#fff", sub: "rgba(255,255,255,0.78)", seed: 3, ink: "dark" as const },
-  { bg: `linear-gradient(160deg,#4b0b2b 0%, ${C.plum} 55%, ${C.plumDeep} 100%)`, fg: "#fff", sub: "rgba(255,255,255,0.78)", seed: 6, ink: "dark" as const },
-  { bg: `linear-gradient(160deg,#ffffff 0%, ${C.magentaMist} 100%)`, fg: C.ink, sub: C.ink2, seed: 9, ink: "brand" as const },
+  { bg: `linear-gradient(160deg,#2c2c32 0%, #1a1a1e 60%, #101013 100%)`, fg: "#fff", sub: "rgba(255,255,255,0.78)", seed: 6, ink: "dark" as const },
+  { bg: `linear-gradient(160deg,#ffffff 0%, ${C.paper2} 100%)`, fg: C.ink, sub: C.ink2, seed: 9, ink: "brand" as const },
 ];
 
 export const S11PorSector: React.FC = () => {
@@ -23,7 +24,7 @@ export const S11PorSector: React.FC = () => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
 
-  const cThree = [cue(ID, "el sector"), cue(ID, "los ámbitos de negocio"), cue(ID, "la tecnología")];
+  const cThree = [cue(ID, "del sector"), cue(ID, "ámbitos de negocio"), cue(ID, "la tecnología")];
   const cCrece = cue(ID, "Crece con cada proyecto");
   const cMarco = cue(ID, "Un marco");
   const cT = [cue(ID, "Banking"), cue(ID, "Insurance"), cue(ID, "Smart")];
@@ -33,25 +34,28 @@ export const S11PorSector: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <Backdrop tone="light" />
+      <Backdrop tone="dark" />
+      <StockVideo name="sector" rate={0.6} brightness={0.95} contrast={1.15} opacity={1 - phase2} />
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(12,12,15,0.72) 0%, rgba(12,12,15,0.38) 100%)", opacity: 1 - phase2 }} />
       <SilkField
         time={t + 15}
         order={0.8}
         lines={56}
         seed={11}
         fills={4}
+        palette="dark"
         blurNear={0}
         cam={{ pos: [0, 4, -16], target: [0, 4.4, 0], fov: 36 }}
         alpha={0.34}
         style={{ top: 640, opacity: 1 - phase2 }}
       />
-      <Chrome chapter="10 · Un Digital Brain por sector" start={2} />
+      <Chrome chapter="10 · Un Digital Brain por sector" start={2} tone="dark" />
 
       <div style={{ opacity: 1 - phase2, transform: `translateY(${-phase2 * 40}px)` }}>
-        <div style={{ position: "absolute", left: 120, top: 128, ...font(104, 700, { letterSpacing: "-0.05em" }) }}>
+        <div style={{ position: "absolute", left: 120, top: 128, ...font(104, 700, { color: "#FFFFFF", letterSpacing: "-0.05em" }) }}>
           <SyncWords scene={ID} text="Un Digital Brain por sector" from="Un Digital Brain" accent={[3, 4]} lead={3} dur={16} />
         </div>
-        <div style={{ position: "absolute", left: 120, top: 262, ...font(32, 400, { color: C.ink2, letterSpacing: "-0.012em" }) }}>
+        <div style={{ position: "absolute", left: 120, top: 262, ...font(32, 400, { color: "#E6E6EA", letterSpacing: "-0.012em" }) }}>
           <MaskText start={cue(ID, "Cada uno") - 4}>{POR_SECTOR.lead}</MaskText>
         </div>
         {POR_SECTOR.threes.map((s, i) => {
@@ -62,9 +66,9 @@ export const S11PorSector: React.FC = () => {
             <div key={s.n} style={{ position: "absolute", left: x, top: 372, width: 500, opacity: clamp(p * 1.5) }}>
               <div style={{ transform: `translateY(${(1 - p) * 26}px)` }}>
                 <div style={{ ...font(150, 300, { color: "transparent", letterSpacing: "-0.05em", lineHeight: 1 }), WebkitTextStroke: `2.5px ${C.magenta}` }}>{s.n}</div>
-                <Rule start={st + 8} width={500} color={C.ink} thickness={2} style={{ marginTop: 10 }} />
-                <div style={{ marginTop: 22, ...font(42, 500, { letterSpacing: "-0.03em", lineHeight: 1.1 }) }}>{s.t}</div>
-                <div style={{ marginTop: 12, ...font(26, 400, { color: C.mute, letterSpacing: 0 }) }}>{s.d}</div>
+                <Rule start={st + 8} width={500} color="#FFFFFF" thickness={2} style={{ marginTop: 10 }} />
+                <div style={{ marginTop: 22, ...font(42, 500, { color: "#FFFFFF", letterSpacing: "-0.03em", lineHeight: 1.1 }) }}>{s.t}</div>
+                <div style={{ marginTop: 12, ...font(26, 400, { color: "#B9B9C2", letterSpacing: 0 }) }}>{s.d}</div>
               </div>
             </div>
           );
@@ -75,8 +79,8 @@ export const S11PorSector: React.FC = () => {
           from="Crece con cada proyecto"
           appear={cCrece - 10}
           style={{ position: "absolute", left: 120, top: 800, width: 1500, ...font(36, 400, { letterSpacing: "-0.02em", lineHeight: 1.3 }) }}
-          on={C.ink}
-          dim="#CDCCD2"
+          on="#FFFFFF"
+          dim="#66666E"
         />
       </div>
 
@@ -130,7 +134,7 @@ export const S11PorSector: React.FC = () => {
           </div>
         );
       })}
-      <Finish tone="light" />
+      <Finish tone="dark" />
     </AbsoluteFill>
   );
 };

@@ -1,6 +1,6 @@
 {
  "fps": 25,
- "total": 12919,
+ "total": 12941,
  "scenes": [
   {
    "id": "apertura",
@@ -206,12 +206,12 @@
    "id": "porsector",
    "index": 10,
    "start": 6653,
-   "duration": 626,
+   "duration": 671,
    "voice": [
     {
      "id": "b10b_porsector",
      "from": 30,
-     "frames": 526,
+     "frames": 571,
      "real": true,
      "estimated": false
     }
@@ -225,13 +225,13 @@
   {
    "id": "banking",
    "index": 11,
-   "start": 7257,
-   "duration": 843,
+   "start": 7302,
+   "duration": 819,
    "voice": [
     {
      "id": "b11_banking",
      "from": 34,
-     "frames": 729,
+     "frames": 705,
      "real": true,
      "estimated": false
     }
@@ -245,13 +245,13 @@
   {
    "id": "insurance",
    "index": 12,
-   "start": 8080,
-   "duration": 1001,
+   "start": 8101,
+   "duration": 1014,
    "voice": [
     {
      "id": "b12_insurance",
      "from": 32,
-     "frames": 889,
+     "frames": 902,
      "real": true,
      "estimated": false
     }
@@ -265,13 +265,13 @@
   {
    "id": "smart",
    "index": 13,
-   "start": 9061,
-   "duration": 1123,
+   "start": 9095,
+   "duration": 1111,
    "voice": [
     {
      "id": "b13_smart",
      "from": 32,
-     "frames": 1015,
+     "frames": 1003,
      "real": true,
      "estimated": false
     }
@@ -285,7 +285,7 @@
   {
    "id": "casos",
    "index": 14,
-   "start": 10162,
+   "start": 10184,
    "duration": 1151,
    "voice": [
     {
@@ -305,7 +305,7 @@
   {
    "id": "clientes",
    "index": 15,
-   "start": 11297,
+   "start": 11319,
    "duration": 744,
    "voice": [
     {
@@ -325,7 +325,7 @@
   {
    "id": "cifras",
    "index": 16,
-   "start": 12023,
+   "start": 12045,
    "duration": 486,
    "voice": [
     {
@@ -345,7 +345,7 @@
   {
    "id": "cierre",
    "index": 17,
-   "start": 12479,
+   "start": 12501,
    "duration": 440,
    "voice": [
     {

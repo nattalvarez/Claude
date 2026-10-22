@@ -5,10 +5,10 @@ import { C, H, W } from "../theme";
 export type Tone = "light" | "mist" | "dark" | "plum";
 
 const BASE: Record<Tone, string> = {
-  light: `radial-gradient(1200px 800px at 82% 12%, rgba(225,3,122,0.045), transparent 70%), radial-gradient(900px 700px at 8% 100%, rgba(40,40,60,0.035), transparent 70%), ${C.paper}`,
-  mist: `radial-gradient(1400px 900px at 100% 100%, rgba(225,3,122,0.16), transparent 62%), radial-gradient(900px 700px at 0% 0%, rgba(225,3,122,0.06), transparent 70%), ${C.paper}`,
-  dark: `radial-gradient(1100px 800px at 70% 30%, rgba(225,3,122,0.16), transparent 65%), linear-gradient(160deg, #26262a 0%, ${C.charcoal} 55%, #121214 100%)`,
-  plum: `radial-gradient(1300px 900px at 55% 55%, rgba(225,3,122,0.28), transparent 62%), radial-gradient(900px 700px at 0% 100%, rgba(143,1,82,0.35), transparent 70%), linear-gradient(170deg, #1d0511 0%, ${C.plum} 50%, ${C.plumDeep} 100%)`,
+  light: `radial-gradient(1200px 800px at 82% 12%, rgba(120,124,140,0.05), transparent 70%), radial-gradient(900px 700px at 8% 100%, rgba(40,40,60,0.035), transparent 70%), ${C.paper}`,
+  mist: `radial-gradient(1400px 900px at 100% 100%, rgba(120,124,140,0.12), transparent 62%), radial-gradient(900px 700px at 0% 0%, rgba(120,124,140,0.05), transparent 70%), ${C.paper}`,
+  dark: `linear-gradient(160deg, #26262a 0%, ${C.charcoal} 55%, #121214 100%)`,
+  plum: `radial-gradient(1300px 900px at 55% 55%, rgba(110,116,135,0.16), transparent 62%), linear-gradient(170deg, #1b1b20 0%, #141418 50%, #0d0d10 100%)`,
 };
 
 /** Capa 1: fondo (nunca un color plano). */
@@ -39,7 +39,7 @@ export const Finish: React.FC<{ tone?: Tone; grain?: number }> = ({ tone = "ligh
         style={{
           background: dark
             ? "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.42) 100%)"
-            : "radial-gradient(ellipse at center, transparent 62%, rgba(60,20,45,0.07) 100%)",
+            : "radial-gradient(ellipse at center, transparent 62%, rgba(0,0,0,0.06) 100%)",
           pointerEvents: "none",
         }}
       />

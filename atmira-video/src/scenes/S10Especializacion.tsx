@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
+import { StockVideo } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Chrome } from "../components/Chrome";
 import { Karaoke } from "../components/Sync";
@@ -27,7 +28,7 @@ export const S10Especializacion: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <Backdrop tone="mist" />
+      <Backdrop tone="light" />
       <Chrome chapter="09 · Especialización" start={2} hideLogo />
 
       {/* portal oscuro: el Digital Brain como profundidad y estructura */}
@@ -39,11 +40,12 @@ export const S10Especializacion: React.FC = () => {
           width: PW,
           height: PH,
           overflow: "hidden",
-          background: `linear-gradient(165deg, #2c2c31 0%, ${C.charcoal} 55%, ${C.plumDeep} 130%)`,
+          background: `linear-gradient(165deg, #2c2c31 0%, ${C.charcoal} 55%, #121214 130%)`,
           clipPath: `inset(${(1 - open) * 50}% 0 ${(1 - open) * 50}% 0)`,
           opacity: clamp(open * 2),
         }}
       >
+        <StockVideo name="especializacion" rate={0.7} brightness={0.6} opacity={0.9} />
         <SilkField
           width={PW}
           height={PH}
@@ -82,7 +84,7 @@ export const S10Especializacion: React.FC = () => {
         dim="#CCCBD1"
         accent={[]}
       />
-      <Finish tone="mist" />
+      <Finish tone="light" />
     </AbsoluteFill>
   );
 };

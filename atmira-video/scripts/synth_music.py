@@ -261,6 +261,34 @@ SCENE_LEVEL = {
 }
 DARK_SCENES = {"banking", "insurance"}
 
+# Evolución: la pieza cambia de armonía, patrón y capas de forma continua y a destiempo (cada eje con su propio
+# periodo), de modo que nunca hay un «cambio de sección» audible: siempre se mueve algo mientras el resto sigue.
+PROGS = {
+    "A": LIGHT,
+    "B": [(29, [53, 57, 60, 64]), (36, [55, 60, 64, 67]), (26, [50, 53, 57, 60]), (31, [55, 59, 62, 66])],  # Fmaj9 · Cadd9 · Dm7 · G6
+    "C": DARK,
+    "D": [(28, [52, 55, 59, 62]), (36, [55, 60, 64, 67]), (31, [55, 59, 62, 66]), (26, [50, 54, 57, 62])],  # Em7 · Cadd9 · G6 · D6
+    "E": [(33, [57, 60, 64, 67]), (36, [55, 60, 64, 67]), (29, [53, 57, 60, 64]), (31, [55, 59, 62, 66])],  # Am · C · F · G
+}
+SEQ_LIGHT = ["A", "B", "A", "E", "D", "E", "B", "A"]
+SEQ_DARK = ["C", "D", "C", "B"]
+ARP_PATS = [
+    [0, 2, 1, 3, 2, 4, 3, 1, 0, 2, 1, 3, 4, 3, 2, 1],
+    [0, 1, 2, 3, 4, 3, 2, 1, 0, 1, 2, 3, 4, 2, 3, 1],
+    [4, 2, 3, 1, 2, 0, 1, 3, 4, 3, 2, 4, 3, 1, 2, 0],
+]
+STAB_SETS = [(3, 6, 11), (2, 7, 10), (4, 8, 13)]
+LEAD_SETS = [((0, 2, 5), (6, 3, 3), (10, 1, 6)), ((2, 3, 4), (8, 1, 4), (12, 2, 3)), ((0, 1, 7), (8, 3, 5), (13, 0, 3))]
+
+
+def wob(t, period, phase=0.0):
+    return 0.5 + 0.5 * np.sin(2 * np.pi * t / period + phase)
+
+
+def gate(x, lo, hi):
+    y = min(1.0, max(0.0, (x - lo) / (hi - lo)))
+    return y * y * (3 - 2 * y)
+
 scenes = TL["scenes"]
 cierre = next(s for s in scenes if s["id"] == "cierre")
 t_cierre = cierre["start"] / FPS
@@ -326,15 +354,26 @@ for si, sc in enumerate(scenes):
     bar_s = beat_s * 4
     s16_s = beat_s / 4
     lvl = SCENE_LEVEL.get(sid, 0.6)
-    prog = DARK if sid in DARK_SCENES else LIGHT
+    seq = SEQ_DARK if sid in DARK_SCENES else SEQ_LIGHT
     t = s0
         # platillo suave en el corte (el ritmo no se interrumpe: el compás sigue sin saltos)
     if si > 0:
         add(DRM_L, DRM_R, s0, hat(0.5, 0.12), 0.0)
     while t < s1 - 0.08:
         bar = gbar
-        root, chord = prog[bar % 4]
+        root, chord = PROGS[seq[(bar // 8) % len(seq)]][bar % 4]
         end_bar = min(t + bar_s, s1)
+        # capas que entran y salen despacio (periodos distintos: 83, 67, 111, 59 y 97 s)
+        g_arp = 0.18 + 0.82 * gate(wob(t, 83, 0.0), 0.2, 0.8)
+        g_stab = gate(wob(t, 67, 2.0), 0.3, 0.75)
+        g_lead = gate(wob(t, 111, 4.0), 0.5, 0.85)
+        g_h16 = gate(wob(t, 59, 1.0), 0.35, 0.7)
+        g_pad = 1.0 + 0.7 * (1 - g_arp)
+        bass_pat = (bar // 16) % 3
+        arp_pat = ARP_PATS[(bar // 8) % 3]
+        stab_set = STAB_SETS[(bar // 12) % 3]
+        lead_set = LEAD_SETS[(bar // 10) % 3]
+        tone = 0.5 + 0.5 * wob(t, 140, 1.5)  # brillo del arpegio, ligado a un ciclo lento
         intro = sid == "apertura" and t < 3.2
         # ── percusión
         if not intro:
@@ -350,45 +389,55 @@ for si, sc in enumerate(scenes):
                 th = tb + beat_s / 2
                 if th < s1 - 0.05:
                     add(DRM_L, DRM_R, th, hat(0.16 if lvl >= 0.6 else 0.06, 0.26 if lvl >= 0.6 else 0.18), 0.25)
-                if lvl >= 0.72:
+                if lvl >= 0.72 and g_h16 > 0.1:
                     for q in (1, 3):
                         tq = tb + q * s16_s
                         if tq < s1 - 0.05:
-                            add(DRM_L, DRM_R, tq, hat(0.035, 0.08 + 0.03 * (q == 3)), -0.2)
+                            add(DRM_L, DRM_R, tq, hat(0.035, (0.08 + 0.03 * (q == 3)) * (0.4 + 0.6 * g_h16)), -0.2)
         # ── bajo a contratiempo (sidechain lo hace «respirar»)
         if lvl >= 0.4 and not intro:
-            for k in range(4):
-                tn = t + k * beat_s + beat_s / 2
+            if bass_pat == 0:
+                spots = [(k + 0.5, 12 + (12 if (k == 3 and lvl >= 0.75) else 0)) for k in range(4)]
+            elif bass_pat == 1:
+                spots = [(0.5, 12), (1.5, 12), (2.5, 12), (3.0, 24), (3.5, 19)]
+            else:
+                spots = [(0.5, 12), (1.0, 24), (1.5, 12), (2.5, 12), (3.25, 24), (3.5, 12)]
+            for kk, off in spots:
+                tn = t + kk * beat_s
                 if tn < s1 - 0.12:
-                    f = mid(root + 12 + (12 if (k == 3 and lvl >= 0.75) else 0))
-                    add(MUS_L, MUS_R, tn, sub(f, beat_s * 0.46, 0.34 * (0.7 + 0.3 * lvl)), 0.0)
+                    add(MUS_L, MUS_R, tn, sub(mid(root + off), beat_s * 0.42, 0.34 * (0.7 + 0.3 * lvl)), 0.0)
         # ── stabs sincopados
-        if lvl >= 0.5 and not intro:
-            for st_ in (3, 6, 11):
+        if lvl >= 0.5 and not intro and g_stab > 0.08:
+            for st_ in stab_set:
                 ts = t + st_ * s16_s
                 if ts < s1 - 0.1:
                     fr = [mid(m) for m in chord]
-                    add(MUS_L, MUS_R, ts, stab(fr, 0.34, 0.085 * (0.6 + 0.5 * lvl)), pan=-0.3 if st_ == 6 else 0.3)
+                    add(MUS_L, MUS_R, ts, stab(fr, 0.34, 0.085 * (0.6 + 0.5 * lvl) * g_stab), pan=-0.3 if st_ % 2 == 0 else 0.3)
         # ── arpegio (con eco)
         if lvl >= 0.55 and not intro:
             up = [m + 12 for m in chord] + [chord[0] + 24]
-            pat = [0, 2, 1, 3, 2, 4, 3, 1, 0, 2, 1, 3, 4, 3, 2, 1]
+            pat = arp_pat
             step = 1 if lvl >= 0.72 else 2
             for k in range(0, 16, step):
                 ta = t + k * s16_s
                 if ta < s1 - 0.1:
-                    add(MUS_L, MUS_R, ta, pluck(mid(up[pat[k] % len(up)]), 0.5, 0.075 * (0.55 + 0.6 * lvl) * (1.25 if k % 4 == 0 else 0.8)), pan=-0.65 + 1.3 * ((k // step) % 5) / 4)
+                    nt = mid(up[pat[k] % len(up)])
+                    amp_a = 0.075 * (0.55 + 0.6 * lvl) * (1.25 if k % 4 == 0 else 0.8) * g_arp
+                    if tone > 0.72 and k % 4 == 0:
+                        add(MUS_L, MUS_R, ta, bell(nt, 1.2, amp_a * 0.7), pan=-0.65 + 1.3 * ((k // step) % 5) / 4)
+                    else:
+                        add(MUS_L, MUS_R, ta, pluck(nt, 0.5, amp_a), pan=-0.65 + 1.3 * ((k // step) % 5) / 4)
         # ── melodía (frases de 4 compases: compases 3-4)
-        if lvl >= 0.7 and bar % 4 in (2, 3) and not intro:
+        if lvl >= 0.7 and bar % 4 in (2, 3) and not intro and g_lead > 0.08:
             hi = [m + 24 for m in chord]
-            for st_, ni, dd in ((0, 2, 5 * s16_s), (6, 3, 3 * s16_s), (10, 1, 6 * s16_s)):
+            for st_, ni, dd in lead_set:
                 tl_ = t + st_ * s16_s
                 if tl_ < s1 - 0.15:
-                    add(MUS_L, MUS_R, tl_, lead(mid(hi[ni % 4]), dd, 0.075), pan=0.15)
+                    add(MUS_L, MUS_R, tl_, lead(mid(hi[ni % 4]), dd * s16_s, 0.075 * g_lead), pan=0.15)
         # ── pad de fondo (más presente cuando hay menos ritmo)
         dur_p = end_bar - t
         for i, m in enumerate(chord):
-            add(MUS_L, MUS_R, t, pad(mid(m - 12), dur_p, (0.05 if lvl >= 0.5 else 0.085) * (0.8 + 0.4 * lvl)), pan=-0.5 + 0.3 * i)
+            add(MUS_L, MUS_R, t, pad(mid(m - 12), dur_p, (0.05 if lvl >= 0.5 else 0.085) * (0.8 + 0.4 * lvl) * g_pad), pan=-0.5 + 0.3 * i)
         t += bar_s
         gbar += 1
     # relleno suave: el último pulso de la escena (semicorcheas con crescendo) y un soplo de ruido

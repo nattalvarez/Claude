@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
+import { StockVideo } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Logo, LOGO_RATIO } from "../components/Logo";
 import { SyncWords } from "../components/Sync";
@@ -53,10 +54,10 @@ const PlaneView: React.FC<{ s: PlaneSpec; i: number; leave: number; t: number }>
   // tras el clímax los planos se aproximan a cámara y se desvanecen
   const push = ramp(frame, 0, 1) * leave;
   const bg: Record<PlaneSpec["kind"], string> = {
-    magenta: `linear-gradient(150deg, #F0278F 0%, ${C.magenta} 50%, ${C.magentaDeep} 130%)`,
+    magenta: C.magenta,
     charcoal: `linear-gradient(150deg, #3b3b40 0%, ${C.charcoal} 70%)`,
     glass: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04))",
-    plum: `linear-gradient(150deg, #5a0f35 0%, ${C.plum} 80%)`,
+    plum: `linear-gradient(150deg, #2c2c32 0%, #17171b 80%)`,
     silk: `linear-gradient(150deg, #34343a 0%, ${C.charcoal} 80%)`,
     bar: C.magenta,
     ring: "transparent",
@@ -150,6 +151,7 @@ export const S18Cierre: React.FC = () => {
     <AbsoluteFill>
       {/* fondo oscuro de acumulación */}
       <Backdrop tone="plum" />
+      <StockVideo name="cierre" rate={0.8} brightness={0.8} opacity={1 - 0.5 * leave} />
       <AbsoluteFill style={{ transform: `scale(${scale})`, transformOrigin: `${CX}px ${CY}px` }}>
         <SilkField
           time={t + 30}
@@ -178,7 +180,7 @@ export const S18Cierre: React.FC = () => {
         </div>
 
         {/* velo de lectura tras el mensaje */}
-        <div style={{ position: "absolute", left: 0, top: 0, width: W, height: H, opacity: 1 - textOut, background: "radial-gradient(1100px 380px at 50% 52%, rgba(18,3,11,0.62), transparent 70%)" }} />
+        <div style={{ position: "absolute", left: 0, top: 0, width: W, height: H, opacity: 1 - textOut, background: "radial-gradient(1100px 380px at 50% 52%, rgba(8,8,10,0.62), transparent 70%)" }} />
         {/* mensaje */}
         <div style={{ position: "absolute", left: 0, top: 0, width: W, opacity: 1 - textOut, transform: `translateY(${-textOut * 30}px)`, filter: `blur(${textOut * 8}px)` }}>
           <div style={{ position: "absolute", left: 160, width: 1600, top: 330, textAlign: "center", ...font(104, 400, { color: "#fff", letterSpacing: "-0.045em", lineHeight: 1.04 }) }}>
@@ -193,7 +195,8 @@ export const S18Cierre: React.FC = () => {
       {/* C — frente magenta (con hilos blancos y logotipo blanco) */}
       {w1 > 0.001 && (
         <AbsoluteFill style={{ clipPath: `inset(${open1}% 0 ${open1}% 0)` }}>
-          <AbsoluteFill style={{ background: `radial-gradient(1200px 900px at ${CX}px ${CY}px, #FF3A9E 0%, ${C.magenta} 38%, ${C.magentaDeep} 100%)` }} />
+          <StockVideo name="cierre" rate={0.8} brightness={1.0} contrast={1.2} />
+          <AbsoluteFill style={{ background: "rgba(10,10,12,0.32)" }} />
           <SilkField
             time={t + 12}
             order={1}
@@ -214,12 +217,12 @@ export const S18Cierre: React.FC = () => {
       )}
       {/* haz de luz: los hilos convergen en una línea que se abre como una rendija */}
       {beam > 0.002 && (
-        <div style={{ position: "absolute", left: W / 2 - (beam * W) / 2, width: beam * W, top: H / 2 - 2, height: 4, background: "#fff", opacity: Math.min(1, beam * 1.6), boxShadow: "0 0 36px 8px rgba(255,58,158,0.85), 0 0 120px 30px rgba(255,58,158,0.45)" }} />
+        <div style={{ position: "absolute", left: W / 2 - (beam * W) / 2, width: beam * W, top: H / 2 - 2, height: 4, background: "#fff", opacity: Math.min(1, beam * 1.6), boxShadow: "0 0 36px 8px rgba(255,255,255,0.8), 0 0 120px 30px rgba(255,255,255,0.35)" }} />
       )}
       {w1 > 0.001 && w1 < 0.999 && (
         <>
-          <div style={{ position: "absolute", left: 0, width: W, top: H / 2 - (1 - open1 / 50) * (H / 2) - 2, height: 4, background: "#fff", boxShadow: "0 0 28px 6px rgba(255,58,158,0.8)" }} />
-          <div style={{ position: "absolute", left: 0, width: W, top: H / 2 + (1 - open1 / 50) * (H / 2) - 2, height: 4, background: "#fff", boxShadow: "0 0 28px 6px rgba(255,58,158,0.8)" }} />
+          <div style={{ position: "absolute", left: 0, width: W, top: H / 2 - (1 - open1 / 50) * (H / 2) - 2, height: 4, background: "#fff", boxShadow: "0 0 28px 6px rgba(255,255,255,0.75)" }} />
+          <div style={{ position: "absolute", left: 0, width: W, top: H / 2 + (1 - open1 / 50) * (H / 2) - 2, height: 4, background: "#fff", boxShadow: "0 0 28px 6px rgba(255,255,255,0.75)" }} />
         </>
       )}
       {/* filo luminoso del barrido hacia el blanco */}

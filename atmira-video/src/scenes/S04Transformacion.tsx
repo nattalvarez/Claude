@@ -52,7 +52,7 @@ const Plane: React.FC<{
           overflow: "hidden",
           background: dark
             ? `linear-gradient(160deg, #38383c 0%, ${C.charcoal} 60%, #141416 100%)`
-            : `linear-gradient(160deg, #F0278F 0%, ${C.magenta} 45%, ${C.magentaDeep} 130%)`,
+            : C.magenta,
           boxShadow: `0 ${50 + hot * 30}px ${90 + hot * 40}px rgba(${dark ? "20,10,20" : "225,3,122"},${0.28 + hot * 0.12})`,
         }}
       >

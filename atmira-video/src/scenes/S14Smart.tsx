@@ -48,9 +48,9 @@ export const S14Smart: React.FC = () => {
   const b = SMART;
   const cTag = cue(ID, "Smart");
   // orden de la voz: presentación → «Primero, el sector…» → «Después, los ámbitos de solución…» → «Y por último, tecnología y arquitectura…»
-  const cSecStart = cue(ID, "Primero");
+  const cSecStart = cue(ID, "Parte del sector");
   const cSec = [cue(ID, "Retail"), cue(ID, "Industria"), cue(ID, "Turismo")];
-  const cStart = [0, cSecStart, cue(ID, "Después"), cue(ID, "Y por último")];
+  const cStart = [0, cSecStart, cue(ID, "Sobre él"), cue(ID, "Y debajo")];
   const cItems: number[][] = [
     [],
     cSec,

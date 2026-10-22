@@ -43,7 +43,7 @@ export const Flood: React.FC<{
   const cy = from[1] + (to[1] - from[1]) * b;
   return (
     <AbsoluteFill style={{ clipPath: `circle(${r}px at ${cx}px ${cy}px)` }}>
-      <AbsoluteFill style={{ background: `linear-gradient(135deg, ${color} 0%, ${C.magentaDeep} 160%)` }} />
+      <AbsoluteFill style={{ background: color }} />
       {children}
     </AbsoluteFill>
   );

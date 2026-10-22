@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
+import { StockVideo } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Logo, LOGO_RATIO } from "../components/Logo";
 import { CharSettle, MaskLine, SpeedWord, Words, font } from "../components/Type";
@@ -43,12 +44,15 @@ export const S01Apertura: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <Backdrop tone="light" />
+      <Backdrop tone="dark" />
+      <StockVideo name="apertura" rate={0.8} brightness={0.9} contrast={1.15} opacity={1} scale={1.06} />
+      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(12,12,15,0.82) 0%, rgba(12,12,15,0.55) 55%, rgba(12,12,15,0.25) 100%)" }} />
       <SilkField
         time={t + 4}
         order={order}
         draw={draw}
         lines={130}
+        palette="dark"
         cam={{ pos: [camX, 1.6, camZ], target: [1.4, -0.7, 0], fov: 40, roll: 0.14 - 0.06 * dolly }}
         alpha={0.95}
         style={{
@@ -77,10 +81,10 @@ export const S01Apertura: React.FC = () => {
 
       {/* mensaje */}
       <div style={{ position: "absolute", left: 120, top: 318 }}>
-        <MaskLine start={cNo} dur={24} style={font(40, 400, { color: C.ink2, letterSpacing: "-0.01em" })}>
+        <MaskLine start={cNo} dur={24} style={font(40, 400, { color: "#E6E6EA", letterSpacing: "-0.01em" })}>
           No hacemos todo.
         </MaskLine>
-        <MaskLine start={cEsto} dur={24} style={font(40, 400, { color: C.ink2, letterSpacing: "-0.01em", marginTop: 8 })}>
+        <MaskLine start={cEsto} dur={24} style={font(40, 400, { color: "#E6E6EA", letterSpacing: "-0.01em", marginTop: 8 })}>
           Hacemos <span style={{ color: C.magenta, fontWeight: 500 }}>esto.</span>
         </MaskLine>
       </div>
@@ -94,10 +98,10 @@ export const S01Apertura: React.FC = () => {
           <SpeedWord text="aceleramos" start={cAcel - 4} dur={26} />
         </div>
         <div style={{ marginTop: 14 }}>
-          <Words text="los servicios financieros" start={cServ - 2} stagger={4} dur={22} style={font(88, 600, { color: C.ink, letterSpacing: "-0.03em" })} />
+          <Words text="los servicios financieros" start={cServ - 2} stagger={4} dur={22} style={font(88, 600, { color: "#FFFFFF", letterSpacing: "-0.03em" })} />
         </div>
       </div>
-      <Finish tone="light" />
+      <Finish tone="dark" />
     </AbsoluteFill>
   );
 };

@@ -15,9 +15,9 @@ const NAMES = ["Asisa", "MoraBanc", "Mutua Madrileña", "BBVA", "AXA", "Sabadell
 const LOGO_SCALE = 1.75;
 
 const PANEL = [
-  { bg: `linear-gradient(160deg, #F0278F 0%, ${C.magenta} 50%, ${C.magentaDeep} 130%)`, pal: "dark" as const },
+  { bg: C.magenta, pal: "dark" as const },
   { bg: `linear-gradient(160deg, #3a3a3f 0%, ${C.charcoal} 60%, #121214 100%)`, pal: "dark" as const },
-  { bg: `linear-gradient(160deg, #4b0b2b 0%, ${C.plum} 55%, ${C.plumDeep} 100%)`, pal: "dark" as const },
+  { bg: `linear-gradient(160deg, #2a2a30 0%, #1a1a1e 60%, #101013 100%)`, pal: "dark" as const },
 ];
 
 export const S15Casos: React.FC = () => {

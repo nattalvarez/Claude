@@ -68,7 +68,7 @@ const PushUp: React.FC<Props> = ({ children, presentationDirection, presentation
   return (
     <AbsoluteFill style={{ transform: `translateY(${y}px)` }}>
       {children}
-      <AbsoluteFill style={{ background: `rgba(20,3,12,${dim})`, pointerEvents: "none" }} />
+      <AbsoluteFill style={{ background: `rgba(0,0,0,${dim})`, pointerEvents: "none" }} />
     </AbsoluteFill>
   );
 };
@@ -98,7 +98,7 @@ const Doors: React.FC<Props> = ({ children, presentationDirection, presentationP
   return (
     <AbsoluteFill>
       {children}
-      <AbsoluteFill style={{ background: `linear-gradient(90deg, ${C.magenta} ${50 - 50 * p}%, transparent ${50 - 50 * p}%, transparent ${50 + 50 * p}%, ${C.magenta} ${50 + 50 * p}%)`, opacity: Math.sin(p * Math.PI) * 0.95 }} />
+      <AbsoluteFill style={{ background: `linear-gradient(90deg, #17171b ${50 - 50 * p}%, transparent ${50 - 50 * p}%, transparent ${50 + 50 * p}%, #17171b ${50 + 50 * p}%)`, opacity: Math.sin(p * Math.PI) * 0.95 }} />
     </AbsoluteFill>
   );
 };
@@ -127,7 +127,7 @@ const Iris: React.FC<Props> = ({ children, presentationDirection, presentationPr
 
 /** Fundido a oscuro (por plum) y de vuelta: para entrar/salir de escenas oscuras. */
 const Flood: React.FC<Props> = ({ children, presentationDirection, presentationProgress, passedProps }) => {
-  const tone = (passedProps.tone as string) ?? C.plumDeep;
+  const tone = (passedProps.tone as string) ?? "#0d0d10";
   const p = e(presentationProgress, EASE.inOut);
   const entering = presentationDirection === "entering";
   // saliente → color pleno en la primera mitad; entrante emerge del color en la segunda (sin tonos intermedios sucios)
@@ -161,7 +161,7 @@ export const PRESENTATIONS: Record<string, () => TransitionPresentation<P>> = {
   slide: () => make(SlideX, { dir: 1 }),
   split: () => make(Doors),
   iris: () => make(Iris),
-  dark: () => make(Flood, { tone: C.plumDeep }),
+  dark: () => make(Flood, { tone: "#0d0d10" }),
   light: () => make(Flood, { tone: C.paper }),
   fade: () => make(Mist),
 };

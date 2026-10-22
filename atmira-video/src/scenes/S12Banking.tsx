@@ -21,7 +21,7 @@ export const S12Banking: React.FC = () => {
   const t = frame / fps;
   const b = BANKING;
 
-  const cCol = [cue(ID, "Primero"), cue(ID, "Después"), cue(ID, "Y por último")];
+  const cCol = [cue(ID, "parte del sector"), cue(ID, "Sobre él"), cue(ID, "Y debajo")];
   const cTag = cue(ID, "Banking");
   const end = voiceEnd(ID);
   const panel = ramp(frame, 0, 34, EASE.out);
@@ -37,7 +37,7 @@ export const S12Banking: React.FC = () => {
       <Backdrop tone="light" />
 
       {/* panel de marca */}
-      <div style={{ position: "absolute", left: 0, top: 0, width: 560, height: 1080, overflow: "hidden", transform: `translateX(${(1 - panel) * -560}px)`, background: `linear-gradient(170deg, #3a3a3a 0%, ${C.panel} 45%, #1c0a14 100%)` }}>
+      <div style={{ position: "absolute", left: 0, top: 0, width: 560, height: 1080, overflow: "hidden", transform: `translateX(${(1 - panel) * -560}px)`, background: `linear-gradient(170deg, #3a3a3a 0%, ${C.panel} 45%, #141416 100%)` }}>
         <SilkField
           width={560}
           height={1080}
