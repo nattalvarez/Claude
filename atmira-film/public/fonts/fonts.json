@@ -1,0 +1,58 @@
+[
+ {
+  "family": "Instrument Sans",
+  "style": "normal",
+  "weight": "400",
+  "file": "InstrumentSans-normal-400.woff2",
+  "size": 30092
+ },
+ {
+  "family": "Instrument Sans",
+  "style": "normal",
+  "weight": "500",
+  "file": "InstrumentSans-normal-500.woff2",
+  "size": 30092
+ },
+ {
+  "family": "Instrument Sans",
+  "style": "normal",
+  "weight": "600",
+  "file": "InstrumentSans-normal-600.woff2",
+  "size": 30092
+ },
+ {
+  "family": "Instrument Sans",
+  "style": "normal",
+  "weight": "700",
+  "file": "InstrumentSans-normal-700.woff2",
+  "size": 30092
+ },
+ {
+  "family": "Instrument Serif",
+  "style": "italic",
+  "weight": "400",
+  "file": "InstrumentSerif-italic-400.woff2",
+  "size": 22128
+ },
+ {
+  "family": "Instrument Serif",
+  "style": "normal",
+  "weight": "400",
+  "file": "InstrumentSerif-normal-400.woff2",
+  "size": 21032
+ },
+ {
+  "family": "JetBrains Mono",
+  "style": "normal",
+  "weight": "500",
+  "file": "JetBrainsMono-normal-500.woff2",
+  "size": 31432
+ },
+ {
+  "family": "JetBrains Mono",
+  "style": "normal",
+  "weight": "700",
+  "file": "JetBrainsMono-normal-700.woff2",
+  "size": 31432
+ }
+]

@@ -1,0 +1,28 @@
+{
+  "name": "atmira-film",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Atmira — vídeo corporativo 60s (Remotion)",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render src/index.ts AtmiraFilm out/atmira-film.mp4 --codec h264 --crf 16 --concurrency=4 --ignore-certificate-errors",
+    "still": "remotion still src/index.ts AtmiraFilm out/still.png --ignore-certificate-errors"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.524",
+    "@remotion/google-fonts": "4.0.524",
+    "@remotion/motion-blur": "4.0.524",
+    "@remotion/transitions": "4.0.524",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.524"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0",
+    "typescript": "5.6.3",
+    "world-atlas": "^2.0.2"
+  }
+}
