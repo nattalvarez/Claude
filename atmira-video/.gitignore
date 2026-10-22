@@ -1,0 +1,4 @@
+node_modules
+out/chk/
+out/render.log
+out/*.png
