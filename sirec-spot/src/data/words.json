@@ -1,0 +1,392 @@
+[
+{
+"text": "El",
+"start": 0.08,
+"end": 0.18
+},
+{
+"text": "agua",
+"start": 0.26,
+"end": 0.52
+},
+{
+"text": "nunca",
+"start": 0.74,
+"end": 1.08
+},
+{
+"text": "se",
+"start": 1.18,
+"end": 1.26
+},
+{
+"text": "detiene.",
+"start": 1.3,
+"end": 1.8
+},
+{
+"text": "Rodea,",
+"start": 2.36,
+"end": 2.82
+},
+{
+"text": "avanza",
+"start": 3.32,
+"end": 3.88
+},
+{
+"text": "y",
+"start": 4.38,
+"end": 4.42
+},
+{
+"text": "siempre",
+"start": 4.6,
+"end": 5.0
+},
+{
+"text": "encuentra",
+"start": 5.02,
+"end": 5.48
+},
+{
+"text": "su",
+"start": 5.54,
+"end": 5.62
+},
+{
+"text": "camino.",
+"start": 5.7,
+"end": 6.08
+},
+{
+"text": "Un",
+"start": 6.8,
+"end": 6.94
+},
+{
+"text": "crédito",
+"start": 6.96,
+"end": 7.42
+},
+{
+"text": "también",
+"start": 7.58,
+"end": 8.02
+},
+{
+"text": "es",
+"start": 8.06,
+"end": 8.16
+},
+{
+"text": "un",
+"start": 8.2,
+"end": 8.3
+},
+{
+"text": "ciclo.",
+"start": 8.34,
+"end": 8.7
+},
+{
+"text": "Nace,",
+"start": 9.34,
+"end": 9.76
+},
+{
+"text": "fluye",
+"start": 10.28,
+"end": 10.7
+},
+{
+"text": "y",
+"start": 11.14,
+"end": 11.2
+},
+{
+"text": "debe",
+"start": 11.32,
+"end": 11.62
+},
+{
+"text": "volver.",
+"start": 11.66,
+"end": 12.06
+},
+{
+"text": "Cuando",
+"start": 12.74,
+"end": 12.96
+},
+{
+"text": "la",
+"start": 13.0,
+"end": 13.04
+},
+{
+"text": "corriente",
+"start": 13.12,
+"end": 13.52
+},
+{
+"text": "se",
+"start": 13.6,
+"end": 13.66
+},
+{
+"text": "complica,",
+"start": 13.72,
+"end": 14.26
+},
+{
+"text": "hace",
+"start": 14.56,
+"end": 14.88
+},
+{
+"text": "falta",
+"start": 14.96,
+"end": 15.24
+},
+{
+"text": "anticiparse,",
+"start": 15.26,
+"end": 16.02
+},
+{
+"text": "anticipar",
+"start": 16.54,
+"end": 17.12
+},
+{
+"text": "el",
+"start": 17.18,
+"end": 17.24
+},
+{
+"text": "riesgo,",
+"start": 17.34,
+"end": 17.76
+},
+{
+"text": "acompañar",
+"start": 18.3,
+"end": 18.98
+},
+{
+"text": "cada",
+"start": 19.22,
+"end": 19.46
+},
+{
+"text": "paso,",
+"start": 19.58,
+"end": 19.9
+},
+{
+"text": "recuperar",
+"start": 20.54,
+"end": 21.14
+},
+{
+"text": "con",
+"start": 21.56,
+"end": 21.68
+},
+{
+"text": "inteligencia.",
+"start": 21.72,
+"end": 22.52
+},
+{
+"text": "SIREC",
+"start": 23.4,
+"end": 23.76
+},
+{
+"text": "reúne",
+"start": 23.98,
+"end": 24.26
+},
+{
+"text": "a",
+"start": 24.3,
+"end": 24.34
+},
+{
+"text": "los",
+"start": 24.38,
+"end": 24.5
+},
+{
+"text": "agentes",
+"start": 24.56,
+"end": 24.98
+},
+{
+"text": "de",
+"start": 25.0,
+"end": 25.04
+},
+{
+"text": "inteligencia",
+"start": 25.08,
+"end": 25.66
+},
+{
+"text": "artificial,",
+"start": 25.7,
+"end": 26.34
+},
+{
+"text": "propios",
+"start": 26.68,
+"end": 27.1
+},
+{
+"text": "y",
+"start": 27.2,
+"end": 27.24
+},
+{
+"text": "de",
+"start": 27.3,
+"end": 27.36
+},
+{
+"text": "terceros,",
+"start": 27.42,
+"end": 27.92
+},
+{
+"text": "en",
+"start": 28.28,
+"end": 28.38
+},
+{
+"text": "una",
+"start": 28.64,
+"end": 28.82
+},
+{
+"text": "sola",
+"start": 28.96,
+"end": 29.2
+},
+{
+"text": "corriente,",
+"start": 29.26,
+"end": 29.78
+},
+{
+"text": "orquestados,",
+"start": 30.36,
+"end": 31.16
+},
+{
+"text": "seguros,",
+"start": 31.56,
+"end": 32.1
+},
+{
+"text": "con",
+"start": 32.5,
+"end": 32.619
+},
+{
+"text": "cumplimiento.",
+"start": 32.7,
+"end": 33.46
+},
+{
+"text": "Más",
+"start": 34.18,
+"end": 34.38
+},
+{
+"text": "de",
+"start": 34.4,
+"end": 34.48
+},
+{
+"text": "quince",
+"start": 34.64,
+"end": 34.92
+},
+{
+"text": "clientes",
+"start": 35.02,
+"end": 35.5
+},
+{
+"text": "en",
+"start": 35.64,
+"end": 35.72
+},
+{
+"text": "Europa",
+"start": 35.76,
+"end": 36.16
+},
+{
+"text": "y",
+"start": 36.18,
+"end": 36.22
+},
+{
+"text": "Latinoamérica",
+"start": 36.26,
+"end": 37.0
+},
+{
+"text": "ya",
+"start": 37.28,
+"end": 37.4
+},
+{
+"text": "recuperan",
+"start": 37.46,
+"end": 38.04
+},
+{
+"text": "con",
+"start": 38.14,
+"end": 38.28
+},
+{
+"text": "SIREC.",
+"start": 38.4,
+"end": 38.8
+},
+{
+"text": "SIREC,",
+"start": 39.54,
+"end": 39.92
+},
+{
+"text": "deja",
+"start": 40.48,
+"end": 40.76
+},
+{
+"text": "que",
+"start": 40.84,
+"end": 40.9
+},
+{
+"text": "el",
+"start": 40.94,
+"end": 41.0
+},
+{
+"text": "recobro",
+"start": 41.06,
+"end": 41.52
+},
+{
+"text": "fluya",
+"start": 41.68,
+"end": 42.04
+}
+]
