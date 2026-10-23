@@ -63,7 +63,7 @@ export const S11PorSector: React.FC = () => {
       </div>
 
       {/* Un marco, diferentes cerebros: tres piezas, tres colores */}
-      <div style={{ position: "absolute", left: 120, top: 80, zIndex: 5, opacity: phase2, transform: `translateY(${(1 - phase2) * 30}px)`, padding: "14px 28px", borderRadius: 40, background: "rgba(10,10,14,0.72)", ...font(26, 600, { color: "#FFFFFF", letterSpacing: "0.16em", textTransform: "uppercase" }) }}>
+      <div style={{ position: "absolute", left: 120, top: 80, zIndex: 5, opacity: phase2, transform: `translateY(${(1 - phase2) * 30}px)`, padding: "14px 28px", borderRadius: 40, background: "rgba(10,10,14,0.72)", ...font(40, 600, { color: "#FFFFFF", letterSpacing: "-0.02em" }) }}>
         {POR_SECTOR.frame}
       </div>
       {POR_SECTOR.brains.map((b, i) => {

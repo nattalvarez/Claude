@@ -70,7 +70,7 @@ export const S02Modernizar: React.FC = () => {
 
       {/* Qué gana el negocio: cuatro ideas gigantes con su explicación */}
       <AbsoluteFill style={{ opacity: phase2 * (1 - phase3) }}>
-        <div style={{ position: "absolute", left: 120, top: 112, ...font(24, 600, { color: "rgba(255,255,255,0.8)", letterSpacing: "0.2em", textTransform: "uppercase" }) }}>{MODERNIZAR.gainsLabel}</div>
+        <div style={{ position: "absolute", left: 120, top: 92, ...font(48, 600, { color: "#FF4DA6", letterSpacing: "-0.03em" }) }}>{MODERNIZAR.gainsLabel}</div>
         {MODERNIZAR.gains.map((g, i) => {
           const s0 = cGain[i] - 8;
           const p = ramp(frame, s0, 24, EASE.out);

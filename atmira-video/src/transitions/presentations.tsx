@@ -145,7 +145,7 @@ const Mist: React.FC<Props> = ({ children, presentationDirection, presentationPr
   const p = e(presentationProgress, EASE.soft);
   const entering = presentationDirection === "entering";
   return (
-    <AbsoluteFill style={{ opacity: entering ? p : 1 - p * 0.9, transform: `translateY(${entering ? (1 - p) * 16 : -p * 10}px)` }}>
+    <AbsoluteFill style={{ opacity: entering ? p : 1, transform: `translateY(${entering ? (1 - p) * 16 : -p * 10}px)` }}>
       {children}
     </AbsoluteFill>
   );

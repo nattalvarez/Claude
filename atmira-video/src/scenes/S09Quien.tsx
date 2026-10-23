@@ -13,7 +13,7 @@ import { QUIEN } from "../data/content";
 const ID = "quien";
 const CW = 338;
 const CX = (i: number) => 392 + i * (CW + 10);
-const LANE_H = 190;
+const LANE_H = 306;
 
 /** Un carril (negocio o tecnología) en su caja; los dos conviven en pantalla. */
 const Lane: React.FC<{ lane: typeof QUIEN.business; tone: "biz" | "tech"; top: number; show: number }> = ({ lane, tone, top, show }) => {
@@ -25,9 +25,10 @@ const Lane: React.FC<{ lane: typeof QUIEN.business; tone: "biz" | "tech"; top: n
     <div style={{ position: "absolute", left: 0, top, width: 1920, height: LANE_H, opacity: clamp(p * 1.4), transform: `translateX(${(tone === "biz" ? -1 : 1) * (1 - p) * 90}px)` }}>
       <div style={{ position: "absolute", left: 120, top: 0, width: 1680, height: LANE_H, borderRadius: 22, background: bg }} />
       <div style={{ position: "absolute", left: 152, top: 26, width: 210 }}>
-        <div style={{ ...font(36, 700, { letterSpacing: "-0.035em", lineHeight: 1.08, color: tone === "biz" ? C.magenta : C.ink }) }}>{lane.t}</div>
+        <div style={{ ...font(34, 700, { letterSpacing: "-0.035em", lineHeight: 1.08, color: tone === "biz" ? C.magenta : C.ink }) }}>{lane.t}</div>
+        <div style={{ marginTop: 12, ...font(18, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.34 }) }}>{lane.d}</div>
       </div>
-      {lane.cells.slice(0, 4).map(([h], idx) => {
+      {lane.cells.map(([h, d], idx) => {
         const row = Math.floor(idx / 4);
         const col = idx % 4;
         const k = ramp(frame, show + 8 + idx * 4, 22, EASE.out);
@@ -37,23 +38,22 @@ const Lane: React.FC<{ lane: typeof QUIEN.business; tone: "biz" | "tech"; top: n
             style={{
               position: "absolute",
               left: CX(col),
-              top: 30,
+              top: 14 + row * 140,
               width: CW,
               height: 130,
               borderRadius: 10,
               background: "#fff",
               boxShadow: "0 6px 16px rgba(40,20,40,0.07)",
-              padding: "0 22px",
-              display: "flex",
-              alignItems: "center",
+              padding: "14px 18px",
               opacity: clamp(k * 1.5),
               transform: `translateY(${(1 - k) * 20}px)`,
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ width: 10, height: 10, borderRadius: 5, background: dot, flex: "none" }} />
-              <span style={{ ...font(32, 600, { letterSpacing: "-0.03em", lineHeight: 1.08 }) }}>{h}</span>
+              <span style={{ ...font(21, 600, { letterSpacing: "-0.02em", lineHeight: 1.1 }) }}>{h}</span>
             </div>
+            <div style={{ marginTop: 8, ...font(16, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.3 }) }}>{d}</div>
           </div>
         );
       })}
@@ -94,21 +94,22 @@ export const S09Quien: React.FC = () => {
         const p = ramp(frame, 26 + i * 5, 22, EASE.out);
         return (
           <div key={ph.t} style={{ position: "absolute", left: CX(i), top: 178, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 14}px)` }}>
-            <div style={{ ...font(36, 600, { letterSpacing: "-0.03em" }) }}>{ph.t}</div>
+            <div style={{ ...font(28, 600, { letterSpacing: "-0.025em" }) }}>{ph.t}</div>
             <div style={{ position: "absolute", left: -2, top: 44, width: 18, height: 18, borderRadius: 9, background: "#fff", border: `3px solid ${C.magenta}` }} />
+            <div style={{ position: "absolute", left: 26, top: 64, whiteSpace: "nowrap", ...font(16, 500, { color: C.magenta, letterSpacing: 0 }) }}>{ph.d}</div>
           </div>
         );
       })}
 
-      <Lane lane={QUIEN.business} tone="biz" top={330} show={cNeg - 6} />
-      <Lane lane={QUIEN.tech} tone="tech" top={560} show={cTec - 4} />
+      <Lane lane={QUIEN.business} tone="biz" top={268} show={cNeg - 6} />
+      <Lane lane={QUIEN.tech} tone="tech" top={588} show={cTec - 4} />
 
       {(() => {
         const p = ramp(frame, cProp - 8, 26, EASE.out);
         return (
-          <div style={{ position: "absolute", left: 120, top: 836, width: 1680, display: "flex", alignItems: "baseline", gap: 24, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 22}px)` }}>
-            <span style={{ ...font(40, 700, { color: C.magenta, letterSpacing: "-0.03em", whiteSpace: "nowrap" }) }}>{QUIEN.hitl.l}</span>
-            <span style={{ ...font(40, 400, { color: C.ink, letterSpacing: "-0.03em", lineHeight: 1.1 }) }}>las personas deciden en cada punto de aprobación.</span>
+          <div style={{ position: "absolute", left: 120, top: 918, width: 1680, display: "flex", alignItems: "baseline", gap: 24, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 22}px)` }}>
+            <span style={{ ...font(30, 700, { color: C.magenta, letterSpacing: "-0.02em", whiteSpace: "nowrap" }) }}>{QUIEN.hitl.l}</span>
+            <span style={{ ...font(25, 400, { color: C.ink, letterSpacing: "-0.01em", lineHeight: 1.28 }) }}>{QUIEN.hitl.d}</span>
           </div>
         );
       })()}

@@ -45,8 +45,8 @@ export const S15Casos: React.FC = () => {
 
       {/* título de sección */}
       <div style={{ position: "absolute", left: 120, top: 120, ...font(78, 600, { letterSpacing: "-0.045em", lineHeight: 1.02 }) }}>
-        <MaskLine start={4} dur={26}>{CASOS.title[0]}</MaskLine>
-        <MaskLine start={10} dur={26} style={{ color: C.magenta }}>{CASOS.title[1]}</MaskLine>
+        <MaskLine start={18} dur={26}>{CASOS.title[0]}</MaskLine>
+        <MaskLine start={26} dur={26} style={{ color: C.magenta }}>{CASOS.title[1]}</MaskLine>
       </div>
 
       {/* panel índice con los nueve proyectos */}

@@ -1,6 +1,6 @@
 {
  "fps": 25,
- "total": 12941,
+ "total": 13015,
  "scenes": [
   {
    "id": "apertura",
@@ -26,12 +26,12 @@
    "id": "modernizar",
    "index": 1,
    "start": 288,
-   "duration": 924,
+   "duration": 946,
    "voice": [
     {
      "id": "b02_modernizar",
      "from": 30,
-     "frames": 850,
+     "frames": 872,
      "real": true,
      "estimated": false
     }
@@ -45,7 +45,7 @@
   {
    "id": "agentica",
    "index": 2,
-   "start": 1190,
+   "start": 1212,
    "duration": 679,
    "voice": [
     {
@@ -65,7 +65,7 @@
   {
    "id": "transformacion",
    "index": 3,
-   "start": 1849,
+   "start": 1871,
    "duration": 256,
    "voice": [
     {
@@ -85,7 +85,7 @@
   {
    "id": "plataforma",
    "index": 4,
-   "start": 2085,
+   "start": 2107,
    "duration": 1173,
    "voice": [
     {
@@ -105,7 +105,7 @@
   {
    "id": "agentfactory",
    "index": 5,
-   "start": 3236,
+   "start": 3258,
    "duration": 610,
    "voice": [
     {
@@ -125,7 +125,7 @@
   {
    "id": "donde",
    "index": 6,
-   "start": 3826,
+   "start": 3848,
    "duration": 881,
    "voice": [
     {
@@ -145,7 +145,7 @@
   {
    "id": "como",
    "index": 7,
-   "start": 4689,
+   "start": 4711,
    "duration": 890,
    "voice": [
     {
@@ -165,7 +165,7 @@
   {
    "id": "quien",
    "index": 8,
-   "start": 5561,
+   "start": 5583,
    "duration": 598,
    "voice": [
     {
@@ -185,7 +185,7 @@
   {
    "id": "especializacion",
    "index": 9,
-   "start": 6135,
+   "start": 6157,
    "duration": 536,
    "voice": [
     {
@@ -205,13 +205,13 @@
   {
    "id": "porsector",
    "index": 10,
-   "start": 6653,
-   "duration": 671,
+   "start": 6675,
+   "duration": 692,
    "voice": [
     {
      "id": "b10b_porsector",
      "from": 30,
-     "frames": 571,
+     "frames": 592,
      "real": true,
      "estimated": false
     }
@@ -225,7 +225,7 @@
   {
    "id": "banking",
    "index": 11,
-   "start": 7302,
+   "start": 7345,
    "duration": 819,
    "voice": [
     {
@@ -245,13 +245,13 @@
   {
    "id": "insurance",
    "index": 12,
-   "start": 8101,
-   "duration": 1014,
+   "start": 8144,
+   "duration": 1033,
    "voice": [
     {
      "id": "b12_insurance",
      "from": 32,
-     "frames": 902,
+     "frames": 921,
      "real": true,
      "estimated": false
     }
@@ -265,7 +265,7 @@
   {
    "id": "smart",
    "index": 13,
-   "start": 9095,
+   "start": 9157,
    "duration": 1111,
    "voice": [
     {
@@ -277,7 +277,7 @@
     }
    ],
    "out": {
-    "kind": "light",
+    "kind": "fade",
     "frames": 22
    },
    "overlapOut": 22
@@ -285,13 +285,13 @@
   {
    "id": "casos",
    "index": 14,
-   "start": 10184,
-   "duration": 1151,
+   "start": 10246,
+   "duration": 1163,
    "voice": [
     {
      "id": "b14_casos",
      "from": 30,
-     "frames": 1073,
+     "frames": 1085,
      "real": true,
      "estimated": false
     }
@@ -305,7 +305,7 @@
   {
    "id": "clientes",
    "index": 15,
-   "start": 11319,
+   "start": 11393,
    "duration": 744,
    "voice": [
     {
@@ -325,7 +325,7 @@
   {
    "id": "cifras",
    "index": 16,
-   "start": 12045,
+   "start": 12119,
    "duration": 486,
    "voice": [
     {
@@ -345,7 +345,7 @@
   {
    "id": "cierre",
    "index": 17,
-   "start": 12501,
+   "start": 12575,
    "duration": 440,
    "voice": [
     {

@@ -44,9 +44,13 @@ export const S08Como: React.FC = () => {
       <Backdrop tone="light" />
       <Chrome chapter="07 · Agent Factory · cómo" start={2} />
 
-      <div style={{ position: "absolute", left: 120, top: 96, ...font(84, 500, { letterSpacing: "-0.045em" }), opacity: clamp(ramp(frame, 4, 24) * 1.4), transform: `translateY(${(1 - ramp(frame, 4, 24)) * 20}px)` }}>
+      <div style={{ position: "absolute", left: 120, top: 96, ...font(62, 400, { letterSpacing: "-0.04em" }), opacity: clamp(ramp(frame, 4, 24) * 1.4), transform: `translateY(${(1 - ramp(frame, 4, 24)) * 20}px)` }}>
         {COMO.title[0]} <span style={{ color: C.magenta }}>{COMO.title[1]}</span>
       </div>
+      <div style={{ position: "absolute", left: 120, top: 186, width: 1560, opacity: clamp(ramp(frame, 12, 24) * 1.4), ...font(25, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.36 }) }}>
+        En todos esos frentes, el mismo método: <b style={{ color: C.magenta, fontWeight: 600 }}>Spec-Driven Development</b>. Cada cambio avanza sobre especificaciones versionadas en tus repositorios y tu CI/CD, con una aprobación humana antes de cada fase.
+      </div>
+
       {/* contenedor Agent Factory */}
       <div
         style={{
@@ -56,7 +60,7 @@ export const S08Como: React.FC = () => {
           width: 1680,
           height: 566,
           borderRadius: 26,
-          background: C.paper2,
+          background: C.magentaMist,
           opacity: base,
           transform: `scale(${0.985 + base * 0.015})`,
         }}
@@ -154,21 +158,58 @@ export const S08Como: React.FC = () => {
           })()}
         </div>
       )}
+      {/* arnés y steering */}
+      {(() => {
+        const p = ramp(frame, cArn - 8, 24, EASE.out);
+        return (
+          <div style={{ position: "absolute", left: 560, top: 292, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 14}px)`, ...font(21, 400, { letterSpacing: 0, lineHeight: 1.45 }) }}>
+            <div><b style={{ fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.02em" }}>{COMO.harness.l}</b> {COMO.harness.d}</div>
+            <div><b style={{ fontWeight: 700 }}>{COMO.steering.l}</b> {COMO.steering.d}</div>
+          </div>
+        );
+      })()}
+
       {COMO.phases.map((ph, i) => {
         const p = ramp(frame, cPh[i] - 6, 24, EASE.out);
         return (
-          <div key={ph.t} style={{ position: "absolute", left: colX(i), top: 400, width: COLW, opacity: clamp(p * 1.5) }}>
+          <div key={ph.t} style={{ position: "absolute", left: colX(i), top: 370, width: COLW, opacity: clamp(p * 1.5) }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14, transform: `translateY(${(1 - p) * 20}px)` }}>
               <span style={{ width: 14, height: 14, borderRadius: 7, background: C.magenta }} />
-              <span style={{ ...font(60, 600, { letterSpacing: "-0.04em" }) }}>{ph.t}</span>
+              <span style={{ ...font(36, 500, { letterSpacing: "-0.028em" }) }}>{ph.t}</span>
             </div>
+            {ph.items.map((it, k) => {
+              const q = ramp(frame, cPh[i] + 4 + k * 5, 20, EASE.out);
+              const ap = approval[ph.t].includes(it);
+              return (
+                <div
+                  key={it}
+                  style={{
+                    marginTop: 12,
+                    height: 56,
+                    borderRadius: 10,
+                    background: "#fff",
+                    boxShadow: "0 6px 18px rgba(80,20,50,0.07)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0 20px",
+                    ...font(23, 400, { letterSpacing: 0 }),
+                    opacity: clamp(q * 1.6),
+                    transform: `translateX(${(1 - q) * -24}px)`,
+                  }}
+                >
+                  {it}
+                  {ap && <Diamond />}
+                </div>
+              );
+            })}
           </div>
         );
       })}
 
       {/* línea de gates */}
       {(() => {
-        const y = 600;
+        const y = 640;
         const lp = ramp(frame, cPh[3] + 6, 50, EASE.inOut);
         return (
           <>
@@ -183,7 +224,7 @@ export const S08Como: React.FC = () => {
                   <div style={{ position: "absolute", left: gx - 12, top: y - 10, opacity: a, transform: `scale(${0.4 + 0.6 * a})` }}>
                     <Diamond size={22} />
                   </div>
-                  <div style={{ position: "absolute", left: gx - 118, top: y + 34, width: 260, textAlign: "center", opacity: a, ...font(30, 600, { color: C.magenta, letterSpacing: "-0.01em", lineHeight: 1.2 }) }}>{ph.gate}</div>
+                  <div style={{ position: "absolute", left: gx - 100, top: y + 28, width: 224, textAlign: "center", opacity: a, ...font(21, 500, { color: C.magenta, letterSpacing: 0, lineHeight: 1.2 }) }}>{ph.gate}</div>
                 </React.Fragment>
               );
             })}
@@ -191,18 +232,33 @@ export const S08Como: React.FC = () => {
         );
       })()}
 
+      {/* notas */}
+      {COMO.notes.map((n, i) => {
+        const p = ramp(frame, cArn + 40 + i * 12, 22, EASE.out);
+        return (
+          <div key={n.l} style={{ position: "absolute", left: 168 + i * 540, top: 742, width: 500, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 16}px)`, ...font(20, 400, { color: C.ink2, letterSpacing: 0, lineHeight: 1.34 }) }}>
+            <b style={{ color: C.ink, fontWeight: 700 }}>{n.l}</b> {n.d}
+          </div>
+        );
+      })}
+      <div style={{ position: "absolute", left: 156, top: 806, display: "flex", alignItems: "center", gap: 10, opacity: base, ...font(19, 400, { color: C.ink2, letterSpacing: 0 }) }}>
+        <Diamond size={12} /> {COMO.gateLegend}
+      </div>
+
       {/* Digital Brain */}
       {(() => {
         const p = ramp(frame, cBrain - 10, 26, EASE.out);
         return (
           <>
+            <div style={{ position: "absolute", left: 560, top: 846, opacity: p, ...font(19, 400, { color: C.ink2, letterSpacing: 0 }) }}>↑ {COMO.brainUp}</div>
+            <div style={{ position: "absolute", left: 1060, top: 846, opacity: p, ...font(19, 400, { color: C.ink2, letterSpacing: 0 }) }}>↓ {COMO.brainDown}</div>
             <div
               style={{
                 position: "absolute",
                 left: 400,
-                top: 740,
+                top: 876,
                 width: 1120,
-                height: 96,
+                height: 78,
                 borderRadius: 8,
                 background: C.magenta,
                 color: "#fff",
@@ -215,7 +271,8 @@ export const S08Como: React.FC = () => {
                 ...font(20, 400, { color: "#fff", letterSpacing: 0, lineHeight: 1.3 }),
               }}
             >
-              <b style={{ fontSize: 36, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase" }}>{COMO.brain.l}</b>
+              <b style={{ fontSize: 24, fontWeight: 800, letterSpacing: "0.03em", textTransform: "uppercase" }}>{COMO.brain.l}</b>
+              <span>{COMO.brain.d}</span>
             </div>
           </>
         );
@@ -223,8 +280,8 @@ export const S08Como: React.FC = () => {
       {(() => {
         const p = ramp(frame, cGuard - 8, 24, EASE.out);
         return (
-          <div style={{ position: "absolute", left: 400, top: 868, width: 1120, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 14}px)`, ...font(36, 400, { color: C.ink2, letterSpacing: 0 }) }}>
-            <b style={{ color: C.magenta, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" }}>{COMO.guardrails.l}</b>
+          <div style={{ position: "absolute", left: 400, top: 972, width: 1120, opacity: clamp(p * 1.5), transform: `translateY(${(1 - p) * 14}px)`, ...font(19, 400, { color: C.ink2, letterSpacing: 0 }) }}>
+            <b style={{ color: C.magenta, fontWeight: 800, textTransform: "uppercase" }}>{COMO.guardrails.l}</b> {COMO.guardrails.d}
           </div>
         );
       })()}

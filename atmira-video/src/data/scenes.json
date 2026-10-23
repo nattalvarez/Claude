@@ -222,7 +222,7 @@
    "tail": 76,
    "min": 0,
    "out": {
-    "kind": "light",
+    "kind": "fade",
     "frames": 22
    }
   },
