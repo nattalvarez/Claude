@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
-import { StockVideo } from "../components/Stock";
+import { FootageSeq } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Logo } from "../components/Logo";
 import { MaskLine, font } from "../components/Type";
@@ -40,23 +40,16 @@ export const S13Insurance: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="plum" />
-      <StockVideo name="tile_insurance" rate={0.75} brightness={0.8} veil={0.5} vignette={0.6} drift={1.1} driftFrames={900} opacity={0.9} />
-      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(10,9,18,0.7) 0%, rgba(10,9,18,0.35) 100%)" }} />
-      <SilkField
-        time={t + 8}
-        order={0.35 + 0.65 * ramp(frame, 0, 380, EASE.inOut)}
-        lines={120}
-        seed={61}
-        palette="dark"
-        fills={10}
-        blurNear={2}
-        length={24}
-        spread={3.8}
-        pinchAt={0.7}
-        cam={{ pos: [4, 3.2, -14], target: [3.4, 3.6, 0], fov: 38, roll: 0.12 }}
-        alpha={0.6}
-        style={{ top: -330, WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 24%, transparent 34%)", maskImage: "linear-gradient(180deg, #000 0%, #000 24%, transparent 34%)" }}
+      <FootageSeq
+        shots={[
+          { name: "tile_insurance", from: 0, rate: 0.75, panX: -70, drift: 1.16 },
+          { name: "meeting", from: cAmbStart - 12, rate: 0.7, panX: 60, panY: -20, drift: 1.14, brightness: 0.8 },
+          { name: "skyline", from: cTech - 12, rate: 0.6, panX: -50, drift: 1.16, brightness: 0.85 },
+        ]}
+        veil={0.5}
+        vignette={0.6}
       />
+      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(10,9,18,0.7) 0%, rgba(10,9,18,0.35) 100%)" }} />
 
       <div style={{ position: "absolute", left: 120, top: 62 }}>
         <Logo width={168} tone="white" />

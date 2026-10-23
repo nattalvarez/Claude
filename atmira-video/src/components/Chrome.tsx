@@ -34,7 +34,7 @@ export const Chrome: React.FC<{
             transform: `translateY(${(1 - p) * -10}px)`,
           }}
         >
-          {chapter}
+          {chapter.replace(/^\d+\s*·\s*/, "")}
         </div>
       )}
       {!hideLogo && (

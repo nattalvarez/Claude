@@ -112,10 +112,6 @@ export const S15Casos: React.FC = () => {
         const lh = d[1] * LOGO_SCALE;
         return (
           <div key={it.id} style={{ position: "absolute", left: 120, top: 346, width: 960, opacity: clamp(p * 1.6) * (1 - q), transform: `translateY(${(1 - p) * 40 - q * 50}px)` }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
-              <span style={{ ...font(22, 600, { color: C.magenta, letterSpacing: "0.16em" }) }}>{String(i + 1).padStart(2, "0")} / 09</span>
-              <span style={{ height: 2, width: 60 * p, background: C.magenta, display: "block" }} />
-            </div>
             <div style={{ marginTop: 28, height: 128, display: "flex", alignItems: "center", filter: `blur(${(1 - p) * 8}px)` }}>
               <Img src={staticFile(`cases/${it.id}.png`)} style={{ width: lw, height: lh }} />
             </div>

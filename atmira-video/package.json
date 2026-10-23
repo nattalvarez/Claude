@@ -9,7 +9,7 @@
     "voice": "node scripts/generate_voice.mjs",
     "audio": "node scripts/build_audio.mjs && node scripts/build_timeline.mjs && python3 scripts/synth_music.py",
     "frames": "node scripts/frames.mjs",
-    "render": "remotion render src/index.ts AtmiraCorporativo out/atmira-corporativo-v12.mp4 --codec=h264 --crf=17 --concurrency=4",
+    "render": "remotion render src/index.ts AtmiraCorporativo out/atmira-corporativo-v13.mp4 --codec=h264 --crf=17 --concurrency=4",
     "preview": "remotion render src/index.ts AtmiraCorporativo out/preview.mp4 --scale=0.5 --crf=30 --concurrency=4",
     "typecheck": "tsc --noEmit"
   },

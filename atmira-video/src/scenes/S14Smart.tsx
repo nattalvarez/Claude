@@ -62,18 +62,7 @@ export const S14Smart: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="light" />
-      <StockVideo name="tile_smart" rate={0.7} brightness={1} saturate={0.7} wash={0.91} drift={1.08} driftFrames={900} />
-      <SilkField
-        time={t + 2}
-        order={0.7}
-        lines={70}
-        seed={71}
-        fills={5}
-        blurNear={0}
-        cam={{ pos: [-5, 3, -15], target: [-3.6, 3.4, 0], fov: 38, roll: -0.1 }}
-        alpha={0.4}
-        style={{ top: -420, WebkitMaskImage: "linear-gradient(90deg, #000 0%, transparent 60%)", maskImage: "linear-gradient(90deg, #000 0%, transparent 60%)" }}
-      />
+      <StockVideo name="tile_smart" rate={0.7} brightness={1} saturate={0.7} wash={0.91} drift={1.18} driftFrames={1100} panX={-80} />
       <Chrome chapter="13 · Smart Digital Brains" start={2} />
       <div style={{ position: "absolute", left: 120, top: 112, display: "flex", gap: 28, alignItems: "baseline" }}>
         <MaskLine start={cTag - 10} dur={26} style={font(100, 700, { color: C.magenta, letterSpacing: "-0.045em" })}>
@@ -127,7 +116,7 @@ export const S14Smart: React.FC = () => {
               <span style={{ ...font(24, 700, { color: C.ink, letterSpacing: "0.16em", textTransform: "uppercase" }) }}>{col.t}</span>
               <span style={{ height: 2, width: 520 * p, background: C.line }} />
             </div>
-            <div style={{ marginTop: 10, ...font(38, 500, { letterSpacing: "-0.02em", lineHeight: 1.25, color: C.ink }) }}>
+            <div style={{ marginTop: 10, ...font(32, 500, { letterSpacing: "-0.02em", lineHeight: 1.25, color: C.ink, whiteSpace: "nowrap" }) }}>
               {col.items.map((it, k) => (
                 <span key={it.h}>
                   {k > 0 && <span style={{ color: C.magenta, padding: "0 0.5em" }}>·</span>}

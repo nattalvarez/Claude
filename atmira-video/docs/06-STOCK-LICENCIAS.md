@@ -1,6 +1,6 @@
 # Vídeo de stock usado (v12)
 
-Trece clips de **Mixkit** (Envato), todos marcados en su ficha como *Stock Video Free License*
+Veinte clips (13 de v12 + 7 nuevos de v13; el clip de obras `modernizar` se retiró) de **Mixkit** (Envato), todos marcados en su ficha como *Stock Video Free License*
 (`https://mixkit.co/license/#videoFree`). Según Mixkit, esa licencia permite usarlos en proyectos comerciales y
 personales sin atribución. No se pueden redistribuir ni revender como clips sueltos.
 
@@ -19,6 +19,14 @@ personales sin atribución. No se pueden redistribuir ni revender como clips sue
 | `clientes.mp4` | 16 · Clientes | [Time lapse of Kuala Lumpur skyline](https://mixkit.co/free-stock-video/time-lapse-of-kuala-lumpur-skyline-30180/) |
 | `cifras.mp4` | 17 · En cifras | [Singapore cityscape and harbor at night](https://mixkit.co/free-stock-video/singapore-cityscape-and-harbor-at-night-30998/) |
 | `cierre.mp4` | 18 · Cierre | Flying through a thick layer of clouds · [ficha 12281](https://mixkit.co/free-stock-video/flying-through-a-thick-layer-of-clouds-12281/) |
+| `eng.mp4` | 2 Modernizar, 10 Especialización | Engineers setting up a data center · [ficha 23375](https://mixkit.co/free-stock-video/engineers-setting-up-a-data-center-23375/) |
+| `meeting.mp4` | 2 Modernizar, 13 Insurance | Business people at work meeting (vista cenital) · [ficha 4809](https://mixkit.co/free-stock-video/business-people-at-work-meeting-4809/) |
+| `fiber.mp4` | 6 Aceleración | Close up of fiber optics in a server room · [ficha 47050](https://mixkit.co/free-stock-video/close-up-of-fiber-optics-in-a-server-room-47050/) |
+| `hall2.mp4` | 6 Aceleración | Bluish data center hallway · [ficha 23282](https://mixkit.co/free-stock-video/bluish-data-center-hallway-23282/) |
+| `market.mp4` | 7 Dónde aceleramos | The stock market trend on screen · [ficha 9607](https://mixkit.co/free-stock-video/the-stock-market-trend-on-screen-9607/) |
+| `circuit.mp4` | 7 Dónde aceleramos, 10 Especialización | High tech circuit board with processor · [ficha 47051](https://mixkit.co/free-stock-video/high-tech-circuit-board-with-processor-47051/) |
+| `night2.mp4` | 11 por sector | Walking a big city walker at night · [ficha 40640](https://mixkit.co/free-stock-video/walking-a-big-city-walker-at-night-40640/) |
+| `skyline.mp4` | 2 Modernizar, 13 Insurance, 17 En cifras | Time lapse of Kuala Lumpur skyline (mismo origen que `clientes.mp4`) |
 
 Los clips se recodifican a 1920×1080 · 25 fps sin audio y se tratan en `src/components/Stock.tsx` (color apagado, velo azul noche, viñeta, empuje lento).
 

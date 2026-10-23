@@ -1,7 +1,6 @@
 import React from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Finish } from "../components/Stage";
-import { SilkField } from "../components/SilkField";
 import { StockVideo } from "../components/Stock";
 import { Logo, LOGO_RATIO } from "../components/Logo";
 import { MaskLine, font } from "../components/Type";
@@ -15,8 +14,6 @@ const serif = (color: string): React.CSSProperties => ({ color, fontFamily: FONT
 
 export const S01Apertura: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const t = frame / fps;
 
   const cNo = cue(ID, "No hacemos todo");
   const cEsto = cue(ID, "Hacemos esto");
@@ -25,9 +22,6 @@ export const S01Apertura: React.FC = () => {
   const cServ = cue(ID, "los servicios");
 
   // 1) los hilos barren el encuadre mientras se peinan (complejidad → orden)
-  const draw = ramp(frame, 0, 58, EASE.soft);
-  const order = ramp(frame, 6, 120, EASE.inOut);
-  const dolly = ramp(frame, 0, 200, EASE.soft);
   const glide = ramp(frame, 62, 36, EASE.inOut); // el logo viaja a su sitio mientras suena «atmira»
   // 2) del plano nocturno al plano diurno de la torre cuando llega «Modernizamos»
   const xf = ramp(frame, cModer - 22, 30, EASE.inOut);
@@ -41,29 +35,12 @@ export const S01Apertura: React.FC = () => {
   const lx = 960 - bigW / 2 + (120 - (960 - bigW / 2)) * glide;
   const ly = 540 - bigW / LOGO_RATIO / 2 + (92 - (540 - bigW / LOGO_RATIO / 2)) * glide;
 
-  const camX = interpolate(dolly, [0, 1], [7, 2.2]);
-  const camZ = interpolate(dolly, [0, 1], [-26, -15.5]);
 
   return (
     <AbsoluteFill style={{ background: "#0b0a12" }}>
-      <StockVideo name="apertura_a" rate={0.85} brightness={0.8} veil={0.3} vignette={0.55} drift={1.1} driftFrames={260} opacity={1 - xf} />
-      <StockVideo name="apertura_b" rate={0.7} brightness={0.85} veil={0.32} vignette={0.5} drift={1.1} driftFrames={300} opacity={xf} />
+      <StockVideo name="apertura_a" rate={0.85} brightness={0.8} veil={0.3} vignette={0.55} drift={1.18} driftFrames={300} panX={-90} opacity={1 - xf} />
+      <StockVideo name="apertura_b" rate={0.7} brightness={0.85} veil={0.32} vignette={0.5} drift={1.2} driftFrames={340} panY={-40} opacity={xf} />
       <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(8,7,16,0.78) 0%, rgba(8,7,16,0.42) 55%, rgba(8,7,16,0.1) 100%)" }} />
-      <SilkField
-        time={t + 4}
-        order={order}
-        draw={draw}
-        lines={130}
-        palette="dark"
-        cam={{ pos: [camX, 1.6, camZ], target: [1.4, -0.7, 0], fov: 40, roll: 0.14 - 0.06 * dolly }}
-        alpha={0.95}
-        style={{
-          opacity: (0.55 + 0.45 * glide) * (1 - 0.75 * xf),
-          WebkitMaskImage: `linear-gradient(90deg, transparent ${glide * 58}%, #000 ${glide * 58 + 24}%)`,
-          maskImage: `linear-gradient(90deg, transparent ${glide * 58}%, #000 ${glide * 58 + 24}%)`,
-        }}
-      />
-
       {/* logotipo */}
       <div
         style={{

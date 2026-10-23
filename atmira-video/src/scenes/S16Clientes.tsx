@@ -49,18 +49,7 @@ export const S16Clientes: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="light" />
-      <StockVideo name="clientes" rate={0.6} brightness={1} saturate={0.7} blur={6} wash={0.84} drift={1.1} driftFrames={900} />
-      <SilkField
-        time={t + 21}
-        order={1}
-        lines={60}
-        seed={91}
-        fills={4}
-        blurNear={0}
-        cam={{ pos: [0, 4.6, -16], target: [0, 5, 0], fov: 36 }}
-        alpha={0.3}
-        style={{ top: 560 }}
-      />
+      <StockVideo name="clientes" rate={0.6} brightness={1} saturate={0.7} blur={6} wash={0.84} drift={1.2} driftFrames={800} panX={-70} />
       <Chrome chapter="15 · Clientes" start={2} />
       <div style={{ position: "absolute", left: 120, top: 112, ...font(76, 600, { letterSpacing: "-0.042em" }) }}>
         <MaskLine start={cue(ID, "Relaciones") - 6} dur={28}>

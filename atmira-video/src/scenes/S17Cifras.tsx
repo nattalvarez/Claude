@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { Backdrop, Finish } from "../components/Stage";
-import { StockVideo } from "../components/Stock";
+import { FootageSeq } from "../components/Stock";
 import { SilkField } from "../components/SilkField";
 import { Chrome } from "../components/Chrome";
 import { Counter, MaskLine, Rule, font } from "../components/Type";
@@ -20,22 +20,15 @@ export const S17Cifras: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop tone="dark" />
-      <StockVideo name="cifras" rate={0.6} brightness={0.85} veil={0.3} vignette={0.55} drift={1.1} driftFrames={500} />
-      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(10,10,12,0.78) 0%, rgba(10,10,12,0.5) 100%)" }} />
-      <SilkField
-        time={t + 4}
-        order={0.95}
-        lines={130}
-        seed={101}
-        fills={12}
-        palette="dark"
-        twist={1.0}
-        amp={1.3}
-        spread={4}
-        cam={{ pos: [-2, 2.6, -14], target: [0.5, 2.2, 0], fov: 38, roll: 0.1 }}
-        alpha={0.45}
-        style={{ top: 420, WebkitMaskImage: "linear-gradient(180deg, transparent 0%, #000 62%)", maskImage: "linear-gradient(180deg, transparent 0%, #000 62%)" }}
+      <FootageSeq
+        shots={[
+          { name: "cifras", from: 0, rate: 0.6, panX: -90, drift: 1.18 },
+          { name: "skyline", from: cues[3] - 14, rate: 0.55, panX: 70, panY: -30, drift: 1.16, brightness: 0.9 },
+        ]}
+        veil={0.3}
+        vignette={0.55}
       />
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(10,10,12,0.78) 0%, rgba(10,10,12,0.5) 100%)" }} />
       <Chrome chapter="16 · En cifras" start={2} tone="dark" />
       <div style={{ position: "absolute", left: 120, top: 120, ...font(84, 600, { letterSpacing: "-0.045em", lineHeight: 1.02 }) }}>
         <MaskLine start={cue(ID, "atmira") - 6} dur={28} style={{ color: C.magenta }}>

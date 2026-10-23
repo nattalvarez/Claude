@@ -153,26 +153,6 @@ export const S18Cierre: React.FC = () => {
       <Backdrop tone="plum" />
       <StockVideo name="cierre" rate={0.7} brightness={0.7} veil={0.4} vignette={0.6} drift={1.12} driftFrames={600} opacity={1 - 0.5 * leave} />
       <AbsoluteFill style={{ transform: `scale(${scale})`, transformOrigin: `${CX}px ${CY}px` }}>
-        <SilkField
-          time={t + 30}
-          order={order}
-          lines={170}
-          seed={121}
-          palette="dark"
-          fills={18}
-          twist={1.5}
-          amp={1.7}
-          spread={4.6}
-          pinchAt={0.5}
-          blurNear={2.8}
-          cam={{ pos: [interpolate(push, [0, 1], [5, 0.2]), 0.8, camZ], target: [0, 0.2, 0], fov: 42, roll: interpolate(push, [0, 1], [-0.28, 0]) }}
-          alpha={0.95}
-          style={{
-            opacity: 1 - 0.25 * leave,
-            WebkitMaskImage: "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.28) 26%, rgba(0,0,0,0.28) 72%, #000 100%)",
-            maskImage: "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.28) 26%, rgba(0,0,0,0.28) 72%, #000 100%)",
-          }}
-        />
         <div style={{ position: "absolute", inset: 0, perspective: 1900, perspectiveOrigin: `${CX}px ${CY - 20}px` }}>
           {PLANES.map((s, i) => (
             <PlaneView key={i} s={s} i={i} leave={leave} t={t} />
@@ -197,19 +177,6 @@ export const S18Cierre: React.FC = () => {
         <AbsoluteFill style={{ clipPath: `inset(${open1}% 0 ${open1}% 0)` }}>
           <StockVideo name="cierre" rate={0.7} brightness={1.0} veil={0.12} vignette={0.35} drift={1.12} driftFrames={600} />
           <AbsoluteFill style={{ background: "rgba(10,10,12,0.32)" }} />
-          <SilkField
-            time={t + 12}
-            order={1}
-            lines={120}
-            seed={131}
-            palette="dark"
-            fills={10}
-            blurNear={0}
-            twist={0.8}
-            amp={1.2}
-            cam={{ pos: [1, 1, -13], target: [0, 0, 0], fov: 40, roll: 0.1 }}
-            alpha={0.55}
-          />
           <div style={logoStyle}>
             <Logo width={logoW} tone="white" />
           </div>
@@ -238,21 +205,6 @@ export const S18Cierre: React.FC = () => {
         <AbsoluteFill style={{ clipPath: `polygon(0px 0px, ${edge + SK}px 0px, ${edge - SK}px ${H}px, 0px ${H}px)` }}>
           <StockVideo name="cierre" rate={0.6} brightness={0.95} veil={0.28} vignette={0.55} drift={1.14} driftFrames={400} />
           <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(8,7,16,0.15) 0%, rgba(8,7,16,0.55) 100%)" }} />
-          <SilkField
-            time={t + 40}
-            order={1}
-            draw={ramp(frame, w2s + 30, 90, EASE.soft)}
-            lines={90}
-            palette="dark"
-            seed={141}
-            fills={8}
-            blurNear={0}
-            spread={2.8}
-            amp={0.55}
-            cam={{ pos: [-1.5, 2.6, -15], target: [1.4, 2.5, 0], fov: 38, roll: 0.05 }}
-            alpha={0.9}
-            style={{ top: 250, opacity: settle, WebkitMaskImage: "linear-gradient(180deg, transparent 0%, #000 22%)", maskImage: "linear-gradient(180deg, transparent 0%, #000 22%)" }}
-          />
           <div style={logoStyle}>
             <Logo width={logoW} tone="white" />
           </div>

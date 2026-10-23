@@ -39,25 +39,8 @@ export const S12Banking: React.FC = () => {
 
       {/* panel de marca */}
       <div style={{ position: "absolute", left: 0, top: 0, width: 560, height: 1080, overflow: "hidden", transform: `translateX(${(1 - panel) * -560}px)`, background: `linear-gradient(170deg, #3a3a3a 0%, ${C.panel} 45%, #141416 100%)` }}>
-        <StockVideo name="tile_banking" rate={0.8} brightness={0.8} veil={0.38} vignette={0.5} drift={1.12} driftFrames={700} />
+        <StockVideo name="tile_banking" rate={0.8} brightness={0.85} veil={0.3} vignette={0.5} drift={1.2} driftFrames={900} panX={-60} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(10,9,18,0.2) 0%, rgba(10,9,18,0.72) 70%)" }} />
-        <SilkField
-          width={560}
-          height={1080}
-          time={t + 2}
-          order={0.5 + 0.5 * ramp(frame, 0, 300, EASE.inOut)}
-          lines={100}
-          seed={51}
-          palette="dark"
-          fills={6}
-          blurNear={0}
-          length={24}
-          spread={3}
-          pinch={0.7}
-          cam={{ pos: [2, -2, -12], target: [0, -3.4, 0], fov: 38, roll: -1.1 }}
-          alpha={0.55}
-          style={{ position: "absolute", left: 0, top: 0, opacity: 0.9 }}
-        />
         <div style={{ position: "absolute", left: 86, top: 72 }}>
           <Logo width={216} tone="white" />
         </div>

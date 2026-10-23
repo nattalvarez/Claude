@@ -3,7 +3,7 @@
 # Uso: bash scripts/render_segments.sh [salida.mp4]
 set -euo pipefail
 cd "$(dirname "$0")/.."
-OUT="${1:-out/atmira-corporativo-v12.mp4}"
+OUT="${1:-out/atmira-corporativo-v13.mp4}"
 TOTAL=$(node -e 'console.log(JSON.parse(require("fs").readFileSync("src/data/timeline.json","utf8")).total)')
 N=16
 STEP=$(( (TOTAL + N - 1) / N ))
